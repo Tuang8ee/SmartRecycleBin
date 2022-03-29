@@ -1,0 +1,66 @@
+I. Thùng rác trong nhà:
+1. Mở nắp tự động. 
+	1.1: Mở nắp cơ bản. (Như thùng rác Mi): 
+		Động cơ: 200K 
+		phát sinh: 100K
+	1.2: Theo cơ chế đóng mở 2 cánh. 
+		Động cơ: 200K 
+		phát sinh: 100K
+	1.3: Thêm nút nhấn Option cơ bản:
+		200K/Button
+		100K phát sinh
+2. Tính năng báo đầy rác.
+	2.1: Sử dụng IR sensor (4 sensor - 4 phía - tăng chính xác): 500K/500K
+3. Phun dung dịch khử mùi:
+	3.1: Khử mùi siêu âm. : 500K/1000K
+	3.2: Khử mùi phun dung dịch. : 500K/1000K
+4. Pin sạc: 500K + 500K/Pin
+	4.1: Sử dụng pin Lithium (theo mạch)
+	4.2: Có thể cấp điện sử dụng qua Adapter.
+
+=> Code: 
+		1. 300 + 500 = 800K
+		2. 500K
+		3. 500K
+		Tổng: 1800K
+=> Mạch: 
+		1. 300 + 300 = 600K
+		2. 500K
+		3. 1000K
+		4. 500K + 500K = 1000K
+		Tổng: 3300K
+
+II. Thùng rác công cộng:
+	1. Mở nắp tự động. 
+		1.1: Có khả năng mở nắp. 800K/1300K(Mở nắp cơ bản + button)
+		1.2: Không có nắp, không cần mở. (Free)
+	2. Tính năng báo đầy rác:
+		2.1: Sử dụng sensor (4 * 2 sensor - 4 * 2 phía - tăng chính xác): 1000K/1000K 
+	3. Phun dung dịch khử mùi: 500K/1000K
+	4. Sạc pin: 
+		4.1: Sử dụng Acquy.
+		4.2: Sạc pin:
+			a. Solar
+			b. Điện phổ thông: 1000K(mạch)
+	5. Nén rác: 
+		Nếu sử dụng động cơ: Mạch điều khiển khoảng 20A: 1000K/2000K
+	6. Báo cháy, dập cháy:
+		6.1: Cảm biến nhiệt độ. 500K/500K
+		6.2: Cảm biến báo khói.	500K/500K
+		6.3: Đóng mở van điện lấy khí dập lửa từ bình cứu hỏa thông thường. 300K/500K
+=> Code:
+		1. 800K
+		2. 1000K
+		3. 500K
+		4.
+		5. 1000K
+		6. 1300K
+		Tổng: 4600K
+=> Mạch:
+		1. 1300K
+		2. 1000K
+		3. 1000K
+		4. 1000K (phổ thông)
+		5. 2000K
+		6. 500K
+		Tổng: 6800K

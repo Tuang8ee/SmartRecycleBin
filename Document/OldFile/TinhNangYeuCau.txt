@@ -1,0 +1,62 @@
+1. Thùng công cộng:
+	1.1: Solar - Plug in
+	1.2: Fill level sensor
+	1.3: Compression
+	1.4: Change Size
+	1.5: Fire warning
+	1.6: GPS + WEB + 4G
+	1.7: Wifi access
+	1.8: Pin infor
+	1.9*: Khử khuẩn + mùi
+	1.10*: Mở tự động
+
+2. Thùng rác trong nhà của Mi:
+	2.1: Mở nắp tự động.
+	2.2: Đèn soi rác.
+	2.3: Có thể hàn, cắt túi.
+	# 2.4: Nắp không kín, không khử mùi.
+	# 2.5: Không báo kẹt.
+	# 2.6: Túi rác đặc thù, khó sử dụng.
+	2.7: Có pin sạc + sạc.
+3. Thùng rác trong nhà nắp tròn:
+	3.1: Mở nắp tự động.
+	# 3.2: Sự dụng pin tiểu, không có khả năng sạc.
+	# 3.3: Không có nhiều tính năng.
+	3.4: Khử mùi tốt.
+
+==============================================================
+
+BASE:
+I. Thùng rác trong nhà:
+1. Mở nắp tự động. 
+	1.1: Mở nắp cơ bản. (Như thùng rác Mi)
+	1.2: Theo cơ chế đóng mở 2 cánh. (Mhư thùng rác hình cầu)
+	1.3: Thêm nút nhấn Option cơ bản. (1 - 2 button)
+2. Tính năng báo đầy rác.
+	2.1: Sử dụng IR sensor (4 sensor - 4 phía - tăng chính xác)
+3. Phun dung dịch khử mùi:
+	3.1: Khử mùi siêu âm.
+	3.2: Khử mùi phun dung dịch.
+4. Pin sạc:
+	4.1: Sử dụng pin Lithium
+	4.2: Có thể cấp điện sử dụng qua Adapter.
+
+II. Thùng rác công cộng:
+	1. Mở nắp tự động. 
+		1.1: Có khả năng mở nắp.
+		1.2: Không có nắp, không cần mở.
+	2. Tính năng báo đầy rác:
+		2.1: Sử dụng sensor (4 sensor - 4 phía - tăng chính xác)
+	3. Phun dung dịch khử mùi:
+	4. Sạc pin:
+		4.1: Sử dụng Acquy.
+		4.2: Sạc pin:
+			a. Solar
+			b. Điện phổ thông
+	5. Nén rác:
+		Nếu sử dụng động cơ: Mạch điều khiển khoảng 20A.
+	6. Báo cháy, dập cháy:
+		6.1: Cảm biến nhiệt độ.
+		6.2: Cảm biến báo khói.
+		6.3: Đóng mở van điện lấy khí dập lửa từ bình cứu hỏa thông thường.
+	
