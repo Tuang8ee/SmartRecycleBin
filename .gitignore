@@ -365,6 +365,7 @@ FodyWeavers.xsd
 /Project/Altium/History
 /Project/Altium/History/
 /Project/Altium/History/*
+/Project/Altium/__Previews
 /Altium/Project Logs for Smart_Reclyce_Bin
 bin
 obj
