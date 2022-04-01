@@ -1,0 +1,4 @@
+Record=TopLevelDocument|FileName=Smart_Reclyce_Bin.SchDoc
+Record=SheetSymbol|SourceDocument=Smart_Reclyce_Bin.SchDoc|Designator=Top Hbridge|SchDesignator=Top Hbridge|FileName=Hbridge.SchDoc|SymbolType=Normal|RawFileName=Hbridge.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=Smart_Reclyce_Bin.SchDoc|Designator=Top Sensor|SchDesignator=Top Sensor|FileName=Sensor.SchDoc|SymbolType=Normal|RawFileName=Sensor.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=Smart_Reclyce_Bin.SchDoc|Designator=TopMCu|SchDesignator=TopMCu|FileName=MCU.SchDoc|SymbolType=Normal|RawFileName=MCU.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
