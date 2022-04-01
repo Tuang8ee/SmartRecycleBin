@@ -362,9 +362,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-/Altium/History/*
-/Altium/History/
-/Altium/History
+/Project/Altium/History
+/Project/Altium/History/
+/Project/Altium/History/*
 /Altium/Project Logs for Smart_Reclyce_Bin
 bin
 obj
