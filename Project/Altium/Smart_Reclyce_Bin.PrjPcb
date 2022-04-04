@@ -44,7 +44,7 @@ AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
-AnnotateOrder=-1
+AnnotateOrder=0
 DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
@@ -61,7 +61,7 @@ AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
-AnnotateOrder=-1
+AnnotateOrder=1
 DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
@@ -78,7 +78,7 @@ AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
-AnnotateOrder=-1
+AnnotateOrder=2
 DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
@@ -95,7 +95,7 @@ AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
-AnnotateOrder=-1
+AnnotateOrder=3
 DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
@@ -120,50 +120,16 @@ ClassGenCCAutoRoomEnabled=1
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=
+DocumentUniqueId=SQPAJEVU
 
 [Document6]
-DocumentPath=MCU.PcbDoc
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=OCRNOOWS
-
-[Document7]
-DocumentPath=Hbridge.PcbDoc
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=KPLBCLXE
-
-[Document8]
 DocumentPath=Button.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
-AnnotateOrder=-1
+AnnotateOrder=4
 DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
@@ -173,14 +139,14 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=ACACNVVJ
 
-[Document9]
+[Document7]
 DocumentPath=Led&Speaker.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
-AnnotateOrder=-1
+AnnotateOrder=5
 DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
@@ -190,14 +156,14 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=MOLUHGZQ
 
-[Document10]
+[Document8]
 DocumentPath=Sterilise.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
-AnnotateOrder=-1
+AnnotateOrder=6
 DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
@@ -207,14 +173,14 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=SFJBLBRS
 
-[Document11]
+[Document9]
 DocumentPath=Power.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
-AnnotateOrder=-1
+AnnotateOrder=7
 DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
@@ -224,14 +190,14 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=ZYNZROCI
 
-[Document12]
+[Document10]
 DocumentPath=Proximity Sensor.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
-AnnotateOrder=-1
+AnnotateOrder=8
 DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
@@ -241,14 +207,14 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=OEYVAFKL
 
-[Document13]
+[Document11]
 DocumentPath=Ultrasonic Sensor.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
-AnnotateOrder=-1
+AnnotateOrder=9
 DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
@@ -445,6 +411,8 @@ OutputDocumentPath10=
 OutputVariantName10=
 OutputDefault10=0
 PageOptions10=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-3|MediaType=1|DitherType=10|PrintScaleMode=1|PaperKind=Letter|PaperIndex=1
+Configuration10_Name1=OutputConfigurationParameter1
+Configuration10_Item1=Record=SchPrintView|ShowNoERC=True|ShowParamSet=True|ShowProbe=True|ShowBlanket=True|NoERCSymbolsToShow="Thin Cross","Thick Cross","Small Cross",Checkbox,Triangle|ShowNote=True|ShowNoteCollapsed=True|ShowOpenEnds=True|ExpandDesignator=True|ExpandNetLabel=False|ExpandPort=False|ExpandSheetNum=False|ExpandDocNum=False|PrintArea=0|PrintAreaRect.X1=0|PrintAreaRect.Y1=0|PrintAreaRect.X2=0|PrintAreaRect.Y2=0
 OutputType11=SimView Print
 OutputName11=SimView Prints
 OutputDocumentPath11=
@@ -468,6 +436,10 @@ OutputName2=Generates pick and place files
 OutputDocumentPath2=
 OutputVariantName2=[No Variations]
 OutputDefault2=0
+Configuration2_Name1=ForceUpdateSettings
+Configuration2_Item1=False
+Configuration2_Name2=OutputConfigurationParameter1
+Configuration2_Item2=Record=PickPlaceView|Units=Imperial|GenerateCSVFormat=False|GenerateTextFormat=True|ShowUnits=False|Separator= |ExcludeFilterParam=False|IncludeVariations=False|Filter= |FilterActive=False|Column#1=Name:Designator,Fixed:True,Metric:False,Visible:True,Sort:None,Position:0|Column#2=Name:Comment,Fixed:True,Metric:False,Visible:True,Sort:None,Position:1|Column#3=Name:Layer,Fixed:True,Metric:False,Visible:True,Sort:None,Position:2|Column#4=Name:Footprint,Fixed:True,Metric:False,Visible:True,Sort:None,Position:3|Column#5=Name:Footprint Description,Fixed:True,Metric:False,Visible:False,Sort:None,Position:4|Column#6=Name:Center-X,Fixed:True,Metric:True,Visible:True,Sort:None,Position:5|Column#7=Name:Center-Y,Fixed:True,Metric:True,Visible:True,Sort:None,Position:6|Column#8=Name:Rotation,Fixed:True,Metric:False,Visible:True,Sort:None,Position:7|Column#9=Name:Description,Fixed:True,Metric:False,Visible:True,Sort:None,Position:8|Column#10=Name:ComponentKind,Fixed:True,Metric:False,Visible:False,Sort:None,Position:9|Column#11=Name:Height,Fixed:True,Metric:True,Visible:False,Sort:None,Position:10|Column#12=Name:Ref-X,Fixed:True,Metric:True,Visible:False,Sort:None,Position:11|Column#13=Name:Ref-Y,Fixed:True,Metric:True,Visible:False,Sort:None,Position:12|Column#14=Name:Pad-X,Fixed:True,Metric:True,Visible:False,Sort:None,Position:13|Column#15=Name:Pad-Y,Fixed:True,Metric:True,Visible:False,Sort:None,Position:14|Column#16=Name:Variation,Fixed:True,Metric:False,Visible:False,Sort:None,Position:15
 OutputType3=Test Points For Assembly
 OutputName3=Test Point Report
 OutputDocumentPath3=
@@ -1263,8 +1235,41 @@ PartTypes=0
 Net1=NetName=24V|NetColor=$007B0030
 Net2=NetName=5V|NetColor=$00220EEE
 Net3=NetName=5V_MCU|NetColor=$00164FDE
-Net4=NetName=GND|NetColor=$00FFFF6E
-Net5=NetName=P_GND|NetColor=$006EFF6E
+Net4=NetName=BOM|NetColor=$00FF6EFF
+Net5=NetName=COI|NetColor=$00FF6EFF
+Net6=NetName=DC1|NetColor=$00FF6EFF
+Net7=NetName=DC10|NetColor=$00FF6EFF
+Net8=NetName=DC11|NetColor=$00FF6EFF
+Net9=NetName=DC12|NetColor=$00FF6EFF
+Net10=NetName=DC13|NetColor=$00FF6EFF
+Net11=NetName=DC14|NetColor=$00FF6EFF
+Net12=NetName=DC15|NetColor=$00FF6EFF
+Net13=NetName=DC16|NetColor=$00FF6EFF
+Net14=NetName=DC2|NetColor=$00FF6EFF
+Net15=NetName=DC3|NetColor=$00FF6EFF
+Net16=NetName=DC4|NetColor=$00FF6EFF
+Net17=NetName=DC5|NetColor=$00FF6EFF
+Net18=NetName=DC6|NetColor=$00FF6EFF
+Net19=NetName=DC7|NetColor=$00FF6EFF
+Net20=NetName=DC8|NetColor=$00FF6EFF
+Net21=NetName=DC9|NetColor=$00FF6EFF
+Net22=NetName=GND|NetColor=$00FFFF6E
+Net23=NetName=LED1|NetColor=$00FF6EFF
+Net24=NetName=LED2|NetColor=$00FF6EFF
+Net25=NetName=OSC1|NetColor=clYellow
+Net26=NetName=OSC2|NetColor=clYellow
+Net27=NetName=P_GND|NetColor=$006EFF6E
+Net28=NetName=PGC|NetColor=clYellow
+Net29=NetName=PGD|NetColor=clYellow
+Net30=NetName=S1|NetColor=$006EA300
+Net31=NetName=S2|NetColor=$006EA300
+Net32=NetName=S3|NetColor=$006EA300
+Net33=NetName=S4|NetColor=$006EA300
+Net34=NetName=Sensor _1|NetColor=$006EA300
+Net35=NetName=Sensor_2|NetColor=$006EA300
+Net36=NetName=SW1|NetColor=$00FF6EFF
+Net37=NetName=SW2|NetColor=$00FF6EFF
+Net38=NetName=VPP|NetColor=clYellow
 
 [Comparison Options]
 ComparisonOptions0=Kind=Net|MinPercent=75|MinMatch=3|ShowMatch=-1|Confirm=-1|UseName=-1|InclAllRules=0
