@@ -12,3 +12,8 @@ Nội dung trao đổi:
 
 
 Nội dung thống nhất:
+- Hỏi trao đổi thông tin với cơ khí, nếu được qua trao đổi.
+- Thống nhất hoàn thiện tập trung thùng rác túi nilon.
+- Lên kế hoạch làm việc cho tuần sau.
+- Hoàn thiện file thiết kế cơ khí vào đầu tuần tới.
+- Mục tiêu ghép nối thứ 4 tuần tới có thể test và ghép nối ban đầu.
