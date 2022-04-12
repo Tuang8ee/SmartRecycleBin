@@ -1,0 +1,42 @@
+* Cơ khí:
+ - Phần cơ cấu nén: 
+	+ Đang bắt bulong: 
+		* Vấn đề: Cần hàn hay bắt bu long (cơ cấu 3D chữ X)
+	+ Phần thay ray - chục vòng bi: Xử dụng bulong M18 kết hợp đai ốc và vòng bạc.
+	+ Trên lắp hàn buzong ngược, bắt cơ cấu nén với nắp.
+	+ Vỏ thùng Tôn 1.2 ly. 
+		Phương pháp uốn. => Phát sinh vấn đề, phần vỏ có thể yếu. 
+				 => Hàn thêm một tấm trợ lực 4 ly lên nắp để giữ.
+ - Nắp bắt với thân thùng: 
+	+ Các vị tri thân có phần gờ để giúp xác định vị trí nắp và giúp nước k thể chạy ngược vào trong thùng.
+	+ Mặt trước & sau để sẵn lỗ chờ, bắt bulong với nhau. 
+	+ Hai mặt bên sử dụng khóa kẹp.
+ - Phần đáy:
+	+ Tôn, uốn chân.
+	+ Để lỗ chờ => giúp hàn với thân.
+	+ Lỗ chờ => lắp chốt định vị.
+ - Cánh:
+	+ Cánh có tay cầm.
+	+ Để tấm mica.
+	+ Cơ cấu nẹp để giữ mica.
+
+* Kết hợp mạch:
+	+ Tổng hợp lại gửi thông tin chi tiết.
+
+
+=> Công việc:
+	Tuấn Anh: 
+		Hoàn thiện nốt file.
+		Gửi một số file PDF => Báo cáo. 
+		Giá thành gia công sản phẩm: 
+			Ước chừng giá thành.
+	Đạt: 
+		Xuất thông tin file.
+		Ghi rõ ràng các thông số, bổ sung thông số đường dây, chi tiết thông tin.
+	Tuấn: 
+		Hoàn thiện báo cáo. Gửi báo cáo tuần 3.
+		Hẹn lịch trao đổi với khách hàng.
+		Báo lại với mọi người.
+	Huy: 
+		Tiếp tục đặt linh kiện.
+		Đủ hoàn thiện 2 bộ.
