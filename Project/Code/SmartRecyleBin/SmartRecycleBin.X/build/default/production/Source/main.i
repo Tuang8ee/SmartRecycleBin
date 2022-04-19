@@ -15,6 +15,16 @@
 
 # 1 "Source/Header/Configuration.h" 1
 # 10 "Source/Header/Configuration.h"
+# 1 "Source/Header/GPIO.h" 1
+
+
+
+
+
+
+
+# 1 "Source/Header/define.h" 1
+# 21 "Source/Header/define.h"
 # 1 "Source/Header/Register.h" 1
 
 
@@ -39,14 +49,7 @@ extern void __builtin_software_breakpoint(void);
 
 
 # 1 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdint.h" 1 3
-# 13 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdint.h" 3
-typedef signed char int8_t;
-
-
-
-
-
-
+# 20 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdint.h" 3
 typedef signed int int16_t;
 
 
@@ -64,28 +67,8 @@ typedef __int24 int24_t;
 
 
 typedef signed long int int32_t;
-# 52 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdint.h" 3
-typedef unsigned char uint8_t;
-
-
-
-
-
-typedef unsigned int uint16_t;
-
-
-
-
-
-
+# 65 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdint.h" 3
 typedef __uint24 uint24_t;
-
-
-
-
-
-
-typedef unsigned long int uint32_t;
 # 88 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdint.h" 3
 typedef signed char int_least8_t;
 
@@ -158,7 +141,7 @@ typedef unsigned long int uint_fast32_t;
 # 268 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdint.h" 3
 typedef int32_t intmax_t;
 # 282 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdint.h" 3
-typedef uint32_t uintmax_t;
+typedef unsigned long int uintmax_t;
 
 
 
@@ -170,7 +153,7 @@ typedef int16_t intptr_t;
 
 
 
-typedef uint16_t uintptr_t;
+typedef unsigned int uintptr_t;
 # 4 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\builtins.h" 2 3
 
 
@@ -180,9 +163,9 @@ extern void __nop(void);
 
 
 #pragma intrinsic(_delay)
-extern __attribute__((nonreentrant)) void _delay(uint32_t);
+extern __attribute__((nonreentrant)) void _delay(unsigned long int);
 #pragma intrinsic(_delaywdt)
-extern __attribute__((nonreentrant)) void _delaywdt(uint32_t);
+extern __attribute__((nonreentrant)) void _delaywdt(unsigned long int);
 # 24 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\xc.h" 2 3
 
 
@@ -1872,27 +1855,157 @@ extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 28 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\xc.h" 2 3
 # 5 "Source/Header/Register.h" 2
-
-
-
-
-# 1 "Source/Header/define.h" 1
-# 9 "Source/Header/Register.h" 2
-
-
-
-
-
-
-
+# 16 "Source/Header/Register.h"
 #pragma config FOSC = HS
-#pragma config WDTE = OFF
+#pragma config WDTE = ON
 #pragma config PWRTE = OFF
 #pragma config BOREN = OFF
 #pragma config LVP = OFF
 #pragma config CPD = OFF
 #pragma config WRT = OFF
 #pragma config CP = OFF
+# 21 "Source/Header/define.h" 2
+# 33 "Source/Header/define.h"
+typedef struct
+{
+    volatile unsigned char *Port;
+    unsigned char Pin;
+}Peripheral_Pin;
+
+
+    Peripheral_Pin LED1 = {&PORTB, 3};
+    Peripheral_Pin LED2 = {&PORTB, 2};
+    Peripheral_Pin BUZZER = {&PORTB, 1};
+    Peripheral_Pin Motor_0 = {&PORTB, 0};
+
+    Peripheral_Pin Motor_1[4] = {
+                                    {&PORTC, 4},
+                                    {&PORTC, 5},
+                                    {&PORTC, 6},
+                                    {&PORTC, 7}
+                                };
+
+    Peripheral_Pin Motor_2[4] = {
+                                    {&PORTD, 4},
+                                    {&PORTD, 5},
+                                    {&PORTD, 6},
+                                    {&PORTD, 7}
+                                };
+
+    Peripheral_Pin Motor_3[4] = {
+                                    {&PORTD, 1},
+                                    {&PORTD, 0},
+                                    {&PORTC, 3},
+                                    {&PORTC, 2}
+                                };
+
+    Peripheral_Pin Motor_4[4] = {
+                                    {&PORTC, 1},
+                                    {&PORTC, 0},
+                                    {&PORTE, 2},
+                                    {&PORTE, 1}
+                                };
+
+
+
+
+
+
+    Peripheral_Pin UltraSonic_1[2] = {
+                                        {&PORTB, 4},
+                                        {&PORTB, 5}
+                                      };
+
+
+
+
+
+    Peripheral_Pin UltraSonic_2[2] = {
+                                        {&PORTA, 2},
+                                        {&PORTA, 3}
+                                      };
+
+
+
+
+
+    Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
+    Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
+
+
+
+
+
+
+    Peripheral_Pin SW1 = {&PORTA, 4};
+    Peripheral_Pin SW2 = {&PORTA, 5};
+# 8 "Source/Header/GPIO.h" 2
+
+
+
+
+    void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, unsigned char GPIO_State)
+    {
+        if(GPIO_Port == &PORTA)
+        {
+            TRISA &= ~(1 << Pin);
+        }
+        else if(GPIO_Port == &PORTB)
+        {
+            TRISB &= ~(1 << Pin);
+        }
+        else if(GPIO_Port == &PORTC)
+        {
+            TRISC &= ~(1 << Pin);
+        }
+        else if(GPIO_Port == &PORTD)
+        {
+            TRISD &= ~(1 << Pin);
+        }
+        else
+        {
+            TRISE &= ~(1 << Pin);
+        }
+        switch(GPIO_State)
+        {
+            case 1:
+                *GPIO_Port |= (unsigned char)(1 << Pin);
+                break;
+            case 0:
+                *GPIO_Port &= ~(1 << Pin);
+                break;
+            default:
+                *GPIO_Port &= ~(1 << Pin);
+                break;
+        }
+    }
+
+    unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin)
+    {
+        unsigned char GPIO_State = 0;
+
+        if(*GPIO_Port & (1 << Pin))
+        {
+            GPIO_State = 1;
+        }
+        else
+        {
+            GPIO_State = 0;
+        }
+        return GPIO_State;
+    }
+
+    void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin)
+    {
+        if(GPIO_Read(GPIO_Port, Pin))
+        {
+            GPIO_Write(GPIO_Port, Pin, 0);
+        }
+        else
+        {
+            GPIO_Write(GPIO_Port, Pin, 1);
+        }
+    }
 # 10 "Source/Header/Configuration.h" 2
 
 # 1 "Source/Header/Timer.h" 1
@@ -1952,6 +2065,62 @@ extern __bank0 __bit __timeout;
         INTCON |= (0 << 2);
     }
 
+    void Timer0_Interrupt_Init(void)
+    {
+
+        INTCON = 0x00;
+        OPTION_REG = 0x00;
+
+
+
+
+
+
+
+        OPTION_REG |= (0 << 5);
+
+
+
+
+
+        OPTION_REG |= (0 << 4);
+
+
+
+
+
+        OPTION_REG |= (0 << 3);
+# 126 "Source/Header/Timer.h"
+        OPTION_REG |= (4 << 0);
+
+
+
+
+
+
+
+        INTCON |= (1 << 7);
+
+
+
+
+
+        INTCON |= (0 << 6);
+
+
+
+
+
+        INTCON |= (1 << 5);
+
+
+
+
+
+        INTCON |= (0 << 2);
+    }
+
+
 
 
 
@@ -1960,7 +2129,7 @@ extern __bank0 __bit __timeout;
     {
 
         T1CON = 0x00;
-# 104 "Source/Header/Timer.h"
+# 173 "Source/Header/Timer.h"
         T1CON |= (3 << 4);
 
 
@@ -1968,7 +2137,7 @@ extern __bank0 __bit __timeout;
 
 
         T1OSCEN = 0;
-# 119 "Source/Header/Timer.h"
+# 188 "Source/Header/Timer.h"
         T1SYNC = 0;
 
 
@@ -1991,12 +2160,66 @@ extern __bank0 __bit __timeout;
     void Timer2_BASE_Init(void)
     {
         T2CON = 0x00;
+
+
+
+
+
         TMR2ON = 1;
+
+
+
+
+
+
         T2CKPS1 = 1;
+    }
+    void Timer2_Interrupt_Init(void)
+    {
+        T2CON = 0x00;
+
+
+
+
+
+        TMR2ON = 1;
+
+
+
+
+
+
+        T2CKPS1 = 1;
+
+
+
+
+
+
+
+        INTCON |= (1 << 7);
+
+
+
+
+
+        INTCON |= (1 << 6);
+
+
+
+
+
+        TMR2IE = 1;
+
+
+
+
+
+        TMR2IF = 0;
     }
 
 
-    uint8_t Timer_Delay(uint8_t timer_counter, uint16_t value)
+    unsigned char Timer_Delay(unsigned char timer_counter, unsigned int value)
     {
 
         switch(timer_counter)
@@ -2051,95 +2274,418 @@ extern __bank0 __bit __timeout;
     }
 # 11 "Source/Header/Configuration.h" 2
 
+# 1 "Source/Header/WatchdogTimer.h" 1
+# 15 "Source/Header/WatchdogTimer.h"
+    void Watchdog_Timer_Deinit(void)
+    {
+
+        INTCON = 0x00;
+        OPTION_REG = 0x00;
+    }
+
+    void Watchdog_Timer_Init(void)
+    {
+
+        INTCON = 0x00;
+        OPTION_REG = 0x00;
+
+
+
+
+
+
+
+        OPTION_REG |= (0 << 5);
+
+
+
+
+
+        OPTION_REG |= (1 << 4);
+
+
+
+
+
+        OPTION_REG |= (1 << 3);
+# 61 "Source/Header/WatchdogTimer.h"
+        OPTION_REG |= (7 << 0);
+    }
+# 12 "Source/Header/Configuration.h" 2
+
+# 1 "Source/Header/UART.h" 1
+# 15 "Source/Header/UART.h"
+    void UART_BASE_Init(long baud)
+    {
+        TRISC = 0X80;
+        TXSTA = 0X24;
+        RCSTA = 0X90;
+        SPBRG = (20000000 / (long)(16UL * baud)) - 1;
+    }
+
+    void UART_WriteChar(char data)
+    {
+        TXREG = data;
+        while(TXIF == 0);
+        TXIF = 0;
+        while(TRMT != 1);
+    }
+    void UART_Writes(char *data, unsigned char len)
+    {
+        unsigned char i = 0;
+        for(i = 0; i <= len; i++)
+        {
+            UART_WriteChar(data[i]);
+        }
+    }
+# 13 "Source/Header/Configuration.h" 2
+
+
 void MCU_Config(void)
 {
 
+
+    GPIO_Write(LED2.Port, LED2.Pin, 1);
+
+    GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
+    _delay((unsigned long)(((unsigned long)100)*(20000000/4000.0)));
+    GPIO_Write(BUZZER.Port, BUZZER.Pin, 0);
+    _delay((unsigned long)(((unsigned long)100)*(20000000/4000.0)));
+    GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
+    _delay((unsigned long)(((unsigned long)100)*(20000000/4000.0)));
+    GPIO_Write(BUZZER.Port, BUZZER.Pin, 0);
+    _delay((unsigned long)(((unsigned long)100)*(20000000/4000.0)));
+    GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
+    _delay((unsigned long)(((unsigned long)100)*(20000000/4000.0)));
+    GPIO_Write(BUZZER.Port, BUZZER.Pin, 0);
+    _delay((unsigned long)(((unsigned long)100)*(20000000/4000.0)));
+    GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
+    _delay((unsigned long)(((unsigned long)1000)*(20000000/4000.0)));
+    GPIO_Write(BUZZER.Port, BUZZER.Pin, 0);
+    _delay((unsigned long)(((unsigned long)100)*(20000000/4000.0)));
+    Timer2_Interrupt_Init();
+
+
+    ADCON0 = 0x00;
+    ADCON1 = 0x00;
+
+    ADCON1 |= (7 << 0);
+
+
+    UART_BASE_Init(9600);
+
+    GPIO_Write(LED2.Port, LED2.Pin, 0);
 }
 # 5 "Source/main.h" 2
 
 # 1 "Source/Header/LoopProcess.h" 1
 # 10 "Source/Header/LoopProcess.h"
-# 1 "Source/Header/GPIO.h" 1
-# 12 "Source/Header/GPIO.h"
-    void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State)
+# 1 "Source/Header/HBrightCtrl.h" 1
+# 20 "Source/Header/HBrightCtrl.h"
+    void Motor_Stop(Peripheral_Pin *motor_handle)
     {
-        if(GPIO_Port == &PORTA)
-        {
-            TRISA &= ~(1 << Pin);
-        }
-        else if(GPIO_Port == &PORTB)
-        {
-            TRISB &= ~(1 << Pin);
-        }
-        else if(GPIO_Port == &PORTC)
-        {
-            TRISC &= ~(1 << Pin);
-        }
-        else if(GPIO_Port == &PORTD)
-        {
-            TRISD &= ~(1 << Pin);
-        }
-        else
-        {
-            TRISE &= ~(1 << Pin);
-        }
-        switch(GPIO_State)
-        {
-            case 1:
-                *GPIO_Port = (unsigned char)(1 << Pin);
-                break;
-            case 0:
-                *GPIO_Port &= ~(1 << Pin);
-                break;
-            default:
-                *GPIO_Port &= ~(1 << Pin);
-                break;
-        }
+        GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 0);
+        GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 0);
+        _delay((unsigned long)(((unsigned long)20)*(20000000/4000.0)));
+        GPIO_Write(motor_handle[0].Port, motor_handle[0].Pin, 1);
+        GPIO_Write(motor_handle[1].Port, motor_handle[1].Pin, 1);
+        _delay((unsigned long)(((unsigned long)20)*(20000000/4000.0)));
+        GPIO_Write(motor_handle[0].Port, motor_handle[0].Pin, 0);
+        GPIO_Write(motor_handle[1].Port, motor_handle[1].Pin, 0);
+        _delay((unsigned long)(((unsigned long)400)*(20000000/4000.0)));
     }
-
-    unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin)
+    void Motor_Forward_Start(Peripheral_Pin *motor_handle)
     {
-        unsigned char GPIO_State = 0;
 
-        if(*GPIO_Port & (1 << Pin))
-        {
-            GPIO_State = 1;
-        }
-        else
-        {
-            GPIO_State = 0;
-        }
-        return GPIO_State;
+        Motor_Stop(motor_handle);
+
+        GPIO_Write(motor_handle[0].Port, motor_handle[0].Pin, 1);
+        GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 1);
     }
-
-    void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin)
+    void Motor_Reverse_Start(Peripheral_Pin *motor_handle)
     {
-        if(GPIO_Read(GPIO_Port, Pin))
-        {
-            GPIO_Write(GPIO_Port, Pin, 0);
-        }
-        else
-        {
-            GPIO_Write(GPIO_Port, Pin, 1);
-        }
+
+        Motor_Stop(motor_handle);
+
+        GPIO_Write(motor_handle[1].Port, motor_handle[1].Pin, 1);
+        GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 1);
     }
 # 10 "Source/Header/LoopProcess.h" 2
-# 6 "Source/main.h" 2
-# 2 "Source/main.c" 2
 
 
 
 void Loop(void)
 {
-    GPIO_Toggle(&PORTC, 1);
 
-    Timer_Delay(2, 1000);
+    Motor_Forward_Start(Motor_1);
+    _delay((unsigned long)(((unsigned long)3000)*(20000000/4000.0)));
+
+
+
+    Motor_Reverse_Start(Motor_1);
+    _delay((unsigned long)(((unsigned long)3000)*(20000000/4000.0)));
 }
+# 6 "Source/main.h" 2
+
+# 1 "Source/Header/Interrupts.h" 1
+# 17 "Source/Header/Interrupts.h"
+volatile unsigned long int timeSysTick = 0;
+unsigned int timeReset_flag = 0;
+void __attribute__((picinterrupt(("high_priority")))) TIM2(void)
+{
+# 30 "Source/Header/Interrupts.h"
+    if(PIE1 & (1 << 1) && PIR1 & (1 << 1))
+    {
+        timeReset_flag++;
+        timeSysTick += 1;
+        TMR2 = 225;
+        TMR2IF = 0;
+    }
+    if (timeReset_flag < 5000)
+    {
+        __asm("clrwdt");
+    }
+}
+# 7 "Source/main.h" 2
+# 2 "Source/main.c" 2
+
+# 1 "Source/Header/UltraSonicSensor.h" 1
+# 18 "Source/Header/UltraSonicSensor.h"
+    unsigned long int UltraSonicSensor_Read(Peripheral_Pin *sensor, volatile unsigned long int *system_tick)
+    {
+        unsigned long int buff_time = 0;
+        GPIO_Write(sensor[0].Port, sensor[0].Pin, 0);
+        _delay((unsigned long)(((unsigned long)2)*(20000000/4000000.0)));
+        GPIO_Write(sensor[0].Port, sensor[0].Pin, 1);
+        _delay((unsigned long)(((unsigned long)5)*(20000000/4000000.0)));
+        GPIO_Write(sensor[0].Port, sensor[0].Pin, 0);
+        if(!GPIO_Read(sensor[1].Port, sensor[1].Pin))
+        {
+            while(!GPIO_Read(sensor[1].Port, sensor[1].Pin));
+        }
+        buff_time = *system_tick;
+        while(GPIO_Read(sensor[1].Port, sensor[1].Pin));
+
+        buff_time = *system_tick - buff_time;
+        if (buff_time > 150)
+        {
+            buff_time = 0;
+        }
+        return buff_time;
+    }
+# 3 "Source/main.c" 2
+
+# 1 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdio.h" 1 3
+
+
+
+# 1 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\__size_t.h" 1 3
+
+
+
+typedef unsigned size_t;
+# 4 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdio.h" 2 3
+
+# 1 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\__null.h" 1 3
+# 5 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdio.h" 2 3
+
+
+
+
+
+
+# 1 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdarg.h" 1 3
+
+
+
+
+
+
+typedef void * va_list[1];
+
+#pragma intrinsic(__va_start)
+extern void * __va_start(void);
+
+#pragma intrinsic(__va_arg)
+extern void * __va_arg(void *, ...);
+# 11 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdio.h" 2 3
+# 43 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdio.h" 3
+struct __prbuf
+{
+ char * ptr;
+ void (* func)(char);
+};
+# 85 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdio.h" 3
+# 1 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\conio.h" 1 3
+
+
+
+
+
+
+
+# 1 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\errno.h" 1 3
+# 29 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\errno.h" 3
+extern int errno;
+# 8 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\conio.h" 2 3
+
+
+
+
+extern void init_uart(void);
+
+extern char getch(void);
+extern char getche(void);
+extern void putch(char);
+extern void ungetch(char);
+
+extern __bit kbhit(void);
+
+
+
+extern char * cgets(char *);
+extern void cputs(const char *);
+# 85 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdio.h" 2 3
+
+
+
+extern int cprintf(char *, ...);
+#pragma printf_check(cprintf)
+
+
+
+extern int _doprnt(struct __prbuf *, const register char *, register va_list);
+# 180 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\stdio.h" 3
+#pragma printf_check(vprintf) const
+#pragma printf_check(vsprintf) const
+
+extern char * gets(char *);
+extern int puts(const char *);
+extern int scanf(const char *, ...) __attribute__((unsupported("scanf() is not supported by this compiler")));
+extern int sscanf(const char *, const char *, ...) __attribute__((unsupported("sscanf() is not supported by this compiler")));
+extern int vprintf(const char *, va_list) __attribute__((unsupported("vprintf() is not supported by this compiler")));
+extern int vsprintf(char *, const char *, va_list) __attribute__((unsupported("vsprintf() is not supported by this compiler")));
+extern int vscanf(const char *, va_list ap) __attribute__((unsupported("vscanf() is not supported by this compiler")));
+extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupported("vsscanf() is not supported by this compiler")));
+
+#pragma printf_check(printf) const
+#pragma printf_check(sprintf) const
+extern int sprintf(char *, const char *, ...);
+extern int printf(const char *, ...);
+# 4 "Source/main.c" 2
+
+# 1 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 1 3
+# 14 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 3
+extern void * memcpy(void *, const void *, size_t);
+extern void * memmove(void *, const void *, size_t);
+extern void * memset(void *, int, size_t);
+# 36 "E:\\Program Files (x86)\\Microchip\\xc8\\v2.36\\pic\\include\\c90\\string.h" 3
+extern char * strcat(char *, const char *);
+extern char * strcpy(char *, const char *);
+extern char * strncat(char *, const char *, size_t);
+extern char * strncpy(char *, const char *, size_t);
+extern char * strdup(const char *);
+extern char * strtok(char *, const char *);
+
+
+extern int memcmp(const void *, const void *, size_t);
+extern int strcmp(const char *, const char *);
+extern int stricmp(const char *, const char *);
+extern int strncmp(const char *, const char *, size_t);
+extern int strnicmp(const char *, const char *, size_t);
+extern void * memchr(const void *, int, size_t);
+extern size_t strcspn(const char *, const char *);
+extern char * strpbrk(const char *, const char *);
+extern size_t strspn(const char *, const char *);
+extern char * strstr(const char *, const char *);
+extern char * stristr(const char *, const char *);
+extern char * strerror(int);
+extern size_t strlen(const char *);
+extern char * strchr(const char *, int);
+extern char * strichr(const char *, int);
+extern char * strrchr(const char *, int);
+extern char * strrichr(const char *, int);
+# 5 "Source/main.c" 2
+
+
 void main(void)
 {
+    unsigned long int systick_flag = 0;
     MCU_Config();
+    UART_Writes("RESET: OK\n\0", strlen("RESET: OK\n\0"));
+    unsigned long int d = 0;
+    char moto = 0;
+    char TX_Str[10] = "";
     while(1)
     {
-        Loop();
+        if(GPIO_Read(SW1.Port, SW1.Pin))
+        {
+            while(GPIO_Read(SW1.Port, SW1.Pin))
+            {
+                _delay((unsigned long)(((unsigned long)80)*(20000000/4000.0)));
+            }
+        }
+        if(timeSysTick % 100000 <= 50000)
+        {
+
+            if(moto == 0)
+            {
+
+                Motor_Reverse_Start(Motor_2);
+                Motor_Reverse_Start(Motor_3);
+                Motor_Reverse_Start(Motor_4);
+                moto = 1;
+            }
+        }
+        else
+        {
+            if(moto == 1)
+            {
+
+                Motor_Forward_Start(Motor_2);
+                Motor_Forward_Start(Motor_3);
+                Motor_Forward_Start(Motor_4);
+                moto = 0;
+            }
+        }
+        if(timeSysTick % 30000 == 0)
+        {
+
+            systick_flag = timeSysTick;
+        }
+        if(timeSysTick % 5000 <= 100)
+        {
+            systick_flag = timeSysTick;
+            d = UltraSonicSensor_Read(UltraSonic_2, &timeSysTick);
+            d = d * 2;
+            if(d != 0)
+            {
+                sprintf(TX_Str, "D:%dcm\n\0", d);
+                UART_Writes(TX_Str, strlen(TX_Str));
+                if(d < 80)
+                {
+                    GPIO_Write(LED1.Port, LED1.Pin, 1);
+                }
+                else
+                {
+                    GPIO_Write(LED1.Port, LED1.Pin, 0);
+                }
+            }
+            else
+            {
+                GPIO_Write(LED1.Port, LED1.Pin, 0);
+            }
+
+        }
+
+
+
+
+
+
+
+        while(systick_flag == timeSysTick);
+        timeReset_flag = 0;
+
     }
 }

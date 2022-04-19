@@ -6,15 +6,15 @@
 #ifndef _PIC16F877A_H_
     #include "PIC16f877A.h"
 #endif
-#include "define.h"
+
 
 #define _XTAL_FREQ 20000000
 
 
 
 // CONFIG
-#pragma config FOSC = HS     // Oscillator Selection bits (RC oscillator)
-#pragma config WDTE = OFF       // Watchdog Timer Enable bit (WDT disabled)
+#pragma config FOSC = HS        // Oscillator Selection bits (RC oscillator)
+#pragma config WDTE = ON        // Watchdog Timer Enable bit (WDT enabled)
 #pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
 #pragma config BOREN = OFF      // Brown-out Reset Enable bit (BOR disabled)
 #pragma config LVP = OFF        // Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit (RB3 is digital I/O, HV on MCLR must be used for programming)

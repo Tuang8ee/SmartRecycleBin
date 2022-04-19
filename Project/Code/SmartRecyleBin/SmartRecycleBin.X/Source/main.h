@@ -4,6 +4,7 @@
 
 #include "Header/Configuration.h"
 #include "Header/LoopProcess.h"
+#include "Header/Interrupts.h"
 
 /*
  ================================== STOP CODE ============================

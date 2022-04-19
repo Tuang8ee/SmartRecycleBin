@@ -84,6 +84,75 @@ extern "C" {
         INTCON     |= (0 << TMR0F);
     }
     
+    void Timer0_Interrupt_Init(void)
+    {
+        /*Reset INCON and OPTION_REG register*/
+        INTCON      = 0x00;
+        OPTION_REG  = 0x00;
+        
+        /*SET VALUE TO OPTION_REG REGISTER:*/
+        /*STEP1: TMR0 Clock Source Select bit
+         * T0CS:
+         *  1 = Transition on T0CKI pin 
+         *  0 = Internal instruction cycle clock (CLKO)
+         */
+        OPTION_REG |= (0 << T0CS);
+        /*STEP 2: TMR0 Source Edge Select bit
+         * T0SE: 
+         *  1 = Increment on high-to-low transition on T0CKI pin 
+         *  0 = Increment on low-to-high transition on T0CKI pin
+         */
+        OPTION_REG |= (0 << T0SE);
+        /*STEP 3: Prescaler Assignment bit
+         * PSA: 
+         *  1 = Prescaler is assigned to the WDT 
+         *  0 = Prescaler is assigned to the Timer0 module 
+         */
+        OPTION_REG |= (0 << PSA);
+        /*STEP 4: Prescaler Rate Select bits 
+         * Timer_CLK = Ext_CLK/4
+         * Counter_CLK = Timer_CLK/Prescaler_value
+         * PS2:PS0:
+            Bit Value   TMR0 Rate       WDT Rate
+            000     ||    1 : 2       ||  1 : 1
+            001     ||    1 : 4       ||  1 : 2
+            010     ||    1 : 8       ||  1 : 4
+            011     ||    1 : 16      ||  1 : 8
+            100     ||    1 : 32      ||  1 : 16
+            101     ||    1 : 64      ||  1 : 32
+            110     ||    1 : 128     ||  1 : 64
+            111     ||    1 : 256     ||  1 : 128
+         */
+        OPTION_REG |= (4 << PSBIT);
+        
+        /*SET VALUE TP INTCON REGISTER for TIMER SETTING:*/
+        /*STEP 1: Global Interrupt Enable bit:
+         * GIE:
+         *  1 = Enables all unmasked interrupts
+         *  0 = Disables all interrupts
+         */
+        INTCON     |= (1 << GIE);
+        /*STEP 2: Peripheral Interrupt Enable bit:
+         * PEIE:
+         *  1 = Enables all unmasked peripheral interrupts
+         *  0 = Disables all peripheral interrupts
+         */
+        INTCON     |= (0 << PEIE);
+        /*STEP 3: TMR0 Overflow Interrupt Enable bit:
+         * TMR0IE:
+         *  1 = Enables the TMR0 interrupt
+         *  0 = Disables the TMR0 interrupt
+         */
+        INTCON     |= (1 << TMR0IE);
+        /*STEP 4: TMR0 Overflow Interrupt Flag bit:
+         * TMR0IF:
+         *  1 = TMR0 register has overflowed (must be cleared in software)
+         *  0 = TMR0 register did not overflow
+         */
+        INTCON     |= (0 << TMR0F);
+    }
+    
+    
     /*Timer1 Init:
      * Only counter.
      * Don't set timer interrupt.
@@ -151,6 +220,49 @@ extern "C" {
          *  1x = Prescaler is 16
          */
         T2CKPS1 = 1;
+    }
+    void Timer2_Interrupt_Init(void)
+    {
+        T2CON = 0x00;
+        /*STEP 1: Timer2 On bit
+         * TMR2ON: 
+         *  1 = Timer2 is on
+         *  0 = Timer2 is off
+         */
+        TMR2ON = 1;
+        /*STEP 2: Timer2 Clock Prescale Select bits
+         * T2CKPS1:T2CKPS0: 
+         *  00 = Prescaler is 1
+         *  01 = Prescaler is 4
+         *  1x = Prescaler is 16
+         */
+        T2CKPS1 = 1;
+        
+        /*SET VALUE TP INTCON REGISTER for TIMER SETTING:*/
+        /*STEP 1: Global Interrupt Enable bit:
+         * GIE:
+         *  1 = Enables all unmasked interrupts
+         *  0 = Disables all interrupts
+         */
+        INTCON     |= (1 << GIE);
+        /*STEP 2: Peripheral Interrupt Enable bit:
+         * PEIE:
+         *  1 = Enables all unmasked peripheral interrupts
+         *  0 = Disables all peripheral interrupts
+         */
+        INTCON     |= (1 << PEIE);
+        /*STEP 3: TMR0 Overflow Interrupt Enable bit:
+         * TMR2IE:
+         *  1 = Enables the TMR2 interrupt
+         *  0 = Disables the TMR2 interrupt
+         */
+        TMR2IE = 1;
+        /*STEP 4: TMR2 Overflow Interrupt Flag bit:
+         * TMR0IF:
+         *  1 = TMR2 register has overflowed (must be cleared in software)
+         *  0 = TMR2 register did not overflow
+         */
+        TMR2IF = 0;
     }
     
     

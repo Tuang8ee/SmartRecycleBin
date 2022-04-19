@@ -5,7 +5,7 @@
  * Created on April 16, 2022, 4:17 AM
  */
 #ifndef GPIO_H
-    #include "Register.h"
+    #include "define.h"
     #define	GPIO_H
 
     //#define PA    *(unsigned char *)0x005
@@ -34,7 +34,7 @@
         switch(GPIO_State)
         {
             case HIGH:
-                *GPIO_Port = (unsigned char)(1 << Pin);
+                *GPIO_Port |= (unsigned char)(1 << Pin);
                 break;
             case LOW:
                 *GPIO_Port &= ~(1 << Pin);

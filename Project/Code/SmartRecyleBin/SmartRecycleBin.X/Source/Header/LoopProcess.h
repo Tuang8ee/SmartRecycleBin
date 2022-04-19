@@ -7,9 +7,20 @@
 
 #ifndef LOOPPROCESS_H
 #define	LOOPPROCESS_H
-#include "GPIO.h"
+#include "HBrightCtrl.h"
 
 
+void Loop(void)
+{
+    /*TAT DONG CO*/
+    Motor_Forward_Start(Motor_1);
+    delay_ms(3000);
+    
+    /*TAT DONG CO*/
+
+    Motor_Reverse_Start(Motor_1);
+    delay_ms(3000);
+}
 
 /*
  ================================== START CODE ============================
