@@ -1,0 +1,1 @@
+ Build/TEST.d  Build/TEST.p1:  D:/Projects/Projects/MyWork/ThungRacThongMinh/SmartRecycleBin/Project/Code/SmartRecyleBin/SmartRecycleBin.VS/Peripheral_Libs/Source/TEST.c

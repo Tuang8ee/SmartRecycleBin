@@ -1,0 +1,360 @@
+[p GLOBOPT AUTOSTATIC PIC14 PICREGULAR PICMID ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 16F877 ]
+[d frameptr 0 ]
+"3 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\main.c
+[v _main main `(v  1 e 1 0 ]
+"15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c
+[v _Startup_Infor Startup_Infor `(v  1 e 1 0 ]
+"26
+[v _Reset_ADC_Register Reset_ADC_Register `(v  1 e 1 0 ]
+"35
+[v _MCU_Config MCU_Config `(v  1 e 1 0 ]
+"4 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c
+[v _GPIO_Write GPIO_Write `(v  1 e 1 0 ]
+"40
+[v _GPIO_Read GPIO_Read `(uc  1 e 1 0 ]
+"11 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c
+[v _Motor_Stop Motor_Stop `(v  1 e 1 0 ]
+"23
+[v _Motor_Forward_Start Motor_Forward_Start `(v  1 e 1 0 ]
+"31
+[v _Motor_Reverse_Start Motor_Reverse_Start `(v  1 e 1 0 ]
+"6 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c
+[v _TIM2 TIM2 `II(v  1 e 1 0 ]
+"9 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+[v _Loop Loop `(v  1 e 1 0 ]
+"15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Timer.c
+[v _Timer0_BASE_Init Timer0_BASE_Init `(v  1 e 1 0 ]
+"156
+[v _Timer1_BASE_Init Timer1_BASE_Init `(v  1 e 1 0 ]
+"203
+[v _Timer2_BASE_Init Timer2_BASE_Init `(v  1 e 1 0 ]
+"220
+[v _Timer2_Interrupt_Init Timer2_Interrupt_Init `(v  1 e 1 0 ]
+"10 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UART.c
+[v _UART_BASE_Init UART_BASE_Init `(v  1 e 1 0 ]
+"18
+[v _UART_WriteChar UART_WriteChar `(v  1 e 1 0 ]
+"25
+[v _UART_Writes UART_Writes `(v  1 e 1 0 ]
+"12 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UltraSonicSensor.c
+[v _UltraSonicSensor_Read UltraSonicSensor_Read `(uc  1 e 1 0 ]
+"5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\aldiv.c
+[v ___aldiv __aldiv `(l  1 e 4 0 ]
+"505 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\doprnt.c
+[v _sprintf sprintf `(i  1 e 2 0 ]
+"62 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\float.c
+[v ___ftpack __ftpack `(f  1 e 3 0 ]
+"86 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\ftadd.c
+[v ___ftadd __ftadd `(f  1 e 3 0 ]
+"5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\llmod.c
+[v ___llmod __llmod `(ul  1 e 4 0 ]
+"5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwdiv.c
+[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+"5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwmod.c
+[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+"4 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\strlen.c
+[v _strlen strlen `(ui  1 e 2 0 ]
+"6 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\pic\__eeprom.c
+[v ___eecpymem __eecpymem `(v  1 e 1 0 ]
+"39
+[v ___memcpyee __memcpyee `(v  1 e 1 0 ]
+[s S22 . 2 `*.4VEuc 1 Port 1 0 `uc 1 Pin 1 1 ]
+"45 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
+[v _LED1 LED1 `S22  1 e 2 0 ]
+"46
+[v _LED2 LED2 `S22  1 e 2 0 ]
+"47
+[v _BUZZER BUZZER `S22  1 e 2 0 ]
+"57
+[v _Motor_2 Motor_2 `[4]S22  1 e 8 0 ]
+"64
+[v _Motor_3 Motor_3 `[4]S22  1 e 8 0 ]
+"71
+[v _Motor_4 Motor_4 `[4]S22  1 e 8 0 ]
+"92
+[v _UltraSonic_2 UltraSonic_2 `[2]S22  1 e 4 0 ]
+"109
+[v _SW1 SW1 `S22  1 e 2 0 ]
+"15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs/Hearder/Interrupts.h
+[v _timeSysTick timeSysTick `VEul  1 e 4 0 ]
+"16
+[v _timeReset_flag timeReset_flag `ui  1 e 2 0 ]
+"24 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\legacy\pic168xa_legacy.h
+[v _PORTA PORTA `VEuc  1 e 1 @5 ]
+"25
+[v _PORTB PORTB `VEuc  1 e 1 @6 ]
+"26
+[v _PORTC PORTC `VEuc  1 e 1 @7 ]
+"28
+[v _PORTD PORTD `VEuc  1 e 1 @8 ]
+"29
+[v _PORTE PORTE `VEuc  1 e 1 @9 ]
+"32
+[v _INTCON INTCON `VEuc  1 e 1 @11 ]
+"33
+[v _PIR1 PIR1 `VEuc  1 e 1 @12 ]
+"38
+[v _TMR2 TMR2 `VEuc  1 e 1 @17 ]
+"39
+[v _T2CON T2CON `VEuc  1 e 1 @18 ]
+"45
+[v _RCSTA RCSTA `VEuc  1 e 1 @24 ]
+"46
+[v _TXREG TXREG `VEuc  1 e 1 @25 ]
+"52
+[v _ADCON0 ADCON0 `VEuc  1 e 1 @31 ]
+"56
+[v _TRISA TRISA `VEuc  1 e 1 @133 ]
+"57
+[v _TRISB TRISB `VEuc  1 e 1 @134 ]
+"58
+[v _TRISC TRISC `VEuc  1 e 1 @135 ]
+"60
+[v _TRISD TRISD `VEuc  1 e 1 @136 ]
+"61
+[v _TRISE TRISE `VEuc  1 e 1 @137 ]
+"63
+[v _PIE1 PIE1 `VEuc  1 e 1 @140 ]
+"70
+[v _TXSTA TXSTA `VEuc  1 e 1 @152 ]
+"71
+[v _SPBRG SPBRG `VEuc  1 e 1 @153 ]
+"75
+[v _ADCON1 ADCON1 `VEuc  1 e 1 @159 ]
+"163
+[v _TXIF TXIF `VEb  1 e 0 @100 ]
+"166
+[v _TMR2IF TMR2IF `VEb  1 e 0 @97 ]
+"188
+[v _TMR2ON TMR2ON `VEb  1 e 0 @146 ]
+"189
+[v _T2CKPS1 T2CKPS1 `VEb  1 e 0 @145 ]
+"308
+[v _TMR2IE TMR2IE `VEb  1 e 0 @1121 ]
+"357
+[v _TRMT TRMT `VEb  1 e 0 @1217 ]
+"358 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\doprnt.c
+[v _dpowers dpowers `DC[5]ui  1 s 10 dpowers ]
+"3 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\main.c
+[v _main main `(v  1 e 1 0 ]
+{
+"5
+[v main@systick_flag systick_flag `ul  1 a 4 35 ]
+"20
+} 0
+"35 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c
+[v _MCU_Config MCU_Config `(v  1 e 1 0 ]
+{
+"55
+} 0
+"10 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UART.c
+[v _UART_BASE_Init UART_BASE_Init `(v  1 e 1 0 ]
+{
+[v UART_BASE_Init@baud baud `l  1 p 4 7 ]
+"16
+} 0
+"5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\aldiv.c
+[v ___aldiv __aldiv `(l  1 e 4 0 ]
+{
+"10
+[v ___aldiv@quotient quotient `l  1 a 4 3 ]
+"11
+[v ___aldiv@sign sign `uc  1 a 1 2 ]
+[v ___aldiv@counter counter `uc  1 a 1 1 ]
+"5
+[v ___aldiv@divisor divisor `l  1 p 4 2 ]
+[v ___aldiv@dividend dividend `l  1 p 4 6 ]
+"41
+} 0
+"220 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Timer.c
+[v _Timer2_Interrupt_Init Timer2_Interrupt_Init `(v  1 e 1 0 ]
+{
+"262
+} 0
+"15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c
+[v _Startup_Infor Startup_Infor `(v  1 e 1 0 ]
+{
+[s S22 . 2 `*.4VEuc 1 Port 1 0 `uc 1 Pin 1 1 ]
+[v Startup_Infor@GPIO GPIO `*.4S22  1 a 1 wreg ]
+[v Startup_Infor@GPIO GPIO `*.4S22  1 a 1 wreg ]
+[v Startup_Infor@index index `uc  1 p 1 7 ]
+[v Startup_Infor@GPIO GPIO `*.4S22  1 a 1 8 ]
+"24
+} 0
+"26
+[v _Reset_ADC_Register Reset_ADC_Register `(v  1 e 1 0 ]
+{
+"33
+} 0
+"9 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+[v _Loop Loop `(v  1 e 1 0 ]
+{
+[v Loop@timeSysTick timeSysTick `*.4ul  1 a 1 wreg ]
+"13
+[v Loop@TX_Str TX_Str `[10]uc  1 a 10 22 ]
+"11
+[v Loop@d d `uc  1 a 1 34 ]
+"12
+[v Loop@moto moto `uc  1 a 1 32 ]
+"9
+[v Loop@timeSysTick timeSysTick `*.4ul  1 a 1 wreg ]
+"12
+[v Loop@timeSysTick timeSysTick `*.4ul  1 a 1 33 ]
+"70
+} 0
+"4 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\strlen.c
+[v _strlen strlen `(ui  1 e 2 0 ]
+{
+"6
+[v strlen@cp cp `*.26DCuc  1 a 2 4 ]
+"4
+[v strlen@s s `*.26DCuc  1 p 2 2 ]
+"13
+} 0
+"505 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\doprnt.c
+[v _sprintf sprintf `(i  1 e 2 0 ]
+{
+[v sprintf@sp sp `*.4uc  1 a 1 wreg ]
+"545
+[v sprintf@val val `ui  1 a 2 15 ]
+"512
+[v sprintf@c c `uc  1 a 1 18 ]
+"521
+[v sprintf@prec prec `c  1 a 1 14 ]
+"525
+[v sprintf@flag flag `uc  1 a 1 13 ]
+"507
+[v sprintf@ap ap `[1]*.4v  1 a 1 12 ]
+"505
+[v sprintf@sp sp `*.4uc  1 a 1 wreg ]
+[v sprintf@f f `*.24DCuc  1 p 1 6 ]
+"550
+[v sprintf@sp sp `*.4uc  1 a 1 17 ]
+"1567
+} 0
+"5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwmod.c
+[v ___lwmod __lwmod `(ui  1 e 2 0 ]
+{
+"10
+[v ___lwmod@counter counter `uc  1 a 1 5 ]
+"5
+[v ___lwmod@divisor divisor `ui  1 p 2 0 ]
+[v ___lwmod@dividend dividend `ui  1 p 2 2 ]
+"25
+} 0
+"5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwdiv.c
+[v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
+{
+"10
+[v ___lwdiv@quotient quotient `ui  1 a 2 7 ]
+"11
+[v ___lwdiv@counter counter `uc  1 a 1 9 ]
+"5
+[v ___lwdiv@divisor divisor `ui  1 p 2 2 ]
+[v ___lwdiv@dividend dividend `ui  1 p 2 4 ]
+"30
+} 0
+"5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\llmod.c
+[v ___llmod __llmod `(ul  1 e 4 0 ]
+{
+"10
+[v ___llmod@counter counter `uc  1 a 1 1 ]
+"5
+[v ___llmod@divisor divisor `ul  1 p 4 2 ]
+[v ___llmod@dividend dividend `ul  1 p 4 6 ]
+"25
+} 0
+"12 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UltraSonicSensor.c
+[v _UltraSonicSensor_Read UltraSonicSensor_Read `(uc  1 e 1 0 ]
+{
+[s S22 . 2 `*.4VEuc 1 Port 1 0 `uc 1 Pin 1 1 ]
+[v UltraSonicSensor_Read@sensor sensor `*.4S22  1 a 1 wreg ]
+"14
+[v UltraSonicSensor_Read@buff_time buff_time `ul  1 a 4 4 ]
+"12
+[v UltraSonicSensor_Read@sensor sensor `*.4S22  1 a 1 wreg ]
+[v UltraSonicSensor_Read@system_tick system_tick `*.4VEul  1 p 1 7 ]
+[v UltraSonicSensor_Read@sensor sensor `*.4S22  1 a 1 8 ]
+"34
+} 0
+"40 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c
+[v _GPIO_Read GPIO_Read `(uc  1 e 1 0 ]
+{
+[v GPIO_Read@GPIO_Port GPIO_Port `*.4VEuc  1 a 1 wreg ]
+[v GPIO_Read@GPIO_Port GPIO_Port `*.4VEuc  1 a 1 wreg ]
+[v GPIO_Read@Pin Pin `uc  1 p 1 2 ]
+"43
+[v GPIO_Read@GPIO_Port GPIO_Port `*.4VEuc  1 a 1 4 ]
+"52
+} 0
+"25 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UART.c
+[v _UART_Writes UART_Writes `(v  1 e 1 0 ]
+{
+"27
+[v UART_Writes@i i `uc  1 a 1 2 ]
+"25
+[v UART_Writes@data data `*.26DCuc  1 p 2 6 ]
+[v UART_Writes@len len `ui  1 p 2 8 ]
+"32
+} 0
+"18
+[v _UART_WriteChar UART_WriteChar `(v  1 e 1 0 ]
+{
+[v UART_WriteChar@data data `uc  1 a 1 wreg ]
+[v UART_WriteChar@data data `uc  1 a 1 wreg ]
+"20
+[v UART_WriteChar@data data `uc  1 a 1 2 ]
+"24
+} 0
+"31 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c
+[v _Motor_Reverse_Start Motor_Reverse_Start `(v  1 e 1 0 ]
+{
+[s S22 . 2 `*.4VEuc 1 Port 1 0 `uc 1 Pin 1 1 ]
+[v Motor_Reverse_Start@motor_handle motor_handle `*.4S22  1 a 1 wreg ]
+[v Motor_Reverse_Start@motor_handle motor_handle `*.4S22  1 a 1 wreg ]
+"34
+"31
+[v Motor_Reverse_Start@motor_handle motor_handle `*.4S22  1 a 1 2 ]
+"38
+} 0
+"23
+[v _Motor_Forward_Start Motor_Forward_Start `(v  1 e 1 0 ]
+{
+[s S22 . 2 `*.4VEuc 1 Port 1 0 `uc 1 Pin 1 1 ]
+[v Motor_Forward_Start@motor_handle motor_handle `*.4S22  1 a 1 wreg ]
+[v Motor_Forward_Start@motor_handle motor_handle `*.4S22  1 a 1 wreg ]
+"26
+"23
+[v Motor_Forward_Start@motor_handle motor_handle `*.4S22  1 a 1 2 ]
+"30
+} 0
+"11
+[v _Motor_Stop Motor_Stop `(v  1 e 1 0 ]
+{
+[s S22 . 2 `*.4VEuc 1 Port 1 0 `uc 1 Pin 1 1 ]
+[v Motor_Stop@motor_handle motor_handle `*.4S22  1 a 1 wreg ]
+[v Motor_Stop@motor_handle motor_handle `*.4S22  1 a 1 wreg ]
+"13
+"11
+[v Motor_Stop@motor_handle motor_handle `*.4S22  1 a 1 0 ]
+"22
+} 0
+"4 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c
+[v _GPIO_Write GPIO_Write `(v  1 e 1 0 ]
+{
+[v GPIO_Write@GPIO_Port GPIO_Port `*.4VEuc  1 a 1 wreg ]
+[v GPIO_Write@GPIO_Port GPIO_Port `*.4VEuc  1 a 1 wreg ]
+[v GPIO_Write@Pin Pin `uc  1 p 1 2 ]
+[v GPIO_Write@GPIO_State GPIO_State `uc  1 p 1 3 ]
+"6
+[v GPIO_Write@GPIO_Port GPIO_Port `*.4VEuc  1 a 1 6 ]
+"38
+} 0
+"6 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c
+[v _TIM2 TIM2 `II(v  1 e 1 0 ]
+{
+"28
+} 0

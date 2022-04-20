@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        
+        {
+            "name": "Windows",
+            "includePath": [
+                "${workspaceFolder}",
+                "E:/Program Files (x86)/Microchip/xc8/v1.45/include/*",
+                "E:/Program Files (x86)/Microchip/xc8/v1.45/include/legacy/*"
+            ],
+            "defines": [],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "E:/Program Files (x86)/Microchip/xc8/v1.45/include/*",
+                    "E:/Program Files (x86)/Microchip/xc8/v1.45/include/legacy/*"
+                ],
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "cStandard": "c89",
+            "cppStandard": "c++17",
+            "compilerPath": "E:\\Program Files (x86)\\Microchip\\xc8\\v1.45\\bin\\cpp.exe"
+        }
+    ],
+    "version": 4
+}

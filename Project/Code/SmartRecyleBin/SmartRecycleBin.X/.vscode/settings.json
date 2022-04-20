@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "xc.h": "c",
+        "htc.h": "c",
+        "test.h": "c",
+        "main.h": "c",
+        "pic16f84a.h": "c",
+        "gpio.h": "c"
+    }
+}

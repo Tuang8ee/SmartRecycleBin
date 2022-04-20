@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        
+        {
+            "name": "Windows",
+            "includePath": [
+                "${workspaceFolder}",
+                "E:/Program Files (x86)/Microchip/xc8/v2.36/pic/include/*",
+                "E:/Program Files (x86)/Microchip/xc8/v2.36/pic/include/legacy/*",
+                "E:/Program Files (x86)/Microchip/xc8/v2.36/pic/include/c99/*"
+                
+            ],
+            "defines": [],
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "E:/Program Files (x86)/Microchip/xc8/v2.36/pic/include/*",
+                    "E:/Program Files (x86)/Microchip/xc8/v2.36/pic/include/legacy/*",
+                    "E:/Program Files (x86)/Microchip/xc8/v2.36/pic/include/c99/*"
+                ],
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "cStandard": "c99",
+            "cppStandard": "c++17",
+            "compilerPath": "E:/Program Files (x86)/Microchip/xc8/v2.36/pic/bin/cpp.exe"
+        }
+    ],
+    "version": 4
+}
