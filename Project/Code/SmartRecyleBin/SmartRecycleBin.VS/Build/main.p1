@@ -6,7 +6,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "12 .\Peripheral_Libs/Hearder/Configuration.h
 [v _MCU_Config `(v ~T0 @X0 0 ef ]
 "15 .\Peripheral_Libs/Hearder/LoopProcess.h
-[v _Loop `(v ~T0 @X0 0 ef1`*ul ]
+[v _Loop `(v ~T0 @X0 0 ef1`*Vui ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [; <" INDF equ 00h ;# ">
 "62
@@ -735,143 +735,143 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"50
+"51
 [v _Motor_1 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_1
 :U ..
 :U ..
-"51
-&U _PORTC
--> -> 4 `i `uc
-..
-:U ..
 "52
 &U _PORTC
--> -> 5 `i `uc
+-> -> 4 `i `uc
 ..
 :U ..
 "53
 &U _PORTC
--> -> 6 `i `uc
+-> -> 5 `i `uc
 ..
 :U ..
 "54
 &U _PORTC
+-> -> 6 `i `uc
+..
+:U ..
+"55
+&U _PORTC
 -> -> 7 `i `uc
 ..
 ..
 ]
-"57
+"59
 [v _Motor_2 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_2
 :U ..
 :U ..
-"58
+"60
 &U _PORTD
 -> -> 4 `i `uc
 ..
 :U ..
-"59
+"61
 &U _PORTD
 -> -> 5 `i `uc
 ..
 :U ..
-"60
+"62
 &U _PORTD
 -> -> 6 `i `uc
 ..
 :U ..
-"61
+"63
 &U _PORTD
 -> -> 7 `i `uc
 ..
 ..
 ]
-"64
+"67
 [v _Motor_3 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_3
 :U ..
 :U ..
-"65
+"68
 &U _PORTD
 -> -> 1 `i `uc
 ..
 :U ..
-"66
+"69
 &U _PORTD
 -> -> 0 `i `uc
 ..
 :U ..
-"67
+"70
 &U _PORTC
 -> -> 3 `i `uc
 ..
 :U ..
-"68
+"71
 &U _PORTC
 -> -> 2 `i `uc
 ..
 ..
 ]
-"71
+"75
 [v _Motor_4 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_4
 :U ..
 :U ..
-"72
+"76
 &U _PORTC
 -> -> 1 `i `uc
 ..
 :U ..
-"73
+"77
 &U _PORTC
 -> -> 0 `i `uc
 ..
 :U ..
-"74
+"78
 &U _PORTE
 -> -> 2 `i `uc
 ..
 :U ..
-"75
+"79
 &U _PORTE
 -> -> 1 `i `uc
 ..
 ..
 ]
-"83
+"87
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"84
+"88
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"85
+"89
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"92
+"97
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"93
+"98
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"94
+"99
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"101
+"107
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -881,7 +881,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"102
+"108
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -891,7 +891,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"109
+"115
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -901,7 +901,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"110
+"116
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -911,52 +911,46 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"15 .\Peripheral_Libs/Hearder/Interrupts.h
-[v _timeSysTick `Vul ~T0 @X0 1 e ]
+"14 .\Peripheral_Libs/Hearder/Interrupts.h
+[v _timeSysTick `Vui ~T0 @X0 1 e ]
 [i _timeSysTick
--> -> -> 0 `i `l `ul
+-> -> 0 `i `ui
 ]
-"16
+"15
 [v _timeReset_flag `ui ~T0 @X0 1 e ]
 [i _timeReset_flag
 -> -> 0 `i `ui
 ]
 [v $root$_main `(v ~T0 @X0 0 e ]
-"3 .\main.c
+"4 .\main.c
 [v _main `(v ~T0 @X0 1 ef ]
-"4
+"5
 {
 [e :U _main ]
 [f ]
-"5
-[v _systick_flag `ul ~T0 @X0 1 a ]
-[e = _systick_flag -> -> -> 0 `i `l `ul ]
 "6
 [e ( _MCU_Config ..  ]
-"7
-[e :U 103 ]
 "8
+[e :U 103 ]
+"9
 {
 "11
-[e $ ! == _systick_flag _timeSysTick 105  ]
-[e $U 106  ]
-"12
-[e :U 105 ]
+[e ( _Loop (1 &U _timeSysTick ]
 "13
-{
+[e $ ! != _timeReset_flag -> -> 0 `i `ui 105  ]
 "14
-[e ( _Loop (1 -> &U _timeSysTick `*ul ]
+{
 "15
 [e = _timeReset_flag -> -> 0 `i `ui ]
 "16
 }
-[e :U 106 ]
-"19
+[e :U 105 ]
+"18
 }
 [e :U 102 ]
-"7
+"8
 [e $U 103  ]
 [e :U 104 ]
-"20
+"19
 [e :UE 101 ]
 }

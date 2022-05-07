@@ -21,7 +21,7 @@ extern "C" {
 #define ECHO    1
 
 
-uint8_t UltraSonicSensor_Read(Peripheral_Pin *sensor, volatile uint32_t *system_tick);
+uint8_t UltraSonicSensor_Read(Peripheral_Pin *sensor, volatile uint16_t *system_tick);
 
 
 #ifdef	__cplusplus

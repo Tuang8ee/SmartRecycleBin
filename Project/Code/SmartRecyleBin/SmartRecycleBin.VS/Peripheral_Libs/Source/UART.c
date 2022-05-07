@@ -5,8 +5,11 @@
  * Created on April 18, 2022, 9:37 PM
  */
 
-
 #include "../Hearder/UART.h"
+#ifndef _STRING_H
+    #include "string.h"
+#endif
+
 void UART_BASE_Init(long baud)
 {
     TRISC = 0X80;
@@ -25,6 +28,16 @@ void UART_WriteChar(char data)
 void UART_Writes(const char *data, size_t len)
 {
     uint8_t i = 0;
+    for(i = 0; i <= len; i++)
+    {
+        UART_WriteChar(data[i]);
+    }
+}
+
+void UART_WriteStr(const char *data)
+{
+    uint8_t i = 0;
+    size_t len = strlen(data);
     for(i = 0; i <= len; i++)
     {
         UART_WriteChar(data[i]);

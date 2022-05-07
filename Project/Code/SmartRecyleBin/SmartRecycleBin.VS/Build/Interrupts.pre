@@ -2232,12 +2232,14 @@ Peripheral_Pin LED2 = {&PORTB, 2};
 Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
+
 Peripheral_Pin Motor_1[4] = {
 {&PORTC, 4},
 {&PORTC, 5},
 {&PORTC, 6},
 {&PORTC, 7}
 };
+
 
 Peripheral_Pin Motor_2[4] = {
 {&PORTD, 4},
@@ -2246,12 +2248,14 @@ Peripheral_Pin Motor_2[4] = {
 {&PORTD, 7}
 };
 
+
 Peripheral_Pin Motor_3[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
 {&PORTC, 3},
 {&PORTC, 2}
 };
+
 
 Peripheral_Pin Motor_4[4] = {
 {&PORTC, 1},
@@ -2260,43 +2264,48 @@ Peripheral_Pin Motor_4[4] = {
 {&PORTE, 1}
 };
 
-# 83
+# 87
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 92
+# 97
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 101
+# 107
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 109
+# 115
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
-# 15 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/Interrupts.h"
-volatile uint32_t timeSysTick = 0;
+# 14 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/Interrupts.h"
+volatile uint16_t timeSysTick = 0;
 uint16_t timeReset_flag = 0;
 
-void __interrupt(high_priority) TIM2(void);
+void __interrupt(high_priority) Interrupts_Function(void);
 
-# 6 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c"
-void __interrupt(high_priority) TIM2(void)
+# 3 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c"
+void __interrupt(high_priority) Interrupts_Function(void)
 {
 
-# 17
+# 14
 if(PIE1 & (1 << 1) && PIR1 & (1 << 1))
 {
 timeReset_flag++;
 timeSysTick += 1;
-TMR2 = 225;
+if(timeSysTick > 30000)
+{
+timeSysTick = 1;
+}
+TMR2 = 221;
 TMR2IF = 0;
+
 }
 if (timeReset_flag < 5000)
 {

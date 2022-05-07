@@ -1,5 +1,5 @@
 
-# 1 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
+# 1 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\ADC.c"
 
 # 4 "E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\__size_t.h"
 typedef unsigned size_t;
@@ -2284,70 +2284,54 @@ Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
-# 14 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h"
-void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State);
-unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin);
-void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin);
-void Test(void);
+# 8 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/ADC.h"
+void ADC_BASE_Init(void);
 
-# 4 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
-void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State)
+void ADC_Interrupts_Init(void);
+
+uint16_t ADC_Read(uint8_t channel);
+
+# 5 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\ADC.c"
+void ADC_BASE_Init(void)
 {
-if(GPIO_Port == &PORTA)
-{
-TRISA &= ~(1 << Pin);
-}
-else if(GPIO_Port == &PORTB)
-{
-TRISB &= ~(1 << Pin);
-}
-else if(GPIO_Port == &PORTC)
-{
-TRISC &= ~(1 << Pin);
-}
-else if(GPIO_Port == &PORTD)
-{
-TRISD &= ~(1 << Pin);
-}
-else
-{
-TRISE &= ~(1 << Pin);
-}
-switch(GPIO_State)
-{
-case 1:
-*GPIO_Port |= (unsigned char)(1 << Pin);
-break;
-case 0:
-*GPIO_Port &= ~(1 << Pin);
-break;
-default:
-*GPIO_Port &= ~(1 << Pin);
-break;
-}
+
+ADCON0 = 0x00;
+ADCON1 = 0x00;
+
+# 34
+ADCON0 |= (0 << 6);
+
+# 88
+ADCON1 |= (1 << 7) | (0 << 6) | (1 << 3) | (6 << 0);
 }
 
-unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin)
+void ADC_Interrupts_Init(void)
 {
-if(*GPIO_Port & (1 << Pin))
-{
-return 1;
-}
-else
-{
-return 0;
-}
 
 }
 
-void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin)
+uint16_t ADC_Read(uint8_t channel)
 {
-if(GPIO_Read(GPIO_Port, Pin))
-{
-GPIO_Write(GPIO_Port, Pin, 0);
+ADC_BASE_Init();
+_delay((unsigned long)(((unsigned long)1)*(20000000/4000.0)));
+
+ADCON0 |= (channel << 3);
+ADON = 1;
+_delay((unsigned long)(((unsigned long)1)*(20000000/4000.0)));
+
+# 108
+GODONE = 1;
+
+# 114
+while(GODONE==1);
+
+
+ADCON1 = 0x00;
+
+ADCON1 |= (7 << 0);
+_delay((unsigned long)(((unsigned long)1)*(20000000/4000000.0)));
+
+
+return ((ADRESH << 8) + ADRESL);
 }
-else
-{
-GPIO_Write(GPIO_Port, Pin, 1);
-}
-}
+

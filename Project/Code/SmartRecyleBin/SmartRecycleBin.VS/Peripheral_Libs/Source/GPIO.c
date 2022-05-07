@@ -39,7 +39,6 @@ void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GP
 
 unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin)
 {
-
     if(*GPIO_Port & (1 << Pin))
     {
         return HIGH;

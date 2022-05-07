@@ -2232,12 +2232,14 @@ Peripheral_Pin LED2 = {&PORTB, 2};
 Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
+
 Peripheral_Pin Motor_1[4] = {
 {&PORTC, 4},
 {&PORTC, 5},
 {&PORTC, 6},
 {&PORTC, 7}
 };
+
 
 Peripheral_Pin Motor_2[4] = {
 {&PORTD, 4},
@@ -2246,12 +2248,14 @@ Peripheral_Pin Motor_2[4] = {
 {&PORTD, 7}
 };
 
+
 Peripheral_Pin Motor_3[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
 {&PORTC, 3},
 {&PORTC, 2}
 };
+
 
 Peripheral_Pin Motor_4[4] = {
 {&PORTC, 1},
@@ -2260,37 +2264,37 @@ Peripheral_Pin Motor_4[4] = {
 {&PORTE, 1}
 };
 
-# 83
+# 87
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 92
+# 97
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 101
+# 107
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 109
+# 115
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
 # 24 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/UltraSonicSensor.h"
-uint8_t UltraSonicSensor_Read(Peripheral_Pin *sensor, volatile uint32_t *system_tick);
+uint8_t UltraSonicSensor_Read(Peripheral_Pin *sensor, volatile uint16_t *system_tick);
 
-# 22 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/GPIO.h"
+# 14 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/GPIO.h"
 void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State);
 unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void Test(void);
 
 # 12 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UltraSonicSensor.c"
-uint8_t UltraSonicSensor_Read(Peripheral_Pin *sensor, volatile uint32_t *system_tick)
+uint8_t UltraSonicSensor_Read(Peripheral_Pin *sensor, volatile uint16_t *system_tick)
 {
 uint32_t buff_time = 0;
 GPIO_Write(sensor[0].Port, sensor[0].Pin, 0);
@@ -2303,8 +2307,13 @@ if(!GPIO_Read(sensor[1].Port, sensor[1].Pin))
 while(!GPIO_Read(sensor[1].Port, sensor[1].Pin));
 }
 buff_time = *system_tick;
-while(GPIO_Read(sensor[1].Port, sensor[1].Pin));
-
+while(GPIO_Read(sensor[1].Port, sensor[1].Pin))
+{
+if(*system_tick - buff_time > 300)
+{
+break;
+}
+}
 buff_time = *system_tick - buff_time;
 
 if (buff_time > 150)

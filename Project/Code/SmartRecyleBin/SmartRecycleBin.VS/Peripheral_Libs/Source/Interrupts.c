@@ -1,9 +1,6 @@
-
 #include "../Hearder/Interrupts.h"
     
-
-
-void __interrupt(high_priority) TIM2(void)
+void __interrupt(high_priority) Interrupts_Function(void)
 {
     /*If WDT disable then you can turn on TIME0 Interrupt:*/
     /*
@@ -18,8 +15,13 @@ void __interrupt(high_priority) TIM2(void)
     {
         timeReset_flag++;
         timeSysTick += 1;
-        TMR2 = 225;
+        if(timeSysTick > 30000)
+        {
+            timeSysTick = 1;
+        }
+        TMR2 = 221;
         TMR2IF = 0;
+        // CLRWDT();
     }
     if (timeReset_flag < 5000)
     {

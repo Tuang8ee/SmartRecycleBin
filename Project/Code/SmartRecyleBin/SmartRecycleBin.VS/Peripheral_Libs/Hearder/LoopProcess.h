@@ -12,7 +12,7 @@
     #include "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
 #endif
 
-void Loop(uint32_t *timeSysTick);
+void Loop(volatile uint16_t *timeSysTick);
 /*
  ================================== START CODE ============================
  */

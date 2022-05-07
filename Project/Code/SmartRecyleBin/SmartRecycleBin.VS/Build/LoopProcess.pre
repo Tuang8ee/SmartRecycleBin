@@ -2232,12 +2232,14 @@ Peripheral_Pin LED2 = {&PORTB, 2};
 Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
+
 Peripheral_Pin Motor_1[4] = {
 {&PORTC, 4},
 {&PORTC, 5},
 {&PORTC, 6},
 {&PORTC, 7}
 };
+
 
 Peripheral_Pin Motor_2[4] = {
 {&PORTD, 4},
@@ -2246,12 +2248,14 @@ Peripheral_Pin Motor_2[4] = {
 {&PORTD, 7}
 };
 
+
 Peripheral_Pin Motor_3[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
 {&PORTC, 3},
 {&PORTC, 2}
 };
+
 
 Peripheral_Pin Motor_4[4] = {
 {&PORTC, 1},
@@ -2260,28 +2264,28 @@ Peripheral_Pin Motor_4[4] = {
 {&PORTE, 1}
 };
 
-# 83
+# 87
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 92
+# 97
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 101
+# 107
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 109
+# 115
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
 # 15 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\LoopProcess.h"
-void Loop(uint32_t *timeSysTick);
+void Loop(volatile uint16_t *timeSysTick);
 
 # 19 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\HBrightCtrl.h"
 void Motor_Forward_Start(Peripheral_Pin *motor_handle);
@@ -2289,80 +2293,253 @@ void Motor_Reverse_Start(Peripheral_Pin *motor_handle);
 void Motor_Stop(Peripheral_Pin *motor_handle);
 
 # 24 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\UltraSonicSensor.h"
-uint8_t UltraSonicSensor_Read(Peripheral_Pin *sensor, volatile uint32_t *system_tick);
+uint8_t UltraSonicSensor_Read(Peripheral_Pin *sensor, volatile uint16_t *system_tick);
 
 # 18 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\UART.h"
 void UART_BASE_Init(long baud);
 
 void UART_WriteChar(char data);
 void UART_Writes(const char *data, size_t len);
+void UART_WriteStr(const char *data);
 
-# 22 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h"
+# 14 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h"
 void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State);
 unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void Test(void);
 
-# 9 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-void Loop(uint32_t *timeSysTick)
+# 8 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\ADC.h"
+void ADC_BASE_Init(void);
+
+void ADC_Interrupts_Init(void);
+
+uint16_t ADC_Read(uint8_t channel);
+
+# 10 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+uint8_t TX_Array[10] = "";
+typedef enum{
+CLOSED,
+CLOSING,
+WAIT_CLOSE,
+
+SW_OPEN,
+SW_OPENED,
+SS_OPEN,
+SS_OPENED
+}TrashDoorState;
+TrashDoorState trashDoorState = CLOSED;
+uint16_t timeBuffer = 0;
+
+typedef enum{
+WAIT_COMPRESS,
+COMPRESSING,
+COMPRESSED,
+DON_T_COMPRESS
+}CompressionState;
+CompressionState compressionState = WAIT_COMPRESS;
+
+
+
+void TrashDoor_Open(TrashDoorState *state, uint16_t *timeSysTick)
 {
-uint8_t d = 0,
-moto = 0,
-TX_Str[10] = "";
+if(*state == SS_OPEN)
+{
+if(*timeSysTick - timeBuffer == 0)
+{
+
+GPIO_Write(LED2.Port, LED2.Pin, 1);
+GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
+
+# 48
+}
+else if (*timeSysTick - timeBuffer > 20000)
+{
+
+# 56
+*state = SS_OPENED;
+}
+}
+
+else if(*state == SW_OPEN)
+{
+if(*timeSysTick - timeBuffer == 0)
+{
+
+GPIO_Write(LED2.Port, LED2.Pin, 1);
+GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
+
+# 72
+}
+else if (*timeSysTick - timeBuffer > 20000)
+{
+
+# 80
+*state = SW_OPENED;
+}
+
+}
+}
+
+void TrashDoor_Close(TrashDoorState *state, uint16_t *timeSysTick)
+{
+if(*state == WAIT_CLOSE)
+{
+if(*timeSysTick - timeBuffer > 60000)
+{
+*state = CLOSING;
+timeBuffer = *timeSysTick;
+}
+}
+else if(*state == CLOSING)
+{
+
+if(*timeSysTick - timeBuffer == 0)
+{
+
+# 107
+}
+else if (*timeSysTick - timeBuffer > 20000)
+{
+
+GPIO_Write(LED2.Port, LED2.Pin, 0);
+GPIO_Write(BUZZER.Port, BUZZER.Pin, 0);
+
+
+
+
+*state = CLOSED;
+}
+}
+}
+
+double IRSensor_Read(void)
+{
+double adc_value = 0.0;
+uint8_t index = 0;
+for (index = 0; index <= 10; index++)
+{
+adc_value += ADC_Read(0);
+if(adc_value < 100)
+{
+break;
+}
+}
+adc_value = adc_value / index;
+
+
+adc_value = adc_value * 5 / 1024.0;
+return adc_value;
+}
+
+void TrashDoor_Ctrl(TrashDoorState* state, uint16_t timeSysTick)
+{
+
 if(GPIO_Read(SW1.Port, SW1.Pin))
 {
 while(GPIO_Read(SW1.Port, SW1.Pin))
 {
 _delay((unsigned long)(((unsigned long)80)*(20000000/4000.0)));
 }
-}
-if(*timeSysTick % 100000 <= 50000)
+if(*state != CLOSED && *state != WAIT_CLOSE)
 {
-if(GPIO_Read(Motor_2[0].Port, Motor_2[0].Pin))
-{
+*state = CLOSING;
+timeBuffer = timeSysTick;
 
-Motor_Reverse_Start(Motor_2);
-Motor_Reverse_Start(Motor_3);
-Motor_Reverse_Start(Motor_4);
+}
+else
+{
+*state = SW_OPEN;
+timeBuffer = timeSysTick;
+
+}
+}
+
+
+if(timeSysTick % 3000 == 0)
+{
+if (IRSensor_Read() >= 0.4)
+{
+if(*state != SS_OPEN && *state != SS_OPENED)
+{
+if(*state == WAIT_CLOSE)
+{
+*state = SS_OPENED;
+}
+else
+{
+*state = SS_OPEN;
+}
+timeBuffer = timeSysTick;
+
 }
 }
 else
 {
-if(GPIO_Read(Motor_2[1].Port, Motor_2[1].Pin))
+if(*state == SS_OPENED)
 {
-
-Motor_Forward_Start(Motor_2);
-Motor_Forward_Start(Motor_3);
-Motor_Forward_Start(Motor_4);
-}
-}
-if(*timeSysTick % 30000 == 0)
-{
+*state = WAIT_CLOSE;
+timeBuffer = timeSysTick;
 
 }
-if(*timeSysTick % 5000 <= 100)
-{
+}
+}
 
-d = UltraSonicSensor_Read(UltraSonic_2, timeSysTick);
-d = d * 2;
-if(d != 0)
+
+if( *state == CLOSED || *state == CLOSING || *state == WAIT_CLOSE)
 {
-sprintf(TX_Str, "D:%dcm\n\0", d);
-UART_Writes(TX_Str, strlen(TX_Str));
-if(d < 80)
-{
-GPIO_Write(LED1.Port, LED1.Pin, 1);
+TrashDoor_Close(state, &timeSysTick);
 }
 else
 {
-GPIO_Write(LED1.Port, LED1.Pin, 0);
+TrashDoor_Open(state, &timeSysTick);
 }
+}
+
+
+void Compression_Ctrl(void)
+{
+if (trashDoorState != CLOSED && trashDoorState != CLOSING)
+{
+compressionState = DON_T_COMPRESS;
+}
+else if(compressionState != COMPRESSED)
+{
+if(trashDoorState == CLOSING)
+{
+compressionState = WAIT_COMPRESS;
 }
 else
 {
-GPIO_Write(LED1.Port, LED1.Pin, 0);
+compressionState = COMPRESSING;
+}
+}
 }
 
+void Compression_Run(void)
+{
+
+
+
+
+if (compressionState == COMPRESSING)
+{
+
+
+compressionState = COMPRESSED;
 }
 
+# 243
 }
+
+void Loop(volatile uint16_t *ptimeSysTick)
+{
+uint16_t timeSysTick = *ptimeSysTick;
+uint8_t distance = 0;
+
+TrashDoor_Ctrl(&trashDoorState, timeSysTick);
+Compression_Ctrl();
+Compression_Run();
+
+# 262
+}
+

@@ -730,143 +730,143 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"50
+"51
 [v _Motor_1 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_1
 :U ..
 :U ..
-"51
-&U _PORTC
--> -> 4 `i `uc
-..
-:U ..
 "52
 &U _PORTC
--> -> 5 `i `uc
+-> -> 4 `i `uc
 ..
 :U ..
 "53
 &U _PORTC
--> -> 6 `i `uc
+-> -> 5 `i `uc
 ..
 :U ..
 "54
 &U _PORTC
+-> -> 6 `i `uc
+..
+:U ..
+"55
+&U _PORTC
 -> -> 7 `i `uc
 ..
 ..
 ]
-"57
+"59
 [v _Motor_2 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_2
 :U ..
 :U ..
-"58
+"60
 &U _PORTD
 -> -> 4 `i `uc
 ..
 :U ..
-"59
+"61
 &U _PORTD
 -> -> 5 `i `uc
 ..
 :U ..
-"60
+"62
 &U _PORTD
 -> -> 6 `i `uc
 ..
 :U ..
-"61
+"63
 &U _PORTD
 -> -> 7 `i `uc
 ..
 ..
 ]
-"64
+"67
 [v _Motor_3 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_3
 :U ..
 :U ..
-"65
+"68
 &U _PORTD
 -> -> 1 `i `uc
 ..
 :U ..
-"66
+"69
 &U _PORTD
 -> -> 0 `i `uc
 ..
 :U ..
-"67
+"70
 &U _PORTC
 -> -> 3 `i `uc
 ..
 :U ..
-"68
+"71
 &U _PORTC
 -> -> 2 `i `uc
 ..
 ..
 ]
-"71
+"75
 [v _Motor_4 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_4
 :U ..
 :U ..
-"72
+"76
 &U _PORTC
 -> -> 1 `i `uc
 ..
 :U ..
-"73
+"77
 &U _PORTC
 -> -> 0 `i `uc
 ..
 :U ..
-"74
+"78
 &U _PORTE
 -> -> 2 `i `uc
 ..
 :U ..
-"75
+"79
 &U _PORTE
 -> -> 1 `i `uc
 ..
 ..
 ]
-"83
+"87
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"84
+"88
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"85
+"89
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"92
+"97
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"93
+"98
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"94
+"99
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"101
+"107
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -876,7 +876,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"102
+"108
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -886,7 +886,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"109
+"115
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -896,7 +896,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"110
+"116
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -1013,57 +1013,57 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _Pin `uc ~T0 @X0 1 r2 ]
 "41
 [f ]
-"43
+"42
 [e $ ! != & -> *U _GPIO_Port `i << -> 1 `i _Pin -> 0 `i 116  ]
-"44
+"43
 {
-"45
+"44
 [e ) -> -> 1 `i `uc ]
 [e $UE 115  ]
-"46
+"45
 }
 [e $U 117  ]
-"47
+"46
 [e :U 116 ]
-"48
+"47
 {
-"49
+"48
 [e ) -> -> 0 `i `uc ]
 [e $UE 115  ]
-"50
+"49
 }
 [e :U 117 ]
-"52
+"51
 [e :UE 115 ]
 }
-"54
+"53
 [v _GPIO_Toggle `(v ~T0 @X0 1 ef2`*Vuc`uc ]
-"55
+"54
 {
 [e :U _GPIO_Toggle ]
-"54
+"53
 [v _GPIO_Port `*Vuc ~T0 @X0 1 r1 ]
 [v _Pin `uc ~T0 @X0 1 r2 ]
-"55
+"54
 [f ]
-"56
+"55
 [e $ ! != -> ( _GPIO_Read (2 , _GPIO_Port _Pin `i -> -> -> 0 `i `uc `i 119  ]
-"57
+"56
 {
-"58
+"57
 [e ( _GPIO_Write (3 , , _GPIO_Port _Pin -> -> 0 `i `uc ]
-"59
+"58
 }
 [e $U 120  ]
-"60
+"59
 [e :U 119 ]
-"61
+"60
 {
-"62
+"61
 [e ( _GPIO_Write (3 , , _GPIO_Port _Pin -> -> 1 `i `uc ]
-"63
+"62
 }
 [e :U 120 ]
-"64
+"63
 [e :UE 118 ]
 }

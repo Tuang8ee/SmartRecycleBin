@@ -19,6 +19,7 @@ extern "C" {
 
     void UART_WriteChar(char data);
     void UART_Writes(const char *data, size_t len);
+    void UART_WriteStr(const char *data);
 #ifdef	__cplusplus
 }
 #endif

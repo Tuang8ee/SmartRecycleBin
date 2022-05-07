@@ -732,143 +732,143 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"50
+"51
 [v _Motor_1 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_1
 :U ..
 :U ..
-"51
-&U _PORTC
--> -> 4 `i `uc
-..
-:U ..
 "52
 &U _PORTC
--> -> 5 `i `uc
+-> -> 4 `i `uc
 ..
 :U ..
 "53
 &U _PORTC
--> -> 6 `i `uc
+-> -> 5 `i `uc
 ..
 :U ..
 "54
 &U _PORTC
+-> -> 6 `i `uc
+..
+:U ..
+"55
+&U _PORTC
 -> -> 7 `i `uc
 ..
 ..
 ]
-"57
+"59
 [v _Motor_2 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_2
 :U ..
 :U ..
-"58
+"60
 &U _PORTD
 -> -> 4 `i `uc
 ..
 :U ..
-"59
+"61
 &U _PORTD
 -> -> 5 `i `uc
 ..
 :U ..
-"60
+"62
 &U _PORTD
 -> -> 6 `i `uc
 ..
 :U ..
-"61
+"63
 &U _PORTD
 -> -> 7 `i `uc
 ..
 ..
 ]
-"64
+"67
 [v _Motor_3 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_3
 :U ..
 :U ..
-"65
+"68
 &U _PORTD
 -> -> 1 `i `uc
 ..
 :U ..
-"66
+"69
 &U _PORTD
 -> -> 0 `i `uc
 ..
 :U ..
-"67
+"70
 &U _PORTC
 -> -> 3 `i `uc
 ..
 :U ..
-"68
+"71
 &U _PORTC
 -> -> 2 `i `uc
 ..
 ..
 ]
-"71
+"75
 [v _Motor_4 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_4
 :U ..
 :U ..
-"72
+"76
 &U _PORTC
 -> -> 1 `i `uc
 ..
 :U ..
-"73
+"77
 &U _PORTC
 -> -> 0 `i `uc
 ..
 :U ..
-"74
+"78
 &U _PORTE
 -> -> 2 `i `uc
 ..
 :U ..
-"75
+"79
 &U _PORTE
 -> -> 1 `i `uc
 ..
 ..
 ]
-"83
+"87
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"84
+"88
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"85
+"89
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"92
+"97
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"93
+"98
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"94
+"99
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"101
+"107
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -878,7 +878,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"102
+"108
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -888,7 +888,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"109
+"115
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -898,7 +898,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"110
+"116
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -908,47 +908,56 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/Interrupts.h
-[v _timeSysTick `Vul ~T0 @X0 1 e ]
+"14 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/Interrupts.h
+[v _timeSysTick `Vui ~T0 @X0 1 e ]
 [i _timeSysTick
--> -> -> 0 `i `l `ul
+-> -> 0 `i `ui
 ]
-"16
+"15
 [v _timeReset_flag `ui ~T0 @X0 1 e ]
 [i _timeReset_flag
 -> -> 0 `i `ui
 ]
-[v $root$_TIM2 `(v ~T0 @X0 0 e ]
-"6 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c
-[v _TIM2 `(v ~T11 @X0 1 ef ]
-"7
+[v $root$_Interrupts_Function `(v ~T0 @X0 0 e ]
+"3 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c
+[v _Interrupts_Function `(v ~T11 @X0 1 ef ]
+"4
 {
-[e :U _TIM2 ]
+[e :U _Interrupts_Function ]
 [f ]
-"17
+"14
 [e $ ! && != & -> _PIE1 `i << -> 1 `i -> 1 `i -> 0 `i != & -> _PIR1 `i << -> 1 `i -> 1 `i -> 0 `i 102  ]
-"18
+"15
 {
-"19
+"16
 [e ++ _timeReset_flag -> -> 1 `i `ui ]
-"20
-[e =+ _timeSysTick -> -> -> 1 `i `l `ul ]
-"21
-[e = _TMR2 -> -> 225 `i `uc ]
-"22
-[e = _TMR2IF -> -> 0 `i `b ]
-"23
-}
-[e :U 102 ]
-"24
-[e $ ! < _timeReset_flag -> -> 5000 `i `ui 103  ]
-"25
+"17
+[e =+ _timeSysTick -> -> 1 `i `ui ]
+"18
+[e $ ! > _timeSysTick -> -> 30000 `i `ui 103  ]
+"19
 {
-"26
-[; <" clrwdt ;# ">
-"27
+"20
+[e = _timeSysTick -> -> 1 `i `ui ]
+"21
 }
 [e :U 103 ]
+"22
+[e = _TMR2 -> -> 221 `i `uc ]
+"23
+[e = _TMR2IF -> -> 0 `i `b ]
+"25
+}
+[e :U 102 ]
+"26
+[e $ ! < _timeReset_flag -> -> 5000 `i `ui 104  ]
+"27
+{
 "28
+[; <" clrwdt ;# ">
+"29
+}
+[e :U 104 ]
+"30
 [e :UE 101 ]
 }

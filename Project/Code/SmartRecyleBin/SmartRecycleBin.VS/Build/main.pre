@@ -2235,12 +2235,14 @@ Peripheral_Pin LED2 = {&PORTB, 2};
 Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
+
 Peripheral_Pin Motor_1[4] = {
 {&PORTC, 4},
 {&PORTC, 5},
 {&PORTC, 6},
 {&PORTC, 7}
 };
+
 
 Peripheral_Pin Motor_2[4] = {
 {&PORTD, 4},
@@ -2249,12 +2251,14 @@ Peripheral_Pin Motor_2[4] = {
 {&PORTD, 7}
 };
 
+
 Peripheral_Pin Motor_3[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
 {&PORTC, 3},
 {&PORTC, 2}
 };
+
 
 Peripheral_Pin Motor_4[4] = {
 {&PORTC, 1},
@@ -2263,51 +2267,55 @@ Peripheral_Pin Motor_4[4] = {
 {&PORTE, 1}
 };
 
-# 83
+# 87
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 92
+# 97
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 101
+# 107
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 109
+# 115
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
 # 15 ".\Peripheral_Libs/Hearder/LoopProcess.h"
-void Loop(uint32_t *timeSysTick);
+void Loop(volatile uint16_t *timeSysTick);
 
-# 15 ".\Peripheral_Libs/Hearder/Interrupts.h"
-volatile uint32_t timeSysTick = 0;
+# 14 ".\Peripheral_Libs/Hearder/Interrupts.h"
+volatile uint16_t timeSysTick = 0;
 uint16_t timeReset_flag = 0;
 
-void __interrupt(high_priority) TIM2(void);
+void __interrupt(high_priority) Interrupts_Function(void);
 
-# 3 ".\main.c"
+# 14 ".\Peripheral_Libs/Hearder/GPIO.h"
+void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State);
+unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin);
+void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin);
+void Test(void);
+
+# 4 ".\main.c"
 void main(void)
 {
-uint32_t systick_flag = 0;
 MCU_Config();
+
 while(1)
 {
 
-
-if(systick_flag == timeSysTick);
-else
-{
 Loop(&timeSysTick);
+
+if (timeReset_flag != 0)
+{
 timeReset_flag = 0;
 }
-
 
 }
 }

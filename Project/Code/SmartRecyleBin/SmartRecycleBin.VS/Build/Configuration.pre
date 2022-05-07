@@ -2235,12 +2235,14 @@ Peripheral_Pin LED2 = {&PORTB, 2};
 Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
+
 Peripheral_Pin Motor_1[4] = {
 {&PORTC, 4},
 {&PORTC, 5},
 {&PORTC, 6},
 {&PORTC, 7}
 };
+
 
 Peripheral_Pin Motor_2[4] = {
 {&PORTD, 4},
@@ -2249,12 +2251,14 @@ Peripheral_Pin Motor_2[4] = {
 {&PORTD, 7}
 };
 
+
 Peripheral_Pin Motor_3[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
 {&PORTC, 3},
 {&PORTC, 2}
 };
+
 
 Peripheral_Pin Motor_4[4] = {
 {&PORTC, 1},
@@ -2263,27 +2267,27 @@ Peripheral_Pin Motor_4[4] = {
 {&PORTE, 1}
 };
 
-# 83
+# 87
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 92
+# 97
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 101
+# 107
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 109
+# 115
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
-# 22 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h"
+# 14 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h"
 void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State);
 unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin);
@@ -2309,15 +2313,23 @@ void UART_BASE_Init(long baud);
 
 void UART_WriteChar(char data);
 void UART_Writes(const char *data, size_t len);
+void UART_WriteStr(const char *data);
 
-# 15 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
+# 8 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\ADC.h"
+void ADC_BASE_Init(void);
+
+void ADC_Interrupts_Init(void);
+
+uint16_t ADC_Read(uint8_t channel);
+
+# 16 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
 void Startup_Infor(Peripheral_Pin *GPIO, uint8_t index)
 {
 while (index--)
 {
-GPIO_Write(GPIO -> Port, GPIO -> Pin, 0);
-_delay((unsigned long)(((unsigned long)100)*(20000000/4000.0)));
 GPIO_Write(GPIO -> Port, GPIO -> Pin, 1);
+_delay((unsigned long)(((unsigned long)100)*(20000000/4000.0)));
+GPIO_Write(GPIO -> Port, GPIO -> Pin, 0);
 _delay((unsigned long)(((unsigned long)100)*(20000000/4000.0)));
 }
 }
@@ -2334,7 +2346,7 @@ ADCON1 |= (7 << 0);
 void MCU_Config(void)
 {
 
-GPIO_Write(LED2.Port, LED2.Pin, 1);
+
 
 
 Startup_Infor(&BUZZER, 5);
@@ -2347,9 +2359,12 @@ Reset_ADC_Register();
 
 
 UART_BASE_Init(9600);
+_delay((unsigned long)(((unsigned long)500)*(20000000/4000.0)));
 
 
-UART_Writes("RESET: OK\n", strlen("RESET: OK\n"));
+
+
+UART_WriteStr("RESET: OK\n");
 GPIO_Write(LED2.Port, LED2.Pin, 0);
 }
 

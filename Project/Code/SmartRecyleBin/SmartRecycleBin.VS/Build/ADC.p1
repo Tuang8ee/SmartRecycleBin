@@ -2,18 +2,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 "38 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
-"14 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h
-[v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
-[v F186 `(v ~T0 @X0 1 tf1`ul ]
+[v F184 `(v ~T0 @X0 1 tf1`ul ]
 "12 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\builtins.h
-[v __delay `JF186 ~T0 @X0 0 e ]
+[v __delay `JF184 ~T0 @X0 0 e ]
 [p i __delay ]
-"35 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\Timer.h
-[v _Timer2_Interrupt_Init `(v ~T0 @X0 0 ef ]
-"18 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\UART.h
-[v _UART_BASE_Init `(v ~T0 @X0 0 ef1`l ]
-"22
-[v _UART_WriteStr `(v ~T0 @X0 0 ef1`*Cuc ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [; <" INDF equ 00h ;# ">
 "62
@@ -918,75 +910,68 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"16 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c
-[v _Startup_Infor `(v ~T0 @X0 1 ef2`*S100`uc ]
-"17
+"5 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\ADC.c
+[v _ADC_BASE_Init `(v ~T0 @X0 1 ef ]
+"6
 {
-[e :U _Startup_Infor ]
-"16
-[v _GPIO `*S100 ~T0 @X0 1 r1 ]
-[v _index `uc ~T0 @X0 1 r2 ]
-"17
+[e :U _ADC_BASE_Init ]
 [f ]
-"18
-[e $U 102  ]
-[e :U 103 ]
-"19
-{
-"20
-[e ( _GPIO_Write (3 , , . *U _GPIO 0 . *U _GPIO 1 -> -> 1 `i `uc ]
-"21
-[e ( __delay (1 -> * -> -> -> 100 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"22
-[e ( _GPIO_Write (3 , , . *U _GPIO 0 . *U _GPIO 1 -> -> 0 `i `uc ]
-"23
-[e ( __delay (1 -> * -> -> -> 100 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"24
-}
-[e :U 102 ]
-"18
-[e $ != -> -- _index -> -> 1 `i `uc `i -> -> -> 0 `i `uc `i 103  ]
-[e :U 104 ]
-"25
+"8
+[e = _ADCON0 -> -> 0 `i `uc ]
+"9
+[e = _ADCON1 -> -> 0 `i `uc ]
+"34
+[e =| _ADCON0 -> << -> 0 `i -> 6 `i `uc ]
+"88
+[e =| _ADCON1 -> | | | << -> 1 `i -> 7 `i << -> 0 `i -> 6 `i << -> 1 `i -> 3 `i << -> 6 `i -> 0 `i `uc ]
+"89
 [e :UE 101 ]
 }
-"27
-[v _Reset_ADC_Register `(v ~T0 @X0 1 ef ]
-"28
+"91
+[v _ADC_Interrupts_Init `(v ~T0 @X0 1 ef ]
+"92
 {
-[e :U _Reset_ADC_Register ]
+[e :U _ADC_Interrupts_Init ]
 [f ]
-"30
-[e = _ADCON0 -> -> 0 `i `uc ]
-"31
+"94
+[e :UE 102 ]
+}
+"96
+[v _ADC_Read `(ui ~T0 @X0 1 ef1`uc ]
+"97
+{
+[e :U _ADC_Read ]
+"96
+[v _channel `uc ~T0 @X0 1 r1 ]
+"97
+[f ]
+"98
+[e ( _ADC_BASE_Init ..  ]
+"99
+[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"101
+[e =| _ADCON0 -> << -> _channel `i -> 3 `i `uc ]
+"102
+[e = _ADON -> -> 1 `i `b ]
+"103
+[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"108
+[e = _GODONE -> -> 1 `i `b ]
+"114
+[e $U 104  ]
+[e :U 105 ]
+[e :U 104 ]
+[e $ == -> _GODONE `i -> 1 `i 105  ]
+[e :U 106 ]
+"117
 [e = _ADCON1 -> -> 0 `i `uc ]
-"33
+"119
 [e =| _ADCON1 -> << -> 7 `i -> 0 `i `uc ]
-"34
-[e :UE 105 ]
+"120
+[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"123
+[e ) -> + << -> _ADRESH `i -> 8 `i -> _ADRESL `i `ui ]
+[e $UE 103  ]
+"124
+[e :UE 103 ]
 }
-"36
-[v _MCU_Config `(v ~T0 @X0 1 ef ]
-"37
-{
-[e :U _MCU_Config ]
-[f ]
-"42
-[e ( _Startup_Infor (2 , &U _BUZZER -> -> 5 `i `uc ]
-"45
-[e ( _Timer2_Interrupt_Init ..  ]
-"48
-[e ( _Reset_ADC_Register ..  ]
-"51
-[e ( _UART_BASE_Init (1 -> -> 9600 `i `l ]
-"52
-[e ( __delay (1 -> * -> -> -> 500 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"57
-[e ( _UART_WriteStr (1 :s 1C ]
-"58
-[e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 0 `i `uc ]
-"59
-[e :UE 106 ]
-}
-[a 1C 82 69 83 69 84 58 32 79 75 10 0 ]
-

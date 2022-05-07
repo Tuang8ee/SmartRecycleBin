@@ -2,13 +2,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 "38 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
-"22 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/GPIO.h
+"14 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/GPIO.h
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
 [v F184 `(v ~T0 @X0 1 tf1`ul ]
 "12 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\builtins.h
 [v __delay `JF184 ~T0 @X0 0 e ]
 [p i __delay ]
-"23 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/GPIO.h
+"15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/GPIO.h
 [v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [; <" INDF equ 00h ;# ">
@@ -738,143 +738,143 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"50
+"51
 [v _Motor_1 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_1
 :U ..
 :U ..
-"51
-&U _PORTC
--> -> 4 `i `uc
-..
-:U ..
 "52
 &U _PORTC
--> -> 5 `i `uc
+-> -> 4 `i `uc
 ..
 :U ..
 "53
 &U _PORTC
--> -> 6 `i `uc
+-> -> 5 `i `uc
 ..
 :U ..
 "54
 &U _PORTC
+-> -> 6 `i `uc
+..
+:U ..
+"55
+&U _PORTC
 -> -> 7 `i `uc
 ..
 ..
 ]
-"57
+"59
 [v _Motor_2 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_2
 :U ..
 :U ..
-"58
+"60
 &U _PORTD
 -> -> 4 `i `uc
 ..
 :U ..
-"59
+"61
 &U _PORTD
 -> -> 5 `i `uc
 ..
 :U ..
-"60
+"62
 &U _PORTD
 -> -> 6 `i `uc
 ..
 :U ..
-"61
+"63
 &U _PORTD
 -> -> 7 `i `uc
 ..
 ..
 ]
-"64
+"67
 [v _Motor_3 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_3
 :U ..
 :U ..
-"65
+"68
 &U _PORTD
 -> -> 1 `i `uc
 ..
 :U ..
-"66
+"69
 &U _PORTD
 -> -> 0 `i `uc
 ..
 :U ..
-"67
+"70
 &U _PORTC
 -> -> 3 `i `uc
 ..
 :U ..
-"68
+"71
 &U _PORTC
 -> -> 2 `i `uc
 ..
 ..
 ]
-"71
+"75
 [v _Motor_4 `S100 ~T0 @X0 -> 4 `i e ]
 [i _Motor_4
 :U ..
 :U ..
-"72
+"76
 &U _PORTC
 -> -> 1 `i `uc
 ..
 :U ..
-"73
+"77
 &U _PORTC
 -> -> 0 `i `uc
 ..
 :U ..
-"74
+"78
 &U _PORTE
 -> -> 2 `i `uc
 ..
 :U ..
-"75
+"79
 &U _PORTE
 -> -> 1 `i `uc
 ..
 ..
 ]
-"83
+"87
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"84
+"88
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"85
+"89
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"92
+"97
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"93
+"98
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"94
+"99
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"101
+"107
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -884,7 +884,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"102
+"108
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -894,7 +894,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"109
+"115
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -904,7 +904,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"110
+"116
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -915,13 +915,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ]
 "12 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UltraSonicSensor.c
-[v _UltraSonicSensor_Read `(uc ~T0 @X0 1 ef2`*S100`*Vul ]
+[v _UltraSonicSensor_Read `(uc ~T0 @X0 1 ef2`*S100`*Vui ]
 "13
 {
 [e :U _UltraSonicSensor_Read ]
 "12
 [v _sensor `*S100 ~T0 @X0 1 r1 ]
-[v _system_tick `*Vul ~T0 @X0 1 r2 ]
+[v _system_tick `*Vui ~T0 @X0 1 r2 ]
 "13
 [f ]
 "14
@@ -951,27 +951,41 @@ Version 3.2 HI-TECH Software Intermediate Code
 }
 [e :U 102 ]
 "24
-[e = _buff_time *U _system_tick ]
+[e = _buff_time -> *U _system_tick `ul ]
 "25
 [e $U 106  ]
 [e :U 107 ]
-[e :U 106 ]
-[e $ != -> ( _GPIO_Read (2 , . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 0 . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 1 `i -> -> -> 0 `i `uc `i 107  ]
-[e :U 108 ]
-"27
-[e = _buff_time - *U _system_tick _buff_time ]
-"29
-[e $ ! > _buff_time -> -> -> 150 `i `l `ul 109  ]
-"30
+"26
 {
-"31
-[e = _buff_time -> -> -> 0 `i `l `ul ]
-"32
+"27
+[e $ ! > - -> *U _system_tick `ul _buff_time -> -> -> 300 `i `l `ul 109  ]
+"28
+{
+"29
+[e $U 108  ]
+"30
 }
 [e :U 109 ]
-"33
+"31
+}
+[e :U 106 ]
+"25
+[e $ != -> ( _GPIO_Read (2 , . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 0 . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 1 `i -> -> -> 0 `i `uc `i 107  ]
+[e :U 108 ]
+"32
+[e = _buff_time - -> *U _system_tick `ul _buff_time ]
+"34
+[e $ ! > _buff_time -> -> -> 150 `i `l `ul 110  ]
+"35
+{
+"36
+[e = _buff_time -> -> -> 0 `i `l `ul ]
+"37
+}
+[e :U 110 ]
+"38
 [e ) -> _buff_time `uc ]
 [e $UE 101  ]
-"34
+"39
 [e :UE 101 ]
 }

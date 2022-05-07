@@ -46,6 +46,7 @@ Peripheral_Pin;
     Peripheral_Pin LED2     = {&PORTB, PIN2};
     Peripheral_Pin BUZZER   = {&PORTB, PIN1};
     Peripheral_Pin Motor_0  = {&PORTB, PIN0};
+
     /*Motor 1 for HBridge*/
     Peripheral_Pin Motor_1[4] = {
                                     {&PORTC, PIN4},
@@ -53,6 +54,7 @@ Peripheral_Pin;
                                     {&PORTC, PIN6},
                                     {&PORTC, PIN7}
                                 };
+    
     /*Motor 2 Pin for HBridge*/
     Peripheral_Pin Motor_2[4] = {
                                     {&PORTD, PIN4},
@@ -60,6 +62,7 @@ Peripheral_Pin;
                                     {&PORTD, PIN6},
                                     {&PORTD, PIN7}
                                 };
+    
     /*Motor 3 Pin for HBridge*/
     Peripheral_Pin Motor_3[4] = {
                                     {&PORTD, PIN1},
@@ -67,6 +70,7 @@ Peripheral_Pin;
                                     {&PORTC, PIN3},
                                     {&PORTC, PIN2}
                                 };
+    
     /*Motor 4 Pin for HBridge*/
     Peripheral_Pin Motor_4[4] = {
                                     {&PORTC, PIN1},
@@ -84,6 +88,7 @@ Peripheral_Pin;
                                         {&PORTB, PIN4},
                                         {&PORTB, PIN5}        
                                       };
+    
     /*
      * UltraSonic Sensor 2 PIN:
      *  + Trig PIN: PINA.2
@@ -93,6 +98,7 @@ Peripheral_Pin;
                                         {&PORTA, PIN2},
                                         {&PORTA, PIN3}        
                                       };
+    
     /*
      * IR Sensor PIN:
      *  + IR Sensor 1: PINA.0

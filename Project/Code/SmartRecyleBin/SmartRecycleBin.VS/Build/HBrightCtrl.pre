@@ -2232,12 +2232,14 @@ Peripheral_Pin LED2 = {&PORTB, 2};
 Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
+
 Peripheral_Pin Motor_1[4] = {
 {&PORTC, 4},
 {&PORTC, 5},
 {&PORTC, 6},
 {&PORTC, 7}
 };
+
 
 Peripheral_Pin Motor_2[4] = {
 {&PORTD, 4},
@@ -2246,12 +2248,14 @@ Peripheral_Pin Motor_2[4] = {
 {&PORTD, 7}
 };
 
+
 Peripheral_Pin Motor_3[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
 {&PORTC, 3},
 {&PORTC, 2}
 };
+
 
 Peripheral_Pin Motor_4[4] = {
 {&PORTC, 1},
@@ -2260,27 +2264,27 @@ Peripheral_Pin Motor_4[4] = {
 {&PORTE, 1}
 };
 
-# 83
+# 87
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 92
+# 97
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 101
+# 107
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 109
+# 115
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
-# 22 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h"
+# 14 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h"
 void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State);
 unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin);
@@ -2294,15 +2298,47 @@ void Motor_Stop(Peripheral_Pin *motor_handle);
 # 11 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
 void Motor_Stop(Peripheral_Pin *motor_handle)
 {
+if(GPIO_Read(motor_handle[2].Port, motor_handle[2].Pin) || GPIO_Read(motor_handle[0].Port, motor_handle[0].Pin))
+{
 GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 0);
 GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 0);
-_delay((unsigned long)(((unsigned long)20)*(20000000/4000.0)));
+_delay((unsigned long)(((unsigned long)10)*(20000000/4000000.0)));
 GPIO_Write(motor_handle[0].Port, motor_handle[0].Pin, 1);
 GPIO_Write(motor_handle[1].Port, motor_handle[1].Pin, 1);
-_delay((unsigned long)(((unsigned long)20)*(20000000/4000.0)));
+_delay((unsigned long)(((unsigned long)5)*(20000000/4000000.0)));
 GPIO_Write(motor_handle[0].Port, motor_handle[0].Pin, 0);
+_delay((unsigned long)(((unsigned long)1)*(20000000/4000000.0)));
+GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 1);
+_delay((unsigned long)(((unsigned long)100)*(20000000/4000000.0)));
 GPIO_Write(motor_handle[1].Port, motor_handle[1].Pin, 0);
-_delay((unsigned long)(((unsigned long)400)*(20000000/4000.0)));
+_delay((unsigned long)(((unsigned long)1)*(20000000/4000000.0)));
+GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 1);
+_delay((unsigned long)(((unsigned long)5)*(20000000/4000000.0)));
+GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 0);
+GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 0);
+
+}
+else
+{
+GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 0);
+GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 0);
+_delay((unsigned long)(((unsigned long)10)*(20000000/4000000.0)));
+GPIO_Write(motor_handle[0].Port, motor_handle[0].Pin, 1);
+GPIO_Write(motor_handle[1].Port, motor_handle[1].Pin, 1);
+_delay((unsigned long)(((unsigned long)5)*(20000000/4000000.0)));
+GPIO_Write(motor_handle[1].Port, motor_handle[1].Pin, 0);
+_delay((unsigned long)(((unsigned long)1)*(20000000/4000000.0)));
+GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 1);
+_delay((unsigned long)(((unsigned long)5)*(20000000/4000000.0)));
+GPIO_Write(motor_handle[0].Port, motor_handle[0].Pin, 0);
+_delay((unsigned long)(((unsigned long)1)*(20000000/4000000.0)));
+GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 1);
+_delay((unsigned long)(((unsigned long)5)*(20000000/4000000.0)));
+GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 0);
+GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 0);
+}
+_delay((unsigned long)(((unsigned long)15)*(20000000/4000.0)));
+
 }
 void Motor_Forward_Start(Peripheral_Pin *motor_handle)
 {
@@ -2316,6 +2352,7 @@ void Motor_Reverse_Start(Peripheral_Pin *motor_handle)
 {
 
 Motor_Stop(motor_handle);
+
 
 GPIO_Write(motor_handle[1].Port, motor_handle[1].Pin, 1);
 GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 1);
