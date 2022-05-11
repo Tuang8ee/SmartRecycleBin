@@ -2315,8 +2315,7 @@ void ADC_Interrupts_Init(void);
 
 uint16_t ADC_Read(uint8_t channel);
 
-# 10 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-uint8_t TX_Array[10] = "";
+# 11 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 typedef enum{
 CLOSED,
 CLOSING,
@@ -2328,80 +2327,83 @@ SS_OPEN,
 SS_OPENED
 }TrashDoorState;
 TrashDoorState trashDoorState = CLOSED;
-uint16_t timeBuffer = 0;
+uint32_t timeBuffer = 0;
+
+uint8_t distanceBuffer = 0;
 
 typedef enum{
-WAIT_COMPRESS,
-COMPRESSING,
+WAIT_COMPRESS = 0,
+CHECK_COMPRESS,
 COMPRESSED,
-DON_T_COMPRESS
+DON_T_COMPRESS,
+COMPRESSING
 }CompressionState;
 CompressionState compressionState = WAIT_COMPRESS;
 
 
 
-void TrashDoor_Open(TrashDoorState *state, uint16_t *timeSysTick)
+void TrashDoor_Open(TrashDoorState *state)
 {
 if(*state == SS_OPEN)
 {
-if(*timeSysTick - timeBuffer == 0)
+if(timeBuffer == 0)
 {
 
-GPIO_Write(LED2.Port, LED2.Pin, 1);
+
 GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
 
-# 48
+# 51
 }
-else if (*timeSysTick - timeBuffer > 20000)
+else if (timeBuffer > 20000)
 {
 
-# 56
+# 59
 *state = SS_OPENED;
 }
 }
 
 else if(*state == SW_OPEN)
 {
-if(*timeSysTick - timeBuffer == 0)
+if(timeBuffer == 0)
 {
 
-GPIO_Write(LED2.Port, LED2.Pin, 1);
+
 GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
 
-# 72
+# 75
 }
-else if (*timeSysTick - timeBuffer > 20000)
+else if (timeBuffer > 20000)
 {
 
-# 80
+# 83
 *state = SW_OPENED;
 }
 
 }
 }
 
-void TrashDoor_Close(TrashDoorState *state, uint16_t *timeSysTick)
+void TrashDoor_Close(TrashDoorState *state)
 {
 if(*state == WAIT_CLOSE)
 {
-if(*timeSysTick - timeBuffer > 60000)
+if(timeBuffer > 60000)
 {
 *state = CLOSING;
-timeBuffer = *timeSysTick;
+timeBuffer = 0;
 }
 }
 else if(*state == CLOSING)
 {
 
-if(*timeSysTick - timeBuffer == 0)
+if(timeBuffer == 0)
 {
 
-# 107
+# 110
 }
-else if (*timeSysTick - timeBuffer > 20000)
+else if (timeBuffer > 20000)
 {
 
-GPIO_Write(LED2.Port, LED2.Pin, 0);
+
 GPIO_Write(BUZZER.Port, BUZZER.Pin, 0);
 
 
@@ -2431,31 +2433,56 @@ adc_value = adc_value * 5 / 1024.0;
 return adc_value;
 }
 
-void TrashDoor_Ctrl(TrashDoorState* state, uint16_t timeSysTick)
+uint8_t UltraSensor_Read(volatile uint16_t *ptimeSysTick)
+{
+uint16_t distance = 0, distance_buff;
+
+uint8_t index = 0;
+for (index = 0; index <= 10; index++)
+{
+distance_buff = 2 * UltraSonicSensor_Read(UltraSonic_2, ptimeSysTick);
+if(distance_buff > 140)
+{
+return distance_buff;
+}
+else
+{
+distance += distance_buff;
+}
+}
+distance = distance / index;
+if(distance == 0)
+{
+distance = 150;
+}
+return distance;
+}
+
+void TrashDoor_Ctrl(TrashDoorState* state, volatile uint16_t *timeSysTick)
 {
 
 if(GPIO_Read(SW1.Port, SW1.Pin))
 {
 while(GPIO_Read(SW1.Port, SW1.Pin))
 {
-_delay((unsigned long)(((unsigned long)80)*(20000000/4000.0)));
+
 }
 if(*state != CLOSED && *state != WAIT_CLOSE)
 {
 *state = CLOSING;
-timeBuffer = timeSysTick;
-
+timeBuffer = 0;
+UART_WriteStr("CLOSE\n");
 }
 else
 {
 *state = SW_OPEN;
-timeBuffer = timeSysTick;
-
+timeBuffer = 0;
+UART_WriteStr("OPEN\n");
 }
 }
 
 
-if(timeSysTick % 3000 == 0)
+else if(*timeSysTick % 3000 == 0)
 {
 if (IRSensor_Read() >= 0.4)
 {
@@ -2469,7 +2496,7 @@ else
 {
 *state = SS_OPEN;
 }
-timeBuffer = timeSysTick;
+timeBuffer = 0;
 
 }
 }
@@ -2478,20 +2505,19 @@ else
 if(*state == SS_OPENED)
 {
 *state = WAIT_CLOSE;
-timeBuffer = timeSysTick;
+timeBuffer = 0;
 
 }
 }
 }
-
 
 if( *state == CLOSED || *state == CLOSING || *state == WAIT_CLOSE)
 {
-TrashDoor_Close(state, &timeSysTick);
+TrashDoor_Close(state);
 }
 else
 {
-TrashDoor_Open(state, &timeSysTick);
+TrashDoor_Open(state);
 }
 }
 
@@ -2510,36 +2536,118 @@ compressionState = WAIT_COMPRESS;
 }
 else
 {
-compressionState = COMPRESSING;
-}
-}
-}
-
-void Compression_Run(void)
+if(compressionState != CHECK_COMPRESS && compressionState != COMPRESSING)
 {
+compressionState = CHECK_COMPRESS;
+}
+}
+}
+}
 
-
-
-
-if (compressionState == COMPRESSING)
+void Compression_Run(volatile uint16_t *ptimeSysTick)
 {
+uint8_t distance = 0;
+uint8_t TX[10] = "";
+switch (compressionState)
+{
+case WAIT_COMPRESS:
+GPIO_Write(LED1.Port, LED1.Pin, 1);
+GPIO_Write(Motor_0.Port, Motor_0.Pin, 0);
+GPIO_Write(LED2.Port, LED2.Pin, 0);
+break;
+case CHECK_COMPRESS:
+GPIO_Write(LED1.Port, LED1.Pin, 0);
+GPIO_Write(Motor_0.Port, Motor_0.Pin, 0);
+GPIO_Write(LED2.Port, LED2.Pin, 0);
 
-
+distance = UltraSensor_Read(ptimeSysTick);
+if(distance >= 80)
+{
 compressionState = COMPRESSED;
+
+
+}
+else
+{
+compressionState = COMPRESSING;
+
+
+timeBuffer = 0;
+}
+break;
+case COMPRESSING:
+GPIO_Write(LED1.Port, LED1.Pin, 0);
+GPIO_Write(LED2.Port, LED2.Pin, 0);
+GPIO_Write(Motor_0.Port, Motor_0.Pin, 1);
+if(timeBuffer % 10000 == 0)
+{
+distance = UltraSensor_Read(ptimeSysTick);
+sprintf(TX, "C:%dcm\n\0", distance);
+UART_WriteStr(TX);
+if(distance - distanceBuffer >= 5)
+{
+distanceBuffer = distance;
+}
+else
+{
+
+}
+}
+if(timeBuffer <= 10)
+{
+Motor_Reverse_Start(Motor_2);
+Motor_Reverse_Start(Motor_3);
+Motor_Reverse_Start(Motor_4);
+timeBuffer = 11;
+}
+else if(timeBuffer == 30000)
+{
+
+Motor_Forward_Start(Motor_2);
+Motor_Forward_Start(Motor_3);
+Motor_Forward_Start(Motor_4);
+}
+else if(timeBuffer >= 80000)
+{
+compressionState = COMPRESSED;
+Motor_Stop(Motor_2);
+Motor_Stop(Motor_3);
+Motor_Stop(Motor_4);
+}
+break;
+case COMPRESSED:
+GPIO_Write(LED1.Port, LED1.Pin, 0);
+GPIO_Write(Motor_0.Port, Motor_0.Pin, 0);
+GPIO_Write(LED2.Port, LED2.Pin, 1);
+break;
+default:
+break;
+}
 }
 
-# 243
-}
+void TimeSysTickUpdate(volatile uint16_t *ptimeSysTick)
+{
+uint16_t timeSysTickBuffer = 0;
 
+if(timeSysTickBuffer != *ptimeSysTick)
+{
+timeSysTickBuffer = *ptimeSysTick;
+timeBuffer++;
+}
+}
 void Loop(volatile uint16_t *ptimeSysTick)
 {
-uint16_t timeSysTick = *ptimeSysTick;
-uint8_t distance = 0;
 
-TrashDoor_Ctrl(&trashDoorState, timeSysTick);
+if(compressionState != COMPRESSING && compressionState != CHECK_COMPRESS)
+{
+TrashDoor_Ctrl(&trashDoorState, ptimeSysTick);
+}
+
 Compression_Ctrl();
-Compression_Run();
+Compression_Run(ptimeSysTick);
 
-# 262
+TimeSysTickUpdate(ptimeSysTick);
+
+# 367
 }
 
