@@ -759,8 +759,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ]
 "59
-[v _Motor_2 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_2
+[v _Compress_Motor `S100 ~T0 @X0 -> 4 `i e ]
+[i _Compress_Motor
 :U ..
 :U ..
 "60
@@ -785,8 +785,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ]
 "67
-[v _Motor_3 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_3
+[v _Door_Motor `S100 ~T0 @X0 -> 4 `i e ]
+[i _Door_Motor
 :U ..
 :U ..
 "68

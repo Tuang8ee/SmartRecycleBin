@@ -5,7 +5,19 @@
 #include "..\Hearder\GPIO.h"
 #include "..\Hearder\ADC.h"
 
-#define THREDHOLD   0.4
+#define IR_VALUE_THREDHOLD          1.2
+#define DISTANCE_THREADHOLD         80
+#define DISTANCE_SPACE_TO_COMPRESS  5
+#define WAIT_DOOR_MOTOR_RUN         100
+#define CTRL_DOOR_TIME              10
+
+#define WAIT_CLOSE_TIME             60000
+#define READ_IR_SENSER_CYCLE        3000
+
+
+#define TIME_STARTUP_COMPRESS       10
+#define TIME_COMPRESS               70000
+#define TIME_UNCOMPRESS             70000
 
 // uint8_t TX_Array[10] = "";
 typedef enum{
@@ -22,7 +34,6 @@ TrashDoorState trashDoorState = CLOSED;
 uint32_t timeBuffer = 0;
 
 uint8_t distanceBuffer = 0; 
-
 typedef enum{
     WAIT_COMPRESS = 0,
     CHECK_COMPRESS,
@@ -32,27 +43,38 @@ typedef enum{
 }CompressionState;
 CompressionState compressionState = WAIT_COMPRESS;
 
+typedef enum{
+    WAIT_DISINFECTING = 0,
+    DISINFECTING, 
+    DISINFECTED
+}DisinfectionState;
+
+DisinfectionState disinfectionState = DISINFECTED;
+
 
 /* =========== Trash Functions Controler =========== */ 
 void TrashDoor_Open(TrashDoorState *state)
 {
     if(*state == SS_OPEN)
     {
-        if(timeBuffer == 0)
+        if(timeBuffer <= CTRL_DOOR_TIME)
         {
             /* ===== TO DO: Ctrl Motor Close in here ===== */
             // GPIO_Write(LED2.Port, LED2.Pin, HIGH);
             GPIO_Write(BUZZER.Port, BUZZER.Pin, HIGH);
             // UART_WriteStr("SS_OPENING...\n");
-            // Motor_RunToClose_Fn()
+            // Motor_RunToOpen_Fn()
+            Motor_Forward_Start(Door_Motor);
+            timeBuffer = CTRL_DOOR_TIME + 1;
 
             /* ===================================== */
 
         }
-        else if (timeBuffer > 20000)
+        else if (timeBuffer > WAIT_DOOR_MOTOR_RUN)
         {
             /* ====== TO DO: STOP Motor in here ====== */
             // Motor_Stop_Fn()
+            Motor_Stop(Door_Motor);
             /* ======================================= */
 
             // UART_WriteStr("SS_OPENED\n");
@@ -62,21 +84,23 @@ void TrashDoor_Open(TrashDoorState *state)
     
     else if(*state == SW_OPEN)
     {
-        if(timeBuffer == 0)
+        if(timeBuffer <= CTRL_DOOR_TIME)
         {
             /* ===== TO DO: Ctrl Motor Close in here ===== */
             // GPIO_Write(LED2.Port, LED2.Pin, HIGH);
             GPIO_Write(BUZZER.Port, BUZZER.Pin, HIGH);
             // UART_WriteStr("SW_OPENING...\n");
-            // Motor_RunToClose_Fn()
-
+            // Motor_RunToOpen_Fn()
+            Motor_Forward_Start(Door_Motor);
+            timeBuffer = CTRL_DOOR_TIME + 1;
             /* ===================================== */
 
         }
-        else if (timeBuffer > 20000)
+        else if (timeBuffer > WAIT_DOOR_MOTOR_RUN)
         {
             /* ====== TO DO: STOP Motor in here ====== */
             // Motor_Stop_Fn()
+            Motor_Stop(Door_Motor);
             /* ======================================= */
 
             // UART_WriteStr("SW_OPENED\n");
@@ -90,7 +114,7 @@ void TrashDoor_Close(TrashDoorState *state)
 {
     if(*state == WAIT_CLOSE)
     {
-        if(timeBuffer > 60000)
+        if(timeBuffer > WAIT_CLOSE_TIME)
         {
             *state = CLOSING;
             timeBuffer = 0;
@@ -99,21 +123,23 @@ void TrashDoor_Close(TrashDoorState *state)
     else if(*state == CLOSING)
     {
         
-        if(timeBuffer == 0)
+        if(timeBuffer <= CTRL_DOOR_TIME)
         {
             /* ===== TO DO: Ctrl Motor Close in here ===== */
             // UART_WriteStr("CLOSING...\n");
             // Motor_RunToClose_Fn()
-
+            Motor_Reverse_Start(Door_Motor);
+            timeBuffer = CTRL_DOOR_TIME + 1;
             /* ===================================== */
 
         }
-        else if (timeBuffer > 20000)
+        else if (timeBuffer > WAIT_DOOR_MOTOR_RUN)
         {
             /* ====== TO DO: STOP Motor in here ====== */
             // GPIO_Write(LED2.Port, LED2.Pin, LOW);
             GPIO_Write(BUZZER.Port, BUZZER.Pin, LOW);
             // Motor_Stop_Fn()
+            Motor_Stop(Door_Motor);
             /* ======================================= */
 
             // UART_WriteStr("CLOSED\n");
@@ -130,6 +156,7 @@ double IRSensor_Read(void)
     {
         adc_value += ADC_Read(0);
         if(adc_value < 100)
+
         {
             break;
         }
@@ -173,26 +200,26 @@ void TrashDoor_Ctrl(TrashDoorState* state, volatile uint16_t *timeSysTick)
     {
         while(GPIO_Read(SW1.Port, SW1.Pin))
         {
-            // delay_ms(80);
+            delay_ms(80);
         }
         if(*state != CLOSED && *state != WAIT_CLOSE)
         {
             *state = CLOSING;
             timeBuffer  = 0;
-            UART_WriteStr("CLOSE\n");
+            // UART_WriteStr("CLOSE\n");
         }
         else
         {
             *state = SW_OPEN;
             timeBuffer  = 0;
-            UART_WriteStr("OPEN\n");
+            // UART_WriteStr("OPEN\n");
         }
     }
 
     // Sensor Ctrl:
-    else if(*timeSysTick % 3000 == 0)
+    else if(*timeSysTick % READ_IR_SENSER_CYCLE == 0)
     {
-        if (IRSensor_Read() >= THREDHOLD)
+        if (IRSensor_Read() >= IR_VALUE_THREDHOLD)
         {
             if(*state != SS_OPEN && *state != SS_OPENED)
             {
@@ -260,12 +287,12 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
     {
         case WAIT_COMPRESS:
             GPIO_Write(LED1.Port, LED1.Pin, HIGH);
-            GPIO_Write(Motor_0.Port, Motor_0.Pin, LOW);
+            // GPIO_Write(Motor_0.Port, Motor_0.Pin, LOW);
             GPIO_Write(LED2.Port, LED2.Pin, LOW);
             break;
         case CHECK_COMPRESS:
             GPIO_Write(LED1.Port, LED1.Pin, LOW);
-            GPIO_Write(Motor_0.Port, Motor_0.Pin, LOW);
+            // GPIO_Write(Motor_0.Port, Motor_0.Pin, LOW);
             GPIO_Write(LED2.Port, LED2.Pin, LOW);
 
             distance = UltraSensor_Read(ptimeSysTick);
@@ -286,46 +313,59 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
         case COMPRESSING:
             GPIO_Write(LED1.Port, LED1.Pin, LOW);
             GPIO_Write(LED2.Port, LED2.Pin, LOW);
-            GPIO_Write(Motor_0.Port, Motor_0.Pin, HIGH);
+            // GPIO_Write(Motor_0.Port, Motor_0.Pin, HIGH);
             if(timeBuffer % 10000 == 0)
             {
                 distance = UltraSensor_Read(ptimeSysTick);
                 sprintf(TX, "C:%dcm\n\0", distance);
                 UART_WriteStr(TX);
-                if(distance - distanceBuffer >= 5)
-                {
-                    distanceBuffer = distance;
-                }
-                else
-                {
-                    // timeBuffer = 29999;
-                }
+                // if(timeBuffer < TIME_COMPRESS)
+                // {
+                //     if(distance - distanceBuffer >= DISTANCE_SPACE_TO_COMPRESS)
+                //     {
+                //         distanceBuffer = distance;
+                //     }
+                //     else
+                //     {
+                //         if(timeBuffer < TIME_COMPRESS)
+                //         {
+                //             timeBuffer = TIME_COMPRESS;
+                //         }
+                //     }
+                // }
+                // else if(timeBuffer < TIME_COMPRESS)
+                // {
+                //     if(distanceBuffer - distance >= DISTANCE_SPACE_TO_COMPRESS)
+                //     {
+                //         distanceBuffer = distance;
+                //     }
+                //     else
+                //     {
+                //         if(timeBuffer < TIME_COMPRESS + TIME_UNCOMPRESS)
+                //         {
+                //             timeBuffer = TIME_COMPRESS + TIME_UNCOMPRESS;
+                //         }
+                //     }
+                // }
             }
-            if(timeBuffer <= 10)
+            if(timeBuffer <= TIME_STARTUP_COMPRESS)
             {
-                Motor_Reverse_Start(Motor_2);
-                Motor_Reverse_Start(Motor_3);
-                Motor_Reverse_Start(Motor_4);
-                timeBuffer = 11;
+                Motor_Reverse_Start(Compress_Motor);
+                timeBuffer = TIME_STARTUP_COMPRESS + 1;
             }
-            else if(timeBuffer == 30000)
+            else if(timeBuffer == TIME_COMPRESS)
             {
-
-                Motor_Forward_Start(Motor_2);
-                Motor_Forward_Start(Motor_3);
-                Motor_Forward_Start(Motor_4);
+                Motor_Forward_Start(Compress_Motor);
             }
-            else if(timeBuffer >= 80000)
+            else if(timeBuffer >= TIME_COMPRESS + TIME_UNCOMPRESS)
             {
                 compressionState = COMPRESSED;
-                Motor_Stop(Motor_2);
-                Motor_Stop(Motor_3);
-                Motor_Stop(Motor_4);
+                Motor_Stop(Compress_Motor);
             }
             break;
         case COMPRESSED:
             GPIO_Write(LED1.Port, LED1.Pin, LOW);
-            GPIO_Write(Motor_0.Port, Motor_0.Pin, LOW);
+            // GPIO_Write(Motor_0.Port, Motor_0.Pin, LOW);
             GPIO_Write(LED2.Port, LED2.Pin, HIGH);
             break;
         default:
@@ -333,16 +373,58 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
     }
 }
 
+/* ================================================ */
+void Disinfection_Ctrl(void)
+{
+    if(compressionState != COMPRESSED)
+    {
+        disinfectionState = WAIT_DISINFECTING;
+    }
+    else
+    {
+        if(disinfectionState == WAIT_DISINFECTING)
+        {
+            disinfectionState = DISINFECTING;
+            timeBuffer = 0;
+        }
+    }
+}
+
+void Disionfection_Run(void)
+{
+    if(disinfectionState == DISINFECTING)
+    {
+        if(timeBuffer <= 5)
+        {
+            GPIO_Write(Motor_0.Port, Motor_0.Pin, LOW);
+            timeBuffer = 6;
+        }
+        else if (timeBuffer >= 20000)
+        {
+            GPIO_Write(Motor_0.Port, Motor_0.Pin, HIGH);
+            disinfectionState = DISINFECTED;
+        }
+        
+    }
+}
+/* ================================================ */
+uint16_t timeSysTickBuffer = 0;
 void TimeSysTickUpdate(volatile uint16_t *ptimeSysTick)
 {
-    uint16_t timeSysTickBuffer = 0;
-
+    uint8_t TX[10] = "";
     if(timeSysTickBuffer != *ptimeSysTick)
     {
         timeSysTickBuffer = *ptimeSysTick;
         timeBuffer++;
     }
+    if (*ptimeSysTick % 10000 == 0)
+    {
+        sprintf(TX, "T:%d\n\0", timeBuffer);
+        UART_WriteStr(TX);
+    }
+    
 }
+
 void Loop(volatile uint16_t *ptimeSysTick)
 {
     
@@ -353,6 +435,9 @@ void Loop(volatile uint16_t *ptimeSysTick)
 
     Compression_Ctrl();
     Compression_Run(ptimeSysTick);
+
+    Disinfection_Ctrl();
+    Disionfection_Run();
 
     TimeSysTickUpdate(ptimeSysTick);
 }

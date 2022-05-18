@@ -2241,7 +2241,7 @@ Peripheral_Pin Motor_1[4] = {
 };
 
 
-Peripheral_Pin Motor_2[4] = {
+Peripheral_Pin Compress_Motor[4] = {
 {&PORTD, 4},
 {&PORTD, 5},
 {&PORTD, 6},
@@ -2249,7 +2249,7 @@ Peripheral_Pin Motor_2[4] = {
 };
 
 
-Peripheral_Pin Motor_3[4] = {
+Peripheral_Pin Door_Motor[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
 {&PORTC, 3},
@@ -2315,7 +2315,7 @@ void ADC_Interrupts_Init(void);
 
 uint16_t ADC_Read(uint8_t channel);
 
-# 11 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+# 22 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 typedef enum{
 CLOSED,
 CLOSING,
@@ -2330,7 +2330,6 @@ TrashDoorState trashDoorState = CLOSED;
 uint32_t timeBuffer = 0;
 
 uint8_t distanceBuffer = 0;
-
 typedef enum{
 WAIT_COMPRESS = 0,
 CHECK_COMPRESS,
@@ -2340,42 +2339,67 @@ COMPRESSING
 }CompressionState;
 CompressionState compressionState = WAIT_COMPRESS;
 
+typedef enum{
+WAIT_DISINFECTING = 0,
+DISINFECTING,
+DISINFECTED
+}DisinfectionState;
+
+DisinfectionState disinfectionState = DISINFECTED;
+
 
 
 void TrashDoor_Open(TrashDoorState *state)
 {
 if(*state == SS_OPEN)
 {
-if(timeBuffer == 0)
+if(timeBuffer <= 10)
 {
 
 
 GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
 
-# 51
+
+Motor_Forward_Start(Door_Motor);
+timeBuffer = 10 + 1;
+
+
+
 }
-else if (timeBuffer > 20000)
+else if (timeBuffer > 100)
 {
 
-# 59
+
+Motor_Stop(Door_Motor);
+
+
+
 *state = SS_OPENED;
 }
 }
 
 else if(*state == SW_OPEN)
 {
-if(timeBuffer == 0)
+if(timeBuffer <= 10)
 {
 
 
 GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
 
-# 75
+
+Motor_Forward_Start(Door_Motor);
+timeBuffer = 10 + 1;
+
+
 }
-else if (timeBuffer > 20000)
+else if (timeBuffer > 100)
 {
 
-# 83
+
+Motor_Stop(Door_Motor);
+
+
+
 *state = SW_OPENED;
 }
 
@@ -2395,17 +2419,23 @@ timeBuffer = 0;
 else if(*state == CLOSING)
 {
 
-if(timeBuffer == 0)
+if(timeBuffer <= 10)
 {
 
-# 110
+
+
+Motor_Reverse_Start(Door_Motor);
+timeBuffer = 10 + 1;
+
+
 }
-else if (timeBuffer > 20000)
+else if (timeBuffer > 100)
 {
 
 
 GPIO_Write(BUZZER.Port, BUZZER.Pin, 0);
 
+Motor_Stop(Door_Motor);
 
 
 
@@ -2422,6 +2452,7 @@ for (index = 0; index <= 10; index++)
 {
 adc_value += ADC_Read(0);
 if(adc_value < 100)
+
 {
 break;
 }
@@ -2465,26 +2496,26 @@ if(GPIO_Read(SW1.Port, SW1.Pin))
 {
 while(GPIO_Read(SW1.Port, SW1.Pin))
 {
-
+_delay((unsigned long)(((unsigned long)80)*(20000000/4000.0)));
 }
 if(*state != CLOSED && *state != WAIT_CLOSE)
 {
 *state = CLOSING;
 timeBuffer = 0;
-UART_WriteStr("CLOSE\n");
+
 }
 else
 {
 *state = SW_OPEN;
 timeBuffer = 0;
-UART_WriteStr("OPEN\n");
+
 }
 }
 
 
 else if(*timeSysTick % 3000 == 0)
 {
-if (IRSensor_Read() >= 0.4)
+if (IRSensor_Read() >= 1.2)
 {
 if(*state != SS_OPEN && *state != SS_OPENED)
 {
@@ -2552,12 +2583,12 @@ switch (compressionState)
 {
 case WAIT_COMPRESS:
 GPIO_Write(LED1.Port, LED1.Pin, 1);
-GPIO_Write(Motor_0.Port, Motor_0.Pin, 0);
+
 GPIO_Write(LED2.Port, LED2.Pin, 0);
 break;
 case CHECK_COMPRESS:
 GPIO_Write(LED1.Port, LED1.Pin, 0);
-GPIO_Write(Motor_0.Port, Motor_0.Pin, 0);
+
 GPIO_Write(LED2.Port, LED2.Pin, 0);
 
 distance = UltraSensor_Read(ptimeSysTick);
@@ -2578,46 +2609,33 @@ break;
 case COMPRESSING:
 GPIO_Write(LED1.Port, LED1.Pin, 0);
 GPIO_Write(LED2.Port, LED2.Pin, 0);
-GPIO_Write(Motor_0.Port, Motor_0.Pin, 1);
+
 if(timeBuffer % 10000 == 0)
 {
 distance = UltraSensor_Read(ptimeSysTick);
 sprintf(TX, "C:%dcm\n\0", distance);
 UART_WriteStr(TX);
-if(distance - distanceBuffer >= 5)
-{
-distanceBuffer = distance;
-}
-else
-{
 
-}
+# 349
 }
 if(timeBuffer <= 10)
 {
-Motor_Reverse_Start(Motor_2);
-Motor_Reverse_Start(Motor_3);
-Motor_Reverse_Start(Motor_4);
-timeBuffer = 11;
+Motor_Reverse_Start(Compress_Motor);
+timeBuffer = 10 + 1;
 }
-else if(timeBuffer == 30000)
+else if(timeBuffer == 70000)
 {
-
-Motor_Forward_Start(Motor_2);
-Motor_Forward_Start(Motor_3);
-Motor_Forward_Start(Motor_4);
+Motor_Forward_Start(Compress_Motor);
 }
-else if(timeBuffer >= 80000)
+else if(timeBuffer >= 70000 + 70000)
 {
 compressionState = COMPRESSED;
-Motor_Stop(Motor_2);
-Motor_Stop(Motor_3);
-Motor_Stop(Motor_4);
+Motor_Stop(Compress_Motor);
 }
 break;
 case COMPRESSED:
 GPIO_Write(LED1.Port, LED1.Pin, 0);
-GPIO_Write(Motor_0.Port, Motor_0.Pin, 0);
+
 GPIO_Write(LED2.Port, LED2.Pin, 1);
 break;
 default:
@@ -2625,16 +2643,58 @@ break;
 }
 }
 
+
+void Disinfection_Ctrl(void)
+{
+if(compressionState != COMPRESSED)
+{
+disinfectionState = WAIT_DISINFECTING;
+}
+else
+{
+if(disinfectionState == WAIT_DISINFECTING)
+{
+disinfectionState = DISINFECTING;
+timeBuffer = 0;
+}
+}
+}
+
+void Disionfection_Run(void)
+{
+if(disinfectionState == DISINFECTING)
+{
+if(timeBuffer <= 5)
+{
+GPIO_Write(Motor_0.Port, Motor_0.Pin, 0);
+timeBuffer = 6;
+}
+else if (timeBuffer >= 20000)
+{
+GPIO_Write(Motor_0.Port, Motor_0.Pin, 1);
+disinfectionState = DISINFECTED;
+}
+
+}
+}
+
+uint16_t timeSysTickBuffer = 0;
 void TimeSysTickUpdate(volatile uint16_t *ptimeSysTick)
 {
-uint16_t timeSysTickBuffer = 0;
-
+uint8_t TX[10] = "";
 if(timeSysTickBuffer != *ptimeSysTick)
 {
 timeSysTickBuffer = *ptimeSysTick;
 timeBuffer++;
 }
+if (*ptimeSysTick % 10000 == 0)
+{
+sprintf(TX, "T:%d\n\0", timeBuffer);
+UART_WriteStr(TX);
 }
+
+}
+
 void Loop(volatile uint16_t *ptimeSysTick)
 {
 
@@ -2646,8 +2706,9 @@ TrashDoor_Ctrl(&trashDoorState, ptimeSysTick);
 Compression_Ctrl();
 Compression_Run(ptimeSysTick);
 
-TimeSysTickUpdate(ptimeSysTick);
+Disinfection_Ctrl();
+Disionfection_Run();
 
-# 367
+TimeSysTickUpdate(ptimeSysTick);
 }
 

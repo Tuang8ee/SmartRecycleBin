@@ -2241,7 +2241,7 @@ Peripheral_Pin Motor_1[4] = {
 };
 
 
-Peripheral_Pin Motor_2[4] = {
+Peripheral_Pin Compress_Motor[4] = {
 {&PORTD, 4},
 {&PORTD, 5},
 {&PORTD, 6},
@@ -2249,7 +2249,7 @@ Peripheral_Pin Motor_2[4] = {
 };
 
 
-Peripheral_Pin Motor_3[4] = {
+Peripheral_Pin Door_Motor[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
 {&PORTC, 3},

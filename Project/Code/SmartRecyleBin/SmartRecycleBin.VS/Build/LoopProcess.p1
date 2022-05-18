@@ -2,30 +2,37 @@ Version 3.2 HI-TECH Software Intermediate Code
 "38 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
-"21 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"32 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [c E1105 0 1 2 3 4 5 6 .. ]
 [n E1105 . CLOSED CLOSING WAIT_CLOSE SW_OPEN SW_OPENED SS_OPEN SS_OPENED  ]
-"33
+"43
 [c E1117 0 1 2 3 4 .. ]
 [n E1117 . WAIT_COMPRESS CHECK_COMPRESS COMPRESSED DON_T_COMPRESS COMPRESSING  ]
+"51
+[c E1125 0 1 2 .. ]
+[n E1125 . WAIT_DISINFECTING DISINFECTING DISINFECTED  ]
 "14 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
+"19 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\HBrightCtrl.h
+[v _Motor_Forward_Start `(v ~T0 @X0 0 ef1`*S100 ]
+"21
+[v _Motor_Stop `(v ~T0 @X0 0 ef1`*S100 ]
+"20
+[v _Motor_Reverse_Start `(v ~T0 @X0 0 ef1`*S100 ]
 "12 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\ADC.h
 [v _ADC_Read `(ui ~T0 @X0 0 ef1`uc ]
 "24 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\UltraSonicSensor.h
 [v _UltraSonicSensor_Read `(uc ~T0 @X0 0 ef2`*S100`*Vui ]
 "15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h
 [v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
-"22 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\UART.h
-[v _UART_WriteStr `(v ~T0 @X0 0 ef1`*Cuc ]
+[v F184 `(v ~T0 @X0 1 tf1`ul ]
+"12 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\builtins.h
+[v __delay `JF184 ~T0 @X0 0 e ]
+[p i __delay ]
 "194 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\c90\stdio.h
 [v _sprintf `(i ~T0 @X0 0 e1v`*uc`*Cuc ]
-"20 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\HBrightCtrl.h
-[v _Motor_Reverse_Start `(v ~T0 @X0 0 ef1`*S100 ]
-"19
-[v _Motor_Forward_Start `(v ~T0 @X0 0 ef1`*S100 ]
-"21
-[v _Motor_Stop `(v ~T0 @X0 0 ef1`*S100 ]
+"22 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\UART.h
+[v _UART_WriteStr `(v ~T0 @X0 0 ef1`*Cuc ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [; <" INDF equ 00h ;# ">
 "62
@@ -781,8 +788,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ]
 "59
-[v _Motor_2 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_2
+[v _Compress_Motor `S100 ~T0 @X0 -> 4 `i e ]
+[i _Compress_Motor
 :U ..
 :U ..
 "60
@@ -807,8 +814,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ]
 "67
-[v _Motor_3 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_3
+[v _Door_Motor `S100 ~T0 @X0 -> 4 `i e ]
+[i _Door_Motor
 :U ..
 :U ..
 "68
@@ -930,696 +937,782 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"21 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"32 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _trashDoorState `E1105 ~T0 @X0 1 e ]
 [i _trashDoorState
 . `E1105 0
 ]
-"22
+"33
 [v _timeBuffer `ul ~T0 @X0 1 e ]
 [i _timeBuffer
 -> -> -> 0 `i `l `ul
 ]
-"24
+"35
 [v _distanceBuffer `uc ~T0 @X0 1 e ]
 [i _distanceBuffer
 -> -> 0 `i `uc
 ]
-"33
+"43
 [v _compressionState `E1117 ~T0 @X0 1 e ]
 [i _compressionState
 . `E1117 0
 ]
-"37
+"51
+[v _disinfectionState `E1125 ~T0 @X0 1 e ]
+[i _disinfectionState
+. `E1125 2
+]
+"55
 [v _TrashDoor_Open `(v ~T0 @X0 1 ef1`*E1105 ]
-"38
+"56
 {
 [e :U _TrashDoor_Open ]
-"37
+"55
 [v _state `*E1105 ~T0 @X0 1 r1 ]
-"38
+"56
 [f ]
-"39
+"57
 [e $ ! == -> *U _state `i -> . `E1105 5 `i 102  ]
-"40
-{
-"41
-[e $ ! == _timeBuffer -> -> -> 0 `i `l `ul 103  ]
-"42
-{
-"45
-[e ( _GPIO_Write (3 , , . _BUZZER 0 . _BUZZER 1 -> -> 1 `i `uc ]
-"51
-}
-[e $U 104  ]
-"52
-[e :U 103 ]
-[e $ ! > _timeBuffer -> -> -> 20000 `i `l `ul 105  ]
-"53
+"58
 {
 "59
-[e = *U _state . `E1105 6 ]
+[e $ ! <= _timeBuffer -> -> -> 10 `i `l `ul 103  ]
 "60
+{
+"63
+[e ( _GPIO_Write (3 , , . _BUZZER 0 . _BUZZER 1 -> -> 1 `i `uc ]
+"66
+[e ( _Motor_Forward_Start (1 &U _Door_Motor ]
+"67
+[e = _timeBuffer -> -> + -> 10 `i -> 1 `i `l `ul ]
+"71
+}
+[e $U 104  ]
+"72
+[e :U 103 ]
+[e $ ! > _timeBuffer -> -> -> 100 `i `l `ul 105  ]
+"73
+{
+"76
+[e ( _Motor_Stop (1 &U _Door_Motor ]
+"80
+[e = *U _state . `E1105 6 ]
+"81
 }
 [e :U 105 ]
-"61
+"82
 [e :U 104 ]
 }
 [e $U 106  ]
-"63
+"84
 [e :U 102 ]
 [e $ ! == -> *U _state `i -> . `E1105 3 `i 107  ]
-"64
+"85
 {
-"65
-[e $ ! == _timeBuffer -> -> -> 0 `i `l `ul 108  ]
-"66
+"86
+[e $ ! <= _timeBuffer -> -> -> 10 `i `l `ul 108  ]
+"87
 {
-"69
+"90
 [e ( _GPIO_Write (3 , , . _BUZZER 0 . _BUZZER 1 -> -> 1 `i `uc ]
-"75
+"93
+[e ( _Motor_Forward_Start (1 &U _Door_Motor ]
+"94
+[e = _timeBuffer -> -> + -> 10 `i -> 1 `i `l `ul ]
+"97
 }
 [e $U 109  ]
-"76
+"98
 [e :U 108 ]
-[e $ ! > _timeBuffer -> -> -> 20000 `i `l `ul 110  ]
-"77
+[e $ ! > _timeBuffer -> -> -> 100 `i `l `ul 110  ]
+"99
 {
-"83
+"102
+[e ( _Motor_Stop (1 &U _Door_Motor ]
+"106
 [e = *U _state . `E1105 4 ]
-"84
+"107
 }
 [e :U 110 ]
-"86
+"109
 [e :U 109 ]
 }
 [e :U 107 ]
-"87
+"110
 [e :U 106 ]
 [e :UE 101 ]
 }
-"89
+"112
 [v _TrashDoor_Close `(v ~T0 @X0 1 ef1`*E1105 ]
-"90
+"113
 {
 [e :U _TrashDoor_Close ]
-"89
+"112
 [v _state `*E1105 ~T0 @X0 1 r1 ]
-"90
+"113
 [f ]
-"91
+"114
 [e $ ! == -> *U _state `i -> . `E1105 2 `i 112  ]
-"92
+"115
 {
-"93
+"116
 [e $ ! > _timeBuffer -> -> 60000 `l `ul 113  ]
-"94
+"117
 {
-"95
+"118
 [e = *U _state . `E1105 1 ]
-"96
+"119
 [e = _timeBuffer -> -> -> 0 `i `l `ul ]
-"97
+"120
 }
 [e :U 113 ]
-"98
-}
-[e $U 114  ]
-"99
-[e :U 112 ]
-[e $ ! == -> *U _state `i -> . `E1105 1 `i 115  ]
-"100
-{
-"102
-[e $ ! == _timeBuffer -> -> -> 0 `i `l `ul 116  ]
-"103
-{
-"110
-}
-[e $U 117  ]
-"111
-[e :U 116 ]
-[e $ ! > _timeBuffer -> -> -> 20000 `i `l `ul 118  ]
-"112
-{
-"115
-[e ( _GPIO_Write (3 , , . _BUZZER 0 . _BUZZER 1 -> -> 0 `i `uc ]
-"120
-[e = *U _state . `E1105 0 ]
 "121
 }
-[e :U 118 ]
+[e $U 114  ]
 "122
+[e :U 112 ]
+[e $ ! == -> *U _state `i -> . `E1105 1 `i 115  ]
+"123
+{
+"125
+[e $ ! <= _timeBuffer -> -> -> 10 `i `l `ul 116  ]
+"126
+{
+"130
+[e ( _Motor_Reverse_Start (1 &U _Door_Motor ]
+"131
+[e = _timeBuffer -> -> + -> 10 `i -> 1 `i `l `ul ]
+"134
+}
+[e $U 117  ]
+"135
+[e :U 116 ]
+[e $ ! > _timeBuffer -> -> -> 100 `i `l `ul 118  ]
+"136
+{
+"139
+[e ( _GPIO_Write (3 , , . _BUZZER 0 . _BUZZER 1 -> -> 0 `i `uc ]
+"141
+[e ( _Motor_Stop (1 &U _Door_Motor ]
+"145
+[e = *U _state . `E1105 0 ]
+"146
+}
+[e :U 118 ]
+"147
 [e :U 117 ]
 }
 [e :U 115 ]
-"123
+"148
 [e :U 114 ]
 [e :UE 111 ]
 }
-"125
+"150
 [v _IRSensor_Read `(d ~T0 @X0 1 ef ]
-"126
+"151
 {
 [e :U _IRSensor_Read ]
 [f ]
-"127
+"152
 [v _adc_value `d ~T0 @X0 1 a ]
 [e = _adc_value .0.0 ]
-"128
+"153
 [v _index `uc ~T0 @X0 1 a ]
 [e = _index -> -> 0 `i `uc ]
-"129
+"154
 {
 [e = _index -> -> 0 `i `uc ]
 [e $ <= -> _index `i -> 10 `i 120  ]
 [e $U 121  ]
-"130
+"155
 [e :U 120 ]
 {
-"131
+"156
 [e =+ _adc_value -> ( _ADC_Read (1 -> -> 0 `i `uc `d ]
-"132
+"157
 [e $ ! < _adc_value -> -> 100 `i `d 123  ]
-"133
+"159
 {
-"134
+"160
 [e $U 121  ]
-"135
+"161
 }
 [e :U 123 ]
-"136
+"162
 }
-"129
+"154
 [e ++ _index -> -> 1 `i `uc ]
 [e $ <= -> _index `i -> 10 `i 120  ]
 [e :U 121 ]
-"136
+"162
 }
-"137
+"163
 [e = _adc_value / _adc_value -> _index `d ]
-"140
+"166
 [e = _adc_value / * _adc_value -> -> 5 `i `d .1024.0 ]
-"141
+"167
 [e ) _adc_value ]
 [e $UE 119  ]
-"142
+"168
 [e :UE 119 ]
 }
-"144
+"170
 [v _UltraSensor_Read `(uc ~T0 @X0 1 ef1`*Vui ]
-"145
+"171
 {
 [e :U _UltraSensor_Read ]
-"144
+"170
 [v _ptimeSysTick `*Vui ~T0 @X0 1 r1 ]
-"145
+"171
 [f ]
-"146
+"172
 [v _distance `ui ~T0 @X0 1 a ]
 [e = _distance -> -> 0 `i `ui ]
 [v _distance_buff `ui ~T0 @X0 1 a ]
-"148
+"174
 [v _index `uc ~T0 @X0 1 a ]
 [e = _index -> -> 0 `i `uc ]
-"149
+"175
 {
 [e = _index -> -> 0 `i `uc ]
 [e $ <= -> _index `i -> 10 `i 125  ]
 [e $U 126  ]
-"150
+"176
 [e :U 125 ]
 {
-"151
-[e = _distance_buff -> * -> 2 `i -> ( _UltraSonicSensor_Read (2 , &U _UltraSonic_2 _ptimeSysTick `i `ui ]
-"152
-[e $ ! > _distance_buff -> -> 140 `i `ui 128  ]
-"153
-{
-"154
-[e ) -> _distance_buff `uc ]
-[e $UE 124  ]
-"155
-}
-[e $U 129  ]
-"156
-[e :U 128 ]
-"157
-{
-"158
-[e =+ _distance _distance_buff ]
-"159
-}
-[e :U 129 ]
-"160
-}
-"149
-[e ++ _index -> -> 1 `i `uc ]
-[e $ <= -> _index `i -> 10 `i 125  ]
-[e :U 126 ]
-"160
-}
-"161
-[e = _distance / _distance -> _index `ui ]
-"162
-[e $ ! == _distance -> -> 0 `i `ui 130  ]
-"163
-{
-"164
-[e = _distance -> -> 150 `i `ui ]
-"165
-}
-[e :U 130 ]
-"166
-[e ) -> _distance `uc ]
-[e $UE 124  ]
-"167
-[e :UE 124 ]
-}
-"169
-[v _TrashDoor_Ctrl `(v ~T0 @X0 1 ef2`*E1105`*Vui ]
-"170
-{
-[e :U _TrashDoor_Ctrl ]
-"169
-[v _state `*E1105 ~T0 @X0 1 r1 ]
-[v _timeSysTick `*Vui ~T0 @X0 1 r2 ]
-"170
-[f ]
-"172
-[e $ ! != -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> -> -> 0 `i `uc `i 132  ]
-"173
-{
-"174
-[e $U 133  ]
-[e :U 134 ]
-"175
-{
 "177
-}
-[e :U 133 ]
-"174
-[e $ != -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> -> -> 0 `i `uc `i 134  ]
-[e :U 135 ]
+[e = _distance_buff -> * -> 2 `i -> ( _UltraSonicSensor_Read (2 , &U _UltraSonic_2 _ptimeSysTick `i `ui ]
 "178
-[e $ ! && != -> *U _state `i -> . `E1105 0 `i != -> *U _state `i -> . `E1105 2 `i 136  ]
+[e $ ! > _distance_buff -> -> 140 `i `ui 128  ]
 "179
 {
 "180
-[e = *U _state . `E1105 1 ]
+[e ) -> _distance_buff `uc ]
+[e $UE 124  ]
 "181
-[e = _timeBuffer -> -> -> 0 `i `l `ul ]
+}
+[e $U 129  ]
 "182
-[e ( _UART_WriteStr (1 :s 1C ]
+[e :U 128 ]
 "183
-}
-[e $U 137  ]
+{
 "184
-[e :U 136 ]
+[e =+ _distance _distance_buff ]
 "185
-{
+}
+[e :U 129 ]
 "186
-[e = *U _state . `E1105 3 ]
+}
+"175
+[e ++ _index -> -> 1 `i `uc ]
+[e $ <= -> _index `i -> 10 `i 125  ]
+[e :U 126 ]
+"186
+}
 "187
-[e = _timeBuffer -> -> -> 0 `i `l `ul ]
+[e = _distance / _distance -> _index `ui ]
 "188
-[e ( _UART_WriteStr (1 :s 2C ]
+[e $ ! == _distance -> -> 0 `i `ui 130  ]
 "189
-}
-[e :U 137 ]
-"190
-}
-[e $U 138  ]
-"193
-[e :U 132 ]
-[e $ ! == % *U _timeSysTick -> -> 3000 `i `ui -> -> 0 `i `ui 139  ]
-"194
 {
+"190
+[e = _distance -> -> 150 `i `ui ]
+"191
+}
+[e :U 130 ]
+"192
+[e ) -> _distance `uc ]
+[e $UE 124  ]
+"193
+[e :UE 124 ]
+}
 "195
-[e $ ! >= ( _IRSensor_Read ..  .0.4 140  ]
+[v _TrashDoor_Ctrl `(v ~T0 @X0 1 ef2`*E1105`*Vui ]
 "196
 {
-"197
-[e $ ! && != -> *U _state `i -> . `E1105 5 `i != -> *U _state `i -> . `E1105 6 `i 141  ]
+[e :U _TrashDoor_Ctrl ]
+"195
+[v _state `*E1105 ~T0 @X0 1 r1 ]
+[v _timeSysTick `*Vui ~T0 @X0 1 r2 ]
+"196
+[f ]
 "198
-{
+[e $ ! != -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> -> -> 0 `i `uc `i 132  ]
 "199
-[e $ ! == -> *U _state `i -> . `E1105 2 `i 142  ]
+{
 "200
-{
+[e $U 133  ]
+[e :U 134 ]
 "201
-[e = *U _state . `E1105 6 ]
-"202
-}
-[e $U 143  ]
-"203
-[e :U 142 ]
-"204
 {
-"205
-[e = *U _state . `E1105 5 ]
-"206
+"202
+[e ( __delay (1 -> * -> -> -> 80 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"203
 }
-[e :U 143 ]
+[e :U 133 ]
+"200
+[e $ != -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> -> -> 0 `i `uc `i 134  ]
+[e :U 135 ]
+"204
+[e $ ! && != -> *U _state `i -> . `E1105 0 `i != -> *U _state `i -> . `E1105 2 `i 136  ]
+"205
+{
+"206
+[e = *U _state . `E1105 1 ]
 "207
 [e = _timeBuffer -> -> -> 0 `i `l `ul ]
 "209
 }
-[e :U 141 ]
+[e $U 137  ]
 "210
+[e :U 136 ]
+"211
+{
+"212
+[e = *U _state . `E1105 3 ]
+"213
+[e = _timeBuffer -> -> -> 0 `i `l `ul ]
+"215
+}
+[e :U 137 ]
+"216
+}
+[e $U 138  ]
+"219
+[e :U 132 ]
+[e $ ! == % *U _timeSysTick -> -> 3000 `i `ui -> -> 0 `i `ui 139  ]
+"220
+{
+"221
+[e $ ! >= ( _IRSensor_Read ..  .1.2 140  ]
+"222
+{
+"223
+[e $ ! && != -> *U _state `i -> . `E1105 5 `i != -> *U _state `i -> . `E1105 6 `i 141  ]
+"224
+{
+"225
+[e $ ! == -> *U _state `i -> . `E1105 2 `i 142  ]
+"226
+{
+"227
+[e = *U _state . `E1105 6 ]
+"228
+}
+[e $U 143  ]
+"229
+[e :U 142 ]
+"230
+{
+"231
+[e = *U _state . `E1105 5 ]
+"232
+}
+[e :U 143 ]
+"233
+[e = _timeBuffer -> -> -> 0 `i `l `ul ]
+"235
+}
+[e :U 141 ]
+"236
 }
 [e $U 144  ]
-"211
-[e :U 140 ]
-"212
-{
-"213
-[e $ ! == -> *U _state `i -> . `E1105 6 `i 145  ]
-"214
-{
-"215
-[e = *U _state . `E1105 2 ]
-"216
-[e = _timeBuffer -> -> -> 0 `i `l `ul ]
-"218
-}
-[e :U 145 ]
-"219
-}
-[e :U 144 ]
-"220
-}
-[e :U 139 ]
-"222
-[e :U 138 ]
-[e $ ! || || == -> *U _state `i -> . `E1105 0 `i == -> *U _state `i -> . `E1105 1 `i == -> *U _state `i -> . `E1105 2 `i 146  ]
-"223
-{
-"224
-[e ( _TrashDoor_Close (1 _state ]
-"225
-}
-[e $U 147  ]
-"226
-[e :U 146 ]
-"227
-{
-"228
-[e ( _TrashDoor_Open (1 _state ]
-"229
-}
-[e :U 147 ]
-"230
-[e :UE 131 ]
-}
-"233
-[v _Compression_Ctrl `(v ~T0 @X0 1 ef ]
-"234
-{
-[e :U _Compression_Ctrl ]
-[f ]
-"235
-[e $ ! && != -> _trashDoorState `i -> . `E1105 0 `i != -> _trashDoorState `i -> . `E1105 1 `i 149  ]
-"236
-{
 "237
-[e = _compressionState . `E1117 3 ]
+[e :U 140 ]
 "238
-}
-[e $U 150  ]
+{
 "239
-[e :U 149 ]
-[e $ ! != -> _compressionState `i -> . `E1117 2 `i 151  ]
+[e $ ! == -> *U _state `i -> . `E1105 6 `i 145  ]
 "240
 {
 "241
-[e $ ! == -> _trashDoorState `i -> . `E1105 1 `i 152  ]
+[e = *U _state . `E1105 2 ]
 "242
-{
-"243
-[e = _compressionState . `E1117 0 ]
+[e = _timeBuffer -> -> -> 0 `i `l `ul ]
 "244
 }
-[e $U 153  ]
+[e :U 145 ]
 "245
-[e :U 152 ]
-"246
-{
-"247
-[e $ ! && != -> _compressionState `i -> . `E1117 1 `i != -> _compressionState `i -> . `E1117 4 `i 154  ]
-"248
-{
-"249
-[e = _compressionState . `E1117 1 ]
-"250
 }
-[e :U 154 ]
+[e :U 144 ]
+"246
+}
+[e :U 139 ]
+"248
+[e :U 138 ]
+[e $ ! || || == -> *U _state `i -> . `E1105 0 `i == -> *U _state `i -> . `E1105 1 `i == -> *U _state `i -> . `E1105 2 `i 146  ]
+"249
+{
+"250
+[e ( _TrashDoor_Close (1 _state ]
 "251
 }
-[e :U 153 ]
+[e $U 147  ]
 "252
+[e :U 146 ]
+"253
+{
+"254
+[e ( _TrashDoor_Open (1 _state ]
+"255
+}
+[e :U 147 ]
+"256
+[e :UE 131 ]
+}
+"259
+[v _Compression_Ctrl `(v ~T0 @X0 1 ef ]
+"260
+{
+[e :U _Compression_Ctrl ]
+[f ]
+"261
+[e $ ! && != -> _trashDoorState `i -> . `E1105 0 `i != -> _trashDoorState `i -> . `E1105 1 `i 149  ]
+"262
+{
+"263
+[e = _compressionState . `E1117 3 ]
+"264
+}
+[e $U 150  ]
+"265
+[e :U 149 ]
+[e $ ! != -> _compressionState `i -> . `E1117 2 `i 151  ]
+"266
+{
+"267
+[e $ ! == -> _trashDoorState `i -> . `E1105 1 `i 152  ]
+"268
+{
+"269
+[e = _compressionState . `E1117 0 ]
+"270
+}
+[e $U 153  ]
+"271
+[e :U 152 ]
+"272
+{
+"273
+[e $ ! && != -> _compressionState `i -> . `E1117 1 `i != -> _compressionState `i -> . `E1117 4 `i 154  ]
+"274
+{
+"275
+[e = _compressionState . `E1117 1 ]
+"276
+}
+[e :U 154 ]
+"277
+}
+[e :U 153 ]
+"278
 }
 [e :U 151 ]
-"253
+"279
 [e :U 150 ]
 [e :UE 148 ]
 }
-"255
+"281
 [v _Compression_Run `(v ~T0 @X0 1 ef1`*Vui ]
-"256
+"282
 {
 [e :U _Compression_Run ]
-"255
+"281
 [v _ptimeSysTick `*Vui ~T0 @X0 1 r1 ]
-"256
+"282
 [f ]
-"257
+"283
 [v _distance `uc ~T0 @X0 1 a ]
 [e = _distance -> -> 0 `i `uc ]
-[v F1147 `uc ~T0 @X0 -> 10 `i s ]
-[i F1147
+[v F1155 `uc ~T0 @X0 -> 10 `i s ]
+[i F1155
 :U ..
 -> 0 `c
 ..
 ]
-"258
-[v _TX `uc ~T0 @X0 -> 10 `i a ]
-[e = _TX F1147 ]
-"259
-[e $U 157  ]
-"260
-{
-"261
-[e :U 158 ]
-"262
-[e ( _GPIO_Write (3 , , . _LED1 0 . _LED1 1 -> -> 1 `i `uc ]
-"263
-[e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 0 `i `uc ]
-"264
-[e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 0 `i `uc ]
-"265
-[e $U 156  ]
-"266
-[e :U 159 ]
-"267
-[e ( _GPIO_Write (3 , , . _LED1 0 . _LED1 1 -> -> 0 `i `uc ]
-"268
-[e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 0 `i `uc ]
-"269
-[e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 0 `i `uc ]
-"271
-[e = _distance ( _UltraSensor_Read (1 _ptimeSysTick ]
-"272
-[e $ ! >= -> _distance `i -> 80 `i 160  ]
-"273
-{
-"274
-[e = _compressionState . `E1117 2 ]
-"277
-}
-[e $U 161  ]
-"278
-[e :U 160 ]
-"279
-{
-"280
-[e = _compressionState . `E1117 4 ]
-"283
-[e = _timeBuffer -> -> -> 0 `i `l `ul ]
 "284
-}
-[e :U 161 ]
+[v _TX `uc ~T0 @X0 -> 10 `i a ]
+[e = _TX F1155 ]
 "285
-[e $U 156  ]
+[e $U 157  ]
 "286
-[e :U 162 ]
+{
 "287
-[e ( _GPIO_Write (3 , , . _LED1 0 . _LED1 1 -> -> 0 `i `uc ]
+[e :U 158 ]
 "288
-[e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 0 `i `uc ]
-"289
-[e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 1 `i `uc ]
+[e ( _GPIO_Write (3 , , . _LED1 0 . _LED1 1 -> -> 1 `i `uc ]
 "290
-[e $ ! == % _timeBuffer -> -> -> 10000 `i `l `ul -> -> -> 0 `i `l `ul 163  ]
+[e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 0 `i `uc ]
 "291
-{
+[e $U 156  ]
 "292
-[e = _distance ( _UltraSensor_Read (1 _ptimeSysTick ]
+[e :U 159 ]
 "293
-[e ( _sprintf (1 , (. , &U _TX :s 3C -> _distance `i ]
-"294
-[e ( _UART_WriteStr (1 -> &U _TX `*Cuc ]
+[e ( _GPIO_Write (3 , , . _LED1 0 . _LED1 1 -> -> 0 `i `uc ]
 "295
-[e $ ! >= - -> _distance `i -> _distanceBuffer `i -> 5 `i 164  ]
-"296
-{
+[e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 0 `i `uc ]
 "297
-[e = _distanceBuffer _distance ]
+[e = _distance ( _UltraSensor_Read (1 _ptimeSysTick ]
 "298
-}
-[e $U 165  ]
+[e $ ! >= -> _distance `i -> 80 `i 160  ]
 "299
-[e :U 164 ]
-"300
 {
-"302
-}
-[e :U 165 ]
+"300
+[e = _compressionState . `E1117 2 ]
 "303
 }
-[e :U 163 ]
+[e $U 161  ]
 "304
-[e $ ! <= _timeBuffer -> -> -> 10 `i `l `ul 166  ]
+[e :U 160 ]
 "305
 {
 "306
-[e ( _Motor_Reverse_Start (1 &U _Motor_2 ]
-"307
-[e ( _Motor_Reverse_Start (1 &U _Motor_3 ]
-"308
-[e ( _Motor_Reverse_Start (1 &U _Motor_4 ]
+[e = _compressionState . `E1117 4 ]
 "309
-[e = _timeBuffer -> -> -> 11 `i `l `ul ]
+[e = _timeBuffer -> -> -> 0 `i `l `ul ]
 "310
 }
-[e $U 167  ]
+[e :U 161 ]
 "311
-[e :U 166 ]
-[e $ ! == _timeBuffer -> -> -> 30000 `i `l `ul 168  ]
+[e $U 156  ]
 "312
-{
-"314
-[e ( _Motor_Forward_Start (1 &U _Motor_2 ]
-"315
-[e ( _Motor_Forward_Start (1 &U _Motor_3 ]
-"316
-[e ( _Motor_Forward_Start (1 &U _Motor_4 ]
-"317
-}
-[e $U 169  ]
-"318
-[e :U 168 ]
-[e $ ! >= _timeBuffer -> -> 80000 `l `ul 170  ]
-"319
-{
-"320
-[e = _compressionState . `E1117 2 ]
-"321
-[e ( _Motor_Stop (1 &U _Motor_2 ]
-"322
-[e ( _Motor_Stop (1 &U _Motor_3 ]
-"323
-[e ( _Motor_Stop (1 &U _Motor_4 ]
-"324
-}
-[e :U 170 ]
-"325
-[e :U 169 ]
-[e :U 167 ]
-[e $U 156  ]
-"326
-[e :U 171 ]
-"327
+[e :U 162 ]
+"313
 [e ( _GPIO_Write (3 , , . _LED1 0 . _LED1 1 -> -> 0 `i `uc ]
-"328
-[e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 0 `i `uc ]
-"329
+"314
+[e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 0 `i `uc ]
+"316
+[e $ ! == % _timeBuffer -> -> -> 10000 `i `l `ul -> -> -> 0 `i `l `ul 163  ]
+"317
+{
+"318
+[e = _distance ( _UltraSensor_Read (1 _ptimeSysTick ]
+"319
+[e ( _sprintf (1 , (. , &U _TX :s 1C -> _distance `i ]
+"320
+[e ( _UART_WriteStr (1 -> &U _TX `*Cuc ]
+"349
+}
+[e :U 163 ]
+"350
+[e $ ! <= _timeBuffer -> -> -> 10 `i `l `ul 164  ]
+"351
+{
+"352
+[e ( _Motor_Reverse_Start (1 &U _Compress_Motor ]
+"353
+[e = _timeBuffer -> -> + -> 10 `i -> 1 `i `l `ul ]
+"354
+}
+[e $U 165  ]
+"355
+[e :U 164 ]
+[e $ ! == _timeBuffer -> -> 70000 `l `ul 166  ]
+"356
+{
+"357
+[e ( _Motor_Forward_Start (1 &U _Compress_Motor ]
+"358
+}
+[e $U 167  ]
+"359
+[e :U 166 ]
+[e $ ! >= _timeBuffer -> + -> 70000 `l -> 70000 `l `ul 168  ]
+"360
+{
+"361
+[e = _compressionState . `E1117 2 ]
+"362
+[e ( _Motor_Stop (1 &U _Compress_Motor ]
+"363
+}
+[e :U 168 ]
+"364
+[e :U 167 ]
+[e :U 165 ]
+[e $U 156  ]
+"365
+[e :U 169 ]
+"366
+[e ( _GPIO_Write (3 , , . _LED1 0 . _LED1 1 -> -> 0 `i `uc ]
+"368
 [e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 1 `i `uc ]
-"330
+"369
 [e $U 156  ]
-"331
-[e :U 172 ]
-"332
+"370
+[e :U 170 ]
+"371
 [e $U 156  ]
-"333
+"372
 }
 [e $U 156  ]
-"259
+"285
 [e :U 157 ]
 [e [\ _compressionState , $ . `E1117 0 158
  , $ . `E1117 1 159
  , $ . `E1117 4 162
- , $ . `E1117 2 171
- 172 ]
-"333
+ , $ . `E1117 2 169
+ 170 ]
+"372
 [e :U 156 ]
-"334
+"373
 [e :UE 155 ]
 }
-"336
-[v _TimeSysTickUpdate `(v ~T0 @X0 1 ef1`*Vui ]
-"337
+"376
+[v _Disinfection_Ctrl `(v ~T0 @X0 1 ef ]
+"377
 {
-[e :U _TimeSysTickUpdate ]
-"336
-[v _ptimeSysTick `*Vui ~T0 @X0 1 r1 ]
-"337
+[e :U _Disinfection_Ctrl ]
 [f ]
-"338
-[v _timeSysTickBuffer `ui ~T0 @X0 1 a ]
-[e = _timeSysTickBuffer -> -> 0 `i `ui ]
-"340
-[e $ ! != _timeSysTickBuffer *U _ptimeSysTick 174  ]
-"341
+"378
+[e $ ! != -> _compressionState `i -> . `E1117 2 `i 172  ]
+"379
 {
-"342
-[e = _timeSysTickBuffer *U _ptimeSysTick ]
-"343
-[e ++ _timeBuffer -> -> -> 1 `i `l `ul ]
-"344
+"380
+[e = _disinfectionState . `E1125 0 ]
+"381
+}
+[e $U 173  ]
+"382
+[e :U 172 ]
+"383
+{
+"384
+[e $ ! == -> _disinfectionState `i -> . `E1125 0 `i 174  ]
+"385
+{
+"386
+[e = _disinfectionState . `E1125 1 ]
+"387
+[e = _timeBuffer -> -> -> 0 `i `l `ul ]
+"388
 }
 [e :U 174 ]
-"345
-[e :UE 173 ]
+"389
 }
-"346
-[v _Loop `(v ~T0 @X0 1 ef1`*Vui ]
-"347
+[e :U 173 ]
+"390
+[e :UE 171 ]
+}
+"392
+[v _Disionfection_Run `(v ~T0 @X0 1 ef ]
+"393
 {
-[e :U _Loop ]
-"346
-[v _ptimeSysTick `*Vui ~T0 @X0 1 r1 ]
-"347
+[e :U _Disionfection_Run ]
 [f ]
-"349
-[e $ ! && != -> _compressionState `i -> . `E1117 4 `i != -> _compressionState `i -> . `E1117 1 `i 176  ]
-"350
+"394
+[e $ ! == -> _disinfectionState `i -> . `E1125 1 `i 176  ]
+"395
 {
-"351
-[e ( _TrashDoor_Ctrl (2 , &U _trashDoorState _ptimeSysTick ]
-"352
+"396
+[e $ ! <= _timeBuffer -> -> -> 5 `i `l `ul 177  ]
+"397
+{
+"398
+[e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 0 `i `uc ]
+"399
+[e = _timeBuffer -> -> -> 6 `i `l `ul ]
+"400
+}
+[e $U 178  ]
+"401
+[e :U 177 ]
+[e $ ! >= _timeBuffer -> -> -> 20000 `i `l `ul 179  ]
+"402
+{
+"403
+[e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 1 `i `uc ]
+"404
+[e = _disinfectionState . `E1125 2 ]
+"405
+}
+[e :U 179 ]
+"407
+[e :U 178 ]
 }
 [e :U 176 ]
-"354
-[e ( _Compression_Ctrl ..  ]
-"355
-[e ( _Compression_Run (1 _ptimeSysTick ]
-"357
-[e ( _TimeSysTickUpdate (1 _ptimeSysTick ]
-"367
+"408
 [e :UE 175 ]
 }
+"410
+[v _timeSysTickBuffer `ui ~T0 @X0 1 e ]
+[i _timeSysTickBuffer
+-> -> 0 `i `ui
+]
+"411
+[v _TimeSysTickUpdate `(v ~T0 @X0 1 ef1`*Vui ]
+"412
+{
+[e :U _TimeSysTickUpdate ]
+"411
+[v _ptimeSysTick `*Vui ~T0 @X0 1 r1 ]
+"412
+[f ]
+[v F1164 `uc ~T0 @X0 -> 10 `i s ]
+[i F1164
+:U ..
+-> 0 `c
+..
+]
+"413
+[v _TX `uc ~T0 @X0 -> 10 `i a ]
+[e = _TX F1164 ]
+"414
+[e $ ! != _timeSysTickBuffer *U _ptimeSysTick 181  ]
+"415
+{
+"416
+[e = _timeSysTickBuffer *U _ptimeSysTick ]
+"417
+[e ++ _timeBuffer -> -> -> 1 `i `l `ul ]
+"418
+}
+[e :U 181 ]
+"419
+[e $ ! == % *U _ptimeSysTick -> -> 10000 `i `ui -> -> 0 `i `ui 182  ]
+"420
+{
+"421
+[e ( _sprintf (1 , (. , &U _TX :s 2C _timeBuffer ]
+"422
+[e ( _UART_WriteStr (1 -> &U _TX `*Cuc ]
+"423
+}
+[e :U 182 ]
+"425
+[e :UE 180 ]
+}
+"427
+[v _Loop `(v ~T0 @X0 1 ef1`*Vui ]
+"428
+{
+[e :U _Loop ]
+"427
+[v _ptimeSysTick `*Vui ~T0 @X0 1 r1 ]
+"428
+[f ]
+"430
+[e $ ! && != -> _compressionState `i -> . `E1117 4 `i != -> _compressionState `i -> . `E1117 1 `i 184  ]
+"431
+{
+"432
+[e ( _TrashDoor_Ctrl (2 , &U _trashDoorState _ptimeSysTick ]
+"433
+}
+[e :U 184 ]
+"435
+[e ( _Compression_Ctrl ..  ]
+"436
+[e ( _Compression_Run (1 _ptimeSysTick ]
+"438
+[e ( _Disinfection_Ctrl ..  ]
+"439
+[e ( _Disionfection_Run ..  ]
+"441
+[e ( _TimeSysTickUpdate (1 _ptimeSysTick ]
+"442
+[e :UE 183 ]
+}
 [p f _sprintf 8388736 ]
-[a 2C 79 80 69 78 10 0 ]
-[a 1C 67 76 79 83 69 10 0 ]
-[a 3C 67 58 37 100 99 109 10 0 0 ]
+[a 1C 67 58 37 100 99 109 10 0 0 ]
+[a 2C 84 58 37 100 10 0 0 ]

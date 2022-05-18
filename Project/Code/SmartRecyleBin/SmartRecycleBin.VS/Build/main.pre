@@ -2244,7 +2244,7 @@ Peripheral_Pin Motor_1[4] = {
 };
 
 
-Peripheral_Pin Motor_2[4] = {
+Peripheral_Pin Compress_Motor[4] = {
 {&PORTD, 4},
 {&PORTD, 5},
 {&PORTD, 6},
@@ -2252,7 +2252,7 @@ Peripheral_Pin Motor_2[4] = {
 };
 
 
-Peripheral_Pin Motor_3[4] = {
+Peripheral_Pin Door_Motor[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
 {&PORTC, 3},
@@ -2306,11 +2306,14 @@ void Test(void);
 void main(void)
 {
 MCU_Config();
+GPIO_Write(Motor_0.Port, Motor_0.Pin, 1);
 
 while(1)
 {
 
 Loop(&timeSysTick);
+
+
 
 if (timeReset_flag != 0)
 {

@@ -56,7 +56,7 @@ Peripheral_Pin;
                                 };
     
     /*Motor 2 Pin for HBridge*/
-    Peripheral_Pin Motor_2[4] = {
+    Peripheral_Pin Compress_Motor[4] = {
                                     {&PORTD, PIN4},
                                     {&PORTD, PIN5},
                                     {&PORTD, PIN6},
@@ -64,7 +64,7 @@ Peripheral_Pin;
                                 };
     
     /*Motor 3 Pin for HBridge*/
-    Peripheral_Pin Motor_3[4] = {
+    Peripheral_Pin Door_Motor[4] = {
                                     {&PORTD, PIN1},
                                     {&PORTD, PIN0},
                                     {&PORTC, PIN3},
