@@ -63,7 +63,7 @@ typedef struct
                                         0,
                                         0,
                                         HIGH,
-                                        300,
+                                        90,
                                         {&PORTD, PIN6}, //D7
                                         {&PORTD, PIN5}, //D6
                                         {&PORTD, PIN7}, //D8
@@ -74,7 +74,7 @@ typedef struct
                                     0,
                                     0,
                                     HIGH,
-                                    300,
+                                    90,
                                     {&PORTC, PIN3}, //D11
                                     {&PORTD, PIN0}, //D10
                                     {&PORTC, PIN2}, //D12
@@ -85,7 +85,7 @@ typedef struct
                                     0,
                                     0,
                                     HIGH,
-                                    300,
+                                    75,
                                     {&PORTE, PIN2}, //D15
                                     {&PORTC, PIN0}, //D14
                                     {&PORTE, PIN1}, //D16

@@ -2251,7 +2251,7 @@ StepHandle compressStepHandle = {
 0,
 0,
 1,
-300,
+90,
 {&PORTD, 6},
 {&PORTD, 5},
 {&PORTD, 7},
@@ -2262,7 +2262,7 @@ StepHandle doorStepHandle = {
 0,
 0,
 1,
-300,
+90,
 {&PORTC, 3},
 {&PORTD, 0},
 {&PORTC, 2},
@@ -2273,7 +2273,7 @@ StepHandle winchStepHandle = {
 0,
 0,
 1,
-300,
+75,
 {&PORTE, 2},
 {&PORTC, 0},
 {&PORTE, 1},
@@ -2390,5 +2390,7 @@ UART_WriteStr("RESET: OK\n");
 GPIO_Write(LED2.Port, LED2.Pin, 0);
 
 Step_Stop(&compressStepHandle);
+Step_Stop(&winchStepHandle);
+Step_Stop(&doorStepHandle);
 }
 

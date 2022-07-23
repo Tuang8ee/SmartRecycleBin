@@ -1373,8 +1373,6 @@ EECON2 equ 018Dh ;#
 	FNCALL	_main,_GPIO_Write
 	FNCALL	_main,_Loop
 	FNCALL	_main,_MCU_Config
-	FNCALL	_main,_Step_Set
-	FNCALL	_main,_Step_Stop
 	FNCALL	_MCU_Config,_GPIO_Write
 	FNCALL	_MCU_Config,_Reset_ADC_Register
 	FNCALL	_MCU_Config,_Startup_Infor
@@ -1503,8 +1501,8 @@ __pidataBANK1:
 	retlw	high highword(0)
 
 	retlw	01h
-	retlw	02Ch
-	retlw	01h
+	retlw	04Bh
+	retlw	0
 
 	retlw	low(9|((0x0)<<8))
 	retlw	02h
@@ -1524,8 +1522,8 @@ __pidataBANK1:
 	retlw	high highword(0)
 
 	retlw	01h
-	retlw	02Ch
-	retlw	01h
+	retlw	05Ah
+	retlw	0
 
 	retlw	low(7|((0x0)<<8))
 	retlw	03h
@@ -1545,8 +1543,8 @@ __pidataBANK1:
 	retlw	high highword(0)
 
 	retlw	01h
-	retlw	02Ch
-	retlw	01h
+	retlw	05Ah
+	retlw	0
 
 	retlw	low(8|((0x0)<<8))
 	retlw	06h
@@ -1925,13 +1923,13 @@ psect	cstackCOMMON,class=COMMON,space=1,noexec
 global __pcstackCOMMON
 __pcstackCOMMON:
 ?_MCU_Config:	; 1 bytes @ 0x0
-?_Step_Set:	; 1 bytes @ 0x0
-?_Step_Stop:	; 1 bytes @ 0x0
 ?_Loop:	; 1 bytes @ 0x0
 ?_Timer2_Interrupt_Init:	; 1 bytes @ 0x0
+?_Step_Stop:	; 1 bytes @ 0x0
 ?_main:	; 1 bytes @ 0x0
 ?_ADC_BASE_Init:	; 1 bytes @ 0x0
 ?_Reset_ADC_Register:	; 1 bytes @ 0x0
+?_Step_Set:	; 1 bytes @ 0x0
 ?_Step_Start:	; 1 bytes @ 0x0
 ?_Interrupts_Function:	; 1 bytes @ 0x0
 ??_Interrupts_Function:	; 1 bytes @ 0x0
@@ -2047,8 +2045,8 @@ Step_Stop@stepHandle:	; 1 bytes @ 0x8
 psect	cstackBANK0,class=BANK0,space=1,noexec
 global __pcstackBANK0
 __pcstackBANK0:
-??_Step_Set:	; 1 bytes @ 0x0
 ??_Startup_Infor:	; 1 bytes @ 0x0
+??_Step_Set:	; 1 bytes @ 0x0
 ??_Step_Start:	; 1 bytes @ 0x0
 ??___aldiv:	; 1 bytes @ 0x0
 	global	?___ftmul
@@ -2158,8 +2156,8 @@ TrashDoor_Ctrl@timeSysTick:	; 1 bytes @ 0x28
 	ds	1
 ??_TrashDoor_Ctrl:	; 1 bytes @ 0x29
 	ds	3
-	global	_TrashDoor_Ctrl$4028
-_TrashDoor_Ctrl$4028:	; 3 bytes @ 0x2C
+	global	_TrashDoor_Ctrl$4025
+_TrashDoor_Ctrl$4025:	; 3 bytes @ 0x2C
 	ds	3
 	global	TrashDoor_Ctrl@state
 TrashDoor_Ctrl@state:	; 1 bytes @ 0x2F
@@ -2195,11 +2193,11 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
 ;!		 -> PORTB(SFR0[1]), 
 ;!
-;!    Step_Stop@stepHandle.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!    Step_Set@stepHandle.Port	PTR volatile unsigned char  size(1) Largest target is 1
 ;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
 ;!		 -> PORTB(SFR0[1]), 
 ;!
-;!    Step_Set@stepHandle.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!    Step_Stop@stepHandle.Port	PTR volatile unsigned char  size(1) Largest target is 1
 ;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
 ;!		 -> PORTB(SFR0[1]), 
 ;!
@@ -2218,13 +2216,13 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!    strlen@cp	PTR const unsigned char  size(2) Largest target is 11
 ;!		 -> Compression_Run@TX(COMMON[10]), STR_1(CODE[11]), 
 ;!
-;!    S3748__prbuf$func	PTR FTN(unsigned char ,)void  size(1) Largest target is 1
+;!    S3743__prbuf$func	PTR FTN(unsigned char ,)void  size(1) Largest target is 1
 ;!		 -> Absolute function(), 
 ;!
 ;!    pb.func	PTR FTN(unsigned char ,)void  size(1) Largest target is 1
 ;!		 -> Absolute function(), 
 ;!
-;!    S3748__prbuf$ptr	PTR unsigned char  size(1) Largest target is 10
+;!    S3743__prbuf$ptr	PTR unsigned char  size(1) Largest target is 10
 ;!		 -> Compression_Run@TX(COMMON[10]), 
 ;!
 ;!    pb.ptr	PTR unsigned char  size(1) Largest target is 10
@@ -2298,7 +2296,7 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Set@stepHandle	PTR struct . size(1) Largest target is 18
-;!		 -> winchStepHandle(BANK1[15]), doorStepHandle(BANK1[15]), compressStepHandle(BANK1[15]), 
+;!		 -> doorStepHandle(BANK1[15]), compressStepHandle(BANK1[15]), 
 ;!
 ;!    Motor_Reverse_Start@motor_handle.Port	PTR volatile unsigned char  size(1) Largest target is 1
 ;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
@@ -2487,15 +2485,13 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! ---------------------------------------------------------------------------------
 ;! (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
 ;! ---------------------------------------------------------------------------------
-;! (0) _main                                                 1     1      0  137154
+;! (0) _main                                                 1     1      0  118845
 ;!                                             50 BANK0      1     1      0
 ;!                         _GPIO_Write
 ;!                               _Loop
 ;!                         _MCU_Config
-;!                           _Step_Set
-;!                          _Step_Stop
 ;! ---------------------------------------------------------------------------------
-;! (1) _MCU_Config                                           3     3      0   27153
+;! (1) _MCU_Config                                           3     3      0   27120
 ;!                                             15 BANK0      3     3      0
 ;!                         _GPIO_Write
 ;!                 _Reset_ADC_Register
@@ -2535,13 +2531,13 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! (2) _Reset_ADC_Register                                   1     1      0       0
 ;!                                              2 COMMON     1     1      0
 ;! ---------------------------------------------------------------------------------
-;! (1) _Loop                                                 2     2      0   83516
+;! (1) _Loop                                                 2     2      0   83252
 ;!                                             48 BANK0      2     2      0
 ;!                         _Step_Start
 ;!                  _TimeSysTickUpdate
 ;!                     _TrashDoor_Ctrl
 ;! ---------------------------------------------------------------------------------
-;! (2) _TrashDoor_Ctrl                                       8     7      1   73473
+;! (2) _TrashDoor_Ctrl                                       8     7      1   73209
 ;!                                             40 BANK0      8     7      1
 ;!                          _GPIO_Read
 ;!                      _IRSensor_Read
@@ -2553,31 +2549,31 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! (3) ___lwmod                                              6     2      4     287
 ;!                                              2 COMMON     6     2      4
 ;! ---------------------------------------------------------------------------------
-;! (3) _TrashDoor_Open                                       2     2      0   26642
+;! (3) _TrashDoor_Open                                       2     2      0   26510
 ;!                                              9 COMMON     1     1      0
 ;!                                              4 BANK0      1     1      0
 ;!                         _GPIO_Write
 ;!                           _Step_Set
 ;!                          _Step_Stop
 ;! ---------------------------------------------------------------------------------
-;! (3) _TrashDoor_Close                                      2     2      0   26642
+;! (3) _TrashDoor_Close                                      2     2      0   26510
 ;!                                              9 COMMON     1     1      0
 ;!                                              4 BANK0      1     1      0
 ;!                         _GPIO_Write
 ;!                           _Step_Set
 ;!                          _Step_Stop
 ;! ---------------------------------------------------------------------------------
-;! (1) _Step_Stop                                            2     2      0    8830
+;! (2) _Step_Stop                                            2     2      0    8797
 ;!                                              7 COMMON     2     2      0
 ;!                         _GPIO_Write
 ;! ---------------------------------------------------------------------------------
-;! (1) _Step_Set                                             5     5      0    9182
+;! (4) _Step_Set                                             5     5      0    9083
 ;!                                              8 COMMON     1     1      0
 ;!                                              0 BANK0      4     4      0
 ;!                         _GPIO_Write
 ;!                             ___wmul
 ;! ---------------------------------------------------------------------------------
-;! (2) ___wmul                                               6     2      4     290
+;! (5) ___wmul                                               6     2      4     290
 ;!                                              2 COMMON     6     2      4
 ;! ---------------------------------------------------------------------------------
 ;! (3) _IRSensor_Read                                        8     5      3   18027
@@ -2638,7 +2634,7 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!                          _GPIO_Read
 ;!                         _GPIO_Write
 ;! ---------------------------------------------------------------------------------
-;! (2) _GPIO_Write                                           5     3      2    8473
+;! (3) _GPIO_Write                                           5     3      2    8473
 ;!                                              2 COMMON     5     3      2
 ;! ---------------------------------------------------------------------------------
 ;! (3) _GPIO_Read                                            3     2      1     812
@@ -2713,8 +2709,6 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!     _UART_WriteStr
 ;!       _UART_WriteChar
 ;!       _strlen
-;!   _Step_Set
-;!   _Step_Stop
 ;!
 ;! _Interrupts_Function (ROOT)
 ;!
@@ -2775,8 +2769,6 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;;		_GPIO_Write
 ;;		_Loop
 ;;		_MCU_Config
-;;		_Step_Set
-;;		_Step_Stop
 ;; This function is called by:
 ;;		Startup code after reset
 ;; This function uses a non-reentrant model
@@ -2796,11 +2788,11 @@ _main:
 ; Regs used in _main: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
 	line	8
 	
-l8521:	
+l8481:	
 	fcall	_MCU_Config
 	line	9
 	
-l8523:	
+l8483:	
 	bcf	status, 5	;RP0=0, select bank0
 	movf	0+(_Motor_0)+01h,w
 	movwf	(??_main+0)+0
@@ -2810,88 +2802,16 @@ l8523:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_Motor_0),w
 	fcall	_GPIO_Write
-	line	10
+	line	28
 	
-l8525:	
-	movlw	090h
-	movwf	(_compressStepHandle)^080h
-	movlw	01h
-	movwf	((_compressStepHandle)^080h)+1
-	line	11
-	
-l8527:	
-	movlw	05Ah
-	movwf	0+(_compressStepHandle)^080h+07h
-	movlw	0
-	movwf	(0+(_compressStepHandle)^080h+07h)+1
-	line	12
-	
-l8529:	
-	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
-	fcall	_Step_Set
-	line	13
-	
-l8531:	
-	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
-	fcall	_Step_Stop
-	line	16
-	
-l8533:	
-	movlw	090h
-	movwf	(_winchStepHandle)^080h
-	movlw	01h
-	movwf	((_winchStepHandle)^080h)+1
-	line	17
-	
-l8535:	
-	movlw	04Bh
-	movwf	0+(_winchStepHandle)^080h+07h
-	movlw	0
-	movwf	(0+(_winchStepHandle)^080h+07h)+1
-	line	18
-	
-l8537:	
-	movlw	(low(_winchStepHandle|((0x0)<<8)))&0ffh
-	fcall	_Step_Set
-	line	19
-	
-l8539:	
-	movlw	(low(_winchStepHandle|((0x0)<<8)))&0ffh
-	fcall	_Step_Stop
-	line	22
-	
-l8541:	
-	movlw	090h
-	movwf	(_doorStepHandle)^080h
-	movlw	01h
-	movwf	((_doorStepHandle)^080h)+1
-	line	23
-	
-l8543:	
-	movlw	05Ah
-	movwf	0+(_doorStepHandle)^080h+07h
-	movlw	0
-	movwf	(0+(_doorStepHandle)^080h+07h)+1
-	line	24
-	
-l8545:	
-	movlw	(low(_doorStepHandle|((0x0)<<8)))&0ffh
-	fcall	_Step_Set
-	line	25
-	
-l8547:	
-	movlw	(low(_doorStepHandle|((0x0)<<8)))&0ffh
-	fcall	_Step_Stop
-	line	31
-	
-l8549:	
+l8485:	
 	movlw	(low(_timeSysTick|((0x00)<<8)))&0ffh
 	fcall	_Loop
-	goto	l8549
+	goto	l8485
 	global	start
 	ljmp	start
 	callstack 0
-	line	91
+	line	88
 GLOBAL	__end_of_main
 	__end_of_main:
 	signat	_main,89
@@ -2947,7 +2867,7 @@ _MCU_Config:
 ; Regs used in _MCU_Config: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
 	line	43
 	
-l8503:	
+l8459:	
 	movlw	low(05h)
 	movwf	(??_MCU_Config+0)+0
 	movf	(??_MCU_Config+0)+0,w
@@ -2956,15 +2876,15 @@ l8503:
 	fcall	_Startup_Infor
 	line	46
 	
-l8505:	
+l8461:	
 	fcall	_Timer2_Interrupt_Init
 	line	49
 	
-l8507:	
+l8463:	
 	fcall	_Reset_ADC_Register
 	line	52
 	
-l8509:	
+l8465:	
 	movlw	0
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(UART_BASE_Init@baud+3)
@@ -2978,7 +2898,7 @@ l8509:
 	fcall	_UART_BASE_Init
 	line	53
 	
-l8511:	
+l8467:	
 	asmopt push
 asmopt off
 movlw  13
@@ -3001,7 +2921,7 @@ asmopt pop
 
 	line	58
 	
-l8513:	
+l8469:	
 	movlw	(low((((STR_1)-__stringbase)|8000h)))&0ffh
 	movwf	(UART_WriteStr@data)
 	movlw	80h
@@ -3009,7 +2929,7 @@ l8513:
 	fcall	_UART_WriteStr
 	line	59
 	
-l8515:	
+l8471:	
 	movf	0+(_LED2)+01h,w
 	movwf	(??_MCU_Config+0)+0
 	movf	(??_MCU_Config+0)+0,w
@@ -3019,12 +2939,22 @@ l8515:
 	fcall	_GPIO_Write
 	line	61
 	
-l8517:	
+l8473:	
 	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Stop
 	line	62
 	
-l1806:	
+l8475:	
+	movlw	(low(_winchStepHandle|((0x0)<<8)))&0ffh
+	fcall	_Step_Stop
+	line	63
+	
+l8477:	
+	movlw	(low(_doorStepHandle|((0x0)<<8)))&0ffh
+	fcall	_Step_Stop
+	line	64
+	
+l1802:	
 	return
 	callstack 0
 GLOBAL	__end_of_MCU_Config
@@ -3079,10 +3009,10 @@ _UART_WriteStr:
 ; Regs used in _UART_WriteStr: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
 	line	39
 	
-l7911:	
+l7887:	
 	line	40
 	
-l7913:	
+l7889:	
 		movf	(UART_WriteStr@data),w
 	movwf	(strlen@s)
 movf	(UART_WriteStr@data+1),w
@@ -3095,12 +3025,12 @@ movwf	(strlen@s+1)
 	movwf	(UART_WriteStr@len)
 	line	41
 	
-l7915:	
+l7891:	
 	clrf	(UART_WriteStr@i)
-	goto	l7921
+	goto	l7897
 	line	43
 	
-l7917:	
+l7893:	
 	movf	(UART_WriteStr@i),w
 	addwf	(UART_WriteStr@data),w
 	movwf	fsr0
@@ -3112,14 +3042,14 @@ l7917:
 	fcall	_UART_WriteChar
 	line	41
 	
-l7919:	
+l7895:	
 	movlw	low(01h)
 	movwf	(??_UART_WriteStr+0)+0
 	movf	(??_UART_WriteStr+0)+0,w
 	bcf	status, 5	;RP0=0, select bank0
 	addwf	(UART_WriteStr@i),f
 	
-l7921:	
+l7897:	
 	movf	(UART_WriteStr@i),w
 	movwf	(??_UART_WriteStr+0)+0
 	clrf	(??_UART_WriteStr+0)+0+1
@@ -3134,11 +3064,11 @@ u2445:
 	goto	u2441
 	goto	u2440
 u2441:
-	goto	l7917
+	goto	l7893
 u2440:
 	line	45
 	
-l5581:	
+l5577:	
 	return
 	callstack 0
 GLOBAL	__end_of_UART_WriteStr
@@ -3192,17 +3122,17 @@ _strlen:
 ; Regs used in _strlen: [wreg-fsr0h+status,2+status,0+btemp+1+pclath]
 	line	8
 	
-l7807:	
+l7783:	
 		movf	(strlen@s),w
 	movwf	(strlen@cp)
 movf	(strlen@s+1),w
 movwf	(strlen@cp+1)
 
 	line	9
-	goto	l7811
+	goto	l7787
 	line	10
 	
-l7809:	
+l7785:	
 	movlw	01h
 	addwf	(strlen@cp),f
 	skipnc
@@ -3211,7 +3141,7 @@ l7809:
 	addwf	(strlen@cp+1),f
 	line	9
 	
-l7811:	
+l7787:	
 	movf	(strlen@cp+1),w
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
@@ -3224,11 +3154,11 @@ l7811:
 	goto	u2251
 	goto	u2250
 u2251:
-	goto	l7809
+	goto	l7785
 u2250:
 	line	12
 	
-l7813:	
+l7789:	
 	movf	(strlen@s),w
 	subwf	(strlen@cp),w
 	movwf	(?_strlen)
@@ -3239,7 +3169,7 @@ l7813:
 	movwf	1+(?_strlen)
 	line	13
 	
-l6703:	
+l6699:	
 	return
 	callstack 0
 GLOBAL	__end_of_strlen
@@ -3292,35 +3222,35 @@ _UART_WriteChar:
 	movwf	(UART_WriteChar@data)
 	line	23
 	
-l7805:	
+l7781:	
 	movf	(UART_WriteChar@data),w
 	movwf	(25)	;volatile
 	line	24
 	
-l5563:	
+l5559:	
 	btfss	(100/8),(100)&7	;volatile
 	goto	u2231
 	goto	u2230
 u2231:
-	goto	l5563
+	goto	l5559
 u2230:
 	
-l5565:	
+l5561:	
 	line	25
 	bcf	(100/8),(100)&7	;volatile
 	line	26
 	
-l5566:	
+l5562:	
 	bsf	status, 5	;RP0=1, select bank1
 	btfss	(1217/8)^080h,(1217)&7	;volatile
 	goto	u2241
 	goto	u2240
 u2241:
-	goto	l5566
+	goto	l5562
 u2240:
 	line	27
 	
-l5569:	
+l5565:	
 	return
 	callstack 0
 GLOBAL	__end_of_UART_WriteChar
@@ -3371,7 +3301,7 @@ _UART_BASE_Init:
 ; Regs used in _UART_BASE_Init: [wreg+status,2+status,0+pclath+cstack]
 	line	15
 	
-l8439:	
+l8395:	
 	movlw	low(080h)
 	bsf	status, 5	;RP0=1, select bank1
 	movwf	(135)^080h	;volatile
@@ -3384,7 +3314,7 @@ l8439:
 	movwf	(24)	;volatile
 	line	18
 	
-l8441:	
+l8397:	
 	movf	(UART_BASE_Init@baud),w
 	movwf	(??_UART_BASE_Init+0)+0
 	movf	(UART_BASE_Init@baud+1),w
@@ -3429,7 +3359,7 @@ u3580:
 	movwf	(153)^080h	;volatile
 	line	19
 	
-l5560:	
+l5556:	
 	return
 	callstack 0
 GLOBAL	__end_of_UART_BASE_Init
@@ -3484,20 +3414,20 @@ ___aldiv:
 ; Regs used in ___aldiv: [wreg+status,2+status,0]
 	line	13
 	
-l8389:	
+l8345:	
 	clrf	(___aldiv@sign)
 	line	14
 	
-l8391:	
+l8347:	
 	btfss	(___aldiv@divisor+3),7
 	goto	u3471
 	goto	u3470
 u3471:
-	goto	l6338
+	goto	l6334
 u3470:
 	line	15
 	
-l8393:	
+l8349:	
 	comf	(___aldiv@divisor),f
 	comf	(___aldiv@divisor+1),f
 	comf	(___aldiv@divisor+2),f
@@ -3514,17 +3444,17 @@ l8393:
 	incf	(___aldiv@sign),f
 	line	17
 	
-l6338:	
+l6334:	
 	line	18
 	btfss	(___aldiv@dividend+3),7
 	goto	u3481
 	goto	u3480
 u3481:
-	goto	l8399
+	goto	l8355
 u3480:
 	line	19
 	
-l8395:	
+l8351:	
 	comf	(___aldiv@dividend),f
 	comf	(___aldiv@dividend+1),f
 	comf	(___aldiv@dividend+2),f
@@ -3538,14 +3468,14 @@ l8395:
 	incf	(___aldiv@dividend+3),f
 	line	20
 	
-l8397:	
+l8353:	
 	movlw	low(01h)
 	movwf	(??___aldiv+0)+0
 	movf	(??___aldiv+0)+0,w
 	xorwf	(___aldiv@sign),f
 	line	22
 	
-l8399:	
+l8355:	
 	movlw	high highword(0)
 	movwf	(___aldiv@quotient+3)
 	movlw	low highword(0)
@@ -3557,7 +3487,7 @@ l8399:
 
 	line	23
 	
-l8401:	
+l8357:	
 	movf	(___aldiv@divisor+3),w
 	iorwf	(___aldiv@divisor+2),w
 	iorwf	(___aldiv@divisor+1),w
@@ -3566,18 +3496,18 @@ l8401:
 	goto	u3491
 	goto	u3490
 u3491:
-	goto	l8421
+	goto	l8377
 u3490:
 	line	24
 	
-l8403:	
+l8359:	
 	clrf	(___aldiv@counter)
 	incf	(___aldiv@counter),f
 	line	25
-	goto	l8407
+	goto	l8363
 	line	26
 	
-l8405:	
+l8361:	
 	movlw	01h
 	movwf	(??___aldiv+0)+0
 u3505:
@@ -3595,16 +3525,16 @@ u3505:
 	addwf	(___aldiv@counter),f
 	line	25
 	
-l8407:	
+l8363:	
 	btfss	(___aldiv@divisor+3),(31)&7
 	goto	u3511
 	goto	u3510
 u3511:
-	goto	l8405
+	goto	l8361
 u3510:
 	line	30
 	
-l8409:	
+l8365:	
 	movlw	01h
 	movwf	(??___aldiv+0)+0
 u3525:
@@ -3617,7 +3547,7 @@ u3525:
 	goto	u3525
 	line	31
 	
-l8411:	
+l8367:	
 	movf	(___aldiv@divisor+3),w
 	subwf	(___aldiv@dividend+3),w
 	skipz
@@ -3637,11 +3567,11 @@ u3535:
 	goto	u3531
 	goto	u3530
 u3531:
-	goto	l8417
+	goto	l8373
 u3530:
 	line	32
 	
-l8413:	
+l8369:	
 	movf	(___aldiv@divisor),w
 	subwf	(___aldiv@dividend),f
 	movf	(___aldiv@divisor+1),w
@@ -3658,11 +3588,11 @@ l8413:
 	subwf	(___aldiv@dividend+3),f
 	line	33
 	
-l8415:	
+l8371:	
 	bsf	(___aldiv@quotient)+(0/8),(0)&7
 	line	35
 	
-l8417:	
+l8373:	
 	movlw	01h
 u3545:
 	clrc
@@ -3676,28 +3606,28 @@ u3545:
 
 	line	36
 	
-l8419:	
+l8375:	
 	movlw	01h
 	subwf	(___aldiv@counter),f
 	btfss	status,2
 	goto	u3551
 	goto	u3550
 u3551:
-	goto	l8409
+	goto	l8365
 u3550:
 	line	38
 	
-l8421:	
+l8377:	
 	movf	((___aldiv@sign)),w
 	btfsc	status,2
 	goto	u3561
 	goto	u3560
 u3561:
-	goto	l8425
+	goto	l8381
 u3560:
 	line	39
 	
-l8423:	
+l8379:	
 	comf	(___aldiv@quotient),f
 	comf	(___aldiv@quotient+1),f
 	comf	(___aldiv@quotient+2),f
@@ -3711,7 +3641,7 @@ l8423:
 	incf	(___aldiv@quotient+3),f
 	line	40
 	
-l8425:	
+l8381:	
 	movf	(___aldiv@quotient+3),w
 	movwf	(?___aldiv+3)
 	movf	(___aldiv@quotient+2),w
@@ -3723,7 +3653,7 @@ l8425:
 
 	line	41
 	
-l6348:	
+l6344:	
 	return
 	callstack 0
 GLOBAL	__end_of___aldiv
@@ -3775,39 +3705,39 @@ _Timer2_Interrupt_Init:
 ; Regs used in _Timer2_Interrupt_Init: [status,2]
 	line	222
 	
-l7893:	
+l7869:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	clrf	(18)	;volatile
 	line	228
 	
-l7895:	
+l7871:	
 	bsf	(146/8),(146)&7	;volatile
 	line	235
 	
-l7897:	
+l7873:	
 	bsf	(145/8),(145)&7	;volatile
 	line	243
 	
-l7899:	
+l7875:	
 	bsf	(11)+(7/8),(7)&7	;volatile
 	line	249
 	
-l7901:	
+l7877:	
 	bsf	(11)+(6/8),(6)&7	;volatile
 	line	255
 	
-l7903:	
+l7879:	
 	bsf	status, 5	;RP0=1, select bank1
 	bsf	(1121/8)^080h,(1121)&7	;volatile
 	line	261
 	
-l7905:	
+l7881:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	(97/8),(97)&7	;volatile
 	line	262
 	
-l4946:	
+l4942:	
 	return
 	callstack 0
 GLOBAL	__end_of_Timer2_Interrupt_Init
@@ -3863,11 +3793,11 @@ _Startup_Infor:
 	movwf	(Startup_Infor@GPIO)
 	line	19
 	
-l8429:	
-	goto	l8437
+l8385:	
+	goto	l8393
 	line	21
 	
-l8431:	
+l8387:	
 	incf	(Startup_Infor@GPIO),w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
@@ -3885,7 +3815,7 @@ l8431:
 	fcall	_GPIO_Write
 	line	22
 	
-l8433:	
+l8389:	
 	asmopt push
 asmopt off
 movlw  3
@@ -3907,7 +3837,7 @@ asmopt pop
 
 	line	23
 	
-l8435:	
+l8391:	
 	incf	(Startup_Infor@GPIO),w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
@@ -3944,7 +3874,7 @@ asmopt pop
 
 	line	19
 	
-l8437:	
+l8393:	
 	movlw	01h
 	subwf	(Startup_Infor@index),f
 		incf	(((Startup_Infor@index))),w
@@ -3952,11 +3882,11 @@ l8437:
 	goto	u3571
 	goto	u3570
 u3571:
-	goto	l8431
+	goto	l8387
 u3570:
 	line	26
 	
-l1800:	
+l1796:	
 	return
 	callstack 0
 GLOBAL	__end_of_Startup_Infor
@@ -4007,21 +3937,21 @@ _Reset_ADC_Register:
 ; Regs used in _Reset_ADC_Register: [wreg+status,2+status,0]
 	line	31
 	
-l7889:	
+l7865:	
 	clrf	(31)	;volatile
 	line	32
 	bsf	status, 5	;RP0=1, select bank1
 	clrf	(159)^080h	;volatile
 	line	34
 	
-l7891:	
+l7867:	
 	movlw	low(07h)
 	movwf	(??_Reset_ADC_Register+0)+0
 	movf	(??_Reset_ADC_Register+0)+0,w
 	iorwf	(159)^080h,f	;volatile
 	line	35
 	
-l1803:	
+l1799:	
 	return
 	callstack 0
 GLOBAL	__end_of_Reset_ADC_Register
@@ -4079,7 +4009,7 @@ _Loop:
 	movwf	(Loop@ptimeSysTick)
 	line	518
 	
-l8519:	
+l8479:	
 	movf	(Loop@ptimeSysTick),w
 	movwf	(??_Loop+0)+0
 	movf	(??_Loop+0)+0,w
@@ -4088,7 +4018,7 @@ l8519:
 	fcall	_TrashDoor_Ctrl
 	line	519
 	
-l4346:	
+l4342:	
 	line	528
 	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Start
@@ -4102,7 +4032,7 @@ l4346:
 	fcall	_TimeSysTickUpdate
 	line	532
 	
-l4347:	
+l4343:	
 	return
 	callstack 0
 GLOBAL	__end_of_Loop
@@ -4163,7 +4093,7 @@ _TrashDoor_Ctrl:
 	movwf	(TrashDoor_Ctrl@state)
 	line	241
 	
-l8451:	
+l8407:	
 	movf	0+(_SW1)+01h,w
 	movwf	(??_TrashDoor_Ctrl+0)+0
 	movf	(??_TrashDoor_Ctrl+0)+0,w
@@ -4175,12 +4105,12 @@ l8451:
 	goto	u3611
 	goto	u3610
 u3611:
-	goto	l8471
+	goto	l8427
 u3610:
-	goto	l8457
+	goto	l8413
 	line	245
 	
-l8455:	
+l8411:	
 	asmopt push
 asmopt off
 movlw  3
@@ -4203,7 +4133,7 @@ asmopt pop
 
 	line	243
 	
-l8457:	
+l8413:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	0+(_SW1)+01h,w
@@ -4217,11 +4147,11 @@ l8457:
 	goto	u3621
 	goto	u3620
 u3621:
-	goto	l8455
+	goto	l8411
 u3620:
 	line	247
 	
-l8459:	
+l8415:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	movf	(indf),w
@@ -4229,10 +4159,10 @@ l8459:
 	goto	u3631
 	goto	u3630
 u3631:
-	goto	l8467
+	goto	l8423
 u3630:
 	
-l8461:	
+l8417:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	2
@@ -4241,18 +4171,18 @@ l8461:
 	goto	u3641
 	goto	u3640
 u3641:
-	goto	l8467
+	goto	l8423
 u3640:
 	line	249
 	
-l8463:	
+l8419:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	clrf	indf
 	incf	indf,f
 	line	250
 	
-l8465:	
+l8421:	
 	movlw	high highword(0)
 	movwf	(_timeBuffer+3)
 	movlw	low highword(0)
@@ -4263,20 +4193,20 @@ l8465:
 	movwf	(_timeBuffer)
 
 	line	252
-	goto	l8493
+	goto	l8449
 	line	255
 	
-l8467:	
+l8423:	
 	movlw	low(03h)
 	movwf	(??_TrashDoor_Ctrl+0)+0
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	movf	(??_TrashDoor_Ctrl+0)+0,w
 	movwf	indf
-	goto	l8465
+	goto	l8421
 	line	262
 	
-l8471:	
+l8427:	
 	movlw	0B8h
 	movwf	(___lwmod@divisor)
 	movlw	0Bh
@@ -4295,23 +4225,23 @@ iorwf	((1+(?___lwmod))),w
 	goto	u3651
 	goto	u3650
 u3651:
-	goto	l8493
+	goto	l8449
 u3650:
 	line	264
 	
-l8473:	
+l8429:	
 	fcall	_IRSensor_Read
 	movf	(0+(?_IRSensor_Read)),w
-	movwf	(_TrashDoor_Ctrl$4028)
+	movwf	(_TrashDoor_Ctrl$4025)
 	movf	(1+(?_IRSensor_Read)),w
-	movwf	(_TrashDoor_Ctrl$4028+1)
+	movwf	(_TrashDoor_Ctrl$4025+1)
 	movf	(2+(?_IRSensor_Read)),w
-	movwf	(_TrashDoor_Ctrl$4028+2)
-	movf	(_TrashDoor_Ctrl$4028),w
+	movwf	(_TrashDoor_Ctrl$4025+2)
+	movf	(_TrashDoor_Ctrl$4025),w
 	movwf	(___ftge@ff1)
-	movf	(_TrashDoor_Ctrl$4028+1),w
+	movf	(_TrashDoor_Ctrl$4025+1),w
 	movwf	(___ftge@ff1+1)
-	movf	(_TrashDoor_Ctrl$4028+2),w
+	movf	(_TrashDoor_Ctrl$4025+2),w
 	movwf	(___ftge@ff1+2)
 	movlw	0x9a
 	movwf	(___ftge@ff2)
@@ -4324,11 +4254,11 @@ l8473:
 	goto	u3661
 	goto	u3660
 u3661:
-	goto	l8487
+	goto	l8443
 u3660:
 	line	266
 	
-l8475:	
+l8431:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	5
@@ -4338,10 +4268,10 @@ l8475:
 	goto	u3671
 	goto	u3670
 u3671:
-	goto	l8493
+	goto	l8449
 u3670:
 	
-l8477:	
+l8433:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	6
@@ -4350,11 +4280,11 @@ l8477:
 	goto	u3681
 	goto	u3680
 u3681:
-	goto	l8493
+	goto	l8449
 u3680:
 	line	268
 	
-l8479:	
+l8435:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	2
@@ -4363,11 +4293,11 @@ l8479:
 	goto	u3691
 	goto	u3690
 u3691:
-	goto	l8483
+	goto	l8439
 u3690:
 	line	270
 	
-l8481:	
+l8437:	
 	movlw	low(06h)
 	movwf	(??_TrashDoor_Ctrl+0)+0
 	movf	(TrashDoor_Ctrl@state),w
@@ -4375,20 +4305,20 @@ l8481:
 	movf	(??_TrashDoor_Ctrl+0)+0,w
 	movwf	indf
 	line	271
-	goto	l8465
+	goto	l8421
 	line	274
 	
-l8483:	
+l8439:	
 	movlw	low(05h)
 	movwf	(??_TrashDoor_Ctrl+0)+0
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	movf	(??_TrashDoor_Ctrl+0)+0,w
 	movwf	indf
-	goto	l8465
+	goto	l8421
 	line	282
 	
-l8487:	
+l8443:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	6
@@ -4398,21 +4328,21 @@ l8487:
 	goto	u3701
 	goto	u3700
 u3701:
-	goto	l8493
+	goto	l8449
 u3700:
 	line	284
 	
-l8489:	
+l8445:	
 	movlw	low(02h)
 	movwf	(??_TrashDoor_Ctrl+0)+0
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	movf	(??_TrashDoor_Ctrl+0)+0,w
 	movwf	indf
-	goto	l8465
+	goto	l8421
 	line	291
 	
-l8493:	
+l8449:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	movf	(indf),w
@@ -4420,10 +4350,10 @@ l8493:
 	goto	u3711
 	goto	u3710
 u3711:
-	goto	l8499
+	goto	l8455
 u3710:
 	
-l8495:	
+l8451:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		decf	(indf),w
@@ -4431,10 +4361,10 @@ l8495:
 	goto	u3721
 	goto	u3720
 u3721:
-	goto	l8499
+	goto	l8455
 u3720:
 	
-l8497:	
+l8453:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	2
@@ -4443,23 +4373,23 @@ l8497:
 	goto	u3731
 	goto	u3730
 u3731:
-	goto	l8501
+	goto	l8457
 u3730:
 	line	293
 	
-l8499:	
+l8455:	
 	movf	(TrashDoor_Ctrl@state),w
 	fcall	_TrashDoor_Close
 	line	294
-	goto	l4295
+	goto	l4291
 	line	297
 	
-l8501:	
+l8457:	
 	movf	(TrashDoor_Ctrl@state),w
 	fcall	_TrashDoor_Open
 	line	299
 	
-l4295:	
+l4291:	
 	return
 	callstack 0
 GLOBAL	__end_of_TrashDoor_Ctrl
@@ -4512,25 +4442,25 @@ ___lwmod:
 ; Regs used in ___lwmod: [wreg+status,2+status,0]
 	line	12
 	
-l7857:	
+l7833:	
 	movf	((___lwmod@divisor)),w
 iorwf	((___lwmod@divisor+1)),w
 	btfsc	status,2
 	goto	u2361
 	goto	u2360
 u2361:
-	goto	l7875
+	goto	l7851
 u2360:
 	line	13
 	
-l7859:	
+l7835:	
 	clrf	(___lwmod@counter)
 	incf	(___lwmod@counter),f
 	line	14
-	goto	l7865
+	goto	l7841
 	line	15
 	
-l7861:	
+l7837:	
 	movlw	01h
 	
 u2375:
@@ -4542,23 +4472,23 @@ u2375:
 	goto	u2375
 	line	16
 	
-l7863:	
+l7839:	
 	movlw	low(01h)
 	movwf	(??___lwmod+0)+0
 	movf	(??___lwmod+0)+0,w
 	addwf	(___lwmod@counter),f
 	line	14
 	
-l7865:	
+l7841:	
 	btfss	(___lwmod@divisor+1),(15)&7
 	goto	u2381
 	goto	u2380
 u2381:
-	goto	l7861
+	goto	l7837
 u2380:
 	line	19
 	
-l7867:	
+l7843:	
 	movf	(___lwmod@divisor+1),w
 	subwf	(___lwmod@dividend+1),w
 	skipz
@@ -4570,11 +4500,11 @@ u2395:
 	goto	u2391
 	goto	u2390
 u2391:
-	goto	l7871
+	goto	l7847
 u2390:
 	line	20
 	
-l7869:	
+l7845:	
 	movf	(___lwmod@divisor),w
 	subwf	(___lwmod@dividend),f
 	movf	(___lwmod@divisor+1),w
@@ -4583,7 +4513,7 @@ l7869:
 	subwf	(___lwmod@dividend+1),f
 	line	21
 	
-l7871:	
+l7847:	
 	movlw	01h
 	
 u2405:
@@ -4595,25 +4525,25 @@ u2405:
 	goto	u2405
 	line	22
 	
-l7873:	
+l7849:	
 	movlw	01h
 	subwf	(___lwmod@counter),f
 	btfss	status,2
 	goto	u2411
 	goto	u2410
 u2411:
-	goto	l7867
+	goto	l7843
 u2410:
 	line	24
 	
-l7875:	
+l7851:	
 	movf	(___lwmod@dividend+1),w
 	movwf	(?___lwmod+1)
 	movf	(___lwmod@dividend),w
 	movwf	(?___lwmod)
 	line	25
 	
-l6685:	
+l6681:	
 	return
 	callstack 0
 GLOBAL	__end_of___lwmod
@@ -4670,7 +4600,7 @@ _TrashDoor_Open:
 	movwf	(TrashDoor_Open@state)
 	line	123
 	
-l8327:	
+l8283:	
 	movf	(TrashDoor_Open@state),w
 	movwf	fsr0
 		movlw	5
@@ -4679,11 +4609,11 @@ l8327:
 	goto	u3361
 	goto	u3360
 u3361:
-	goto	l8345
+	goto	l8301
 u3360:
 	line	125
 	
-l8329:	
+l8285:	
 		movf	(_timeBuffer+3),w
 	btfss	status,2
 	goto	u3371
@@ -4703,11 +4633,11 @@ u3373:
 	goto	u3370
 
 u3371:
-	goto	l8339
+	goto	l8295
 u3370:
 	line	129
 	
-l8331:	
+l8287:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	0+(_BUZZER)+01h,w
@@ -4720,19 +4650,19 @@ l8331:
 	fcall	_GPIO_Write
 	line	135
 	
-l8333:	
+l8289:	
 	clrf	0+(_doorStepHandle)^080h+06h
 	incf	0+(_doorStepHandle)^080h+06h,f
 	line	136
 	
-l8335:	
+l8291:	
 	movlw	05h
 	movwf	(_doorStepHandle)^080h
 	movlw	0
 	movwf	((_doorStepHandle)^080h)+1
 	line	137
 	
-l8337:	
+l8293:	
 	movlw	(low(_doorStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Set
 	line	139
@@ -4746,10 +4676,10 @@ l8337:
 	movwf	(_timeBuffer)
 
 	line	143
-	goto	l4264
+	goto	l4260
 	line	144
 	
-l8339:	
+l8295:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 		movf	(_timeBuffer+3),w
@@ -4771,16 +4701,16 @@ u3383:
 	goto	u3380
 
 u3381:
-	goto	l4264
+	goto	l4260
 u3380:
 	line	150
 	
-l8341:	
+l8297:	
 	movlw	(low(_doorStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Stop
 	line	154
 	
-l8343:	
+l8299:	
 	movlw	low(06h)
 	movwf	(??_TrashDoor_Open+0)+0
 	bcf	status, 5	;RP0=0, select bank0
@@ -4788,10 +4718,10 @@ l8343:
 	movwf	fsr0
 	movf	(??_TrashDoor_Open+0)+0,w
 	movwf	indf
-	goto	l4264
+	goto	l4260
 	line	158
 	
-l8345:	
+l8301:	
 	movf	(TrashDoor_Open@state),w
 	movwf	fsr0
 		movlw	3
@@ -4800,11 +4730,11 @@ l8345:
 	goto	u3391
 	goto	u3390
 u3391:
-	goto	l4264
+	goto	l4260
 u3390:
 	line	160
 	
-l8347:	
+l8303:	
 		movf	(_timeBuffer+3),w
 	btfss	status,2
 	goto	u3401
@@ -4824,11 +4754,11 @@ u3403:
 	goto	u3400
 
 u3401:
-	goto	l8357
+	goto	l8313
 u3400:
 	line	164
 	
-l8349:	
+l8305:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	0+(_BUZZER)+01h,w
@@ -4841,19 +4771,19 @@ l8349:
 	fcall	_GPIO_Write
 	line	169
 	
-l8351:	
+l8307:	
 	clrf	0+(_doorStepHandle)^080h+06h
 	incf	0+(_doorStepHandle)^080h+06h,f
 	line	170
 	
-l8353:	
+l8309:	
 	movlw	05h
 	movwf	(_doorStepHandle)^080h
 	movlw	0
 	movwf	((_doorStepHandle)^080h)+1
 	line	171
 	
-l8355:	
+l8311:	
 	movlw	(low(_doorStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Set
 	line	173
@@ -4867,10 +4797,10 @@ l8355:
 	movwf	(_timeBuffer)
 
 	line	176
-	goto	l4264
+	goto	l4260
 	line	177
 	
-l8357:	
+l8313:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 		movf	(_timeBuffer+3),w
@@ -4892,16 +4822,16 @@ u3413:
 	goto	u3410
 
 u3411:
-	goto	l4264
+	goto	l4260
 u3410:
 	line	183
 	
-l8359:	
+l8315:	
 	movlw	(low(_doorStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Stop
 	line	187
 	
-l8361:	
+l8317:	
 	movlw	low(04h)
 	movwf	(??_TrashDoor_Open+0)+0
 	bcf	status, 5	;RP0=0, select bank0
@@ -4911,7 +4841,7 @@ l8361:
 	movwf	indf
 	line	191
 	
-l4264:	
+l4260:	
 	return
 	callstack 0
 GLOBAL	__end_of_TrashDoor_Open
@@ -4967,7 +4897,7 @@ _TrashDoor_Close:
 	movwf	(TrashDoor_Close@state)
 	line	195
 	
-l8363:	
+l8319:	
 	movf	(TrashDoor_Close@state),w
 	movwf	fsr0
 		movlw	2
@@ -4976,11 +4906,11 @@ l8363:
 	goto	u3421
 	goto	u3420
 u3421:
-	goto	l8371
+	goto	l8327
 u3420:
 	line	197
 	
-l8365:	
+l8321:	
 		movf	(_timeBuffer+3),w
 	btfss	status,2
 	goto	u3430
@@ -5001,11 +4931,11 @@ u3433:
 	goto	u3430
 
 u3431:
-	goto	l4274
+	goto	l4270
 u3430:
 	line	199
 	
-l8367:	
+l8323:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(TrashDoor_Close@state),w
@@ -5015,7 +4945,7 @@ l8367:
 	incf	indf,f
 	line	200
 	
-l8369:	
+l8325:	
 	movlw	high highword(0)
 	movwf	(_timeBuffer+3)
 	movlw	low highword(0)
@@ -5025,10 +4955,10 @@ l8369:
 	movlw	low(0)
 	movwf	(_timeBuffer)
 
-	goto	l4274
+	goto	l4270
 	line	203
 	
-l8371:	
+l8327:	
 	movf	(TrashDoor_Close@state),w
 	movwf	fsr0
 		decf	(indf),w
@@ -5036,11 +4966,11 @@ l8371:
 	goto	u3441
 	goto	u3440
 u3441:
-	goto	l4274
+	goto	l4270
 u3440:
 	line	206
 	
-l8373:	
+l8329:	
 		movf	(_timeBuffer+3),w
 	btfss	status,2
 	goto	u3451
@@ -5060,29 +4990,29 @@ u3453:
 	goto	u3450
 
 u3451:
-	goto	l8383
+	goto	l8339
 u3450:
 	line	213
 	
-l8375:	
+l8331:	
 	bsf	status, 5	;RP0=1, select bank1
 	bcf	status, 6	;RP1=0, select bank1
 	clrf	0+(_doorStepHandle)^080h+06h
 	line	214
 	
-l8377:	
+l8333:	
 	movlw	05h
 	movwf	(_doorStepHandle)^080h
 	movlw	0
 	movwf	((_doorStepHandle)^080h)+1
 	line	215
 	
-l8379:	
+l8335:	
 	movlw	(low(_doorStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Set
 	line	217
 	
-l8381:	
+l8337:	
 	movlw	0
 	movwf	(_timeBuffer+3)
 	movlw	0
@@ -5093,10 +5023,10 @@ l8381:
 	movwf	(_timeBuffer)
 
 	line	220
-	goto	l4274
+	goto	l4270
 	line	221
 	
-l8383:	
+l8339:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 		movf	(_timeBuffer+3),w
@@ -5118,11 +5048,11 @@ u3463:
 	goto	u3460
 
 u3461:
-	goto	l4274
+	goto	l4270
 u3460:
 	line	225
 	
-l8385:	
+l8341:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	0+(_BUZZER)+01h,w
@@ -5137,14 +5067,14 @@ l8385:
 	fcall	_Step_Stop
 	line	233
 	
-l8387:	
+l8343:	
 	bcf	status, 5	;RP0=0, select bank0
 	movf	(TrashDoor_Close@state),w
 	movwf	fsr0
 	clrf	indf
 	line	236
 	
-l4274:	
+l4270:	
 	return
 	callstack 0
 GLOBAL	__end_of_TrashDoor_Close
@@ -5166,7 +5096,7 @@ GLOBAL	__end_of_TrashDoor_Close
 ;; Registers used:
 ;;		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
 ;; Tracked objects:
-;;		On entry : 0/0
+;;		On entry : 0/100
 ;;		On exit  : B00/100
 ;;		Unchanged: 0/0
 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
@@ -5180,7 +5110,6 @@ GLOBAL	__end_of_TrashDoor_Close
 ;; This function calls:
 ;;		_GPIO_Write
 ;; This function is called by:
-;;		_main
 ;;		_MCU_Config
 ;;		_TrashDoor_Open
 ;;		_TrashDoor_Close
@@ -5197,12 +5126,12 @@ psect	text15
 	
 _Step_Stop:	
 ;incstack = 0
-	callstack 5
+	callstack 4
 ; Regs used in _Step_Stop: [wreg-fsr0h+status,2+status,0+pclath+cstack]
 	movwf	(Step_Stop@stepHandle)
 	line	99
 	
-l8125:	
+l8079:	
 	movlw	low(02h)
 	addwf	(Step_Stop@stepHandle),w
 	movwf	(??_Step_Stop+0)+0
@@ -5219,7 +5148,7 @@ l8125:
 	clrf	indf
 	line	100
 	
-l8127:	
+l8081:	
 	movf	(Step_Stop@stepHandle),w
 	addlw	0Eh
 	movwf	fsr0
@@ -5236,7 +5165,7 @@ l8127:
 	fcall	_GPIO_Write
 	line	101
 	
-l3027:	
+l3023:	
 	return
 	callstack 0
 GLOBAL	__end_of_Step_Stop
@@ -5249,10 +5178,10 @@ GLOBAL	__end_of_Step_Stop
 ;;		line 91 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
 ;; Parameters:    Size  Location     Type
 ;;  stepHandle      1    wreg     PTR struct .
-;;		 -> winchStepHandle(15), doorStepHandle(15), compressStepHandle(15), 
+;;		 -> doorStepHandle(15), compressStepHandle(15), 
 ;; Auto vars:     Size  Location     Type
 ;;  stepHandle      1    8[COMMON] PTR struct .
-;;		 -> winchStepHandle(15), doorStepHandle(15), compressStepHandle(15), 
+;;		 -> doorStepHandle(15), compressStepHandle(15), 
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      void 
 ;; Registers used:
@@ -5273,7 +5202,6 @@ GLOBAL	__end_of_Step_Stop
 ;;		_GPIO_Write
 ;;		___wmul
 ;; This function is called by:
-;;		_main
 ;;		_TrashDoor_Open
 ;;		_TrashDoor_Close
 ;; This function uses a non-reentrant model
@@ -5288,12 +5216,12 @@ psect	text16
 	
 _Step_Set:	
 ;incstack = 0
-	callstack 5
+	callstack 2
 ; Regs used in _Step_Set: [wreg-fsr0h+status,2+status,0+pclath+cstack]
 	movwf	(Step_Set@stepHandle)
 	line	93
 	
-l8123:	
+l8083:	
 	movf	(Step_Set@stepHandle),w
 	addlw	0Ah
 	movwf	fsr0
@@ -5351,7 +5279,7 @@ l8123:
 	movwf	indf
 	line	95
 	
-l3024:	
+l3020:	
 	return
 	callstack 0
 GLOBAL	__end_of_Step_Set
@@ -5400,25 +5328,25 @@ psect	text17
 	
 ___wmul:	
 ;incstack = 0
-	callstack 5
+	callstack 2
 ; Regs used in ___wmul: [wreg+status,2+status,0]
 	line	43
 	
-l8077:	
+l8033:	
 	clrf	(___wmul@product)
 	clrf	(___wmul@product+1)
 	line	45
 	
-l8079:	
+l8035:	
 	btfss	(___wmul@multiplier),(0)&7
 	goto	u2761
 	goto	u2760
 u2761:
-	goto	l6267
+	goto	l6263
 u2760:
 	line	46
 	
-l8081:	
+l8037:	
 	movf	(___wmul@multiplicand),w
 	addwf	(___wmul@product),f
 	skipnc
@@ -5426,7 +5354,7 @@ l8081:
 	movf	(___wmul@multiplicand+1),w
 	addwf	(___wmul@product+1),f
 	
-l6267:	
+l6263:	
 	line	47
 	movlw	01h
 	
@@ -5439,7 +5367,7 @@ u2775:
 	goto	u2775
 	line	48
 	
-l8083:	
+l8039:	
 	movlw	01h
 	
 u2785:
@@ -5451,25 +5379,25 @@ u2785:
 	goto	u2785
 	line	49
 	
-l8085:	
+l8041:	
 	movf	((___wmul@multiplier)),w
 iorwf	((___wmul@multiplier+1)),w
 	btfss	status,2
 	goto	u2791
 	goto	u2790
 u2791:
-	goto	l8079
+	goto	l8035
 u2790:
 	line	52
 	
-l8087:	
+l8043:	
 	movf	(___wmul@product+1),w
 	movwf	(?___wmul+1)
 	movf	(___wmul@product),w
 	movwf	(?___wmul)
 	line	53
 	
-l6269:	
+l6265:	
 	return
 	callstack 0
 GLOBAL	__end_of___wmul
@@ -5528,7 +5456,7 @@ _IRSensor_Read:
 ; Regs used in _IRSensor_Read: [wreg+status,2+status,0+pclath+cstack]
 	line	73
 	
-l8305:	
+l8261:	
 	movlw	0x0
 	movwf	(IRSensor_Read@adc_value)
 	movlw	0x0
@@ -5537,14 +5465,14 @@ l8305:
 	movwf	(IRSensor_Read@adc_value+2)
 	line	74
 	
-l8307:	
+l8263:	
 	line	75
 	
-l8309:	
+l8265:	
 	clrf	(IRSensor_Read@index)
 	line	77
 	
-l8313:	
+l8269:	
 	movlw	low(0)
 	fcall	_ADC_Read
 	movf	(1+(?_ADC_Read)),w
@@ -5590,29 +5518,29 @@ l8313:
 	goto	u3341
 	goto	u3340
 u3341:
-	goto	l8317
+	goto	l8273
 u3340:
-	goto	l8321
+	goto	l8277
 	line	75
 	
-l8317:	
+l8273:	
 	movlw	low(01h)
 	movwf	(??_IRSensor_Read+0)+0
 	movf	(??_IRSensor_Read+0)+0,w
 	addwf	(IRSensor_Read@index),f
 	
-l8319:	
+l8275:	
 	movlw	low(0Bh)
 	subwf	(IRSensor_Read@index),w
 	skipc
 	goto	u3351
 	goto	u3350
 u3351:
-	goto	l8313
+	goto	l8269
 u3350:
 	line	84
 	
-l8321:	
+l8277:	
 	movf	(IRSensor_Read@index),w
 	fcall	___lbtoft
 	movf	(0+(?___lbtoft)),w
@@ -5669,7 +5597,7 @@ l8321:
 	movwf	(IRSensor_Read@adc_value+2)
 	line	88
 	
-l8323:	
+l8279:	
 	movf	(IRSensor_Read@adc_value),w
 	movwf	(?_IRSensor_Read)
 	movf	(IRSensor_Read@adc_value+1),w
@@ -5678,7 +5606,7 @@ l8323:
 	movwf	(?_IRSensor_Read+2)
 	line	89
 	
-l4244:	
+l4240:	
 	return
 	callstack 0
 GLOBAL	__end_of_IRSensor_Read
@@ -5730,7 +5658,7 @@ ___lwtoft:
 ; Regs used in ___lwtoft: [wreg+status,2+status,0+pclath+cstack]
 	line	30
 	
-l8301:	
+l8257:	
 	movf	(___lwtoft@c),w
 	movwf	(___ftpack@arg)
 	movf	(___lwtoft@c+1),w
@@ -5750,7 +5678,7 @@ l8301:
 	movwf	(?___lwtoft+2)
 	line	31
 	
-l6690:	
+l6686:	
 	return
 	callstack 0
 GLOBAL	__end_of___lwtoft
@@ -5803,7 +5731,7 @@ ___lbtoft:
 	movwf	(___lbtoft@c)
 	line	29
 	
-l8297:	
+l8253:	
 	movf	(___lbtoft@c),w
 	movwf	((??___lbtoft+0)+0)
 	clrf	((??___lbtoft+0)+0+1)
@@ -5828,7 +5756,7 @@ l8297:
 	movwf	(?___lbtoft+2)
 	line	30
 	
-l6594:	
+l6590:	
 	return
 	callstack 0
 GLOBAL	__end_of___lbtoft
@@ -5884,7 +5812,7 @@ ___ftmul:
 ; Regs used in ___ftmul: [wreg+status,2+status,0+pclath+cstack]
 	line	67
 	
-l8241:	
+l8197:	
 	movf	(___ftmul@f1),w
 	movwf	((??___ftmul+0)+0)
 	movf	(___ftmul@f1+1),w
@@ -5902,21 +5830,21 @@ l8241:
 	goto	u3221
 	goto	u3220
 u3221:
-	goto	l8247
+	goto	l8203
 u3220:
 	line	68
 	
-l8243:	
+l8199:	
 	movlw	0x0
 	movwf	(?___ftmul)
 	movlw	0x0
 	movwf	(?___ftmul+1)
 	movlw	0x0
 	movwf	(?___ftmul+2)
-	goto	l6542
+	goto	l6538
 	line	69
 	
-l8247:	
+l8203:	
 	movf	(___ftmul@f2),w
 	movwf	((??___ftmul+0)+0)
 	movf	(___ftmul@f2+1),w
@@ -5934,21 +5862,21 @@ l8247:
 	goto	u3231
 	goto	u3230
 u3231:
-	goto	l8253
+	goto	l8209
 u3230:
 	line	70
 	
-l8249:	
+l8205:	
 	movlw	0x0
 	movwf	(?___ftmul)
 	movlw	0x0
 	movwf	(?___ftmul+1)
 	movlw	0x0
 	movwf	(?___ftmul+2)
-	goto	l6542
+	goto	l6538
 	line	71
 	
-l8253:	
+l8209:	
 	movf	(___ftmul@sign),w
 	addlw	07Bh
 	movwf	(??___ftmul+0)+0
@@ -5956,36 +5884,36 @@ l8253:
 	addwf	(___ftmul@exp),f
 	line	72
 	
-l8255:	
+l8211:	
 	movf	0+(___ftmul@f1)+02h,w
 	movwf	(??___ftmul+0)+0
 	movf	(??___ftmul+0)+0,w
 	movwf	(___ftmul@sign)
 	line	73
 	
-l8257:	
+l8213:	
 	movf	0+(___ftmul@f2)+02h,w
 	movwf	(??___ftmul+0)+0
 	movf	(??___ftmul+0)+0,w
 	xorwf	(___ftmul@sign),f
 	line	74
 	
-l8259:	
+l8215:	
 	movlw	low(080h)
 	movwf	(??___ftmul+0)+0
 	movf	(??___ftmul+0)+0,w
 	andwf	(___ftmul@sign),f
 	line	75
 	
-l8261:	
+l8217:	
 	bsf	(___ftmul@f1)+(15/8),(15)&7
 	line	77
 	
-l8263:	
+l8219:	
 	bsf	(___ftmul@f2)+(15/8),(15)&7
 	line	78
 	
-l8265:	
+l8221:	
 	movlw	0FFh
 	andwf	(___ftmul@f2),f
 	movlw	0FFh
@@ -5994,7 +5922,7 @@ l8265:
 	andwf	(___ftmul@f2+2),f
 	line	79
 	
-l8267:	
+l8223:	
 	movlw	low(0)
 	movwf	(___ftmul@f3_as_product)
 	movlw	high(0)
@@ -6003,23 +5931,23 @@ l8267:
 	movwf	(___ftmul@f3_as_product+2)
 	line	134
 	
-l8269:	
+l8225:	
 	movlw	low(07h)
 	movwf	(??___ftmul+0)+0
 	movf	(??___ftmul+0)+0,w
 	movwf	(___ftmul@cntr)
 	line	136
 	
-l8271:	
+l8227:	
 	btfss	(___ftmul@f1),(0)&7
 	goto	u3241
 	goto	u3240
 u3241:
-	goto	l8275
+	goto	l8231
 u3240:
 	line	137
 	
-l8273:	
+l8229:	
 	movf	(___ftmul@f2),w
 	addwf	(___ftmul@f3_as_product),f
 	movf	(___ftmul@f2+1),w
@@ -6041,7 +5969,7 @@ u3252:
 
 	line	138
 	
-l8275:	
+l8231:	
 	movlw	01h
 u3265:
 	clrc
@@ -6054,7 +5982,7 @@ u3265:
 
 	line	139
 	
-l8277:	
+l8233:	
 	movlw	01h
 u3275:
 	clrc
@@ -6066,34 +5994,34 @@ u3275:
 	goto	u3275
 	line	140
 	
-l8279:	
+l8235:	
 	movlw	01h
 	subwf	(___ftmul@cntr),f
 	btfss	status,2
 	goto	u3281
 	goto	u3280
 u3281:
-	goto	l8271
+	goto	l8227
 u3280:
 	line	143
 	
-l8281:	
+l8237:	
 	movlw	low(09h)
 	movwf	(??___ftmul+0)+0
 	movf	(??___ftmul+0)+0,w
 	movwf	(___ftmul@cntr)
 	line	145
 	
-l8283:	
+l8239:	
 	btfss	(___ftmul@f1),(0)&7
 	goto	u3291
 	goto	u3290
 u3291:
-	goto	l8287
+	goto	l8243
 u3290:
 	line	146
 	
-l8285:	
+l8241:	
 	movf	(___ftmul@f2),w
 	addwf	(___ftmul@f3_as_product),f
 	movf	(___ftmul@f2+1),w
@@ -6115,7 +6043,7 @@ u3302:
 
 	line	147
 	
-l8287:	
+l8243:	
 	movlw	01h
 u3315:
 	clrc
@@ -6128,7 +6056,7 @@ u3315:
 
 	line	148
 	
-l8289:	
+l8245:	
 	movlw	01h
 u3325:
 	clrc
@@ -6141,18 +6069,18 @@ u3325:
 
 	line	149
 	
-l8291:	
+l8247:	
 	movlw	01h
 	subwf	(___ftmul@cntr),f
 	btfss	status,2
 	goto	u3331
 	goto	u3330
 u3331:
-	goto	l8283
+	goto	l8239
 u3330:
 	line	156
 	
-l8293:	
+l8249:	
 	movf	(___ftmul@f3_as_product),w
 	movwf	(___ftpack@arg)
 	movf	(___ftmul@f3_as_product+1),w
@@ -6176,7 +6104,7 @@ l8293:
 	movwf	(?___ftmul+2)
 	line	157
 	
-l6542:	
+l6538:	
 	return
 	callstack 0
 GLOBAL	__end_of___ftmul
@@ -6230,16 +6158,16 @@ ___ftge:
 ; Regs used in ___ftge: [wreg+status,2+status,0]
 	line	6
 	
-l7617:	
+l7593:	
 	btfss	(___ftge@ff1+2),(23)&7
 	goto	u1921
 	goto	u1920
 u1921:
-	goto	l7621
+	goto	l7597
 u1920:
 	line	7
 	
-l7619:	
+l7595:	
 	movf	(___ftge@ff1),w
 	sublw	0
 	movwf	(___ftge@ff1)
@@ -6256,16 +6184,16 @@ l7619:
 	movwf	2+(___ftge@ff1)
 	line	8
 	
-l7621:	
+l7597:	
 	btfss	(___ftge@ff2+2),(23)&7
 	goto	u1931
 	goto	u1930
 u1931:
-	goto	l7625
+	goto	l7601
 u1930:
 	line	9
 	
-l7623:	
+l7599:	
 	movf	(___ftge@ff2),w
 	sublw	0
 	movwf	(___ftge@ff2)
@@ -6282,17 +6210,17 @@ l7623:
 	movwf	2+(___ftge@ff2)
 	line	10
 	
-l7625:	
+l7601:	
 	movlw	080h
 	xorwf	(___ftge@ff1+2),f
 	line	11
 	
-l7627:	
+l7603:	
 	movlw	080h
 	xorwf	(___ftge@ff2+2),f
 	line	12
 	
-l7629:	
+l7605:	
 	movf	(___ftge@ff2+2),w
 	subwf	(___ftge@ff1+2),w
 	skipz
@@ -6308,20 +6236,20 @@ u1945:
 	goto	u1941
 	goto	u1940
 u1941:
-	goto	l7633
+	goto	l7609
 u1940:
 	
-l7631:	
+l7607:	
 	clrc
 	
-	goto	l6536
+	goto	l6532
 	
-l7633:	
+l7609:	
 	setc
 	
 	line	13
 	
-l6536:	
+l6532:	
 	return
 	callstack 0
 GLOBAL	__end_of___ftge
@@ -6377,7 +6305,7 @@ ___ftdiv:
 ; Regs used in ___ftdiv: [wreg+status,2+status,0+pclath+cstack]
 	line	63
 	
-l8199:	
+l8155:	
 	movf	(___ftdiv@f1),w
 	movwf	((??___ftdiv+0)+0)
 	movf	(___ftdiv@f1+1),w
@@ -6395,21 +6323,21 @@ l8199:
 	goto	u3161
 	goto	u3160
 u3161:
-	goto	l8205
+	goto	l8161
 u3160:
 	line	64
 	
-l8201:	
+l8157:	
 	movlw	0x0
 	movwf	(?___ftdiv)
 	movlw	0x0
 	movwf	(?___ftdiv+1)
 	movlw	0x0
 	movwf	(?___ftdiv+2)
-	goto	l6527
+	goto	l6523
 	line	65
 	
-l8205:	
+l8161:	
 	movf	(___ftdiv@f2),w
 	movwf	((??___ftdiv+0)+0)
 	movf	(___ftdiv@f2+1),w
@@ -6427,21 +6355,21 @@ l8205:
 	goto	u3171
 	goto	u3170
 u3171:
-	goto	l8211
+	goto	l8167
 u3170:
 	line	66
 	
-l8207:	
+l8163:	
 	movlw	0x0
 	movwf	(?___ftdiv)
 	movlw	0x0
 	movwf	(?___ftdiv+1)
 	movlw	0x0
 	movwf	(?___ftdiv+2)
-	goto	l6527
+	goto	l6523
 	line	67
 	
-l8211:	
+l8167:	
 	movlw	low(0)
 	movwf	(___ftdiv@f3)
 	movlw	high(0)
@@ -6450,7 +6378,7 @@ l8211:
 	movwf	(___ftdiv@f3+2)
 	line	68
 	
-l8213:	
+l8169:	
 	movlw	low(089h)
 	addwf	(___ftdiv@sign),w
 	movwf	(??___ftdiv+0)+0
@@ -6458,7 +6386,7 @@ l8213:
 	subwf	(___ftdiv@exp),f
 	line	69
 	
-l8215:	
+l8171:	
 	movf	0+(___ftdiv@f1)+02h,w
 	movwf	(??___ftdiv+0)+0
 	movf	(??___ftdiv+0)+0,w
@@ -6475,11 +6403,11 @@ l8215:
 	andwf	(___ftdiv@sign),f
 	line	72
 	
-l8217:	
+l8173:	
 	bsf	(___ftdiv@f1)+(15/8),(15)&7
 	line	73
 	
-l8219:	
+l8175:	
 	movlw	0FFh
 	andwf	(___ftdiv@f1),f
 	movlw	0FFh
@@ -6488,11 +6416,11 @@ l8219:
 	andwf	(___ftdiv@f1+2),f
 	line	74
 	
-l8221:	
+l8177:	
 	bsf	(___ftdiv@f2)+(15/8),(15)&7
 	line	75
 	
-l8223:	
+l8179:	
 	movlw	0FFh
 	andwf	(___ftdiv@f2),f
 	movlw	0FFh
@@ -6501,14 +6429,14 @@ l8223:
 	andwf	(___ftdiv@f2+2),f
 	line	76
 	
-l8225:	
+l8181:	
 	movlw	low(018h)
 	movwf	(??___ftdiv+0)+0
 	movf	(??___ftdiv+0)+0,w
 	movwf	(___ftdiv@cntr)
 	line	78
 	
-l8227:	
+l8183:	
 	movlw	01h
 u3185:
 	clrc
@@ -6534,11 +6462,11 @@ u3195:
 	goto	u3191
 	goto	u3190
 u3191:
-	goto	l8233
+	goto	l8189
 u3190:
 	line	80
 	
-l8229:	
+l8185:	
 	movf	(___ftdiv@f2),w
 	subwf	(___ftdiv@f1),f
 	movf	(___ftdiv@f2+1),w
@@ -6551,11 +6479,11 @@ l8229:
 	subwf	(___ftdiv@f1+2),f
 	line	81
 	
-l8231:	
+l8187:	
 	bsf	(___ftdiv@f3)+(0/8),(0)&7
 	line	83
 	
-l8233:	
+l8189:	
 	movlw	01h
 u3205:
 	clrc
@@ -6567,18 +6495,18 @@ u3205:
 	goto	u3205
 	line	84
 	
-l8235:	
+l8191:	
 	movlw	01h
 	subwf	(___ftdiv@cntr),f
 	btfss	status,2
 	goto	u3211
 	goto	u3210
 u3211:
-	goto	l8227
+	goto	l8183
 u3210:
 	line	85
 	
-l8237:	
+l8193:	
 	movf	(___ftdiv@f3),w
 	movwf	(___ftpack@arg)
 	movf	(___ftdiv@f3+1),w
@@ -6602,7 +6530,7 @@ l8237:
 	movwf	(?___ftdiv+2)
 	line	86
 	
-l6527:	
+l6523:	
 	return
 	callstack 0
 GLOBAL	__end_of___ftdiv
@@ -6657,7 +6585,7 @@ ___ftadd:
 ; Regs used in ___ftadd: [wreg+status,2+status,0+pclath+cstack]
 	line	90
 	
-l8129:	
+l8085:	
 	movf	(___ftadd@f1),w
 	movwf	((??___ftadd+0)+0)
 	movf	(___ftadd@f1+1),w
@@ -6689,20 +6617,20 @@ l8129:
 	goto	u2921
 	goto	u2920
 u2921:
-	goto	l8135
+	goto	l8091
 u2920:
 	
-l8131:	
+l8087:	
 	movf	(___ftadd@exp2),w
 	subwf	(___ftadd@exp1),w
 	skipnc
 	goto	u2931
 	goto	u2930
 u2931:
-	goto	l8139
+	goto	l8095
 u2930:
 	
-l8133:	
+l8089:	
 	movf	(___ftadd@exp2),w
 	movwf	(??___ftadd+0)+0
 	movf	(___ftadd@exp1),w
@@ -6713,40 +6641,40 @@ l8133:
 	goto	u2941
 	goto	u2940
 u2941:
-	goto	l8139
+	goto	l8095
 u2940:
 	line	93
 	
-l8135:	
+l8091:	
 	movf	(___ftadd@f2),w
 	movwf	(?___ftadd)
 	movf	(___ftadd@f2+1),w
 	movwf	(?___ftadd+1)
 	movf	(___ftadd@f2+2),w
 	movwf	(?___ftadd+2)
-	goto	l6496
+	goto	l6492
 	line	94
 	
-l8139:	
+l8095:	
 	movf	((___ftadd@exp2)),w
 	btfsc	status,2
 	goto	u2951
 	goto	u2950
 u2951:
-	goto	l6499
+	goto	l6495
 u2950:
 	
-l8141:	
+l8097:	
 	movf	(___ftadd@exp1),w
 	subwf	(___ftadd@exp2),w
 	skipnc
 	goto	u2961
 	goto	u2960
 u2961:
-	goto	l8145
+	goto	l8101
 u2960:
 	
-l8143:	
+l8099:	
 	movf	(___ftadd@exp1),w
 	movwf	(??___ftadd+0)+0
 	movf	(___ftadd@exp2),w
@@ -6757,52 +6685,52 @@ l8143:
 	goto	u2971
 	goto	u2970
 u2971:
-	goto	l8145
+	goto	l8101
 u2970:
 	
-l6499:	
+l6495:	
 	line	95
-	goto	l6496
+	goto	l6492
 	line	96
 	
-l8145:	
+l8101:	
 	movlw	low(06h)
 	movwf	(??___ftadd+0)+0
 	movf	(??___ftadd+0)+0,w
 	movwf	(___ftadd@sign)
 	line	97
 	
-l8147:	
+l8103:	
 	btfss	(___ftadd@f1+2),(23)&7
 	goto	u2981
 	goto	u2980
 u2981:
-	goto	l6500
+	goto	l6496
 u2980:
 	line	98
 	
-l8149:	
+l8105:	
 	bsf	(___ftadd@sign)+(7/8),(7)&7
 	
-l6500:	
+l6496:	
 	line	99
 	btfss	(___ftadd@f2+2),(23)&7
 	goto	u2991
 	goto	u2990
 u2991:
-	goto	l6501
+	goto	l6497
 u2990:
 	line	100
 	
-l8151:	
+l8107:	
 	bsf	(___ftadd@sign)+(6/8),(6)&7
 	
-l6501:	
+l6497:	
 	line	101
 	bsf	(___ftadd@f1)+(15/8),(15)&7
 	line	102
 	
-l8153:	
+l8109:	
 	movlw	0FFh
 	andwf	(___ftadd@f1),f
 	movlw	0FFh
@@ -6811,7 +6739,7 @@ l8153:
 	andwf	(___ftadd@f1+2),f
 	line	103
 	
-l8155:	
+l8111:	
 	bsf	(___ftadd@f2)+(15/8),(15)&7
 	line	104
 	movlw	0FFh
@@ -6827,11 +6755,11 @@ l8155:
 	goto	u3001
 	goto	u3000
 u3001:
-	goto	l8167
+	goto	l8123
 u3000:
 	line	110
 	
-l8157:	
+l8113:	
 	movlw	01h
 u3015:
 	clrc
@@ -6846,17 +6774,17 @@ u3015:
 	subwf	(___ftadd@exp2),f
 	line	112
 	
-l8159:	
+l8115:	
 	movf	(___ftadd@exp2),w
 	xorwf	(___ftadd@exp1),w
 	skipnz
 	goto	u3021
 	goto	u3020
 u3021:
-	goto	l8165
+	goto	l8121
 u3020:
 	
-l8161:	
+l8117:	
 	movlw	01h
 	subwf	(___ftadd@sign),f
 	movf	((___ftadd@sign)),w
@@ -6865,12 +6793,12 @@ l8161:
 	goto	u3031
 	goto	u3030
 u3031:
-	goto	l8157
+	goto	l8113
 u3030:
-	goto	l8165
+	goto	l8121
 	line	114
 	
-l8163:	
+l8119:	
 	movlw	01h
 u3045:
 	clrc
@@ -6888,30 +6816,30 @@ u3045:
 	addwf	(___ftadd@exp1),f
 	line	113
 	
-l8165:	
+l8121:	
 	movf	(___ftadd@exp1),w
 	xorwf	(___ftadd@exp2),w
 	skipz
 	goto	u3051
 	goto	u3050
 u3051:
-	goto	l8163
+	goto	l8119
 u3050:
-	goto	l6510
+	goto	l6506
 	line	117
 	
-l8167:	
+l8123:	
 	movf	(___ftadd@exp1),w
 	subwf	(___ftadd@exp2),w
 	skipnc
 	goto	u3061
 	goto	u3060
 u3061:
-	goto	l6510
+	goto	l6506
 u3060:
 	line	121
 	
-l8169:	
+l8125:	
 	movlw	01h
 u3075:
 	clrc
@@ -6926,17 +6854,17 @@ u3075:
 	subwf	(___ftadd@exp1),f
 	line	123
 	
-l8171:	
+l8127:	
 	movf	(___ftadd@exp2),w
 	xorwf	(___ftadd@exp1),w
 	skipnz
 	goto	u3081
 	goto	u3080
 u3081:
-	goto	l8177
+	goto	l8133
 u3080:
 	
-l8173:	
+l8129:	
 	movlw	01h
 	subwf	(___ftadd@sign),f
 	movf	((___ftadd@sign)),w
@@ -6945,12 +6873,12 @@ l8173:
 	goto	u3091
 	goto	u3090
 u3091:
-	goto	l8169
+	goto	l8125
 u3090:
-	goto	l8177
+	goto	l8133
 	line	125
 	
-l8175:	
+l8131:	
 	movlw	01h
 u3105:
 	clrc
@@ -6968,27 +6896,27 @@ u3105:
 	addwf	(___ftadd@exp2),f
 	line	124
 	
-l8177:	
+l8133:	
 	movf	(___ftadd@exp1),w
 	xorwf	(___ftadd@exp2),w
 	skipz
 	goto	u3111
 	goto	u3110
 u3111:
-	goto	l8175
+	goto	l8131
 u3110:
 	line	129
 	
-l6510:	
+l6506:	
 	btfss	(___ftadd@sign),(7)&7
 	goto	u3121
 	goto	u3120
 u3121:
-	goto	l8181
+	goto	l8137
 u3120:
 	line	131
 	
-l8179:	
+l8135:	
 	movlw	0FFh
 	xorwf	(___ftadd@f1),f
 	movlw	0FFh
@@ -7008,16 +6936,16 @@ movlw 1
 	addwf	(___ftadd@f1+2),f
 	line	134
 	
-l8181:	
+l8137:	
 	btfss	(___ftadd@sign),(6)&7
 	goto	u3131
 	goto	u3130
 u3131:
-	goto	l8185
+	goto	l8141
 u3130:
 	line	136
 	
-l8183:	
+l8139:	
 	movlw	0FFh
 	xorwf	(___ftadd@f2),f
 	movlw	0FFh
@@ -7037,11 +6965,11 @@ movlw 1
 	addwf	(___ftadd@f2+2),f
 	line	139
 	
-l8185:	
+l8141:	
 	clrf	(___ftadd@sign)
 	line	140
 	
-l8187:	
+l8143:	
 	movf	(___ftadd@f1),w
 	addwf	(___ftadd@f2),f
 	movf	(___ftadd@f1+1),w
@@ -7063,16 +6991,16 @@ u3142:
 
 	line	141
 	
-l8189:	
+l8145:	
 	btfss	(___ftadd@f2+2),(23)&7
 	goto	u3151
 	goto	u3150
 u3151:
-	goto	l8195
+	goto	l8151
 u3150:
 	line	142
 	
-l8191:	
+l8147:	
 	movlw	0FFh
 	xorwf	(___ftadd@f2),f
 	movlw	0FFh
@@ -7092,12 +7020,12 @@ movlw 1
 	addwf	(___ftadd@f2+2),f
 	line	144
 	
-l8193:	
+l8149:	
 	clrf	(___ftadd@sign)
 	incf	(___ftadd@sign),f
 	line	146
 	
-l8195:	
+l8151:	
 	movf	(___ftadd@f2),w
 	movwf	(___ftpack@arg)
 	movf	(___ftadd@f2+1),w
@@ -7121,7 +7049,7 @@ l8195:
 	movwf	(?___ftadd+2)
 	line	148
 	
-l6496:	
+l6492:	
 	return
 	callstack 0
 GLOBAL	__end_of___ftadd
@@ -7179,16 +7107,16 @@ ___ftpack:
 ; Regs used in ___ftpack: [wreg+status,2+status,0]
 	line	64
 	
-l8091:	
+l8047:	
 	movf	((___ftpack@exp)),w
 	btfsc	status,2
 	goto	u2801
 	goto	u2800
 u2801:
-	goto	l8095
+	goto	l8051
 u2800:
 	
-l8093:	
+l8049:	
 	movf	(___ftpack@arg+2),w
 	iorwf	(___ftpack@arg+1),w
 	iorwf	(___ftpack@arg),w
@@ -7196,21 +7124,21 @@ l8093:
 	goto	u2811
 	goto	u2810
 u2811:
-	goto	l8101
+	goto	l8057
 u2810:
 	line	65
 	
-l8095:	
+l8051:	
 	movlw	0x0
 	movwf	(?___ftpack)
 	movlw	0x0
 	movwf	(?___ftpack+1)
 	movlw	0x0
 	movwf	(?___ftpack+2)
-	goto	l6475
+	goto	l6471
 	line	67
 	
-l8099:	
+l8055:	
 	movlw	low(01h)
 	movwf	(??___ftpack+0)+0
 	movf	(??___ftpack+0)+0,w
@@ -7228,26 +7156,26 @@ u2825:
 
 	line	66
 	
-l8101:	
+l8057:	
 	movlw	low highword(0FE0000h)
 	andwf	(___ftpack@arg+2),w
 	btfss	status,2
 	goto	u2831
 	goto	u2830
 u2831:
-	goto	l8099
+	goto	l8055
 u2830:
-	goto	l6479
+	goto	l6475
 	line	71
 	
-l8103:	
+l8059:	
 	movlw	low(01h)
 	movwf	(??___ftpack+0)+0
 	movf	(??___ftpack+0)+0,w
 	addwf	(___ftpack@exp),f
 	line	72
 	
-l8105:	
+l8061:	
 	movlw	01h
 	addwf	(___ftpack@arg),f
 	movlw	0
@@ -7260,7 +7188,7 @@ movlw 1
 	addwf	(___ftpack@arg+2),f
 	line	73
 	
-l8107:	
+l8063:	
 	movlw	01h
 u2845:
 	clrc
@@ -7273,7 +7201,7 @@ u2845:
 
 	line	74
 	
-l6479:	
+l6475:	
 	line	70
 	movlw	low highword(0FF0000h)
 	andwf	(___ftpack@arg+2),w
@@ -7281,12 +7209,12 @@ l6479:
 	goto	u2851
 	goto	u2850
 u2851:
-	goto	l8103
+	goto	l8059
 u2850:
-	goto	l8111
+	goto	l8067
 	line	76
 	
-l8109:	
+l8065:	
 	movlw	01h
 	subwf	(___ftpack@exp),f
 	line	77
@@ -7301,35 +7229,35 @@ u2865:
 	goto	u2865
 	line	75
 	
-l8111:	
+l8067:	
 	btfsc	(___ftpack@arg+1),(15)&7
 	goto	u2871
 	goto	u2870
 u2871:
-	goto	l6486
+	goto	l6482
 u2870:
 	
-l8113:	
+l8069:	
 	movlw	low(02h)
 	subwf	(___ftpack@exp),w
 	skipnc
 	goto	u2881
 	goto	u2880
 u2881:
-	goto	l8109
+	goto	l8065
 u2880:
 	
-l6486:	
+l6482:	
 	line	79
 	btfsc	(___ftpack@exp),(0)&7
 	goto	u2891
 	goto	u2890
 u2891:
-	goto	l6487
+	goto	l6483
 u2890:
 	line	80
 	
-l8115:	
+l8071:	
 	movlw	0FFh
 	andwf	(___ftpack@arg),f
 	movlw	07Fh
@@ -7337,14 +7265,14 @@ l8115:
 	movlw	0FFh
 	andwf	(___ftpack@arg+2),f
 	
-l6487:	
+l6483:	
 	line	81
 	clrc
 	rrf	(___ftpack@exp),f
 
 	line	82
 	
-l8117:	
+l8073:	
 	movf	(___ftpack@exp),w
 	movwf	((??___ftpack+0)+0)
 	clrf	((??___ftpack+0)+0+1)
@@ -7367,24 +7295,24 @@ u2900:
 	iorwf	(___ftpack@arg+2),f
 	line	83
 	
-l8119:	
+l8075:	
 	movf	((___ftpack@sign)),w
 	btfsc	status,2
 	goto	u2911
 	goto	u2910
 u2911:
-	goto	l6488
+	goto	l6484
 u2910:
 	line	84
 	
-l8121:	
+l8077:	
 	bsf	(___ftpack@arg)+(23/8),(23)&7
 	
-l6488:	
+l6484:	
 	line	85
 	line	86
 	
-l6475:	
+l6471:	
 	return
 	callstack 0
 GLOBAL	__end_of___ftpack
@@ -7437,11 +7365,11 @@ _ADC_Read:
 	movwf	(ADC_Read@channel)
 	line	98
 	
-l7483:	
+l7453:	
 	fcall	_ADC_BASE_Init
 	line	99
 	
-l7485:	
+l7455:	
 	asmopt push
 asmopt off
 movlw	7
@@ -7457,7 +7385,7 @@ asmopt pop
 
 	line	101
 	
-l7487:	
+l7457:	
 	movf	(ADC_Read@channel),w
 	movwf	(??_ADC_Read+0)+0
 	movlw	(03h)-1
@@ -7476,11 +7404,11 @@ u1605:
 	iorwf	(31),f	;volatile
 	line	102
 	
-l7489:	
+l7459:	
 	bsf	(248/8),(248)&7	;volatile
 	line	103
 	
-l7491:	
+l7461:	
 	asmopt push
 asmopt off
 movlw	7
@@ -7496,34 +7424,34 @@ asmopt pop
 
 	line	108
 	
-l7493:	
+l7463:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	bsf	(250/8),(250)&7	;volatile
 	line	114
 	
-l1197:	
+l1193:	
 	btfsc	(250/8),(250)&7	;volatile
 	goto	u1611
 	goto	u1610
 u1611:
-	goto	l1197
+	goto	l1193
 u1610:
 	line	117
 	
-l7495:	
+l7465:	
 	bsf	status, 5	;RP0=1, select bank1
 	clrf	(159)^080h	;volatile
 	line	119
 	
-l7497:	
+l7467:	
 	movlw	low(07h)
 	movwf	(??_ADC_Read+0)+0
 	movf	(??_ADC_Read+0)+0,w
 	iorwf	(159)^080h,f	;volatile
 	line	120
 	
-l7499:	
+l7469:	
 		asmopt push
 	asmopt off
 	nop2	;2 cycle nop
@@ -7533,7 +7461,7 @@ l7499:
 
 	line	123
 	
-l7501:	
+l7471:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(30),w	;volatile
@@ -7543,7 +7471,7 @@ l7501:
 	movwf	(?_ADC_Read)
 	line	124
 	
-l1200:	
+l1196:	
 	return
 	callstack 0
 GLOBAL	__end_of_ADC_Read
@@ -7594,19 +7522,19 @@ _ADC_BASE_Init:
 ; Regs used in _ADC_BASE_Init: [wreg+status,2+status,0]
 	line	8
 	
-l7425:	
+l7401:	
 	clrf	(31)	;volatile
 	line	9
 	bsf	status, 5	;RP0=1, select bank1
 	clrf	(159)^080h	;volatile
 	line	34
 	
-l7427:	
+l7403:	
 	bcf	status, 5	;RP0=0, select bank0
 	movf	(31),w	;volatile
 	line	88
 	
-l7429:	
+l7405:	
 	movlw	low(08Eh)
 	movwf	(??_ADC_BASE_Init+0)+0
 	movf	(??_ADC_BASE_Init+0)+0,w
@@ -7614,7 +7542,7 @@ l7429:
 	iorwf	(159)^080h,f	;volatile
 	line	89
 	
-l1191:	
+l1187:	
 	return
 	callstack 0
 GLOBAL	__end_of_ADC_BASE_Init
@@ -7669,7 +7597,7 @@ _TimeSysTickUpdate:
 	movwf	(TimeSysTickUpdate@ptimeSysTick)
 	line	493
 	
-l7983:	
+l7959:	
 	movf	(TimeSysTickUpdate@ptimeSysTick),w
 	movwf	fsr0
 	movf	indf,w
@@ -7689,11 +7617,11 @@ u2605:
 	goto	u2601
 	goto	u2600
 u2601:
-	goto	l4343
+	goto	l4339
 u2600:
 	line	495
 	
-l7985:	
+l7961:	
 	movf	(TimeSysTickUpdate@ptimeSysTick),w
 	movwf	fsr0
 	movf	indf,w
@@ -7703,7 +7631,7 @@ l7985:
 	movwf	(_timeSysTickBuffer+1)
 	line	496
 	
-l7987:	
+l7963:	
 	movlw	01h
 	addwf	(_timeBuffer),f
 	movlw	0
@@ -7720,7 +7648,7 @@ movlw 1
 	addwf	(_timeBuffer+3),f
 	line	503
 	
-l4343:	
+l4339:	
 	return
 	callstack 0
 GLOBAL	__end_of_TimeSysTickUpdate
@@ -7777,7 +7705,7 @@ _Step_Start:
 	movwf	(Step_Start@stepHandle)
 	line	105
 	
-l8443:	
+l8399:	
 	movf	(Step_Start@stepHandle),w
 	addlw	02h
 	movwf	fsr0
@@ -7803,11 +7731,11 @@ l8443:
 	goto	u3591
 	goto	u3590
 u3591:
-	goto	l3032
+	goto	l3028
 u3590:
 	line	107
 	
-l8445:	
+l8401:	
 	movf	(Step_Start@stepHandle),w
 	addlw	0Eh
 	movwf	fsr0
@@ -7825,11 +7753,11 @@ l8445:
 	goto	u3601
 	goto	u3600
 u3601:
-	goto	l3031
+	goto	l3027
 u3600:
 	line	109
 	
-l8447:	
+l8403:	
 	movf	(Step_Start@stepHandle),w
 	addlw	0Eh
 	movwf	fsr0
@@ -7845,7 +7773,7 @@ l8447:
 	fcall	_GPIO_Write
 	line	110
 	
-l3031:	
+l3027:	
 	line	111
 	movf	(Step_Start@stepHandle),w
 	addlw	0Ch
@@ -7901,7 +7829,7 @@ l3031:
 	fcall	_Delay_us
 	line	115
 	
-l8449:	
+l8405:	
 	movf	(Step_Start@stepHandle),w
 	addlw	02h
 	movwf	fsr0
@@ -7927,7 +7855,7 @@ movlw 1
 	subwf	fsr0
 	line	117
 	
-l3032:	
+l3028:	
 	return
 	callstack 0
 GLOBAL	__end_of_Step_Start
@@ -7988,23 +7916,23 @@ psect	text30
 	
 _GPIO_Write:	
 ;incstack = 0
-	callstack 5
+	callstack 4
 ; Regs used in _GPIO_Write: [wreg-fsr0h+status,2+status,0]
 	movwf	(GPIO_Write@GPIO_Port)
 	line	6
 	
-l8049:	
+l8005:	
 	movf	(GPIO_Write@GPIO_Port),w
 	xorlw	low(5|((0x0)<<8))&0ffh
 	skipz
 	goto	u2651
 	goto	u2650
 u2651:
-	goto	l8053
+	goto	l8009
 u2650:
 	line	8
 	
-l8051:	
+l8007:	
 	movlw	low(01h)
 	movwf	(??_GPIO_Write+0)+0
 	incf	(GPIO_Write@Pin),w
@@ -8024,21 +7952,21 @@ u2664:
 	bcf	status, 6	;RP1=0, select bank1
 	andwf	(133)^080h,f	;volatile
 	line	9
-	goto	l8075
+	goto	l8031
 	line	10
 	
-l8053:	
+l8009:	
 	movf	(GPIO_Write@GPIO_Port),w
 	xorlw	low(6|((0x0)<<8))&0ffh
 	skipz
 	goto	u2671
 	goto	u2670
 u2671:
-	goto	l8057
+	goto	l8013
 u2670:
 	line	12
 	
-l8055:	
+l8011:	
 	movlw	low(01h)
 	movwf	(??_GPIO_Write+0)+0
 	incf	(GPIO_Write@Pin),w
@@ -8058,21 +7986,21 @@ u2684:
 	bcf	status, 6	;RP1=0, select bank1
 	andwf	(134)^080h,f	;volatile
 	line	13
-	goto	l8075
+	goto	l8031
 	line	14
 	
-l8057:	
+l8013:	
 	movf	(GPIO_Write@GPIO_Port),w
 	xorlw	low(7|((0x0)<<8))&0ffh
 	skipz
 	goto	u2691
 	goto	u2690
 u2691:
-	goto	l8061
+	goto	l8017
 u2690:
 	line	16
 	
-l8059:	
+l8015:	
 	movlw	low(01h)
 	movwf	(??_GPIO_Write+0)+0
 	incf	(GPIO_Write@Pin),w
@@ -8092,21 +8020,21 @@ u2704:
 	bcf	status, 6	;RP1=0, select bank1
 	andwf	(135)^080h,f	;volatile
 	line	17
-	goto	l8075
+	goto	l8031
 	line	18
 	
-l8061:	
+l8017:	
 	movf	(GPIO_Write@GPIO_Port),w
 	xorlw	low(8|((0x0)<<8))&0ffh
 	skipz
 	goto	u2711
 	goto	u2710
 u2711:
-	goto	l8065
+	goto	l8021
 u2710:
 	line	20
 	
-l8063:	
+l8019:	
 	movlw	low(01h)
 	movwf	(??_GPIO_Write+0)+0
 	incf	(GPIO_Write@Pin),w
@@ -8126,10 +8054,10 @@ u2724:
 	bcf	status, 6	;RP1=0, select bank1
 	andwf	(136)^080h,f	;volatile
 	line	21
-	goto	l8075
+	goto	l8031
 	line	24
 	
-l8065:	
+l8021:	
 	movlw	low(01h)
 	movwf	(??_GPIO_Write+0)+0
 	incf	(GPIO_Write@Pin),w
@@ -8148,10 +8076,10 @@ u2734:
 	bsf	status, 5	;RP0=1, select bank1
 	bcf	status, 6	;RP1=0, select bank1
 	andwf	(137)^080h,f	;volatile
-	goto	l8075
+	goto	l8031
 	line	29
 	
-l8067:	
+l8023:	
 	movlw	low(01h)
 	movwf	(??_GPIO_Write+0)+0
 	incf	(GPIO_Write@Pin),w
@@ -8171,10 +8099,10 @@ u2744:
 	bcf	status, 7	;select IRP bank0
 	iorwf	indf,f
 	line	30
-	goto	l2404
+	goto	l2400
 	line	32
 	
-l8069:	
+l8025:	
 	movlw	low(01h)
 	movwf	(??_GPIO_Write+0)+0
 	incf	(GPIO_Write@Pin),w
@@ -8195,10 +8123,10 @@ u2754:
 	bcf	status, 7	;select IRP bank0
 	andwf	indf,f
 	line	33
-	goto	l2404
+	goto	l2400
 	line	26
 	
-l8075:	
+l8031:	
 	movf	(GPIO_Write@GPIO_State),w
 	; Switch size 1, requested type "simple"
 ; Number of cases is 2, Range of values is 0 to 1
@@ -8213,16 +8141,16 @@ l8075:
 	asmopt off
 	xorlw	0^0	; case 0
 	skipnz
-	goto	l8069
+	goto	l8025
 	xorlw	1^0	; case 1
 	skipnz
-	goto	l8067
-	goto	l8069
+	goto	l8023
+	goto	l8025
 	asmopt pop
 
 	line	38
 	
-l2404:	
+l2400:	
 	return
 	callstack 0
 GLOBAL	__end_of_GPIO_Write
@@ -8280,7 +8208,7 @@ _GPIO_Read:
 	movwf	(GPIO_Read@GPIO_Port)
 	line	42
 	
-l7701:	
+l7677:	
 	movf	(GPIO_Read@GPIO_Port),w
 	movwf	fsr0
 	movlw	low(01h)
@@ -8301,20 +8229,20 @@ u2074:
 	goto	u2081
 	goto	u2080
 u2081:
-	goto	l7709
+	goto	l7685
 u2080:
 	line	44
 	
-l7703:	
+l7679:	
 	movlw	low(01h)
-	goto	l2408
+	goto	l2404
 	line	48
 	
-l7709:	
+l7685:	
 	movlw	low(0)
 	line	51
 	
-l2408:	
+l2404:	
 	return
 	callstack 0
 GLOBAL	__end_of_GPIO_Read
@@ -8366,11 +8294,11 @@ _Delay_us:
 ; Regs used in _Delay_us: [wreg+status,2+status,0]
 	line	12
 	
-l7713:	
-	goto	l7719
+l7689:	
+	goto	l7695
 	line	14
 	
-l7715:	
+l7691:	
 	movlw	01h
 	subwf	(Delay_us@time),f
 	movlw	0
@@ -8379,7 +8307,7 @@ l7715:
 	subwf	(Delay_us@time+1),f
 	line	15
 	
-l7717:	
+l7693:	
 		asmopt push
 	asmopt off
 	nop2	;2 cycle nop
@@ -8389,18 +8317,18 @@ l7717:
 
 	line	12
 	
-l7719:	
+l7695:	
 	movf	((Delay_us@time)),w
 iorwf	((Delay_us@time+1)),w
 	btfss	status,2
 	goto	u2091
 	goto	u2090
 u2091:
-	goto	l7715
+	goto	l7691
 u2090:
 	line	17
 	
-l3008:	
+l3004:	
 	return
 	callstack 0
 GLOBAL	__end_of_Delay_us
@@ -8465,27 +8393,27 @@ interrupt_function:
 psect	text33
 	line	14
 	
-i1l8037:	
+i1l7993:	
 	bsf	status, 5	;RP0=1, select bank1
 	bcf	status, 6	;RP1=0, select bank1
 	btfss	(140)^080h,(1)&7	;volatile
 	goto	u261_21
 	goto	u261_20
 u261_21:
-	goto	i1l3623
+	goto	i1l3619
 u261_20:
 	
-i1l8039:	
+i1l7995:	
 	bcf	status, 5	;RP0=0, select bank0
 	btfss	(12),(1)&7	;volatile
 	goto	u262_21
 	goto	u262_20
 u262_21:
-	goto	i1l3623
+	goto	i1l3619
 u262_20:
 	line	16
 	
-i1l8041:	
+i1l7997:	
 	movlw	01h
 	addwf	(_timeReset_flag),f
 	skipnc
@@ -8509,28 +8437,28 @@ i1l8041:
 	goto	u263_21
 	goto	u263_20
 u263_21:
-	goto	i1l3624
+	goto	i1l3620
 u263_20:
 	line	20
 	
-i1l8043:	
+i1l7999:	
 	movlw	01h
 	movwf	(_timeSysTick)	;volatile
 	movlw	0
 	movwf	((_timeSysTick))+1	;volatile
 	line	21
 	
-i1l3624:	
+i1l3620:	
 	line	22
 	movlw	low(0DDh)
 	movwf	(17)	;volatile
 	line	23
 	
-i1l8045:	
+i1l8001:	
 	bcf	(97/8),(97)&7	;volatile
 	line	25
 	
-i1l3623:	
+i1l3619:	
 	line	26
 	movlw	013h
 	bcf	status, 5	;RP0=0, select bank0
@@ -8542,17 +8470,17 @@ i1l3623:
 	goto	u264_21
 	goto	u264_20
 u264_21:
-	goto	i1l3626
+	goto	i1l3622
 u264_20:
 	line	28
 	
-i1l8047:	
+i1l8003:	
 # 28 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c"
 clrwdt ;# 
 psect	text33
 	line	30
 	
-i1l3626:	
+i1l3622:	
 	movf	(??_Interrupts_Function+1),w
 	movwf	pclath
 	swapf	(??_Interrupts_Function+0),w

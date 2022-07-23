@@ -208,12 +208,12 @@ DISINFECTED 2
 "6 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\main.c
 [v _main main `(v  1 e 1 0 ]
 {
-"91
+"88
 } 0
 "37 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c
 [v _MCU_Config MCU_Config `(v  1 e 1 0 ]
 {
-"62
+"64
 } 0
 "37 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UART.c
 [v _UART_WriteStr UART_WriteStr `(v  1 e 1 0 ]

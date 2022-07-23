@@ -10,10 +10,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _MCU_Config `(v ~T0 @X0 0 ef ]
 "14 .\Peripheral_Libs/Hearder/GPIO.h
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
-"23 .\Peripheral_Libs/Hearder/HBrightCtrl.h
-[v _Step_Set `(v ~T0 @X0 0 ef1`*S101 ]
-"24
-[v _Step_Stop `(v ~T0 @X0 0 ef1`*S101 ]
 "15 .\Peripheral_Libs/Hearder/LoopProcess.h
 [v _Loop `(v ~T0 @X0 0 ef1`*Vui ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
@@ -756,7 +752,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "65
 -> -> 1 `i `uc
 "66
--> -> 300 `i `ui
+-> -> 90 `i `ui
 :U ..
 :U ..
 "67
@@ -793,7 +789,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "76
 -> -> 1 `i `uc
 "77
--> -> 300 `i `ui
+-> -> 90 `i `ui
 :U ..
 :U ..
 "78
@@ -830,7 +826,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "87
 -> -> 1 `i `uc
 "88
--> -> 300 `i `ui
+-> -> 75 `i `ui
 :U ..
 :U ..
 "89
@@ -948,42 +944,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _MCU_Config ..  ]
 "9
 [e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 1 `i `uc ]
-"10
-[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
-"11
-[e = . _compressStepHandle 3 -> -> 90 `i `ui ]
-"12
-[e ( _Step_Set (1 &U _compressStepHandle ]
-"13
-[e ( _Step_Stop (1 &U _compressStepHandle ]
-"16
-[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
-"17
-[e = . _winchStepHandle 3 -> -> 75 `i `ui ]
-"18
-[e ( _Step_Set (1 &U _winchStepHandle ]
-"19
-[e ( _Step_Stop (1 &U _winchStepHandle ]
-"22
-[e = . _doorStepHandle 0 -> -> 400 `i `ui ]
-"23
-[e = . _doorStepHandle 3 -> -> 90 `i `ui ]
-"24
-[e ( _Step_Set (1 &U _doorStepHandle ]
 "25
-[e ( _Step_Stop (1 &U _doorStepHandle ]
-"28
 [e :U 104 ]
-"29
+"26
 {
-"31
+"28
 [e ( _Loop (1 &U _timeSysTick ]
-"90
+"87
 }
 [e :U 103 ]
-"28
+"25
 [e $U 104  ]
 [e :U 105 ]
-"91
+"88
 [e :UE 102 ]
 }

@@ -59,6 +59,8 @@ void MCU_Config(void)
     GPIO_Write(LED2.Port, LED2.Pin, LOW);
 
     Step_Stop(&compressStepHandle);
+    Step_Stop(&winchStepHandle);
+    Step_Stop(&doorStepHandle);
 }
 
 

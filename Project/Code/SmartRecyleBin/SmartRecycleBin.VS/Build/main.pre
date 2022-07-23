@@ -2251,7 +2251,7 @@ StepHandle compressStepHandle = {
 0,
 0,
 1,
-300,
+90,
 {&PORTD, 6},
 {&PORTD, 5},
 {&PORTD, 7},
@@ -2262,7 +2262,7 @@ StepHandle doorStepHandle = {
 0,
 0,
 1,
-300,
+90,
 {&PORTC, 3},
 {&PORTD, 0},
 {&PORTC, 2},
@@ -2273,7 +2273,7 @@ StepHandle winchStepHandle = {
 0,
 0,
 1,
-300,
+75,
 {&PORTE, 2},
 {&PORTC, 0},
 {&PORTE, 1},
@@ -2329,30 +2329,14 @@ void main(void)
 {
 MCU_Config();
 GPIO_Write(Motor_0.Port, Motor_0.Pin, 1);
-compressStepHandle.vong = 400;
-compressStepHandle.speed = 90;
-Step_Set(&compressStepHandle);
-Step_Stop(&compressStepHandle);
 
-
-winchStepHandle.vong = 400;
-winchStepHandle.speed = 75;
-Step_Set(&winchStepHandle);
-Step_Stop(&winchStepHandle);
-
-
-doorStepHandle.vong = 400;
-doorStepHandle.speed = 90;
-Step_Set(&doorStepHandle);
-Step_Stop(&doorStepHandle);
-
-
+# 25
 while(1)
 {
 
 Loop(&timeSysTick);
 
-# 90
+# 87
 }
 }
 
