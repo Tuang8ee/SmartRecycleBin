@@ -2231,6 +2231,7 @@ typedef struct
 uint16_t vong;
 uint32_t step;
 uint8_t chieu;
+uint16_t speed;
 Peripheral_Pin DIR_Pin;
 Peripheral_Pin PUL_Pin;
 Peripheral_Pin ENA_Pin;
@@ -2247,6 +2248,7 @@ StepHandle compressStepHandle = {
 0,
 0,
 1,
+300,
 {&PORTD, 6},
 {&PORTD, 5},
 {&PORTD, 7},
@@ -2257,6 +2259,7 @@ StepHandle doorStepHandle = {
 0,
 0,
 1,
+300,
 {&PORTC, 3},
 {&PORTD, 0},
 {&PORTC, 2},
@@ -2267,28 +2270,29 @@ StepHandle winchStepHandle = {
 0,
 0,
 1,
+300,
 {&PORTE, 2},
 {&PORTC, 0},
 {&PORTE, 1},
 };
 
-# 128
+# 132
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 138
+# 142
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 148
+# 152
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 156
+# 160
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
@@ -2308,7 +2312,17 @@ void Step_Stop(StepHandle *stepHandle);
 void Step_Start(StepHandle *stepHandle);
 void Step_Ctrl();
 
-# 11 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+# 10 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+void Delay_us(uint16_t time)
+{
+while(time > 0)
+{
+time--;
+_delay((unsigned long)(((unsigned long)1)*(20000000/4000000.0)));
+}
+}
+
+# 28
 void Motor_Stop(Peripheral_Pin *motor_handle)
 {
 if(GPIO_Read(motor_handle[2].Port, motor_handle[2].Pin) || GPIO_Read(motor_handle[0].Port, motor_handle[0].Pin))
@@ -2393,9 +2407,9 @@ if(GPIO_Read(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin) == 1)
 GPIO_Write(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin, 0);
 }
 GPIO_Write(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin, 0);
-_delay((unsigned long)(((unsigned long)300)*(20000000/4000000.0)));
+Delay_us(stepHandle -> speed);
 GPIO_Write(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin, 1);
-_delay((unsigned long)(((unsigned long)300)*(20000000/4000000.0)));
+Delay_us(stepHandle -> speed);
 stepHandle -> step -= 1;
 }
 }

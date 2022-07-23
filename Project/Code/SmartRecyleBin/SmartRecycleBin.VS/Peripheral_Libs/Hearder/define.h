@@ -46,6 +46,7 @@ typedef struct
     uint16_t vong;
     uint32_t step;
     uint8_t chieu;
+    uint16_t speed;
     Peripheral_Pin DIR_Pin;
     Peripheral_Pin PUL_Pin;
     Peripheral_Pin ENA_Pin;
@@ -62,6 +63,7 @@ typedef struct
                                         0,
                                         0,
                                         HIGH,
+                                        300,
                                         {&PORTD, PIN6}, //D7
                                         {&PORTD, PIN5}, //D6
                                         {&PORTD, PIN7}, //D8
@@ -72,6 +74,7 @@ typedef struct
                                     0,
                                     0,
                                     HIGH,
+                                    300,
                                     {&PORTC, PIN3}, //D11
                                     {&PORTD, PIN0}, //D10
                                     {&PORTC, PIN2}, //D12
@@ -82,6 +85,7 @@ typedef struct
                                     0,
                                     0,
                                     HIGH,
+                                    300,
                                     {&PORTE, PIN2}, //D15
                                     {&PORTC, PIN0}, //D14
                                     {&PORTE, PIN1}, //D16
@@ -156,6 +160,8 @@ typedef struct
     Peripheral_Pin SW1 =    {&PORTA, PIN4};
     Peripheral_Pin SW2 =    {&PORTA, PIN5};
            
-                                
+
+
+
 #endif	/* DEFINE_H */
 

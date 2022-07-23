@@ -3,17 +3,17 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
 "45
-[s S101 `ui 1 `ul 1 `uc 1 `S100 1 `S100 1 `S100 1 ]
-[n S101 . vong step chieu DIR_Pin PUL_Pin ENA_Pin ]
+[s S101 `ui 1 `ul 1 `uc 1 `ui 1 `S100 1 `S100 1 `S100 1 ]
+[n S101 . vong step chieu speed DIR_Pin PUL_Pin ENA_Pin ]
 "37 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
-[c E1119 0 1 2 3 4 5 6 .. ]
-[n E1119 . CLOSED CLOSING WAIT_CLOSE SW_OPEN SW_OPENED SS_OPEN SS_OPENED  ]
+[c E1120 0 1 2 3 4 5 6 .. ]
+[n E1120 . CLOSED CLOSING WAIT_CLOSE SW_OPEN SW_OPENED SS_OPEN SS_OPENED  ]
 "51
-[c E1131 0 1 2 3 4 .. ]
-[n E1131 . WAIT_COMPRESS CHECK_COMPRESS COMPRESSED DON_T_COMPRESS COMPRESSING  ]
+[c E1132 0 1 2 3 4 .. ]
+[n E1132 . WAIT_COMPRESS CHECK_COMPRESS COMPRESSED DON_T_COMPRESS COMPRESSING  ]
 "62
-[c E1139 0 1 2 .. ]
-[n E1139 . WAIT_DISINFECTING DISINFECTING DISINFECTED  ]
+[c E1140 0 1 2 .. ]
+[n E1140 . WAIT_DISINFECTING DISINFECTING DISINFECTED  ]
 "12 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\ADC.h
 [v _ADC_Read `(ui ~T0 @X0 0 ef1`uc ]
 "24 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\UltraSonicSensor.h
@@ -724,7 +724,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x WRT=OFF ]
 "31
 [p x CP=OFF ]
-"55 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
+"56 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [v _LED1 `S100 ~T0 @X0 1 e ]
 [i _LED1
 :U ..
@@ -734,7 +734,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"56
+"57
 [v _LED2 `S100 ~T0 @X0 1 e ]
 [i _LED2
 :U ..
@@ -744,7 +744,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"57
+"58
 [v _BUZZER `S100 ~T0 @X0 1 e ]
 [i _BUZZER
 :U ..
@@ -754,7 +754,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"58
+"59
 [v _Motor_0 `S100 ~T0 @X0 1 e ]
 [i _Motor_0
 :U ..
@@ -764,34 +764,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"61
+"62
 [v _compressStepHandle `S101 ~T0 @X0 1 e ]
 [i _compressStepHandle
 :U ..
 :U ..
-"62
--> -> 0 `i `ui
 "63
--> -> -> 0 `i `l `ul
+-> -> 0 `i `ui
 "64
--> -> 1 `i `uc
-:U ..
-:U ..
+-> -> -> 0 `i `l `ul
 "65
+-> -> 1 `i `uc
+"66
+-> -> 300 `i `ui
+:U ..
+:U ..
+"67
 &U _PORTD
 -> -> 6 `i `uc
 ..
 ..
 :U ..
 :U ..
-"66
+"68
 &U _PORTD
 -> -> 5 `i `uc
 ..
 ..
 :U ..
 :U ..
-"67
+"69
 &U _PORTD
 -> -> 7 `i `uc
 ..
@@ -799,34 +801,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"71
+"73
 [v _doorStepHandle `S101 ~T0 @X0 1 e ]
 [i _doorStepHandle
 :U ..
 :U ..
-"72
--> -> 0 `i `ui
-"73
--> -> -> 0 `i `l `ul
 "74
--> -> 1 `i `uc
-:U ..
-:U ..
+-> -> 0 `i `ui
 "75
+-> -> -> 0 `i `l `ul
+"76
+-> -> 1 `i `uc
+"77
+-> -> 300 `i `ui
+:U ..
+:U ..
+"78
 &U _PORTC
 -> -> 3 `i `uc
 ..
 ..
 :U ..
 :U ..
-"76
+"79
 &U _PORTD
 -> -> 0 `i `uc
 ..
 ..
 :U ..
 :U ..
-"77
+"80
 &U _PORTC
 -> -> 2 `i `uc
 ..
@@ -834,34 +838,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"81
+"84
 [v _winchStepHandle `S101 ~T0 @X0 1 e ]
 [i _winchStepHandle
 :U ..
 :U ..
-"82
--> -> 0 `i `ui
-"83
--> -> -> 0 `i `l `ul
-"84
--> -> 1 `i `uc
-:U ..
-:U ..
 "85
+-> -> 0 `i `ui
+"86
+-> -> -> 0 `i `l `ul
+"87
+-> -> 1 `i `uc
+"88
+-> -> 300 `i `ui
+:U ..
+:U ..
+"89
 &U _PORTE
 -> -> 2 `i `uc
 ..
 ..
 :U ..
 :U ..
-"86
+"90
 &U _PORTC
 -> -> 0 `i `uc
 ..
 ..
 :U ..
 :U ..
-"87
+"91
 &U _PORTE
 -> -> 1 `i `uc
 ..
@@ -869,39 +875,39 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"128
+"132
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"129
+"133
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"130
+"134
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"138
+"142
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"139
+"143
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"140
+"144
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"148
+"152
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -911,7 +917,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"149
+"153
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -921,7 +927,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"156
+"160
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -931,7 +937,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"157
+"161
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -942,9 +948,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ]
 "37 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
-[v _trashDoorState `E1119 ~T0 @X0 1 e ]
+[v _trashDoorState `E1120 ~T0 @X0 1 e ]
 [i _trashDoorState
-. `E1119 0
+. `E1120 0
 ]
 "38
 [v _timeBuffer `ul ~T0 @X0 1 e ]
@@ -957,14 +963,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 -> -> 0 `i `uc
 ]
 "51
-[v _compressionState `E1131 ~T0 @X0 1 e ]
+[v _compressionState `E1132 ~T0 @X0 1 e ]
 [i _compressionState
-. `E1131 0
+. `E1132 0
 ]
 "62
-[v _disinfectionState `E1139 ~T0 @X0 1 e ]
+[v _disinfectionState `E1140 ~T0 @X0 1 e ]
 [i _disinfectionState
-. `E1139 2
+. `E1140 2
 ]
 "71
 [v _IRSensor_Read `(d ~T0 @X0 1 ef ]
@@ -1086,16 +1092,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 107 ]
 }
 "121
-[v _TrashDoor_Open `(v ~T0 @X0 1 ef1`*E1119 ]
+[v _TrashDoor_Open `(v ~T0 @X0 1 ef1`*E1120 ]
 "122
 {
 [e :U _TrashDoor_Open ]
 "121
-[v _state `*E1119 ~T0 @X0 1 r1 ]
+[v _state `*E1120 ~T0 @X0 1 r1 ]
 "122
 [f ]
 "123
-[e $ ! == -> *U _state `i -> . `E1119 5 `i 115  ]
+[e $ ! == -> *U _state `i -> . `E1120 5 `i 115  ]
 "124
 {
 "125
@@ -1123,7 +1129,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "150
 [e ( _Step_Stop (1 &U _doorStepHandle ]
 "154
-[e = *U _state . `E1119 6 ]
+[e = *U _state . `E1120 6 ]
 "155
 }
 [e :U 118 ]
@@ -1133,7 +1139,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 119  ]
 "158
 [e :U 115 ]
-[e $ ! == -> *U _state `i -> . `E1119 3 `i 120  ]
+[e $ ! == -> *U _state `i -> . `E1120 3 `i 120  ]
 "159
 {
 "160
@@ -1161,7 +1167,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "183
 [e ( _Step_Stop (1 &U _doorStepHandle ]
 "187
-[e = *U _state . `E1119 4 ]
+[e = *U _state . `E1120 4 ]
 "188
 }
 [e :U 123 ]
@@ -1174,16 +1180,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 114 ]
 }
 "193
-[v _TrashDoor_Close `(v ~T0 @X0 1 ef1`*E1119 ]
+[v _TrashDoor_Close `(v ~T0 @X0 1 ef1`*E1120 ]
 "194
 {
 [e :U _TrashDoor_Close ]
 "193
-[v _state `*E1119 ~T0 @X0 1 r1 ]
+[v _state `*E1120 ~T0 @X0 1 r1 ]
 "194
 [f ]
 "195
-[e $ ! == -> *U _state `i -> . `E1119 2 `i 125  ]
+[e $ ! == -> *U _state `i -> . `E1120 2 `i 125  ]
 "196
 {
 "197
@@ -1191,7 +1197,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "198
 {
 "199
-[e = *U _state . `E1119 1 ]
+[e = *U _state . `E1120 1 ]
 "200
 [e = _timeBuffer -> -> -> 0 `i `l `ul ]
 "201
@@ -1202,7 +1208,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 127  ]
 "203
 [e :U 125 ]
-[e $ ! == -> *U _state `i -> . `E1119 1 `i 128  ]
+[e $ ! == -> *U _state `i -> . `E1120 1 `i 128  ]
 "204
 {
 "206
@@ -1230,7 +1236,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "229
 [e ( _Step_Stop (1 &U _doorStepHandle ]
 "233
-[e = *U _state . `E1119 0 ]
+[e = *U _state . `E1120 0 ]
 "234
 }
 [e :U 131 ]
@@ -1243,12 +1249,12 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :UE 124 ]
 }
 "238
-[v _TrashDoor_Ctrl `(v ~T0 @X0 1 ef2`*E1119`*Vui ]
+[v _TrashDoor_Ctrl `(v ~T0 @X0 1 ef2`*E1120`*Vui ]
 "239
 {
 [e :U _TrashDoor_Ctrl ]
 "238
-[v _state `*E1119 ~T0 @X0 1 r1 ]
+[v _state `*E1120 ~T0 @X0 1 r1 ]
 [v _timeSysTick `*Vui ~T0 @X0 1 r2 ]
 "239
 [f ]
@@ -1270,11 +1276,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $ != -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> -> -> 0 `i `uc `i 135  ]
 [e :U 136 ]
 "247
-[e $ ! && != -> *U _state `i -> . `E1119 0 `i != -> *U _state `i -> . `E1119 2 `i 137  ]
+[e $ ! && != -> *U _state `i -> . `E1120 0 `i != -> *U _state `i -> . `E1120 2 `i 137  ]
 "248
 {
 "249
-[e = *U _state . `E1119 1 ]
+[e = *U _state . `E1120 1 ]
 "250
 [e = _timeBuffer -> -> -> 0 `i `l `ul ]
 "252
@@ -1285,7 +1291,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "254
 {
 "255
-[e = *U _state . `E1119 3 ]
+[e = *U _state . `E1120 3 ]
 "256
 [e = _timeBuffer -> -> -> 0 `i `l `ul ]
 "258
@@ -1304,15 +1310,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 "265
 {
 "266
-[e $ ! && != -> *U _state `i -> . `E1119 5 `i != -> *U _state `i -> . `E1119 6 `i 142  ]
+[e $ ! && != -> *U _state `i -> . `E1120 5 `i != -> *U _state `i -> . `E1120 6 `i 142  ]
 "267
 {
 "268
-[e $ ! == -> *U _state `i -> . `E1119 2 `i 143  ]
+[e $ ! == -> *U _state `i -> . `E1120 2 `i 143  ]
 "269
 {
 "270
-[e = *U _state . `E1119 6 ]
+[e = *U _state . `E1120 6 ]
 "271
 }
 [e $U 144  ]
@@ -1321,7 +1327,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "273
 {
 "274
-[e = *U _state . `E1119 5 ]
+[e = *U _state . `E1120 5 ]
 "275
 }
 [e :U 144 ]
@@ -1338,11 +1344,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 "281
 {
 "282
-[e $ ! == -> *U _state `i -> . `E1119 6 `i 146  ]
+[e $ ! == -> *U _state `i -> . `E1120 6 `i 146  ]
 "283
 {
 "284
-[e = *U _state . `E1119 2 ]
+[e = *U _state . `E1120 2 ]
 "285
 [e = _timeBuffer -> -> -> 0 `i `l `ul ]
 "287
@@ -1356,7 +1362,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 140 ]
 "291
 [e :U 139 ]
-[e $ ! || || == -> *U _state `i -> . `E1119 0 `i == -> *U _state `i -> . `E1119 1 `i == -> *U _state `i -> . `E1119 2 `i 147  ]
+[e $ ! || || == -> *U _state `i -> . `E1120 0 `i == -> *U _state `i -> . `E1120 1 `i == -> *U _state `i -> . `E1120 2 `i 147  ]
 "292
 {
 "293
@@ -1383,25 +1389,25 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U _Compression_Ctrl ]
 [f ]
 "307
-[e $ ! && != -> _trashDoorState `i -> . `E1119 0 `i != -> _trashDoorState `i -> . `E1119 1 `i 150  ]
+[e $ ! && != -> _trashDoorState `i -> . `E1120 0 `i != -> _trashDoorState `i -> . `E1120 1 `i 150  ]
 "308
 {
 "309
-[e = _compressionState . `E1131 3 ]
+[e = _compressionState . `E1132 3 ]
 "310
 }
 [e $U 151  ]
 "311
 [e :U 150 ]
-[e $ ! != -> _compressionState `i -> . `E1131 2 `i 152  ]
+[e $ ! != -> _compressionState `i -> . `E1132 2 `i 152  ]
 "312
 {
 "313
-[e $ ! == -> _trashDoorState `i -> . `E1119 1 `i 153  ]
+[e $ ! == -> _trashDoorState `i -> . `E1120 1 `i 153  ]
 "314
 {
 "315
-[e = _compressionState . `E1131 0 ]
+[e = _compressionState . `E1132 0 ]
 "316
 }
 [e $U 154  ]
@@ -1410,11 +1416,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 "318
 {
 "319
-[e $ ! && != -> _compressionState `i -> . `E1131 1 `i != -> _compressionState `i -> . `E1131 4 `i 155  ]
+[e $ ! && != -> _compressionState `i -> . `E1132 1 `i != -> _compressionState `i -> . `E1132 4 `i 155  ]
 "320
 {
 "321
-[e = _compressionState . `E1131 1 ]
+[e = _compressionState . `E1132 1 ]
 "322
 }
 [e :U 155 ]
@@ -1440,15 +1446,15 @@ Version 3.2 HI-TECH Software Intermediate Code
 "329
 [v _distance `uc ~T0 @X0 1 a ]
 [e = _distance -> -> 0 `i `uc ]
-[v F1169 `uc ~T0 @X0 -> 10 `i s ]
-[i F1169
+[v F1170 `uc ~T0 @X0 -> 10 `i s ]
+[i F1170
 :U ..
 -> 0 `c
 ..
 ]
 "330
 [v _TX `uc ~T0 @X0 -> 10 `i a ]
-[e = _TX F1169 ]
+[e = _TX F1170 ]
 "331
 [e $U 158  ]
 "332
@@ -1474,7 +1480,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "345
 {
 "346
-[e = _compressionState . `E1131 2 ]
+[e = _compressionState . `E1132 2 ]
 "349
 }
 [e $U 162  ]
@@ -1483,7 +1489,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "351
 {
 "352
-[e = _compressionState . `E1131 4 ]
+[e = _compressionState . `E1132 4 ]
 "355
 [e = _timeBuffer -> -> -> 0 `i `l `ul ]
 "356
@@ -1549,7 +1555,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "432
 [e ( _Step_Stop (1 &U _compressStepHandle ]
 "434
-[e = _compressionState . `E1131 2 ]
+[e = _compressionState . `E1132 2 ]
 "435
 }
 [e :U 169 ]
@@ -1574,10 +1580,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 157  ]
 "331
 [e :U 158 ]
-[e [\ _compressionState , $ . `E1131 0 159
- , $ . `E1131 1 160
- , $ . `E1131 4 163
- , $ . `E1131 2 170
+[e [\ _compressionState , $ . `E1132 0 159
+ , $ . `E1132 1 160
+ , $ . `E1132 4 163
+ , $ . `E1132 2 170
  171 ]
 "444
 [e :U 157 ]
@@ -1591,11 +1597,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U _Disinfection_Ctrl ]
 [f ]
 "453
-[e $ ! != -> _compressionState `i -> . `E1131 2 `i 173  ]
+[e $ ! != -> _compressionState `i -> . `E1132 2 `i 173  ]
 "454
 {
 "455
-[e = _disinfectionState . `E1139 0 ]
+[e = _disinfectionState . `E1140 0 ]
 "456
 }
 [e $U 174  ]
@@ -1604,11 +1610,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 "458
 {
 "459
-[e $ ! == -> _disinfectionState `i -> . `E1139 0 `i 175  ]
+[e $ ! == -> _disinfectionState `i -> . `E1140 0 `i 175  ]
 "460
 {
 "461
-[e = _disinfectionState . `E1139 1 ]
+[e = _disinfectionState . `E1140 1 ]
 "462
 [e = _timeBuffer -> -> -> 0 `i `l `ul ]
 "463
@@ -1627,7 +1633,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U _Disionfection_Run ]
 [f ]
 "469
-[e $ ! == -> _disinfectionState `i -> . `E1139 1 `i 177  ]
+[e $ ! == -> _disinfectionState `i -> . `E1140 1 `i 177  ]
 "470
 {
 "471
@@ -1649,7 +1655,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "478
 [e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 1 `i `uc ]
 "479
-[e = _disinfectionState . `E1139 2 ]
+[e = _disinfectionState . `E1140 2 ]
 "480
 }
 [e :U 180 ]
@@ -1698,7 +1704,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "514
 [f ]
 "516
-[e $ ! && != -> _compressionState `i -> . `E1131 4 `i != -> _compressionState `i -> . `E1131 1 `i 184  ]
+[e $ ! && != -> _compressionState `i -> . `E1132 4 `i != -> _compressionState `i -> . `E1132 1 `i 184  ]
 "517
 {
 "518

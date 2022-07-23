@@ -3,16 +3,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
 "45
-[s S101 `ui 1 `ul 1 `uc 1 `S100 1 `S100 1 `S100 1 ]
-[n S101 . vong step chieu DIR_Pin PUL_Pin ENA_Pin ]
-"15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h
-[v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
-"14
-[v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
+[s S101 `ui 1 `ul 1 `uc 1 `ui 1 `S100 1 `S100 1 `S100 1 ]
+[n S101 . vong step chieu speed DIR_Pin PUL_Pin ENA_Pin ]
 [v F184 `(v ~T0 @X0 1 tf1`ul ]
 "12 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\builtins.h
 [v __delay `JF184 ~T0 @X0 0 e ]
 [p i __delay ]
+"15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h
+[v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
+"14
+[v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [; <" INDF equ 00h ;# ">
 "62
@@ -701,7 +701,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x WRT=OFF ]
 "31
 [p x CP=OFF ]
-"55 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
+"56 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [v _LED1 `S100 ~T0 @X0 1 e ]
 [i _LED1
 :U ..
@@ -711,7 +711,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"56
+"57
 [v _LED2 `S100 ~T0 @X0 1 e ]
 [i _LED2
 :U ..
@@ -721,7 +721,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"57
+"58
 [v _BUZZER `S100 ~T0 @X0 1 e ]
 [i _BUZZER
 :U ..
@@ -731,7 +731,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"58
+"59
 [v _Motor_0 `S100 ~T0 @X0 1 e ]
 [i _Motor_0
 :U ..
@@ -741,34 +741,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"61
+"62
 [v _compressStepHandle `S101 ~T0 @X0 1 e ]
 [i _compressStepHandle
 :U ..
 :U ..
-"62
--> -> 0 `i `ui
 "63
--> -> -> 0 `i `l `ul
+-> -> 0 `i `ui
 "64
--> -> 1 `i `uc
-:U ..
-:U ..
+-> -> -> 0 `i `l `ul
 "65
+-> -> 1 `i `uc
+"66
+-> -> 300 `i `ui
+:U ..
+:U ..
+"67
 &U _PORTD
 -> -> 6 `i `uc
 ..
 ..
 :U ..
 :U ..
-"66
+"68
 &U _PORTD
 -> -> 5 `i `uc
 ..
 ..
 :U ..
 :U ..
-"67
+"69
 &U _PORTD
 -> -> 7 `i `uc
 ..
@@ -776,34 +778,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"71
+"73
 [v _doorStepHandle `S101 ~T0 @X0 1 e ]
 [i _doorStepHandle
 :U ..
 :U ..
-"72
--> -> 0 `i `ui
-"73
--> -> -> 0 `i `l `ul
 "74
--> -> 1 `i `uc
-:U ..
-:U ..
+-> -> 0 `i `ui
 "75
+-> -> -> 0 `i `l `ul
+"76
+-> -> 1 `i `uc
+"77
+-> -> 300 `i `ui
+:U ..
+:U ..
+"78
 &U _PORTC
 -> -> 3 `i `uc
 ..
 ..
 :U ..
 :U ..
-"76
+"79
 &U _PORTD
 -> -> 0 `i `uc
 ..
 ..
 :U ..
 :U ..
-"77
+"80
 &U _PORTC
 -> -> 2 `i `uc
 ..
@@ -811,34 +815,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"81
+"84
 [v _winchStepHandle `S101 ~T0 @X0 1 e ]
 [i _winchStepHandle
 :U ..
 :U ..
-"82
--> -> 0 `i `ui
-"83
--> -> -> 0 `i `l `ul
-"84
--> -> 1 `i `uc
-:U ..
-:U ..
 "85
+-> -> 0 `i `ui
+"86
+-> -> -> 0 `i `l `ul
+"87
+-> -> 1 `i `uc
+"88
+-> -> 300 `i `ui
+:U ..
+:U ..
+"89
 &U _PORTE
 -> -> 2 `i `uc
 ..
 ..
 :U ..
 :U ..
-"86
+"90
 &U _PORTC
 -> -> 0 `i `uc
 ..
 ..
 :U ..
 :U ..
-"87
+"91
 &U _PORTE
 -> -> 1 `i `uc
 ..
@@ -846,39 +852,39 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"128
+"132
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"129
+"133
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"130
+"134
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"138
+"142
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"139
+"143
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"140
+"144
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"148
+"152
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -888,7 +894,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"149
+"153
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -898,7 +904,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"156
+"160
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -908,7 +914,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"157
+"161
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -918,201 +924,228 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"11 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c
-[v _Motor_Stop `(v ~T0 @X0 1 ef1`*S100 ]
-"12
-{
-[e :U _Motor_Stop ]
+"10 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c
+[v _Delay_us `(v ~T0 @X0 1 ef1`ui ]
 "11
-[v _motor_handle `*S100 ~T0 @X0 1 r1 ]
-"12
+{
+[e :U _Delay_us ]
+"10
+[v _time `ui ~T0 @X0 1 r1 ]
+"11
 [f ]
-"13
-[e $ ! || != -> ( _GPIO_Read (2 , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 `i -> -> -> 0 `i `uc `i != -> ( _GPIO_Read (2 , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 `i -> -> -> 0 `i `uc `i 103  ]
-"14
-{
-"15
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"16
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"17
-[e ( __delay (1 -> * -> -> -> 10 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"18
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"19
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"20
-[e ( __delay (1 -> * -> -> -> 5 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"21
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"22
-[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"23
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"24
-[e ( __delay (1 -> * -> -> -> 100 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"25
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"26
-[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"27
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"28
-[e ( __delay (1 -> * -> -> -> 5 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"29
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"30
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"32
-}
-[e $U 104  ]
-"33
-[e :U 103 ]
-"34
-{
-"35
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"36
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"37
-[e ( __delay (1 -> * -> -> -> 10 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"38
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"39
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"40
-[e ( __delay (1 -> * -> -> -> 5 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"41
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"42
-[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"43
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"44
-[e ( __delay (1 -> * -> -> -> 5 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"45
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"46
-[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"47
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"48
-[e ( __delay (1 -> * -> -> -> 5 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"49
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"50
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
-"51
-}
+"12
+[e $U 103  ]
 [e :U 104 ]
-"52
-[e ( __delay (1 -> * -> -> -> 15 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"54
+"13
+{
+"14
+[e -- _time -> -> 1 `i `ui ]
+"15
+[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"16
+}
+[e :U 103 ]
+"12
+[e $ > _time -> -> 0 `i `ui 104  ]
+[e :U 105 ]
+"17
 [e :UE 102 ]
 }
-"55
-[v _Motor_Forward_Start `(v ~T0 @X0 1 ef1`*S100 ]
-"56
+"28
+[v _Motor_Stop `(v ~T0 @X0 1 ef1`*S100 ]
+"29
 {
-[e :U _Motor_Forward_Start ]
-"55
+[e :U _Motor_Stop ]
+"28
 [v _motor_handle `*S100 ~T0 @X0 1 r1 ]
-"56
+"29
 [f ]
-"58
-[e ( _Motor_Stop (1 _motor_handle ]
-"60
+"30
+[e $ ! || != -> ( _GPIO_Read (2 , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 `i -> -> -> 0 `i `uc `i != -> ( _GPIO_Read (2 , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 `i -> -> -> 0 `i `uc `i 107  ]
+"31
+{
+"32
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"33
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"34
+[e ( __delay (1 -> * -> -> -> 10 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"35
 [e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"61
-[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"62
-[e :UE 105 ]
-}
-"63
-[v _Motor_Reverse_Start `(v ~T0 @X0 1 ef1`*S100 ]
-"64
-{
-[e :U _Motor_Reverse_Start ]
-"63
-[v _motor_handle `*S100 ~T0 @X0 1 r1 ]
-"64
-[f ]
-"66
-[e ( _Motor_Stop (1 _motor_handle ]
-"69
+"36
 [e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
-"70
+"37
+[e ( __delay (1 -> * -> -> -> 5 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"38
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"39
+[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"40
 [e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
+"41
+[e ( __delay (1 -> * -> -> -> 100 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"42
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"43
+[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"44
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
+"45
+[e ( __delay (1 -> * -> -> -> 5 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"46
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"47
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"49
+}
+[e $U 108  ]
+"50
+[e :U 107 ]
+"51
+{
+"52
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"53
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"54
+[e ( __delay (1 -> * -> -> -> 10 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"55
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
+"56
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
+"57
+[e ( __delay (1 -> * -> -> -> 5 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"58
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"59
+[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"60
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
+"61
+[e ( __delay (1 -> * -> -> -> 5 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"62
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"63
+[e ( __delay (1 -> * -> -> -> 1 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"64
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
+"65
+[e ( __delay (1 -> * -> -> -> 5 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"66
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"67
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
+"68
+}
+[e :U 108 ]
+"69
+[e ( __delay (1 -> * -> -> -> 15 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "71
 [e :UE 106 ]
 }
-"74
-[v _Step_Set `(v ~T0 @X0 1 ef1`*S101 ]
+"72
+[v _Motor_Forward_Start `(v ~T0 @X0 1 ef1`*S100 ]
+"73
+{
+[e :U _Motor_Forward_Start ]
+"72
+[v _motor_handle `*S100 ~T0 @X0 1 r1 ]
+"73
+[f ]
 "75
+[e ( _Motor_Stop (1 _motor_handle ]
+"77
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
+"78
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
+"79
+[e :UE 109 ]
+}
+"80
+[v _Motor_Reverse_Start `(v ~T0 @X0 1 ef1`*S100 ]
+"81
+{
+[e :U _Motor_Reverse_Start ]
+"80
+[v _motor_handle `*S100 ~T0 @X0 1 r1 ]
+"81
+[f ]
+"83
+[e ( _Motor_Stop (1 _motor_handle ]
+"86
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 1 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
+"87
+[e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
+"88
+[e :UE 110 ]
+}
+"91
+[v _Step_Set `(v ~T0 @X0 1 ef1`*S101 ]
+"92
 {
 [e :U _Step_Set ]
-"74
+"91
 [v _stepHandle `*S101 ~T0 @X0 1 r1 ]
-"75
+"92
 [f ]
-"76
-[e ( _GPIO_Write (3 , , . . *U _stepHandle 3 0 . . *U _stepHandle 3 1 . *U _stepHandle 2 ]
-"77
+"93
+[e ( _GPIO_Write (3 , , . . *U _stepHandle 4 0 . . *U _stepHandle 4 1 . *U _stepHandle 2 ]
+"94
 [e = . *U _stepHandle 1 -> * . *U _stepHandle 0 -> -> 1600 `i `ui `ul ]
-"78
-[e :UE 107 ]
+"95
+[e :UE 111 ]
 }
-"80
+"97
 [v _Step_Stop `(v ~T0 @X0 1 ef1`*S101 ]
-"81
+"98
 {
 [e :U _Step_Stop ]
-"80
+"97
 [v _stepHandle `*S101 ~T0 @X0 1 r1 ]
-"81
+"98
 [f ]
-"82
+"99
 [e = . *U _stepHandle 1 -> -> -> 0 `i `l `ul ]
-"83
-[e ( _GPIO_Write (3 , , . . *U _stepHandle 5 0 . . *U _stepHandle 5 1 -> -> 1 `i `uc ]
-"84
-[e :UE 108 ]
+"100
+[e ( _GPIO_Write (3 , , . . *U _stepHandle 6 0 . . *U _stepHandle 6 1 -> -> 1 `i `uc ]
+"101
+[e :UE 112 ]
 }
-"86
+"103
 [v _Step_Start `(v ~T0 @X0 1 ef1`*S101 ]
-"87
+"104
 {
 [e :U _Step_Start ]
-"86
+"103
 [v _stepHandle `*S101 ~T0 @X0 1 r1 ]
-"87
+"104
 [f ]
-"88
-[e $ ! > . *U _stepHandle 1 -> -> -> 0 `i `l `ul 110  ]
-"89
+"105
+[e $ ! > . *U _stepHandle 1 -> -> -> 0 `i `l `ul 114  ]
+"106
 {
-"90
-[e $ ! == -> ( _GPIO_Read (2 , . . *U _stepHandle 5 0 . . *U _stepHandle 5 1 `i -> 1 `i 111  ]
-"91
+"107
+[e $ ! == -> ( _GPIO_Read (2 , . . *U _stepHandle 6 0 . . *U _stepHandle 6 1 `i -> 1 `i 115  ]
+"108
 {
-"92
+"109
+[e ( _GPIO_Write (3 , , . . *U _stepHandle 6 0 . . *U _stepHandle 6 1 -> -> 0 `i `uc ]
+"110
+}
+[e :U 115 ]
+"111
 [e ( _GPIO_Write (3 , , . . *U _stepHandle 5 0 . . *U _stepHandle 5 1 -> -> 0 `i `uc ]
-"93
-}
-[e :U 111 ]
-"94
-[e ( _GPIO_Write (3 , , . . *U _stepHandle 4 0 . . *U _stepHandle 4 1 -> -> 0 `i `uc ]
-"95
-[e ( __delay (1 -> * -> -> -> 300 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"96
-[e ( _GPIO_Write (3 , , . . *U _stepHandle 4 0 . . *U _stepHandle 4 1 -> -> 1 `i `uc ]
-"97
-[e ( __delay (1 -> * -> -> -> 300 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
-"98
+"112
+[e ( _Delay_us (1 . *U _stepHandle 3 ]
+"113
+[e ( _GPIO_Write (3 , , . . *U _stepHandle 5 0 . . *U _stepHandle 5 1 -> -> 1 `i `uc ]
+"114
+[e ( _Delay_us (1 . *U _stepHandle 3 ]
+"115
 [e =- . *U _stepHandle 1 -> -> -> 1 `i `l `ul ]
-"99
+"116
 }
-[e :U 110 ]
-"100
-[e :UE 109 ]
+[e :U 114 ]
+"117
+[e :UE 113 ]
 }

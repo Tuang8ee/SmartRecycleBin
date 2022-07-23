@@ -2234,6 +2234,7 @@ typedef struct
 uint16_t vong;
 uint32_t step;
 uint8_t chieu;
+uint16_t speed;
 Peripheral_Pin DIR_Pin;
 Peripheral_Pin PUL_Pin;
 Peripheral_Pin ENA_Pin;
@@ -2250,6 +2251,7 @@ StepHandle compressStepHandle = {
 0,
 0,
 1,
+300,
 {&PORTD, 6},
 {&PORTD, 5},
 {&PORTD, 7},
@@ -2260,6 +2262,7 @@ StepHandle doorStepHandle = {
 0,
 0,
 1,
+300,
 {&PORTC, 3},
 {&PORTD, 0},
 {&PORTC, 2},
@@ -2270,28 +2273,29 @@ StepHandle winchStepHandle = {
 0,
 0,
 1,
+300,
 {&PORTE, 2},
 {&PORTC, 0},
 {&PORTE, 1},
 };
 
-# 128
+# 132
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 138
+# 142
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 148
+# 152
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 156
+# 160
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 

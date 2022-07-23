@@ -3,8 +3,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
 "45
-[s S101 `ui 1 `ul 1 `uc 1 `S100 1 `S100 1 `S100 1 ]
-[n S101 . vong step chieu DIR_Pin PUL_Pin ENA_Pin ]
+[s S101 `ui 1 `ul 1 `uc 1 `ui 1 `S100 1 `S100 1 `S100 1 ]
+[n S101 . vong step chieu speed DIR_Pin PUL_Pin ENA_Pin ]
 "14 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/GPIO.h
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
 [v F184 `(v ~T0 @X0 1 tf1`ul ]
@@ -701,7 +701,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x WRT=OFF ]
 "31
 [p x CP=OFF ]
-"55 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
+"56 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [v _LED1 `S100 ~T0 @X0 1 e ]
 [i _LED1
 :U ..
@@ -711,7 +711,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"56
+"57
 [v _LED2 `S100 ~T0 @X0 1 e ]
 [i _LED2
 :U ..
@@ -721,7 +721,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"57
+"58
 [v _BUZZER `S100 ~T0 @X0 1 e ]
 [i _BUZZER
 :U ..
@@ -731,7 +731,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"58
+"59
 [v _Motor_0 `S100 ~T0 @X0 1 e ]
 [i _Motor_0
 :U ..
@@ -741,34 +741,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"61
+"62
 [v _compressStepHandle `S101 ~T0 @X0 1 e ]
 [i _compressStepHandle
 :U ..
 :U ..
-"62
--> -> 0 `i `ui
 "63
--> -> -> 0 `i `l `ul
+-> -> 0 `i `ui
 "64
--> -> 1 `i `uc
-:U ..
-:U ..
+-> -> -> 0 `i `l `ul
 "65
+-> -> 1 `i `uc
+"66
+-> -> 300 `i `ui
+:U ..
+:U ..
+"67
 &U _PORTD
 -> -> 6 `i `uc
 ..
 ..
 :U ..
 :U ..
-"66
+"68
 &U _PORTD
 -> -> 5 `i `uc
 ..
 ..
 :U ..
 :U ..
-"67
+"69
 &U _PORTD
 -> -> 7 `i `uc
 ..
@@ -776,34 +778,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"71
+"73
 [v _doorStepHandle `S101 ~T0 @X0 1 e ]
 [i _doorStepHandle
 :U ..
 :U ..
-"72
--> -> 0 `i `ui
-"73
--> -> -> 0 `i `l `ul
 "74
--> -> 1 `i `uc
-:U ..
-:U ..
+-> -> 0 `i `ui
 "75
+-> -> -> 0 `i `l `ul
+"76
+-> -> 1 `i `uc
+"77
+-> -> 300 `i `ui
+:U ..
+:U ..
+"78
 &U _PORTC
 -> -> 3 `i `uc
 ..
 ..
 :U ..
 :U ..
-"76
+"79
 &U _PORTD
 -> -> 0 `i `uc
 ..
 ..
 :U ..
 :U ..
-"77
+"80
 &U _PORTC
 -> -> 2 `i `uc
 ..
@@ -811,34 +815,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"81
+"84
 [v _winchStepHandle `S101 ~T0 @X0 1 e ]
 [i _winchStepHandle
 :U ..
 :U ..
-"82
--> -> 0 `i `ui
-"83
--> -> -> 0 `i `l `ul
-"84
--> -> 1 `i `uc
-:U ..
-:U ..
 "85
+-> -> 0 `i `ui
+"86
+-> -> -> 0 `i `l `ul
+"87
+-> -> 1 `i `uc
+"88
+-> -> 300 `i `ui
+:U ..
+:U ..
+"89
 &U _PORTE
 -> -> 2 `i `uc
 ..
 ..
 :U ..
 :U ..
-"86
+"90
 &U _PORTC
 -> -> 0 `i `uc
 ..
 ..
 :U ..
 :U ..
-"87
+"91
 &U _PORTE
 -> -> 1 `i `uc
 ..
@@ -846,39 +852,39 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"128
+"132
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"129
+"133
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"130
+"134
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"138
+"142
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"139
+"143
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"140
+"144
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"148
+"152
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -888,7 +894,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"149
+"153
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -898,7 +904,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"156
+"160
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -908,7 +914,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"157
+"161
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..

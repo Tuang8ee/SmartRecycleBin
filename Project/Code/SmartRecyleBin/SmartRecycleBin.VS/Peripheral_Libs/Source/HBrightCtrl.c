@@ -7,6 +7,23 @@
 #include "..\Hearder\GPIO.h"
 #include "..\Hearder\HBrightCtrl.h"
 
+void Delay_us(uint16_t time)
+{
+    while(time > 0)
+    {
+        time--;
+        delay_us(1);
+    }
+}   
+
+// void Delay_ms(uint16_t time)
+// {
+//     while(time > 0)
+//     {
+//         time--;
+//         delay_ms(1);
+//     }
+// } 
 
 void Motor_Stop(Peripheral_Pin *motor_handle)
 {
@@ -92,9 +109,9 @@ void Step_Start(StepHandle *stepHandle)
             GPIO_Write(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin, LOW);
         }
         GPIO_Write(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin, LOW);
-        delay_us(300);
+        Delay_us(stepHandle -> speed);
         GPIO_Write(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin, HIGH);
-        delay_us(300);
+        Delay_us(stepHandle -> speed);
         stepHandle -> step -= 1;
     }
 }
