@@ -2523,7 +2523,7 @@ l7486:
 	line	16
 	
 l7488:	
-	movlw	05Eh
+	movlw	090h
 	movwf	0+(_winchStepHandle)+07h
 	movlw	01h
 	movwf	(0+(_winchStepHandle)+07h)+1

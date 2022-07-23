@@ -13,7 +13,7 @@ void main(void)
 
     
     winchStepHandle.vong = 400;
-    winchStepHandle.speed = 350;
+    winchStepHandle.speed = 400;
     Step_Set(&winchStepHandle);
 
 

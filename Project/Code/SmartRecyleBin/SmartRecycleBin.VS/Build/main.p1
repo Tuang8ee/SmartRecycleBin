@@ -959,7 +959,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "15
 [e = . _winchStepHandle 0 -> -> 400 `i `ui ]
 "16
-[e = . _winchStepHandle 3 -> -> 350 `i `ui ]
+[e = . _winchStepHandle 3 -> -> 400 `i `ui ]
 "17
 [e ( _Step_Set (1 &U _winchStepHandle ]
 "20
