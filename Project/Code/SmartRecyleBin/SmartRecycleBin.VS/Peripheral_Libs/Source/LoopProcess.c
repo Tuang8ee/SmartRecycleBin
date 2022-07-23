@@ -20,36 +20,99 @@
 #define TIME_UNCOMPRESS             70000
 
 // uint8_t TX_Array[10] = "";
-typedef enum{
-    CLOSED,
-    CLOSING,
-    WAIT_CLOSE,
 
-    SW_OPEN,
-    SW_OPENED,
-    SS_OPEN,
-    SS_OPENED
-}TrashDoorState;
-TrashDoorState trashDoorState = CLOSED;
-uint32_t timeBuffer = 0;
+/* Define */
 
-uint8_t distanceBuffer = 0; 
-typedef enum{
-    WAIT_COMPRESS = 0,
-    CHECK_COMPRESS,
-    COMPRESSED,
-    DON_T_COMPRESS,
-    COMPRESSING
-}CompressionState;
-CompressionState compressionState = WAIT_COMPRESS;
+    /* ======== Define for Door Ctrl Procession ======== */ 
+    typedef enum{
+        CLOSED,
+        CLOSING,
+        WAIT_CLOSE,
 
-typedef enum{
-    WAIT_DISINFECTING = 0,
-    DISINFECTING, 
-    DISINFECTED
-}DisinfectionState;
+        SW_OPEN,
+        SW_OPENED,
+        SS_OPEN,
+        SS_OPENED
+    }TrashDoorState;
+    TrashDoorState trashDoorState = CLOSED;
+    uint32_t timeBuffer = 0;
+    /*==================================================*/
 
-DisinfectionState disinfectionState = DISINFECTED;
+
+    /* ======== Define for Compress Procession ======== */ 
+    uint8_t distanceBuffer = 0; 
+    typedef enum{
+        WAIT_COMPRESS = 0,
+        CHECK_COMPRESS,
+        COMPRESSED,
+        DON_T_COMPRESS,
+        COMPRESSING
+    }CompressionState;
+    CompressionState compressionState = WAIT_COMPRESS;
+    /*==================================================*/
+    
+
+    /* ======== Define for Disinfect Procession ======== */ 
+    typedef enum{
+        WAIT_DISINFECTING = 0,
+        DISINFECTING, 
+        DISINFECTED
+    }DisinfectionState;
+
+    DisinfectionState disinfectionState = DISINFECTED;
+    /*==================================================*/
+
+/* End Define */
+
+
+/* Code: Function:*/
+
+/* ===== Sensor Procession Functions Controler ===== */ 
+double IRSensor_Read(void)
+{
+    double adc_value = 0.0;
+    uint8_t index = 0;
+    for (index = 0; index <= 10; index++)
+    {
+        adc_value += ADC_Read(0);
+        if(adc_value < 100)
+
+        {
+            break;
+        }
+    }
+    adc_value = adc_value / index;
+    // sprintf(TX_Array, "%0.2fV %d\n\0", adc_value, index);
+    // UART_WriteStr(TX_Array);
+    adc_value = adc_value * 5 / 1024.0;
+    return adc_value;
+}
+
+uint8_t UltraSensor_Read(volatile uint16_t *ptimeSysTick)
+{
+    uint16_t distance = 0, distance_buff;
+    
+    uint8_t index = 0;
+    for (index = 0; index <= 10; index++)
+    {
+        distance_buff =  2 * UltraSonicSensor_Read(UltraSonic_2, ptimeSysTick);
+        if(distance_buff > 140)
+        {
+            return distance_buff;
+        }
+        else
+        {
+            distance += distance_buff;
+        }
+    }
+    distance = distance / index;
+    if(distance == 0)
+    {
+        distance = 150;
+    }
+    return distance;
+}
+/* ================================================ */
 
 
 /* =========== Trash Functions Controler =========== */ 
@@ -148,51 +211,6 @@ void TrashDoor_Close(TrashDoorState *state)
     }
 }
 
-double IRSensor_Read(void)
-{
-    double adc_value = 0.0;
-    uint8_t index = 0;
-    for (index = 0; index <= 10; index++)
-    {
-        adc_value += ADC_Read(0);
-        if(adc_value < 100)
-
-        {
-            break;
-        }
-    }
-    adc_value = adc_value / index;
-    // sprintf(TX_Array, "%0.2fV %d\n\0", adc_value, index);
-    // UART_WriteStr(TX_Array);
-    adc_value = adc_value * 5 / 1024.0;
-    return adc_value;
-}
-
-uint8_t UltraSensor_Read(volatile uint16_t *ptimeSysTick)
-{
-    uint16_t distance = 0, distance_buff;
-    
-    uint8_t index = 0;
-    for (index = 0; index <= 10; index++)
-    {
-        distance_buff =  2 * UltraSonicSensor_Read(UltraSonic_2, ptimeSysTick);
-        if(distance_buff > 140)
-        {
-            return distance_buff;
-        }
-        else
-        {
-            distance += distance_buff;
-        }
-    }
-    distance = distance / index;
-    if(distance == 0)
-    {
-        distance = 150;
-    }
-    return distance;
-}
-
 void TrashDoor_Ctrl(TrashDoorState* state, volatile uint16_t *timeSysTick)
 {
     // Button Ctrl:
@@ -257,6 +275,9 @@ void TrashDoor_Ctrl(TrashDoorState* state, volatile uint16_t *timeSysTick)
 }
 /* ================================================ */
 
+
+
+/* ======== Compression Functions Controler ======== */ 
 void Compression_Ctrl(void)
 {
     if (trashDoorState != CLOSED && trashDoorState != CLOSING)
@@ -350,17 +371,43 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
             }
             if(timeBuffer <= TIME_STARTUP_COMPRESS)
             {
-                Motor_Reverse_Start(Compress_Motor);
+                /* ============= Normal Motor Ctrl ============= */
+                // Motor_Reverse_Start(Compress_Motor);
+
+                /* ============================================= */
+
+                /* ============= Step Motor Ctrl ============= */
+                compressStepHandle.chieu = HIGH;
+                compressStepHandle.vong = 5;
+                Step_Set(&compressStepHandle);
                 timeBuffer = TIME_STARTUP_COMPRESS + 1;
+                /* ============================================= */
             }
             else if(timeBuffer == TIME_COMPRESS)
             {
-                Motor_Forward_Start(Compress_Motor);
+                /* ============= Normal Motor Ctrl ============= */
+                // Motor_Forward_Start(Compress_Motor);
+                
+                /* ============================================= */
+                
+                /* ============= Step Motor Ctrl ============= */
+                compressStepHandle.chieu = LOW;
+                compressStepHandle.vong = 5;
+                Step_Set(&compressStepHandle);
+                timeBuffer = TIME_COMPRESS + 1;
+                /* ============================================= */
             }
             else if(timeBuffer >= TIME_COMPRESS + TIME_UNCOMPRESS)
             {
+                /* ============= Normal Motor Ctrl ============= */
+                // Motor_Stop(Compress_Motor);
+
+                /* ============================================= */
+                
+                /* ============= Step Motor Ctrl ============= */
+                Step_Stop(&compressStepHandle);
+                /* ============================================= */
                 compressionState = COMPRESSED;
-                Motor_Stop(Compress_Motor);
             }
             break;
         case COMPRESSED:
@@ -372,8 +419,11 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
             break;
     }
 }
-
 /* ================================================ */
+
+
+
+/* ======= Disinfection Functions Controler ======= */ 
 void Disinfection_Ctrl(void)
 {
     if(compressionState != COMPRESSED)
@@ -408,23 +458,34 @@ void Disionfection_Run(void)
     }
 }
 /* ================================================ */
+
+
+
+/*============== System Time Function ==============*/
 uint16_t timeSysTickBuffer = 0;
 void TimeSysTickUpdate(volatile uint16_t *ptimeSysTick)
 {
-    uint8_t TX[10] = "";
+    // uint8_t TX[10] = "";
     if(timeSysTickBuffer != *ptimeSysTick)
     {
         timeSysTickBuffer = *ptimeSysTick;
         timeBuffer++;
     }
-    if (*ptimeSysTick % 10000 == 0)
-    {
-        sprintf(TX, "T:%d\n\0", timeBuffer);
-        UART_WriteStr(TX);
-    }
-    
+    // if (*ptimeSysTick % 10000 == 0)
+    // {
+    //     // sprintf(TX, "T:%d\n\0", timeBuffer);
+    //     // UART_WriteStr(TX);
+    // }
 }
+/* ================================================ */
 
+/* End Function Code */
+
+
+
+
+
+/* Code: Loop Function */
 void Loop(volatile uint16_t *ptimeSysTick)
 {
     
@@ -439,6 +500,10 @@ void Loop(volatile uint16_t *ptimeSysTick)
     Disinfection_Ctrl();
     Disionfection_Run();
 
+    
+    Step_Start(&compressStepHandle);
+
     TimeSysTickUpdate(ptimeSysTick);
 }
 
+/* End Code */

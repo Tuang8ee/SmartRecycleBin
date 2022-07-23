@@ -11,6 +11,7 @@
 // #include "..\Hearder\WatchdogTimer.h"
 #include "..\Hearder\UART.h"
 #include "..\Hearder\ADC.h"
+#include "..\Hearder\HBrightCtrl.h"
 
 
 void Startup_Infor(Peripheral_Pin *GPIO, uint8_t index)
@@ -56,6 +57,8 @@ void MCU_Config(void)
     
     UART_WriteStr("RESET: OK\n");
     GPIO_Write(LED2.Port, LED2.Pin, LOW);
+
+    Step_Stop(&compressStepHandle);
 }
 
 

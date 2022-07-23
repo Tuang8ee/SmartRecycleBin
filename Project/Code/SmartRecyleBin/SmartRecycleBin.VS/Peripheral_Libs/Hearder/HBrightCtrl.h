@@ -19,10 +19,14 @@ extern "C" {
     void Motor_Forward_Start(Peripheral_Pin *motor_handle);
     void Motor_Reverse_Start(Peripheral_Pin *motor_handle);
     void Motor_Stop(Peripheral_Pin *motor_handle);
+
+    void Step_Set(StepHandle *stepHandle);
+    void Step_Stop(StepHandle *stepHandle);
+    void Step_Start(StepHandle *stepHandle);
+    void Step_Ctrl();
    
 #ifdef	__cplusplus
 }
 #endif
 
-#endif	/* HBRIGHTCTRL_H */
-
+#endif

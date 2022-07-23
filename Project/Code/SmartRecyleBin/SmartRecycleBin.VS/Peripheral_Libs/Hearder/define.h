@@ -40,6 +40,16 @@ typedef struct{
     uint8_t Pin;
 }
 Peripheral_Pin;
+
+typedef struct 
+{
+    uint16_t vong;
+    uint32_t step;
+    uint8_t chieu;
+    Peripheral_Pin DIR_Pin;
+    Peripheral_Pin PUL_Pin;
+    Peripheral_Pin ENA_Pin;
+}StepHandle;
  
     /*Define for LED PIN:*/
     Peripheral_Pin LED1     = {&PORTB, PIN3};
@@ -47,21 +57,52 @@ Peripheral_Pin;
     Peripheral_Pin BUZZER   = {&PORTB, PIN1};
     Peripheral_Pin Motor_0  = {&PORTB, PIN0};
 
-    /*Motor 1 for HBridge*/
-    Peripheral_Pin Motor_1[4] = {
-                                    {&PORTC, PIN4},
-                                    {&PORTC, PIN5},
-                                    {&PORTC, PIN6},
-                                    {&PORTC, PIN7}
+    /* Step Motor for compress PIN */
+    StepHandle compressStepHandle = {
+                                        0,
+                                        0,
+                                        HIGH,
+                                        {&PORTD, PIN6}, //D7
+                                        {&PORTD, PIN5}, //D6
+                                        {&PORTD, PIN7}, //D8
+                                    };
+    
+    /* Step Motor for Door PIN */
+    StepHandle doorStepHandle = {
+                                    0,
+                                    0,
+                                    HIGH,
+                                    {&PORTC, PIN3}, //D11
+                                    {&PORTD, PIN0}, //D10
+                                    {&PORTC, PIN2}, //D12
                                 };
+
+    /* Step Motor for winch PIN */
+    StepHandle winchStepHandle = {
+                                    0,
+                                    0,
+                                    HIGH,
+                                    {&PORTE, PIN2}, //D15
+                                    {&PORTC, PIN0}, //D14
+                                    {&PORTE, PIN1}, //D16
+                                 };
+
+
+    /*Motor 1 for HBridge*/
+                // Peripheral_Pin Motor_1[4] = {
+                //                                 {&PORTC, PIN4},
+                //                                 {&PORTC, PIN5},
+                //                                 {&PORTC, PIN6},
+                //                                 {&PORTC, PIN7}
+                //                             };
     
     /*Motor 2 Pin for HBridge*/
-    Peripheral_Pin Compress_Motor[4] = {
-                                    {&PORTD, PIN4},
-                                    {&PORTD, PIN5},
-                                    {&PORTD, PIN6},
-                                    {&PORTD, PIN7}
-                                };
+                // Peripheral_Pin Compress_Motor[4] = {
+                //                                 {&PORTD, PIN4},
+                //                                 {&PORTD, PIN5},
+                //                                 {&PORTD, PIN6},
+                //                                 {&PORTD, PIN7}
+                //                             };
     
     /*Motor 3 Pin for HBridge*/
     Peripheral_Pin Door_Motor[4] = {
@@ -72,12 +113,12 @@ Peripheral_Pin;
                                 };
     
     /*Motor 4 Pin for HBridge*/
-    Peripheral_Pin Motor_4[4] = {
-                                    {&PORTC, PIN1},
-                                    {&PORTC, PIN0},
-                                    {&PORTE, PIN2},
-                                    {&PORTE, PIN1}
-                                };
+                // Peripheral_Pin Motor_4[4] = {
+                //                                 {&PORTC, PIN1},
+                //                                 {&PORTC, PIN0},
+                //                                 {&PORTE, PIN2},
+                //                                 {&PORTE, PIN1}
+                //                             };
     
     /*
      * UltraSonic Sensor 1 PIN:

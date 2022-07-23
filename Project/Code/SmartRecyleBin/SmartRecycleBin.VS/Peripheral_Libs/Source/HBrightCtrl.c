@@ -71,3 +71,30 @@ void Motor_Reverse_Start(Peripheral_Pin *motor_handle)
 }
 
 
+void Step_Set(StepHandle *stepHandle)
+{
+    GPIO_Write(stepHandle -> DIR_Pin.Port, stepHandle -> DIR_Pin.Pin, stepHandle -> chieu);
+    stepHandle -> step = stepHandle -> vong * 1600;
+}
+
+void Step_Stop(StepHandle *stepHandle)
+{
+    stepHandle -> step = 0;
+    GPIO_Write(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin, HIGH);
+}
+
+void Step_Start(StepHandle *stepHandle)
+{
+    if(stepHandle -> step > 0)
+    {
+        if(GPIO_Read(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin) == HIGH)
+        {
+            GPIO_Write(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin, LOW);
+        }
+        GPIO_Write(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin, LOW);
+        delay_us(300);
+        GPIO_Write(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin, HIGH);
+        delay_us(300);
+        stepHandle -> step -= 1;
+    }
+}
