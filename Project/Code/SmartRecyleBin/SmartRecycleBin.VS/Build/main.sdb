@@ -145,6 +145,8 @@ DISINFECTED 2
 [v _UltraSonic_2 UltraSonic_2 `[2]S22  1 e 4 0 ]
 "160
 [v _SW1 SW1 `S22  1 e 2 0 ]
+"161
+[v _SW2 SW2 `S22  1 e 2 0 ]
 "14 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs/Hearder/Interrupts.h
 [v _timeSysTick timeSysTick `VEui  1 e 2 0 ]
 "15
