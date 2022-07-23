@@ -1373,9 +1373,11 @@ EECON2 equ 018Dh ;#
 	FNCALL	_main,_GPIO_Write
 	FNCALL	_main,_Loop
 	FNCALL	_main,_MCU_Config
+	FNCALL	_main,_Step_Set
 	FNCALL	_MCU_Config,_GPIO_Write
 	FNCALL	_MCU_Config,_Reset_ADC_Register
 	FNCALL	_MCU_Config,_Startup_Infor
+	FNCALL	_MCU_Config,_Step_Stop
 	FNCALL	_MCU_Config,_Timer2_Interrupt_Init
 	FNCALL	_MCU_Config,_UART_BASE_Init
 	FNCALL	_MCU_Config,_UART_WriteStr
@@ -1385,6 +1387,7 @@ EECON2 equ 018Dh ;#
 	FNCALL	_Loop,_Compression_Run
 	FNCALL	_Loop,_Disinfection_Ctrl
 	FNCALL	_Loop,_Disionfection_Run
+	FNCALL	_Loop,_Step_Start
 	FNCALL	_Loop,_TimeSysTickUpdate
 	FNCALL	_Loop,_TrashDoor_Ctrl
 	FNCALL	_TrashDoor_Ctrl,_GPIO_Read
@@ -1396,9 +1399,15 @@ EECON2 equ 018Dh ;#
 	FNCALL	_TrashDoor_Open,_GPIO_Write
 	FNCALL	_TrashDoor_Open,_Motor_Forward_Start
 	FNCALL	_TrashDoor_Open,_Motor_Stop
+	FNCALL	_Motor_Forward_Start,_GPIO_Write
+	FNCALL	_Motor_Forward_Start,_Motor_Stop
 	FNCALL	_TrashDoor_Close,_GPIO_Write
 	FNCALL	_TrashDoor_Close,_Motor_Reverse_Start
 	FNCALL	_TrashDoor_Close,_Motor_Stop
+	FNCALL	_Motor_Reverse_Start,_GPIO_Write
+	FNCALL	_Motor_Reverse_Start,_Motor_Stop
+	FNCALL	_Motor_Stop,_GPIO_Read
+	FNCALL	_Motor_Stop,_GPIO_Write
 	FNCALL	_IRSensor_Read,_ADC_Read
 	FNCALL	_IRSensor_Read,___ftadd
 	FNCALL	_IRSensor_Read,___ftdiv
@@ -1412,14 +1421,12 @@ EECON2 equ 018Dh ;#
 	FNCALL	___ftdiv,___ftpack
 	FNCALL	___ftadd,___ftpack
 	FNCALL	_ADC_Read,_ADC_BASE_Init
-	FNCALL	_TimeSysTickUpdate,_UART_WriteStr
-	FNCALL	_TimeSysTickUpdate,___lwmod
-	FNCALL	_TimeSysTickUpdate,_sprintf
+	FNCALL	_Step_Start,_GPIO_Read
+	FNCALL	_Step_Start,_GPIO_Write
 	FNCALL	_Disionfection_Run,_GPIO_Write
 	FNCALL	_Compression_Run,_GPIO_Write
-	FNCALL	_Compression_Run,_Motor_Forward_Start
-	FNCALL	_Compression_Run,_Motor_Reverse_Start
-	FNCALL	_Compression_Run,_Motor_Stop
+	FNCALL	_Compression_Run,_Step_Set
+	FNCALL	_Compression_Run,_Step_Stop
 	FNCALL	_Compression_Run,_UART_WriteStr
 	FNCALL	_Compression_Run,_UltraSensor_Read
 	FNCALL	_Compression_Run,___llmod
@@ -1432,12 +1439,9 @@ EECON2 equ 018Dh ;#
 	FNCALL	_UltraSonicSensor_Read,_GPIO_Write
 	FNCALL	_UART_WriteStr,_UART_WriteChar
 	FNCALL	_UART_WriteStr,_strlen
-	FNCALL	_Motor_Reverse_Start,_GPIO_Write
-	FNCALL	_Motor_Reverse_Start,_Motor_Stop
-	FNCALL	_Motor_Forward_Start,_GPIO_Write
-	FNCALL	_Motor_Forward_Start,_Motor_Stop
-	FNCALL	_Motor_Stop,_GPIO_Read
-	FNCALL	_Motor_Stop,_GPIO_Write
+	FNCALL	_Step_Stop,_GPIO_Write
+	FNCALL	_Step_Set,_GPIO_Write
+	FNCALL	_Step_Set,___wmul
 	FNROOT	_main
 	FNCALL	intlevel1,_Interrupts_Function
 	global	intlevel1
@@ -1448,14 +1452,14 @@ EECON2 equ 018Dh ;#
 	global	_LED1
 	global	_disinfectionState
 	global	_BUZZER
+	global	_compressStepHandle
 	global	_Door_Motor
-	global	_Compress_Motor
 	global	_UltraSonic_2
 psect	idataCOMMON,class=CODE,space=0,delta=2,noexec
 global __pidataCOMMON
 __pidataCOMMON:
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	46
+	line	56
 
 ;initializer for _LED2
 	retlw	low(6|((0x0)<<8))
@@ -1463,43 +1467,43 @@ __pidataCOMMON:
 psect	idataBANK0,class=CODE,space=0,delta=2,noexec
 global __pidataBANK0
 __pidataBANK0:
-	line	116
+	line	157
 
 ;initializer for _SW2
 	retlw	low(5|((0x0)<<8))
 	retlw	05h
-	line	115
+	line	156
 
 ;initializer for _SW1
 	retlw	low(5|((0x0)<<8))
 	retlw	04h
-	line	108
+	line	149
 
 ;initializer for _IR_Sensor_2
 	retlw	low(5|((0x0)<<8))
 	retlw	01h
-	line	107
+	line	148
 
 ;initializer for _IR_Sensor_1
 	retlw	low(5|((0x0)<<8))
 	retlw	low(0)
-	line	48
+	line	58
 
 ;initializer for _Motor_0
 	retlw	low(6|((0x0)<<8))
 	retlw	low(0)
-	line	45
+	line	55
 
 ;initializer for _LED1
 	retlw	low(6|((0x0)<<8))
 	retlw	03h
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	51
+	line	62
 
 ;initializer for _disinfectionState
 	retlw	02h
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	47
+	line	57
 
 ;initializer for _BUZZER
 	retlw	low(6|((0x0)<<8))
@@ -1507,36 +1511,68 @@ __pidataBANK0:
 psect	idataBANK1,class=CODE,space=0,delta=2,noexec
 global __pidataBANK1
 __pidataBANK1:
-	line	75
+	line	81
 
-;initializer for _Motor_4
-	retlw	low(7|((0x0)<<8))
-	retlw	01h
-	retlw	low(7|((0x0)<<8))
+;initializer for _winchStepHandle
 	retlw	low(0)
-	retlw	low(9|((0x0)<<8))
-	retlw	02h
-	retlw	low(9|((0x0)<<8))
-	retlw	01h
-	line	51
+	retlw	high(0)
 
-;initializer for _Motor_1
-	retlw	low(7|((0x0)<<8))
-	retlw	04h
-	retlw	low(7|((0x0)<<8))
-	retlw	05h
-	retlw	low(7|((0x0)<<8))
+	retlw	low(0)
+	retlw	high(0)
+	retlw	low highword(0)
+	retlw	high highword(0)
+
+	retlw	01h
+	retlw	low(8|((0x0)<<8))
 	retlw	06h
-	retlw	low(7|((0x0)<<8))
+	retlw	low(8|((0x0)<<8))
+	retlw	05h
+	retlw	low(8|((0x0)<<8))
 	retlw	07h
-	line	87
+	line	71
+
+;initializer for _doorStepHandle
+	retlw	low(0)
+	retlw	high(0)
+
+	retlw	low(0)
+	retlw	high(0)
+	retlw	low highword(0)
+	retlw	high highword(0)
+
+	retlw	01h
+	retlw	low(8|((0x0)<<8))
+	retlw	06h
+	retlw	low(8|((0x0)<<8))
+	retlw	05h
+	retlw	low(8|((0x0)<<8))
+	retlw	07h
+	line	128
 
 ;initializer for _UltraSonic_1
 	retlw	low(6|((0x0)<<8))
 	retlw	04h
 	retlw	low(6|((0x0)<<8))
 	retlw	05h
-	line	67
+	line	61
+
+;initializer for _compressStepHandle
+	retlw	low(0)
+	retlw	high(0)
+
+	retlw	low(0)
+	retlw	high(0)
+	retlw	low highword(0)
+	retlw	high highword(0)
+
+	retlw	01h
+	retlw	low(8|((0x0)<<8))
+	retlw	06h
+	retlw	low(8|((0x0)<<8))
+	retlw	05h
+	retlw	low(8|((0x0)<<8))
+	retlw	07h
+	line	108
 
 ;initializer for _Door_Motor
 	retlw	low(8|((0x0)<<8))
@@ -1547,18 +1583,7 @@ __pidataBANK1:
 	retlw	03h
 	retlw	low(7|((0x0)<<8))
 	retlw	02h
-	line	59
-
-;initializer for _Compress_Motor
-	retlw	low(8|((0x0)<<8))
-	retlw	04h
-	retlw	low(8|((0x0)<<8))
-	retlw	05h
-	retlw	low(8|((0x0)<<8))
-	retlw	06h
-	retlw	low(8|((0x0)<<8))
-	retlw	07h
-	line	97
+	line	138
 
 ;initializer for _UltraSonic_2
 	retlw	low(5|((0x0)<<8))
@@ -1638,8 +1663,6 @@ _TMR2	set	17
 _PIR1	set	12
 	global	_INTCON
 _INTCON	set	11
-	global	_PORTE
-_PORTE	set	9
 	global	_PORTD
 _PORTD	set	8
 	global	_PORTC
@@ -1710,16 +1733,6 @@ STR_2:
 	retlw	0
 	retlw	0
 psect	strings
-	
-STR_3:	
-	retlw	84	;'T'
-	retlw	58	;':'
-	retlw	37	;'%'
-	retlw	100	;'d'
-	retlw	10
-	retlw	0
-	retlw	0
-psect	strings
 ; #config settings
 	config pad_punits      = on
 	config apply_mask      = off
@@ -1746,7 +1759,7 @@ psect	dataCOMMON,class=COMMON,space=1,noexec
 global __pdataCOMMON
 __pdataCOMMON:
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	46
+	line	56
 _LED2:
        ds      2
 
@@ -1778,96 +1791,93 @@ psect	dataBANK0,class=BANK0,space=1,noexec
 global __pdataBANK0
 __pdataBANK0:
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	116
+	line	157
 _SW2:
        ds      2
 
 psect	dataBANK0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	115
+	line	156
 _SW1:
        ds      2
 
 psect	dataBANK0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	108
+	line	149
 _IR_Sensor_2:
        ds      2
 
 psect	dataBANK0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	107
+	line	148
 _IR_Sensor_1:
        ds      2
 
 psect	dataBANK0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	48
+	line	58
 _Motor_0:
        ds      2
 
 psect	dataBANK0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	45
+	line	55
 _LED1:
        ds      2
 
 psect	dataBANK0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	51
+	line	62
 _disinfectionState:
        ds      1
 
 psect	dataBANK0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	47
+	line	57
 _BUZZER:
        ds      2
 
 psect	bssBANK1,class=BANK1,space=1,noexec
 global __pbssBANK1
 __pbssBANK1:
-TimeSysTickUpdate@F1164:
-       ds      10
-
-Compression_Run@F1155:
+Compression_Run@F1170:
        ds      10
 
 psect	dataBANK1,class=BANK1,space=1,noexec
 global __pdataBANK1
 __pdataBANK1:
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	75
-_Motor_4:
-       ds      8
+	line	81
+_winchStepHandle:
+       ds      13
 
 psect	dataBANK1
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	51
-_Motor_1:
-       ds      8
+	line	71
+_doorStepHandle:
+       ds      13
 
 psect	dataBANK1
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	87
+	line	128
 _UltraSonic_1:
        ds      4
 
 psect	dataBANK1
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	67
+	line	61
+_compressStepHandle:
+       ds      13
+
+psect	dataBANK1
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+	line	108
 _Door_Motor:
        ds      8
 
 psect	dataBANK1
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	59
-_Compress_Motor:
-       ds      8
-
-psect	dataBANK1
-	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
-	line	97
+	line	138
 _UltraSonic_2:
        ds      4
 
@@ -1904,7 +1914,7 @@ init_ram0:
 psect cinit,class=CODE,delta=2,merge=1
 global init_ram0, __pidataBANK1
 	bcf	status, 7	;select IRP bank0
-	movlw low(__pdataBANK1+40)
+	movlw low(__pdataBANK1+55)
 	movwf btemp-1
 	movlw high(__pidataBANK1)
 	movwf btemp
@@ -1952,7 +1962,7 @@ clrloop0:
 psect cinit,class=CODE,delta=2,merge=1
 	movlw	low(__pbssBANK1)
 	movwf	fsr
-	movlw	low((__pbssBANK1)+014h)
+	movlw	low((__pbssBANK1)+0Ah)
 	fcall	clear_ram0
 ; Clear objects allocated to BANK0
 psect cinit,class=CODE,delta=2,merge=1
@@ -1973,19 +1983,22 @@ psect	cstackCOMMON,class=COMMON,space=1,noexec
 global __pcstackCOMMON
 __pcstackCOMMON:
 ?_MCU_Config:	; 1 bytes @ 0x0
+?_Step_Set:	; 1 bytes @ 0x0
 ?_Loop:	; 1 bytes @ 0x0
 ?_Timer2_Interrupt_Init:	; 1 bytes @ 0x0
+?_Step_Stop:	; 1 bytes @ 0x0
 ?_main:	; 1 bytes @ 0x0
 ?_ADC_BASE_Init:	; 1 bytes @ 0x0
 ?_Reset_ADC_Register:	; 1 bytes @ 0x0
 ?_Motor_Stop:	; 1 bytes @ 0x0
 ?_Motor_Forward_Start:	; 1 bytes @ 0x0
 ?_Motor_Reverse_Start:	; 1 bytes @ 0x0
+?_Step_Start:	; 1 bytes @ 0x0
 ?_Interrupts_Function:	; 1 bytes @ 0x0
 ??_Interrupts_Function:	; 1 bytes @ 0x0
+?_UltraSensor_Read:	; 1 bytes @ 0x0
 ?_TrashDoor_Open:	; 1 bytes @ 0x0
 ?_TrashDoor_Close:	; 1 bytes @ 0x0
-?_UltraSensor_Read:	; 1 bytes @ 0x0
 ?_Compression_Ctrl:	; 1 bytes @ 0x0
 ?_Compression_Run:	; 1 bytes @ 0x0
 ?_Disinfection_Ctrl:	; 1 bytes @ 0x0
@@ -2001,9 +2014,12 @@ __pcstackCOMMON:
 ?_GPIO_Read:	; 1 bytes @ 0x2
 ??_Compression_Ctrl:	; 1 bytes @ 0x2
 ??_Disinfection_Ctrl:	; 1 bytes @ 0x2
+??_TimeSysTickUpdate:	; 1 bytes @ 0x2
 ??_UART_WriteChar:	; 1 bytes @ 0x2
 	global	?_strlen
 ?_strlen:	; 2 bytes @ 0x2
+	global	?___wmul
+?___wmul:	; 2 bytes @ 0x2
 	global	?___lwdiv
 ?___lwdiv:	; 2 bytes @ 0x2
 	global	?___ftpack
@@ -2018,6 +2034,8 @@ GPIO_Write@Pin:	; 1 bytes @ 0x2
 GPIO_Read@Pin:	; 1 bytes @ 0x2
 	global	UART_WriteChar@data
 UART_WriteChar@data:	; 1 bytes @ 0x2
+	global	___wmul@multiplier
+___wmul@multiplier:	; 2 bytes @ 0x2
 	global	___lwdiv@divisor
 ___lwdiv@divisor:	; 2 bytes @ 0x2
 	global	strlen@s
@@ -2041,6 +2059,10 @@ GPIO_Write@GPIO_State:	; 1 bytes @ 0x3
 ??_strlen:	; 1 bytes @ 0x4
 	global	GPIO_Read@GPIO_Port
 GPIO_Read@GPIO_Port:	; 1 bytes @ 0x4
+	global	TimeSysTickUpdate@ptimeSysTick
+TimeSysTickUpdate@ptimeSysTick:	; 1 bytes @ 0x4
+	global	___wmul@multiplicand
+___wmul@multiplicand:	; 2 bytes @ 0x4
 	global	___lwdiv@dividend
 ___lwdiv@dividend:	; 2 bytes @ 0x4
 	global	strlen@cp
@@ -2053,6 +2075,7 @@ ___ftpack@exp:	; 1 bytes @ 0x5
 ___ftge@ff2:	; 3 bytes @ 0x5
 	ds	1
 ?_UART_WriteStr:	; 1 bytes @ 0x6
+??___wmul:	; 1 bytes @ 0x6
 ??___lwdiv:	; 1 bytes @ 0x6
 	global	GPIO_Write@GPIO_Port
 GPIO_Write@GPIO_Port:	; 1 bytes @ 0x6
@@ -2060,11 +2083,14 @@ GPIO_Write@GPIO_Port:	; 1 bytes @ 0x6
 ___ftpack@sign:	; 1 bytes @ 0x6
 	global	UART_WriteStr@data
 UART_WriteStr@data:	; 2 bytes @ 0x6
+	global	___wmul@product
+___wmul@product:	; 2 bytes @ 0x6
 	global	___aldiv@dividend
 ___aldiv@dividend:	; 4 bytes @ 0x6
 	global	___llmod@dividend
 ___llmod@dividend:	; 4 bytes @ 0x6
 	ds	1
+??_Step_Stop:	; 1 bytes @ 0x7
 ?_UltraSonicSensor_Read:	; 1 bytes @ 0x7
 ??___ftpack:	; 1 bytes @ 0x7
 ?_Startup_Infor:	; 1 bytes @ 0x7
@@ -2074,6 +2100,8 @@ ___llmod@dividend:	; 4 bytes @ 0x6
 ADC_Read@channel:	; 1 bytes @ 0x7
 	global	Startup_Infor@index
 Startup_Infor@index:	; 1 bytes @ 0x7
+	global	Step_Start@stepHandle
+Step_Start@stepHandle:	; 1 bytes @ 0x7
 	global	UltraSonicSensor_Read@system_tick
 UltraSonicSensor_Read@system_tick:	; 1 bytes @ 0x7
 	global	___lwdiv@quotient
@@ -2083,6 +2111,10 @@ ___lwdiv@quotient:	; 2 bytes @ 0x7
 ??___ftge:	; 1 bytes @ 0x8
 	global	Startup_Infor@GPIO
 Startup_Infor@GPIO:	; 1 bytes @ 0x8
+	global	Step_Set@stepHandle
+Step_Set@stepHandle:	; 1 bytes @ 0x8
+	global	Step_Stop@stepHandle
+Step_Stop@stepHandle:	; 1 bytes @ 0x8
 	ds	1
 	global	Motor_Stop@motor_handle
 Motor_Stop@motor_handle:	; 1 bytes @ 0x9
@@ -2092,10 +2124,12 @@ ___lwdiv@counter:	; 1 bytes @ 0x9
 psect	cstackBANK0,class=BANK0,space=1,noexec
 global __pcstackBANK0
 __pcstackBANK0:
+??_Step_Set:	; 1 bytes @ 0x0
 ??_UltraSonicSensor_Read:	; 1 bytes @ 0x0
 ??_Startup_Infor:	; 1 bytes @ 0x0
 ??_Motor_Forward_Start:	; 1 bytes @ 0x0
 ??_Motor_Reverse_Start:	; 1 bytes @ 0x0
+??_Step_Start:	; 1 bytes @ 0x0
 ??___aldiv:	; 1 bytes @ 0x0
 ??___llmod:	; 1 bytes @ 0x0
 	global	?___lwmod
@@ -2168,7 +2202,9 @@ ___lbtoft@c:	; 1 bytes @ 0x7
 ___ftadd@f2:	; 3 bytes @ 0x7
 	global	UART_BASE_Init@baud
 UART_BASE_Init@baud:	; 4 bytes @ 0x7
-	ds	3
+	ds	2
+??_sprintf:	; 1 bytes @ 0x9
+	ds	1
 ??___ftadd:	; 1 bytes @ 0xA
 	global	UltraSonicSensor_Read@sensor
 UltraSonicSensor_Read@sensor:	; 1 bytes @ 0xA
@@ -2176,34 +2212,37 @@ UltraSonicSensor_Read@sensor:	; 1 bytes @ 0xA
 ___ftmul@exp:	; 1 bytes @ 0xA
 	ds	1
 ??_UART_BASE_Init:	; 1 bytes @ 0xB
-??_sprintf:	; 1 bytes @ 0xB
 ??_UltraSensor_Read:	; 1 bytes @ 0xB
 	global	___ftmul@f3_as_product
 ___ftmul@f3_as_product:	; 3 bytes @ 0xB
-	ds	3
+	ds	1
+	global	sprintf@ap
+sprintf@ap:	; 1 bytes @ 0xC
+	ds	1
+	global	sprintf@flag
+sprintf@flag:	; 1 bytes @ 0xD
+	ds	1
 	global	UltraSensor_Read@ptimeSysTick
 UltraSensor_Read@ptimeSysTick:	; 1 bytes @ 0xE
-	global	sprintf@ap
-sprintf@ap:	; 1 bytes @ 0xE
+	global	sprintf@prec
+sprintf@prec:	; 1 bytes @ 0xE
 	global	___ftadd@sign
 ___ftadd@sign:	; 1 bytes @ 0xE
 	global	___ftmul@cntr
 ___ftmul@cntr:	; 1 bytes @ 0xE
 	ds	1
 ??_MCU_Config:	; 1 bytes @ 0xF
-	global	sprintf@flag
-sprintf@flag:	; 1 bytes @ 0xF
 	global	___ftadd@exp2
 ___ftadd@exp2:	; 1 bytes @ 0xF
 	global	___ftmul@sign
 ___ftmul@sign:	; 1 bytes @ 0xF
 	global	UltraSensor_Read@distance_buff
 UltraSensor_Read@distance_buff:	; 2 bytes @ 0xF
+	global	sprintf@val
+sprintf@val:	; 2 bytes @ 0xF
 	ds	1
 	global	?___ftdiv
 ?___ftdiv:	; 3 bytes @ 0x10
-	global	sprintf@prec
-sprintf@prec:	; 1 bytes @ 0x10
 	global	___ftadd@exp1
 ___ftadd@exp1:	; 1 bytes @ 0x10
 	global	___ftdiv@f2
@@ -2211,31 +2250,24 @@ ___ftdiv@f2:	; 3 bytes @ 0x10
 	ds	1
 	global	UltraSensor_Read@index
 UltraSensor_Read@index:	; 1 bytes @ 0x11
-	global	sprintf@val
-sprintf@val:	; 2 bytes @ 0x11
+	global	sprintf@sp
+sprintf@sp:	; 1 bytes @ 0x11
 	ds	1
+	global	sprintf@c
+sprintf@c:	; 1 bytes @ 0x12
 	global	UltraSensor_Read@distance
 UltraSensor_Read@distance:	; 2 bytes @ 0x12
 	ds	1
-	global	sprintf@sp
-sprintf@sp:	; 1 bytes @ 0x13
 	global	___ftdiv@f1
 ___ftdiv@f1:	; 3 bytes @ 0x13
 	ds	1
-	global	sprintf@c
-sprintf@c:	; 1 bytes @ 0x14
-	ds	1
-??_Compression_Run:	; 1 bytes @ 0x15
-??_TimeSysTickUpdate:	; 1 bytes @ 0x15
-	ds	1
+??_Compression_Run:	; 1 bytes @ 0x14
+	ds	2
 ??___ftdiv:	; 1 bytes @ 0x16
 	ds	1
-	global	TimeSysTickUpdate@TX
-TimeSysTickUpdate@TX:	; 10 bytes @ 0x17
-	ds	1
 	global	Compression_Run@TX
-Compression_Run@TX:	; 10 bytes @ 0x18
-	ds	2
+Compression_Run@TX:	; 10 bytes @ 0x17
+	ds	3
 	global	___ftdiv@cntr
 ___ftdiv@cntr:	; 1 bytes @ 0x1A
 	ds	1
@@ -2251,15 +2283,13 @@ ___ftdiv@sign:	; 1 bytes @ 0x1F
 	global	?_IRSensor_Read
 ?_IRSensor_Read:	; 3 bytes @ 0x20
 	ds	1
-	global	TimeSysTickUpdate@ptimeSysTick
-TimeSysTickUpdate@ptimeSysTick:	; 1 bytes @ 0x21
-	ds	1
 	global	Compression_Run@ptimeSysTick
-Compression_Run@ptimeSysTick:	; 1 bytes @ 0x22
+Compression_Run@ptimeSysTick:	; 1 bytes @ 0x21
+	ds	1
+	global	Compression_Run@distance
+Compression_Run@distance:	; 1 bytes @ 0x22
 	ds	1
 ??_IRSensor_Read:	; 1 bytes @ 0x23
-	global	Compression_Run@distance
-Compression_Run@distance:	; 1 bytes @ 0x23
 	ds	1
 	global	IRSensor_Read@index
 IRSensor_Read@index:	; 1 bytes @ 0x24
@@ -2273,8 +2303,8 @@ TrashDoor_Ctrl@timeSysTick:	; 1 bytes @ 0x28
 	ds	1
 ??_TrashDoor_Ctrl:	; 1 bytes @ 0x29
 	ds	3
-	global	_TrashDoor_Ctrl$3860
-_TrashDoor_Ctrl$3860:	; 3 bytes @ 0x2C
+	global	_TrashDoor_Ctrl$4015
+_TrashDoor_Ctrl$4015:	; 3 bytes @ 0x2C
 	ds	3
 	global	TrashDoor_Ctrl@state
 TrashDoor_Ctrl@state:	; 1 bytes @ 0x2F
@@ -2288,10 +2318,10 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 	ds	1
 ;!
 ;!Data Sizes:
-;!    Strings     27
+;!    Strings     20
 ;!    Constant    10
-;!    Data        57
-;!    BSS         33
+;!    Data        72
+;!    BSS         23
 ;!    Persistent  0
 ;!    Stack       0
 ;!
@@ -2299,24 +2329,33 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!    Space          Size  Autos    Used
 ;!    COMMON           14     10      12
 ;!    BANK0            80     51      79
-;!    BANK1            80      0      60
+;!    BANK1            80      0      65
 ;!    BANK3            96      0       0
 ;!    BANK2            96      0       0
 
 ;!
 ;!Pointer List with Targets:
 ;!
+;!    Step_Start@stepHandle.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    Step_Stop@stepHandle.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    Step_Set@stepHandle.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
 ;!    strlen@s	PTR const unsigned char  size(2) Largest target is 11
-;!		 -> TimeSysTickUpdate@TX(BANK0[10]), Compression_Run@TX(BANK0[10]), STR_1(CODE[11]), 
+;!		 -> Compression_Run@TX(BANK0[10]), STR_1(CODE[11]), 
 ;!
 ;!    strlen@cp	PTR const unsigned char  size(2) Largest target is 11
-;!		 -> TimeSysTickUpdate@TX(BANK0[10]), Compression_Run@TX(BANK0[10]), STR_1(CODE[11]), 
+;!		 -> Compression_Run@TX(BANK0[10]), STR_1(CODE[11]), 
 ;!
 ;!    sprintf@f	PTR const unsigned char  size(1) Largest target is 9
-;!		 -> STR_3(CODE[7]), STR_2(CODE[9]), 
+;!		 -> STR_2(CODE[9]), 
 ;!
 ;!    sprintf@sp	PTR unsigned char  size(1) Largest target is 10
-;!		 -> TimeSysTickUpdate@TX(BANK0[10]), Compression_Run@TX(BANK0[10]), 
+;!		 -> Compression_Run@TX(BANK0[10]), 
 ;!
 ;!    sprintf@ap	PTR void [1] size(1) Largest target is 2
 ;!		 -> ?_sprintf(BANK0[2]), 
@@ -2325,14 +2364,13 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!		 -> timeSysTick(BANK0[2]), 
 ;!
 ;!    UltraSonicSensor_Read@sensor.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    UltraSonicSensor_Read@sensor	PTR struct . size(1) Largest target is 6
 ;!		 -> UltraSonic_2(BANK1[4]), 
 ;!
 ;!    UART_WriteStr@data	PTR const unsigned char  size(2) Largest target is 11
-;!		 -> TimeSysTickUpdate@TX(BANK0[10]), Compression_Run@TX(BANK0[10]), STR_1(CODE[11]), 
+;!		 -> Compression_Run@TX(BANK0[10]), STR_1(CODE[11]), 
 ;!
 ;!    Loop@ptimeSysTick	PTR volatile unsigned int  size(1) Largest target is 2
 ;!		 -> timeSysTick(BANK0[2]), 
@@ -2346,113 +2384,146 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!    TrashDoor_Ctrl@timeSysTick	PTR volatile unsigned int  size(1) Largest target is 2
 ;!		 -> timeSysTick(BANK0[2]), 
 ;!
-;!    TrashDoor_Ctrl@state	PTR enum E1105 size(1) Largest target is 1
+;!    TrashDoor_Ctrl@state	PTR enum E1120 size(1) Largest target is 1
+;!		 -> trashDoorState(BANK0[1]), 
+;!
+;!    TrashDoor_Close@state	PTR enum E1120 size(1) Largest target is 1
+;!		 -> trashDoorState(BANK0[1]), 
+;!
+;!    TrashDoor_Open@state	PTR enum E1120 size(1) Largest target is 1
 ;!		 -> trashDoorState(BANK0[1]), 
 ;!
 ;!    UltraSensor_Read@ptimeSysTick	PTR volatile unsigned int  size(1) Largest target is 2
 ;!		 -> timeSysTick(BANK0[2]), 
 ;!
-;!    TrashDoor_Close@state	PTR enum E1105 size(1) Largest target is 1
-;!		 -> trashDoorState(BANK0[1]), 
+;!    Step_Start@stepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
-;!    TrashDoor_Open@state	PTR enum E1105 size(1) Largest target is 1
-;!		 -> trashDoorState(BANK0[1]), 
+;!    Step_Start@stepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    Step_Start@stepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    Step_Start@stepHandle	PTR struct . size(1) Largest target is 16
+;!		 -> compressStepHandle(BANK1[13]), 
+;!
+;!    Step_Stop@stepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    Step_Stop@stepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    Step_Stop@stepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    Step_Stop@stepHandle	PTR struct . size(1) Largest target is 16
+;!		 -> compressStepHandle(BANK1[13]), 
+;!
+;!    Step_Set@stepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    Step_Set@stepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    Step_Set@stepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    Step_Set@stepHandle	PTR struct . size(1) Largest target is 16
+;!		 -> compressStepHandle(BANK1[13]), 
 ;!
 ;!    Motor_Reverse_Start@motor_handle.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    Motor_Reverse_Start@motor_handle	PTR struct . size(1) Largest target is 12
-;!		 -> Door_Motor(BANK1[8]), Compress_Motor(BANK1[8]), 
+;!		 -> Door_Motor(BANK1[8]), 
 ;!
 ;!    Motor_Forward_Start@motor_handle.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    Motor_Forward_Start@motor_handle	PTR struct . size(1) Largest target is 12
-;!		 -> Door_Motor(BANK1[8]), Compress_Motor(BANK1[8]), 
+;!		 -> Door_Motor(BANK1[8]), 
 ;!
 ;!    Motor_Stop@motor_handle.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    Motor_Stop@motor_handle	PTR struct . size(1) Largest target is 12
-;!		 -> Door_Motor(BANK1[8]), Compress_Motor(BANK1[8]), 
+;!		 -> Door_Motor(BANK1[8]), 
 ;!
 ;!    GPIO_Read@GPIO_Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    GPIO_Write@GPIO_Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    Startup_Infor@GPIO.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    Startup_Infor@GPIO	PTR struct . size(1) Largest target is 3
 ;!		 -> BUZZER(BANK0[2]), 
 ;!
 ;!    SW2.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    SW1.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    IR_Sensor_2.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    IR_Sensor_1.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    UltraSonic_2.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    UltraSonic_1.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
-;!
-;!    Motor_4.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    Door_Motor.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
-;!    Compress_Motor.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!    winchStepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
-;!    Motor_1.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!    winchStepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    winchStepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    doorStepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    doorStepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    doorStepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    compressStepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    compressStepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!
+;!    compressStepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    Motor_0.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    BUZZER.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    LED2.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    S22$Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 ;!    LED1.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTD(SFR0[1]), PORTC(SFR0[1]), 
-;!		 -> PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
 ;!
 
 
@@ -2463,16 +2534,18 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!    _UART_BASE_Init->___aldiv
 ;!    _Startup_Infor->_GPIO_Write
 ;!    _TrashDoor_Open->_Motor_Stop
+;!    _Motor_Forward_Start->_Motor_Stop
 ;!    _TrashDoor_Close->_Motor_Stop
+;!    _Motor_Reverse_Start->_Motor_Stop
+;!    _Motor_Stop->_GPIO_Write
 ;!    ___lwtoft->___ftpack
 ;!    ___lbtoft->___ftpack
 ;!    ___ftmul->___ftpack
 ;!    ___ftdiv->___ftpack
 ;!    ___ftadd->___ftpack
 ;!    _ADC_Read->_ADC_BASE_Init
-;!    _TimeSysTickUpdate->_UART_WriteStr
+;!    _Step_Start->_GPIO_Write
 ;!    _Disionfection_Run->_GPIO_Write
-;!    _Compression_Run->_Motor_Stop
 ;!    _Compression_Run->_UART_WriteStr
 ;!    _Compression_Run->___llmod
 ;!    _sprintf->___lwdiv
@@ -2480,9 +2553,8 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!    _UltraSensor_Read->___lwdiv
 ;!    _UltraSonicSensor_Read->_GPIO_Write
 ;!    _UART_WriteStr->_strlen
-;!    _Motor_Reverse_Start->_Motor_Stop
-;!    _Motor_Forward_Start->_Motor_Stop
-;!    _Motor_Stop->_GPIO_Write
+;!    _Step_Stop->_GPIO_Write
+;!    _Step_Set->___wmul
 ;!
 ;!Critical Paths under _Interrupts_Function in COMMON
 ;!
@@ -2500,8 +2572,7 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!    _IRSensor_Read->___ftdiv
 ;!    ___ftdiv->___ftmul
 ;!    ___ftadd->___lwtoft
-;!    _TimeSysTickUpdate->_sprintf
-;!    _Compression_Run->_sprintf
+;!    _Compression_Run->_UltraSensor_Read
 ;!    _sprintf->___lwmod
 ;!    _UltraSensor_Read->_UltraSonicSensor_Read
 ;!
@@ -2543,32 +2614,34 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! ---------------------------------------------------------------------------------
 ;! (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
 ;! ---------------------------------------------------------------------------------
-;! (0) _main                                                 1     1      0  193181
+;! (0) _main                                                 1     1      0  230497
 ;!                                             50 BANK0      1     1      0
 ;!                         _GPIO_Write
 ;!                               _Loop
 ;!                         _MCU_Config
+;!                           _Step_Set
 ;! ---------------------------------------------------------------------------------
-;! (1) _MCU_Config                                           3     3      0   16911
+;! (1) _MCU_Config                                           3     3      0   31408
 ;!                                             15 BANK0      3     3      0
 ;!                         _GPIO_Write
 ;!                 _Reset_ADC_Register
 ;!                      _Startup_Infor
+;!                          _Step_Stop
 ;!              _Timer2_Interrupt_Init
 ;!                     _UART_BASE_Init
 ;!                      _UART_WriteStr
 ;! ---------------------------------------------------------------------------------
-;! (2) _UART_BASE_Init                                       8     4      4     671
+;! (2) _UART_BASE_Init                                       8     4      4     707
 ;!                                              7 BANK0      8     4      4
 ;!                            ___aldiv
 ;! ---------------------------------------------------------------------------------
-;! (3) ___aldiv                                             15     7      8     575
+;! (3) ___aldiv                                             15     7      8     599
 ;!                                              2 COMMON     8     0      8
 ;!                                              0 BANK0      7     7      0
 ;! ---------------------------------------------------------------------------------
 ;! (2) _Timer2_Interrupt_Init                                0     0      0       0
 ;! ---------------------------------------------------------------------------------
-;! (2) _Startup_Infor                                        5     4      1    8026
+;! (2) _Startup_Infor                                        5     4      1   10218
 ;!                                              7 COMMON     2     1      1
 ;!                                              0 BANK0      3     3      0
 ;!                         _GPIO_Write
@@ -2576,16 +2649,17 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! (2) _Reset_ADC_Register                                   1     1      0       0
 ;!                                              2 COMMON     1     1      0
 ;! ---------------------------------------------------------------------------------
-;! (1) _Loop                                                 2     2      0  168494
+;! (1) _Loop                                                 2     2      0  178639
 ;!                                             48 BANK0      2     2      0
 ;!                   _Compression_Ctrl
 ;!                    _Compression_Run
 ;!                  _Disinfection_Ctrl
 ;!                  _Disionfection_Run
+;!                         _Step_Start
 ;!                  _TimeSysTickUpdate
 ;!                     _TrashDoor_Ctrl
 ;! ---------------------------------------------------------------------------------
-;! (2) _TrashDoor_Ctrl                                       8     7      1   90299
+;! (2) _TrashDoor_Ctrl                                       8     7      1  111253
 ;!                                             40 BANK0      8     7      1
 ;!                          _GPIO_Read
 ;!                      _IRSensor_Read
@@ -2594,19 +2668,34 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!                             ___ftge
 ;!                            ___lwmod
 ;! ---------------------------------------------------------------------------------
-;! (3) _TrashDoor_Open                                       2     2      0   36195
+;! (3) _TrashDoor_Open                                       2     2      0   45312
 ;!                                              2 BANK0      2     2      0
 ;!                         _GPIO_Write
 ;!                _Motor_Forward_Start
 ;!                         _Motor_Stop
 ;! ---------------------------------------------------------------------------------
-;! (3) _TrashDoor_Close                                      2     2      0   36165
+;! (4) _Motor_Forward_Start                                  2     2      0   22688
+;!                                              0 BANK0      2     2      0
+;!                         _GPIO_Write
+;!                         _Motor_Stop
+;! ---------------------------------------------------------------------------------
+;! (3) _TrashDoor_Close                                      2     2      0   45279
 ;!                                              2 BANK0      2     2      0
 ;!                         _GPIO_Write
 ;!                _Motor_Reverse_Start
 ;!                         _Motor_Stop
 ;! ---------------------------------------------------------------------------------
-;! (3) _IRSensor_Read                                        8     5      3   15511
+;! (4) _Motor_Reverse_Start                                  2     2      0   22655
+;!                                              0 BANK0      2     2      0
+;!                         _GPIO_Write
+;!                         _Motor_Stop
+;! ---------------------------------------------------------------------------------
+;! (4) _Motor_Stop                                           3     3      0   12514
+;!                                              7 COMMON     3     3      0
+;!                          _GPIO_Read
+;!                         _GPIO_Write
+;! ---------------------------------------------------------------------------------
+;! (3) _IRSensor_Read                                        8     5      3   18027
 ;!                                             32 BANK0      8     5      3
 ;!                           _ADC_Read
 ;!                            ___ftadd
@@ -2616,35 +2705,35 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!                           ___lbtoft
 ;!                           ___lwtoft
 ;! ---------------------------------------------------------------------------------
-;! (4) ___lwtoft                                             4     1      3    2494
+;! (4) ___lwtoft                                             4     1      3    2974
 ;!                                              0 BANK0      4     1      3
 ;!                           _ADC_Read (ARG)
 ;!                           ___ftpack
 ;! ---------------------------------------------------------------------------------
-;! (4) ___lbtoft                                             8     5      3    2429
+;! (4) ___lbtoft                                             8     5      3    2897
 ;!                                              0 BANK0      8     5      3
 ;!                           ___ftpack
 ;! ---------------------------------------------------------------------------------
-;! (4) ___ftmul                                             16    10      6    3022
+;! (4) ___ftmul                                             16    10      6    3514
 ;!                                              0 BANK0     16    10      6
 ;!                           ___ftpack
 ;! ---------------------------------------------------------------------------------
-;! (3) ___ftge                                               6     0      6     348
+;! (3) ___ftge                                               6     0      6     392
 ;!                                              2 COMMON     6     0      6
 ;! ---------------------------------------------------------------------------------
-;! (4) ___ftdiv                                             16    10      6    3084
+;! (4) ___ftdiv                                             16    10      6    3600
 ;!                                             16 BANK0     16    10      6
 ;!                            ___ftmul (ARG)
 ;!                           ___ftpack
 ;!                           ___lbtoft (ARG)
 ;! ---------------------------------------------------------------------------------
-;! (4) ___ftadd                                             13     7      6    3843
+;! (4) ___ftadd                                             13     7      6    4359
 ;!                                              4 BANK0     13     7      6
 ;!                           _ADC_Read (ARG)
 ;!                           ___ftpack
 ;!                           ___lwtoft (ARG)
 ;! ---------------------------------------------------------------------------------
-;! (5) ___ftpack                                             8     3      5    2398
+;! (5) ___ftpack                                             8     3      5    2866
 ;!                                              2 COMMON     8     3      5
 ;! ---------------------------------------------------------------------------------
 ;! (4) _ADC_Read                                             5     3      2      22
@@ -2654,88 +2743,88 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! (5) _ADC_BASE_Init                                        1     1      0       0
 ;!                                              2 COMMON     1     1      0
 ;! ---------------------------------------------------------------------------------
-;! (2) _TimeSysTickUpdate                                   13    13      0    3160
-;!                                             21 BANK0     13    13      0
-;!                      _UART_WriteStr
-;!                            ___lwmod
-;!                            _sprintf
+;! (2) _TimeSysTickUpdate                                    3     3      0      74
+;!                                              2 COMMON     3     3      0
 ;! ---------------------------------------------------------------------------------
-;! (2) _Disionfection_Run                                    1     1      0    7776
+;! (2) _Step_Start                                           5     5      0   11328
+;!                                              7 COMMON     1     1      0
+;!                                              0 BANK0      4     4      0
+;!                          _GPIO_Read
+;!                         _GPIO_Write
+;! ---------------------------------------------------------------------------------
+;! (2) _Disionfection_Run                                    1     1      0    9953
 ;!                                              7 COMMON     1     1      0
 ;!                         _GPIO_Write
 ;! ---------------------------------------------------------------------------------
 ;! (2) _Disinfection_Ctrl                                    0     0      0       0
 ;! ---------------------------------------------------------------------------------
-;! (2) _Compression_Run                                     15    15      0   67136
-;!                                             21 BANK0     15    15      0
+;! (2) _Compression_Run                                     15    15      0   45905
+;!                                             20 BANK0     15    15      0
 ;!                         _GPIO_Write
-;!                _Motor_Forward_Start
-;!                _Motor_Reverse_Start
-;!                         _Motor_Stop
+;!                           _Step_Set
+;!                          _Step_Stop
 ;!                      _UART_WriteStr
 ;!                   _UltraSensor_Read
 ;!                            ___llmod
 ;!                            _sprintf
 ;! ---------------------------------------------------------------------------------
-;! (3) _sprintf                                             23    18      5    1882
-;!                                              6 BANK0     15    10      5
+;! (3) _sprintf                                             21    18      3    1764
+;!                                              6 BANK0     13    10      3
 ;!                            ___lwdiv
 ;!                            ___lwmod
 ;! ---------------------------------------------------------------------------------
-;! (3) ___lwmod                                              6     2      4     622
+;! (3) ___lwmod                                              6     2      4     540
 ;!                                              0 BANK0      6     2      4
 ;!                            ___lwdiv (ARG)
 ;! ---------------------------------------------------------------------------------
-;! (3) ___llmod                                             10     2      8     362
+;! (3) ___llmod                                             10     2      8     386
 ;!                                              2 COMMON     8     0      8
 ;!                                              0 BANK0      2     2      0
 ;! ---------------------------------------------------------------------------------
-;! (3) _UltraSensor_Read                                     9     9      0   10042
+;! (3) _UltraSensor_Read                                     9     9      0   12514
 ;!                                             11 BANK0      9     9      0
 ;!              _UltraSonicSensor_Read
 ;!                            ___lwdiv
 ;! ---------------------------------------------------------------------------------
-;! (4) ___lwdiv                                              8     4      4     374
+;! (4) ___lwdiv                                              8     4      4     418
 ;!                                              2 COMMON     8     4      4
 ;! ---------------------------------------------------------------------------------
-;! (4) _UltraSonicSensor_Read                               12    11      1    9274
+;! (4) _UltraSonicSensor_Read                               12    11      1   11696
 ;!                                              7 COMMON     1     0      1
 ;!                                              0 BANK0     11    11      0
 ;!                          _GPIO_Read
 ;!                         _GPIO_Write
 ;! ---------------------------------------------------------------------------------
-;! (2) _UART_WriteStr                                        7     5      2     438
+;! (5) _GPIO_Read                                            3     2      1    1032
+;!                                              2 COMMON     3     2      1
+;! ---------------------------------------------------------------------------------
+;! (2) _UART_WriteStr                                        7     5      2     418
 ;!                                              6 COMMON     4     2      2
 ;!                                              0 BANK0      3     3      0
 ;!                     _UART_WriteChar
 ;!                             _strlen
 ;! ---------------------------------------------------------------------------------
-;! (4) _strlen                                               4     2      2     143
+;! (4) _strlen                                               4     2      2     154
 ;!                                              2 COMMON     4     2      2
 ;! ---------------------------------------------------------------------------------
 ;! (3) _UART_WriteChar                                       1     1      0      22
 ;!                                              2 COMMON     1     1      0
 ;! ---------------------------------------------------------------------------------
-;! (4) _Motor_Reverse_Start                                  2     2      0   18113
-;!                                              0 BANK0      2     2      0
-;!                         _GPIO_Write
-;!                         _Motor_Stop
-;! ---------------------------------------------------------------------------------
-;! (4) _Motor_Forward_Start                                  2     2      0   18143
-;!                                              0 BANK0      2     2      0
-;!                         _GPIO_Write
-;!                         _Motor_Stop
-;! ---------------------------------------------------------------------------------
-;! (4) _Motor_Stop                                           3     3      0   10122
-;!                                              7 COMMON     3     3      0
-;!                          _GPIO_Read
+;! (2) _Step_Stop                                            2     2      0   10112
+;!                                              7 COMMON     2     2      0
 ;!                         _GPIO_Write
 ;! ---------------------------------------------------------------------------------
-;! (3) _GPIO_Write                                           5     3      2    7776
+;! (1) _Step_Set                                             5     5      0   10497
+;!                                              8 COMMON     1     1      0
+;!                                              0 BANK0      4     4      0
+;!                         _GPIO_Write
+;!                             ___wmul
+;! ---------------------------------------------------------------------------------
+;! (2) ___wmul                                               6     2      4     290
+;!                                              2 COMMON     6     2      4
+;! ---------------------------------------------------------------------------------
+;! (2) _GPIO_Write                                           5     3      2    9953
 ;!                                              2 COMMON     5     3      2
-;! ---------------------------------------------------------------------------------
-;! (5) _GPIO_Read                                            3     2      1     802
-;!                                              2 COMMON     3     2      1
 ;! ---------------------------------------------------------------------------------
 ;! (2) _Compression_Ctrl                                     1     1      0       0
 ;!                                              2 COMMON     1     1      0
@@ -2758,15 +2847,11 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!     _Compression_Ctrl
 ;!     _Compression_Run
 ;!       _GPIO_Write
-;!       _Motor_Forward_Start
+;!       _Step_Set
 ;!         _GPIO_Write
-;!         _Motor_Stop
-;!           _GPIO_Read
-;!           _GPIO_Write
-;!       _Motor_Reverse_Start
+;!         ___wmul
+;!       _Step_Stop
 ;!         _GPIO_Write
-;!         _Motor_Stop
-;!       _Motor_Stop
 ;!       _UART_WriteStr
 ;!         _UART_WriteChar
 ;!         _strlen
@@ -2783,10 +2868,10 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!     _Disinfection_Ctrl
 ;!     _Disionfection_Run
 ;!       _GPIO_Write
+;!     _Step_Start
+;!       _GPIO_Read
+;!       _GPIO_Write
 ;!     _TimeSysTickUpdate
-;!       _UART_WriteStr
-;!       ___lwmod
-;!       _sprintf
 ;!     _TrashDoor_Ctrl
 ;!       _GPIO_Read
 ;!       _IRSensor_Read
@@ -2811,10 +2896,16 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!       _TrashDoor_Close
 ;!         _GPIO_Write
 ;!         _Motor_Reverse_Start
+;!           _GPIO_Write
+;!           _Motor_Stop
+;!             _GPIO_Read
+;!             _GPIO_Write
 ;!         _Motor_Stop
 ;!       _TrashDoor_Open
 ;!         _GPIO_Write
 ;!         _Motor_Forward_Start
+;!           _GPIO_Write
+;!           _Motor_Stop
 ;!         _Motor_Stop
 ;!       ___ftge
 ;!       ___lwmod
@@ -2823,10 +2914,12 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!     _Reset_ADC_Register
 ;!     _Startup_Infor
 ;!       _GPIO_Write
+;!     _Step_Stop
 ;!     _Timer2_Interrupt_Init
 ;!     _UART_BASE_Init
 ;!       ___aldiv
 ;!     _UART_WriteStr
+;!   _Step_Set
 ;!
 ;! _Interrupts_Function (ROOT)
 ;!
@@ -2842,7 +2935,7 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!BITBANK2            60      0       0      10        0.0%
 ;!SFR2                 0      0       0       5        0.0%
 ;!BITSFR2              0      0       0       5        0.0%
-;!BANK1               50      0      3C       7       75.0%
+;!BANK1               50      0      41       7       81.2%
 ;!BITBANK1            50      0       0       6        0.0%
 ;!SFR1                 0      0       0       2        0.0%
 ;!BITSFR1              0      0       0       2        0.0%
@@ -2853,8 +2946,8 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!COMMON               E      A       C       1       85.7%
 ;!BITCOMMON            E      0       0       0        0.0%
 ;!CODE                 0      0       0       0        0.0%
-;!DATA                 0      0      97      12        0.0%
-;!ABS                  0      0      97       3        0.0%
+;!DATA                 0      0      9C      12        0.0%
+;!ABS                  0      0      9C       3        0.0%
 ;!NULL                 0      0       0       0        0.0%
 ;!STACK                0      0       0       2        0.0%
 ;!EEDATA             100      0       0       0        0.0%
@@ -2863,7 +2956,7 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 
 ;; *************** function _main *****************
 ;; Defined at:
-;;		line 4 in file ".\main.c"
+;;		line 6 in file ".\main.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -2874,7 +2967,7 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;;		wreg, fsr0l, fsr0h, status,2, status,0, btemp+1, pclath, cstack
 ;; Tracked objects:
 ;;		On entry : B00/0
-;;		On exit  : 300/0
+;;		On exit  : B00/0
 ;;		Unchanged: 0/0
 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
 ;;      Params:         0       0       0       0       0
@@ -2887,30 +2980,31 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;;		_GPIO_Write
 ;;		_Loop
 ;;		_MCU_Config
+;;		_Step_Set
 ;; This function is called by:
 ;;		Startup code after reset
 ;; This function uses a non-reentrant model
 ;;
 psect	maintext,global,class=CODE,delta=2,split=1,group=0
 	file	".\main.c"
-	line	4
+	line	6
 global __pmaintext
 __pmaintext:	;psect for function _main
 psect	maintext
 	file	".\main.c"
-	line	4
+	line	6
 	
 _main:	
 ;incstack = 0
 	callstack 1
 ; Regs used in _main: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
-	line	6
+	line	8
 	
-l9321:	
+l9462:	
 	fcall	_MCU_Config
-	line	7
+	line	9
 	
-l9323:	
+l9464:	
 	bcf	status, 5	;RP0=0, select bank0
 	movf	0+(_Motor_0)+01h,w
 	movwf	(??_main+0)+0
@@ -2920,32 +3014,28 @@ l9323:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_Motor_0),w
 	fcall	_GPIO_Write
-	line	12
+	line	10
 	
-l9325:	
+l9466:	
+	movlw	090h
+	movwf	(_compressStepHandle)^080h
+	movlw	01h
+	movwf	((_compressStepHandle)^080h)+1
+	line	11
+	
+l9468:	
+	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
+	fcall	_Step_Set
+	line	17
+	
+l9470:	
 	movlw	(low(_timeSysTick|((0x0)<<8)))&0ffh
 	fcall	_Loop
-	line	16
-	
-l9327:	
-	movf	((_timeReset_flag)),w
-iorwf	((_timeReset_flag+1)),w
-	btfsc	status,2
-	goto	u5091
-	goto	u5090
-u5091:
-	goto	l9325
-u5090:
-	line	18
-	
-l9329:	
-	clrf	(_timeReset_flag)
-	clrf	(_timeReset_flag+1)
-	goto	l9325
+	goto	l9470
 	global	start
 	ljmp	start
 	callstack 0
-	line	22
+	line	51
 GLOBAL	__end_of_main
 	__end_of_main:
 	signat	_main,89
@@ -2953,7 +3043,7 @@ GLOBAL	__end_of_main
 
 ;; *************** function _MCU_Config *****************
 ;; Defined at:
-;;		line 36 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
+;;		line 37 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -2978,6 +3068,7 @@ GLOBAL	__end_of_main
 ;;		_GPIO_Write
 ;;		_Reset_ADC_Register
 ;;		_Startup_Infor
+;;		_Step_Stop
 ;;		_Timer2_Interrupt_Init
 ;;		_UART_BASE_Init
 ;;		_UART_WriteStr
@@ -2987,37 +3078,37 @@ GLOBAL	__end_of_main
 ;;
 psect	text1,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
-	line	36
+	line	37
 global __ptext1
 __ptext1:	;psect for function _MCU_Config
 psect	text1
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
-	line	36
+	line	37
 	
 _MCU_Config:	
 ;incstack = 0
 	callstack 3
 ; Regs used in _MCU_Config: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
-	line	42
+	line	43
 	
-l9293:	
+l9428:	
 	movlw	low(05h)
 	movwf	(??_MCU_Config+0)+0
 	movf	(??_MCU_Config+0)+0,w
 	movwf	(Startup_Infor@index)
 	movlw	(low(_BUZZER|((0x0)<<8)))&0ffh
 	fcall	_Startup_Infor
-	line	45
+	line	46
 	
-l9295:	
+l9430:	
 	fcall	_Timer2_Interrupt_Init
-	line	48
+	line	49
 	
-l9297:	
+l9432:	
 	fcall	_Reset_ADC_Register
-	line	51
+	line	52
 	
-l9299:	
+l9434:	
 	movlw	0
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(UART_BASE_Init@baud+3)
@@ -3029,9 +3120,9 @@ l9299:
 	movwf	(UART_BASE_Init@baud)
 
 	fcall	_UART_BASE_Init
-	line	52
+	line	53
 	
-l9301:	
+l9436:	
 	asmopt push
 asmopt off
 movlw  13
@@ -3042,27 +3133,27 @@ movlw	175
 movwf	((??_MCU_Config+0)+0+1)
 	movlw	181
 movwf	((??_MCU_Config+0)+0)
-	u5107:
+	u5187:
 decfsz	((??_MCU_Config+0)+0),f
-	goto	u5107
+	goto	u5187
 	decfsz	((??_MCU_Config+0)+0+1),f
-	goto	u5107
+	goto	u5187
 	decfsz	((??_MCU_Config+0)+0+2),f
-	goto	u5107
+	goto	u5187
 	nop2
 asmopt pop
 
-	line	57
+	line	58
 	
-l9303:	
+l9438:	
 	movlw	(low((((STR_1)-__stringbase)|8000h)))&0ffh
 	movwf	(UART_WriteStr@data)
 	movlw	80h
 	movwf	(UART_WriteStr@data+1)
 	fcall	_UART_WriteStr
-	line	58
+	line	59
 	
-l9305:	
+l9440:	
 	movf	0+(_LED2)+01h,w
 	movwf	(??_MCU_Config+0)+0
 	movf	(??_MCU_Config+0)+0,w
@@ -3070,9 +3161,14 @@ l9305:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_LED2),w
 	fcall	_GPIO_Write
-	line	59
+	line	61
 	
-l1807:	
+l9442:	
+	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
+	fcall	_Step_Stop
+	line	62
+	
+l1810:	
 	return
 	callstack 0
 GLOBAL	__end_of_MCU_Config
@@ -3124,7 +3220,7 @@ _UART_BASE_Init:
 ; Regs used in _UART_BASE_Init: [wreg+status,2+status,0+pclath+cstack]
 	line	15
 	
-l9165:	
+l9290:	
 	movlw	low(080h)
 	bsf	status, 5	;RP0=1, select bank1
 	movwf	(135)^080h	;volatile
@@ -3137,7 +3233,7 @@ l9165:
 	movwf	(24)	;volatile
 	line	18
 	
-l9167:	
+l9292:	
 	movf	(UART_BASE_Init@baud),w
 	movwf	(??_UART_BASE_Init+0)+0
 	movf	(UART_BASE_Init@baud+1),w
@@ -3147,16 +3243,16 @@ l9167:
 	movf	(UART_BASE_Init@baud+3),w
 	movwf	((??_UART_BASE_Init+0)+0+3)
 	movlw	04h
-u4815:
+u4915:
 	clrc
 	rlf	(??_UART_BASE_Init+0)+0,f
 	rlf	(??_UART_BASE_Init+0)+1,f
 	rlf	(??_UART_BASE_Init+0)+2,f
 	rlf	(??_UART_BASE_Init+0)+3,f
-u4810:
+u4910:
 	addlw	-1
 	skipz
-	goto	u4815
+	goto	u4915
 	movf	3+(??_UART_BASE_Init+0)+0,w
 	movwf	(___aldiv@divisor+3)
 	movf	2+(??_UART_BASE_Init+0)+0,w
@@ -3182,7 +3278,7 @@ u4810:
 	movwf	(153)^080h	;volatile
 	line	19
 	
-l5559:	
+l5576:	
 	return
 	callstack 0
 GLOBAL	__end_of_UART_BASE_Init
@@ -3237,20 +3333,20 @@ ___aldiv:
 ; Regs used in ___aldiv: [wreg+status,2+status,0]
 	line	13
 	
-l9095:	
+l9220:	
 	clrf	(___aldiv@sign)
 	line	14
 	
-l9097:	
+l9222:	
 	btfss	(___aldiv@divisor+3),7
-	goto	u4641
-	goto	u4640
-u4641:
-	goto	l6367
-u4640:
+	goto	u4741
+	goto	u4740
+u4741:
+	goto	l6384
+u4740:
 	line	15
 	
-l9099:	
+l9224:	
 	comf	(___aldiv@divisor),f
 	comf	(___aldiv@divisor+1),f
 	comf	(___aldiv@divisor+2),f
@@ -3267,17 +3363,17 @@ l9099:
 	incf	(___aldiv@sign),f
 	line	17
 	
-l6367:	
+l6384:	
 	line	18
 	btfss	(___aldiv@dividend+3),7
-	goto	u4651
-	goto	u4650
-u4651:
-	goto	l9105
-u4650:
+	goto	u4751
+	goto	u4750
+u4751:
+	goto	l9230
+u4750:
 	line	19
 	
-l9101:	
+l9226:	
 	comf	(___aldiv@dividend),f
 	comf	(___aldiv@dividend+1),f
 	comf	(___aldiv@dividend+2),f
@@ -3291,14 +3387,14 @@ l9101:
 	incf	(___aldiv@dividend+3),f
 	line	20
 	
-l9103:	
+l9228:	
 	movlw	low(01h)
 	movwf	(??___aldiv+0)+0
 	movf	(??___aldiv+0)+0,w
 	xorwf	(___aldiv@sign),f
 	line	22
 	
-l9105:	
+l9230:	
 	movlw	high highword(0)
 	movwf	(___aldiv@quotient+3)
 	movlw	low highword(0)
@@ -3310,37 +3406,37 @@ l9105:
 
 	line	23
 	
-l9107:	
+l9232:	
 	movf	(___aldiv@divisor+3),w
 	iorwf	(___aldiv@divisor+2),w
 	iorwf	(___aldiv@divisor+1),w
 	iorwf	(___aldiv@divisor),w
 	skipnz
-	goto	u4661
-	goto	u4660
-u4661:
-	goto	l9127
-u4660:
+	goto	u4761
+	goto	u4760
+u4761:
+	goto	l9252
+u4760:
 	line	24
 	
-l9109:	
+l9234:	
 	clrf	(___aldiv@counter)
 	incf	(___aldiv@counter),f
 	line	25
-	goto	l9113
+	goto	l9238
 	line	26
 	
-l9111:	
+l9236:	
 	movlw	01h
 	movwf	(??___aldiv+0)+0
-u4675:
+u4775:
 	clrc
 	rlf	(___aldiv@divisor),f
 	rlf	(___aldiv@divisor+1),f
 	rlf	(___aldiv@divisor+2),f
 	rlf	(___aldiv@divisor+3),f
 	decfsz	(??___aldiv+0)+0
-	goto	u4675
+	goto	u4775
 	line	27
 	movlw	low(01h)
 	movwf	(??___aldiv+0)+0
@@ -3348,53 +3444,53 @@ u4675:
 	addwf	(___aldiv@counter),f
 	line	25
 	
-l9113:	
+l9238:	
 	btfss	(___aldiv@divisor+3),(31)&7
-	goto	u4681
-	goto	u4680
-u4681:
-	goto	l9111
-u4680:
+	goto	u4781
+	goto	u4780
+u4781:
+	goto	l9236
+u4780:
 	line	30
 	
-l9115:	
+l9240:	
 	movlw	01h
 	movwf	(??___aldiv+0)+0
-u4695:
+u4795:
 	clrc
 	rlf	(___aldiv@quotient),f
 	rlf	(___aldiv@quotient+1),f
 	rlf	(___aldiv@quotient+2),f
 	rlf	(___aldiv@quotient+3),f
 	decfsz	(??___aldiv+0)+0
-	goto	u4695
+	goto	u4795
 	line	31
 	
-l9117:	
+l9242:	
 	movf	(___aldiv@divisor+3),w
 	subwf	(___aldiv@dividend+3),w
 	skipz
-	goto	u4705
+	goto	u4805
 	movf	(___aldiv@divisor+2),w
 	subwf	(___aldiv@dividend+2),w
 	skipz
-	goto	u4705
+	goto	u4805
 	movf	(___aldiv@divisor+1),w
 	subwf	(___aldiv@dividend+1),w
 	skipz
-	goto	u4705
+	goto	u4805
 	movf	(___aldiv@divisor),w
 	subwf	(___aldiv@dividend),w
-u4705:
+u4805:
 	skipc
-	goto	u4701
-	goto	u4700
-u4701:
-	goto	l9123
-u4700:
+	goto	u4801
+	goto	u4800
+u4801:
+	goto	l9248
+u4800:
 	line	32
 	
-l9119:	
+l9244:	
 	movf	(___aldiv@divisor),w
 	subwf	(___aldiv@dividend),f
 	movf	(___aldiv@divisor+1),w
@@ -3411,13 +3507,13 @@ l9119:
 	subwf	(___aldiv@dividend+3),f
 	line	33
 	
-l9121:	
+l9246:	
 	bsf	(___aldiv@quotient)+(0/8),(0)&7
 	line	35
 	
-l9123:	
+l9248:	
 	movlw	01h
-u4715:
+u4815:
 	clrc
 	rrf	(___aldiv@divisor+3),f
 	rrf	(___aldiv@divisor+2),f
@@ -3425,32 +3521,32 @@ u4715:
 	rrf	(___aldiv@divisor),f
 	addlw	-1
 	skipz
-	goto	u4715
+	goto	u4815
 
 	line	36
 	
-l9125:	
+l9250:	
 	movlw	01h
 	subwf	(___aldiv@counter),f
 	btfss	status,2
-	goto	u4721
-	goto	u4720
-u4721:
-	goto	l9115
-u4720:
+	goto	u4821
+	goto	u4820
+u4821:
+	goto	l9240
+u4820:
 	line	38
 	
-l9127:	
+l9252:	
 	movf	((___aldiv@sign)),w
 	btfsc	status,2
-	goto	u4731
-	goto	u4730
-u4731:
-	goto	l9131
-u4730:
+	goto	u4831
+	goto	u4830
+u4831:
+	goto	l9256
+u4830:
 	line	39
 	
-l9129:	
+l9254:	
 	comf	(___aldiv@quotient),f
 	comf	(___aldiv@quotient+1),f
 	comf	(___aldiv@quotient+2),f
@@ -3464,7 +3560,7 @@ l9129:
 	incf	(___aldiv@quotient+3),f
 	line	40
 	
-l9131:	
+l9256:	
 	movf	(___aldiv@quotient+3),w
 	movwf	(?___aldiv+3)
 	movf	(___aldiv@quotient+2),w
@@ -3476,7 +3572,7 @@ l9131:
 
 	line	41
 	
-l6377:	
+l6394:	
 	return
 	callstack 0
 GLOBAL	__end_of___aldiv
@@ -3528,39 +3624,39 @@ _Timer2_Interrupt_Init:
 ; Regs used in _Timer2_Interrupt_Init: [status,2]
 	line	222
 	
-l8359:	
+l8442:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	clrf	(18)	;volatile
 	line	228
 	
-l8361:	
+l8444:	
 	bsf	(146/8),(146)&7	;volatile
 	line	235
 	
-l8363:	
+l8446:	
 	bsf	(145/8),(145)&7	;volatile
 	line	243
 	
-l8365:	
+l8448:	
 	bsf	(11)+(7/8),(7)&7	;volatile
 	line	249
 	
-l8367:	
+l8450:	
 	bsf	(11)+(6/8),(6)&7	;volatile
 	line	255
 	
-l8369:	
+l8452:	
 	bsf	status, 5	;RP0=1, select bank1
 	bsf	(1121/8)^080h,(1121)&7	;volatile
 	line	261
 	
-l8371:	
+l8454:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	(97/8),(97)&7	;volatile
 	line	262
 	
-l4943:	
+l4960:	
 	return
 	callstack 0
 GLOBAL	__end_of_Timer2_Interrupt_Init
@@ -3570,7 +3666,7 @@ GLOBAL	__end_of_Timer2_Interrupt_Init
 
 ;; *************** function _Startup_Infor *****************
 ;; Defined at:
-;;		line 16 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
+;;		line 17 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
 ;; Parameters:    Size  Location     Type
 ;;  GPIO            1    wreg     PTR struct .
 ;;		 -> BUZZER(2), 
@@ -3602,25 +3698,25 @@ GLOBAL	__end_of_Timer2_Interrupt_Init
 ;;
 psect	text5,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
-	line	16
+	line	17
 global __ptext5
 __ptext5:	;psect for function _Startup_Infor
 psect	text5
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
-	line	16
+	line	17
 	
 _Startup_Infor:	
 ;incstack = 0
 	callstack 4
 ; Regs used in _Startup_Infor: [wreg-fsr0h+status,2+status,0+pclath+cstack]
 	movwf	(Startup_Infor@GPIO)
-	line	18
+	line	19
 	
-l9155:	
-	goto	l9163
-	line	20
+l9280:	
+	goto	l9288
+	line	21
 	
-l9157:	
+l9282:	
 	incf	(Startup_Infor@GPIO),w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
@@ -3636,9 +3732,9 @@ l9157:
 	movwf	fsr0
 	movf	indf,w
 	fcall	_GPIO_Write
-	line	21
+	line	22
 	
-l9159:	
+l9284:	
 	asmopt push
 asmopt off
 movlw  3
@@ -3649,18 +3745,18 @@ movlw	138
 movwf	((??_Startup_Infor+0)+0+1)
 	movlw	85
 movwf	((??_Startup_Infor+0)+0)
-	u5117:
+	u5197:
 decfsz	((??_Startup_Infor+0)+0),f
-	goto	u5117
+	goto	u5197
 	decfsz	((??_Startup_Infor+0)+0+1),f
-	goto	u5117
+	goto	u5197
 	decfsz	((??_Startup_Infor+0)+0+2),f
-	goto	u5117
+	goto	u5197
 asmopt pop
 
-	line	22
+	line	23
 	
-l9161:	
+l9286:	
 	incf	(Startup_Infor@GPIO),w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
@@ -3675,7 +3771,7 @@ l9161:
 	movwf	fsr0
 	movf	indf,w
 	fcall	_GPIO_Write
-	line	23
+	line	24
 	asmopt push
 asmopt off
 movlw  3
@@ -3686,30 +3782,30 @@ movlw	138
 movwf	((??_Startup_Infor+0)+0+1)
 	movlw	85
 movwf	((??_Startup_Infor+0)+0)
-	u5127:
+	u5207:
 decfsz	((??_Startup_Infor+0)+0),f
-	goto	u5127
+	goto	u5207
 	decfsz	((??_Startup_Infor+0)+0+1),f
-	goto	u5127
+	goto	u5207
 	decfsz	((??_Startup_Infor+0)+0+2),f
-	goto	u5127
+	goto	u5207
 asmopt pop
 
-	line	18
+	line	19
 	
-l9163:	
+l9288:	
 	movlw	01h
 	subwf	(Startup_Infor@index),f
 		incf	(((Startup_Infor@index))),w
 	btfss	status,2
-	goto	u4801
-	goto	u4800
-u4801:
-	goto	l9157
-u4800:
-	line	25
+	goto	u4901
+	goto	u4900
+u4901:
+	goto	l9282
+u4900:
+	line	26
 	
-l1801:	
+l1804:	
 	return
 	callstack 0
 GLOBAL	__end_of_Startup_Infor
@@ -3719,7 +3815,7 @@ GLOBAL	__end_of_Startup_Infor
 
 ;; *************** function _Reset_ADC_Register *****************
 ;; Defined at:
-;;		line 27 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
+;;		line 28 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -3747,34 +3843,34 @@ GLOBAL	__end_of_Startup_Infor
 ;; This function uses a non-reentrant model
 ;;
 psect	text6,local,class=CODE,delta=2,merge=1,group=0
-	line	27
+	line	28
 global __ptext6
 __ptext6:	;psect for function _Reset_ADC_Register
 psect	text6
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
-	line	27
+	line	28
 	
 _Reset_ADC_Register:	
 ;incstack = 0
 	callstack 5
 ; Regs used in _Reset_ADC_Register: [wreg+status,2+status,0]
-	line	30
-	
-l8355:	
-	clrf	(31)	;volatile
 	line	31
+	
+l8438:	
+	clrf	(31)	;volatile
+	line	32
 	bsf	status, 5	;RP0=1, select bank1
 	clrf	(159)^080h	;volatile
-	line	33
+	line	34
 	
-l8357:	
+l8440:	
 	movlw	low(07h)
 	movwf	(??_Reset_ADC_Register+0)+0
 	movf	(??_Reset_ADC_Register+0)+0,w
 	iorwf	(159)^080h,f	;volatile
-	line	34
+	line	35
 	
-l1804:	
+l1807:	
 	return
 	callstack 0
 GLOBAL	__end_of_Reset_ADC_Register
@@ -3784,7 +3880,7 @@ GLOBAL	__end_of_Reset_ADC_Register
 
 ;; *************** function _Loop *****************
 ;; Defined at:
-;;		line 427 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 489 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;  ptimeSysTick    1    wreg     PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
@@ -3796,8 +3892,8 @@ GLOBAL	__end_of_Reset_ADC_Register
 ;; Registers used:
 ;;		wreg, fsr0l, fsr0h, status,2, status,0, btemp+1, pclath, cstack
 ;; Tracked objects:
-;;		On entry : 200/100
-;;		On exit  : 300/0
+;;		On entry : B00/0
+;;		On exit  : B00/0
 ;;		Unchanged: 0/0
 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
 ;;      Params:         0       0       0       0       0
@@ -3812,6 +3908,7 @@ GLOBAL	__end_of_Reset_ADC_Register
 ;;		_Compression_Run
 ;;		_Disinfection_Ctrl
 ;;		_Disionfection_Run
+;;		_Step_Start
 ;;		_TimeSysTickUpdate
 ;;		_TrashDoor_Ctrl
 ;; This function is called by:
@@ -3820,73 +3917,79 @@ GLOBAL	__end_of_Reset_ADC_Register
 ;;
 psect	text7,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	427
+	line	489
 global __ptext7
 __ptext7:	;psect for function _Loop
 psect	text7
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	427
+	line	489
 	
 _Loop:	
 ;incstack = 0
 	callstack 1
 ; Regs used in _Loop: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
-	bcf	status, 5	;RP0=0, select bank0
 	movwf	(Loop@ptimeSysTick)
-	line	430
+	line	492
 	
-l9307:	
+l9444:	
 		movlw	4
 	xorwf	((_compressionState)),w
 	btfsc	status,2
-	goto	u5071
-	goto	u5070
-u5071:
-	goto	l9313
-u5070:
+	goto	u5161
+	goto	u5160
+u5161:
+	goto	l9450
+u5160:
 	
-l9309:	
+l9446:	
 		decf	((_compressionState)),w
 	btfsc	status,2
-	goto	u5081
-	goto	u5080
-u5081:
-	goto	l9313
-u5080:
-	line	432
+	goto	u5171
+	goto	u5170
+u5171:
+	goto	l9450
+u5170:
+	line	494
 	
-l9311:	
+l9448:	
 	movf	(Loop@ptimeSysTick),w
 	movwf	(??_Loop+0)+0
 	movf	(??_Loop+0)+0,w
 	movwf	(TrashDoor_Ctrl@timeSysTick)
 	movlw	(low(_trashDoorState|((0x0)<<8)))&0ffh
 	fcall	_TrashDoor_Ctrl
-	line	435
+	line	497
 	
-l9313:	
+l9450:	
 	fcall	_Compression_Ctrl
-	line	436
+	line	498
 	
-l9315:	
+l9452:	
 	movf	(Loop@ptimeSysTick),w
 	fcall	_Compression_Run
-	line	438
+	line	500
 	
-l9317:	
+l9454:	
 	fcall	_Disinfection_Ctrl
-	line	439
+	line	501
 	
-l9319:	
+l9456:	
 	fcall	_Disionfection_Run
-	line	441
+	line	504
+	
+l9458:	
+	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
+	fcall	_Step_Start
+	line	506
+	
+l9460:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(Loop@ptimeSysTick),w
 	fcall	_TimeSysTickUpdate
-	line	442
+	line	507
 	
-l4342:	
+l4359:	
 	return
 	callstack 0
 GLOBAL	__end_of_Loop
@@ -3896,21 +3999,21 @@ GLOBAL	__end_of_Loop
 
 ;; *************** function _TrashDoor_Ctrl *****************
 ;; Defined at:
-;;		line 195 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 214 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
-;;  state           1    wreg     PTR enum E1105
+;;  state           1    wreg     PTR enum E1120
 ;;		 -> trashDoorState(1), 
 ;;  timeSysTick     1   40[BANK0 ] PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
 ;; Auto vars:     Size  Location     Type
-;;  state           1   47[BANK0 ] PTR enum E1105
+;;  state           1   47[BANK0 ] PTR enum E1120
 ;;		 -> trashDoorState(1), 
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      void 
 ;; Registers used:
 ;;		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
 ;; Tracked objects:
-;;		On entry : 300/0
+;;		On entry : B00/0
 ;;		On exit  : 0/0
 ;;		Unchanged: 0/0
 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
@@ -3933,21 +4036,21 @@ GLOBAL	__end_of_Loop
 ;; This function uses a non-reentrant model
 ;;
 psect	text8,local,class=CODE,delta=2,merge=1,group=0
-	line	195
+	line	214
 global __ptext8
 __ptext8:	;psect for function _TrashDoor_Ctrl
 psect	text8
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	195
+	line	214
 	
 _TrashDoor_Ctrl:	
 ;incstack = 0
 	callstack 1
 ; Regs used in _TrashDoor_Ctrl: [wreg-fsr0h+status,2+status,0+pclath+cstack]
 	movwf	(TrashDoor_Ctrl@state)
-	line	198
+	line	217
 	
-l9169:	
+l9306:	
 	movf	0+(_SW1)+01h,w
 	movwf	(??_TrashDoor_Ctrl+0)+0
 	movf	(??_TrashDoor_Ctrl+0)+0,w
@@ -3956,15 +4059,15 @@ l9169:
 	fcall	_GPIO_Read
 	xorlw	0
 	skipnz
-	goto	u4821
-	goto	u4820
-u4821:
-	goto	l9189
-u4820:
-	goto	l9175
-	line	202
+	goto	u4941
+	goto	u4940
+u4941:
+	goto	l9326
+u4940:
+	goto	l9312
+	line	221
 	
-l9173:	
+l9310:	
 	asmopt push
 asmopt off
 movlw  3
@@ -3975,19 +4078,19 @@ movlw	8
 movwf	((??_TrashDoor_Ctrl+0)+0+1)
 	movlw	118
 movwf	((??_TrashDoor_Ctrl+0)+0)
-	u5137:
+	u5217:
 decfsz	((??_TrashDoor_Ctrl+0)+0),f
-	goto	u5137
+	goto	u5217
 	decfsz	((??_TrashDoor_Ctrl+0)+0+1),f
-	goto	u5137
+	goto	u5217
 	decfsz	((??_TrashDoor_Ctrl+0)+0+2),f
-	goto	u5137
+	goto	u5217
 	nop
 asmopt pop
 
-	line	200
+	line	219
 	
-l9175:	
+l9312:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	0+(_SW1)+01h,w
@@ -3998,47 +4101,47 @@ l9175:
 	fcall	_GPIO_Read
 	xorlw	0
 	skipz
-	goto	u4831
-	goto	u4830
-u4831:
-	goto	l9173
-u4830:
-	line	204
+	goto	u4951
+	goto	u4950
+u4951:
+	goto	l9310
+u4950:
+	line	223
 	
-l9177:	
+l9314:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	movf	(indf),w
 	btfsc	status,2
-	goto	u4841
-	goto	u4840
-u4841:
-	goto	l9185
-u4840:
+	goto	u4961
+	goto	u4960
+u4961:
+	goto	l9322
+u4960:
 	
-l9179:	
+l9316:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	2
 	xorwf	(indf),w
 	btfsc	status,2
-	goto	u4851
-	goto	u4850
-u4851:
-	goto	l9185
-u4850:
-	line	206
+	goto	u4971
+	goto	u4970
+u4971:
+	goto	l9322
+u4970:
+	line	225
 	
-l9181:	
+l9318:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	clrf	indf
 	incf	indf,f
-	line	207
+	line	226
 	
-l9183:	
+l9320:	
 	movlw	high highword(0)
 	movwf	(_timeBuffer+3)
 	movlw	low highword(0)
@@ -4048,21 +4151,21 @@ l9183:
 	movlw	low(0)
 	movwf	(_timeBuffer)
 
-	line	209
-	goto	l9211
-	line	212
+	line	228
+	goto	l9348
+	line	231
 	
-l9185:	
+l9322:	
 	movlw	low(03h)
 	movwf	(??_TrashDoor_Ctrl+0)+0
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	movf	(??_TrashDoor_Ctrl+0)+0,w
 	movwf	indf
-	goto	l9183
-	line	219
+	goto	l9320
+	line	238
 	
-l9189:	
+l9326:	
 	movlw	0B8h
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
@@ -4080,26 +4183,26 @@ l9189:
 	movf	((0+(?___lwmod))),w
 iorwf	((1+(?___lwmod))),w
 	btfss	status,2
-	goto	u4861
-	goto	u4860
-u4861:
-	goto	l9211
-u4860:
-	line	221
+	goto	u4981
+	goto	u4980
+u4981:
+	goto	l9348
+u4980:
+	line	240
 	
-l9191:	
+l9328:	
 	fcall	_IRSensor_Read
 	movf	(0+(?_IRSensor_Read)),w
-	movwf	(_TrashDoor_Ctrl$3860)
+	movwf	(_TrashDoor_Ctrl$4015)
 	movf	(1+(?_IRSensor_Read)),w
-	movwf	(_TrashDoor_Ctrl$3860+1)
+	movwf	(_TrashDoor_Ctrl$4015+1)
 	movf	(2+(?_IRSensor_Read)),w
-	movwf	(_TrashDoor_Ctrl$3860+2)
-	movf	(_TrashDoor_Ctrl$3860),w
+	movwf	(_TrashDoor_Ctrl$4015+2)
+	movf	(_TrashDoor_Ctrl$4015),w
 	movwf	(___ftge@ff1)
-	movf	(_TrashDoor_Ctrl$3860+1),w
+	movf	(_TrashDoor_Ctrl$4015+1),w
 	movwf	(___ftge@ff1+1)
-	movf	(_TrashDoor_Ctrl$3860+2),w
+	movf	(_TrashDoor_Ctrl$4015+2),w
 	movwf	(___ftge@ff1+2)
 	movlw	0x9a
 	movwf	(___ftge@ff2)
@@ -4109,146 +4212,146 @@ l9191:
 	movwf	(___ftge@ff2+2)
 	fcall	___ftge
 	btfss	status,0
-	goto	u4871
-	goto	u4870
-u4871:
-	goto	l9205
-u4870:
-	line	223
+	goto	u4991
+	goto	u4990
+u4991:
+	goto	l9342
+u4990:
+	line	242
 	
-l9193:	
+l9330:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	5
 	bcf	status, 7	;select IRP bank0
 	xorwf	(indf),w
 	btfsc	status,2
-	goto	u4881
-	goto	u4880
-u4881:
-	goto	l9211
-u4880:
+	goto	u5001
+	goto	u5000
+u5001:
+	goto	l9348
+u5000:
 	
-l9195:	
+l9332:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	6
 	xorwf	(indf),w
 	btfsc	status,2
-	goto	u4891
-	goto	u4890
-u4891:
-	goto	l9211
-u4890:
-	line	225
+	goto	u5011
+	goto	u5010
+u5011:
+	goto	l9348
+u5010:
+	line	244
 	
-l9197:	
+l9334:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	2
 	xorwf	(indf),w
 	btfss	status,2
-	goto	u4901
-	goto	u4900
-u4901:
-	goto	l9201
-u4900:
-	line	227
+	goto	u5021
+	goto	u5020
+u5021:
+	goto	l9338
+u5020:
+	line	246
 	
-l9199:	
+l9336:	
 	movlw	low(06h)
 	movwf	(??_TrashDoor_Ctrl+0)+0
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	movf	(??_TrashDoor_Ctrl+0)+0,w
 	movwf	indf
-	line	228
-	goto	l9183
-	line	231
+	line	247
+	goto	l9320
+	line	250
 	
-l9201:	
+l9338:	
 	movlw	low(05h)
 	movwf	(??_TrashDoor_Ctrl+0)+0
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	movf	(??_TrashDoor_Ctrl+0)+0,w
 	movwf	indf
-	goto	l9183
-	line	239
+	goto	l9320
+	line	258
 	
-l9205:	
+l9342:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	6
 	bcf	status, 7	;select IRP bank0
 	xorwf	(indf),w
 	btfss	status,2
-	goto	u4911
-	goto	u4910
-u4911:
-	goto	l9211
-u4910:
-	line	241
+	goto	u5031
+	goto	u5030
+u5031:
+	goto	l9348
+u5030:
+	line	260
 	
-l9207:	
+l9344:	
 	movlw	low(02h)
 	movwf	(??_TrashDoor_Ctrl+0)+0
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	movf	(??_TrashDoor_Ctrl+0)+0,w
 	movwf	indf
-	goto	l9183
-	line	248
+	goto	l9320
+	line	267
 	
-l9211:	
+l9348:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
 	movf	(indf),w
 	btfsc	status,2
-	goto	u4921
-	goto	u4920
-u4921:
-	goto	l9217
-u4920:
+	goto	u5041
+	goto	u5040
+u5041:
+	goto	l9354
+u5040:
 	
-l9213:	
+l9350:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		decf	(indf),w
 	btfsc	status,2
-	goto	u4931
-	goto	u4930
-u4931:
-	goto	l9217
-u4930:
+	goto	u5051
+	goto	u5050
+u5051:
+	goto	l9354
+u5050:
 	
-l9215:	
+l9352:	
 	movf	(TrashDoor_Ctrl@state),w
 	movwf	fsr0
 		movlw	2
 	xorwf	(indf),w
 	btfss	status,2
-	goto	u4941
-	goto	u4940
-u4941:
-	goto	l9219
-u4940:
-	line	250
+	goto	u5061
+	goto	u5060
+u5061:
+	goto	l9356
+u5060:
+	line	269
 	
-l9217:	
+l9354:	
 	movf	(TrashDoor_Ctrl@state),w
 	fcall	_TrashDoor_Close
-	line	251
-	goto	l4287
-	line	254
+	line	270
+	goto	l4307
+	line	273
 	
-l9219:	
+l9356:	
 	movf	(TrashDoor_Ctrl@state),w
 	fcall	_TrashDoor_Open
-	line	256
+	line	275
 	
-l4287:	
+l4307:	
 	return
 	callstack 0
 GLOBAL	__end_of_TrashDoor_Ctrl
@@ -4258,12 +4361,12 @@ GLOBAL	__end_of_TrashDoor_Ctrl
 
 ;; *************** function _TrashDoor_Open *****************
 ;; Defined at:
-;;		line 55 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 119 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
-;;  state           1    wreg     PTR enum E1105
+;;  state           1    wreg     PTR enum E1120
 ;;		 -> trashDoorState(1), 
 ;; Auto vars:     Size  Location     Type
-;;  state           1    3[BANK0 ] PTR enum E1105
+;;  state           1    3[BANK0 ] PTR enum E1120
 ;;		 -> trashDoorState(1), 
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      void 
@@ -4290,58 +4393,58 @@ GLOBAL	__end_of_TrashDoor_Ctrl
 ;; This function uses a non-reentrant model
 ;;
 psect	text9,local,class=CODE,delta=2,merge=1,group=0
-	line	55
+	line	119
 global __ptext9
 __ptext9:	;psect for function _TrashDoor_Open
 psect	text9
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	55
+	line	119
 	
 _TrashDoor_Open:	
 ;incstack = 0
 	callstack 1
 ; Regs used in _TrashDoor_Open: [wreg-fsr0h+status,2+status,0+pclath+cstack]
 	movwf	(TrashDoor_Open@state)
-	line	57
+	line	121
 	
-l8935:	
+l9112:	
 	movf	(TrashDoor_Open@state),w
 	movwf	fsr0
 		movlw	5
 	xorwf	(indf),w
 	btfss	status,2
-	goto	u4411
-	goto	u4410
-u4411:
-	goto	l8949
-u4410:
-	line	59
+	goto	u4561
+	goto	u4560
+u4561:
+	goto	l9126
+u4560:
+	line	123
 	
-l8937:	
+l9114:	
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u4421
+	goto	u4571
 	movf	(_timeBuffer+2),w
 	btfss	status,2
-	goto	u4421
+	goto	u4571
 	movf	(_timeBuffer+1),w
 	btfss	status,2
-	goto	u4421
+	goto	u4571
 	movlw	11
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u4423
-u4423:
+	goto	u4573
+u4573:
 	btfsc	status,0
-	goto	u4421
-	goto	u4420
+	goto	u4571
+	goto	u4570
 
-u4421:
-	goto	l8943
-u4420:
-	line	63
+u4571:
+	goto	l9120
+u4570:
+	line	127
 	
-l8939:	
+l9116:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	0+(_BUZZER)+01h,w
@@ -4352,12 +4455,12 @@ l8939:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_BUZZER),w
 	fcall	_GPIO_Write
-	line	66
+	line	130
 	movlw	(low(_Door_Motor|((0x0)<<8)))&0ffh
 	fcall	_Motor_Forward_Start
-	line	67
+	line	131
 	
-l8941:	
+l9118:	
 	movlw	0
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(_timeBuffer+3)
@@ -4368,42 +4471,42 @@ l8941:
 	movlw	0Bh
 	movwf	(_timeBuffer)
 
-	line	71
-	goto	l4242
-	line	72
+	line	135
+	goto	l4276
+	line	136
 	
-l8943:	
+l9120:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u4430
+	goto	u4580
 	movf	(_timeBuffer+2),w
 	btfss	status,2
-	goto	u4430
+	goto	u4580
 	movf	(_timeBuffer+1),w
 	btfss	status,2
-	goto	u4430
+	goto	u4580
 	movlw	101
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u4433
-u4433:
+	goto	u4583
+u4583:
 	btfss	status,0
-	goto	u4431
-	goto	u4430
+	goto	u4581
+	goto	u4580
 
-u4431:
-	goto	l4242
-u4430:
-	line	76
+u4581:
+	goto	l4276
+u4580:
+	line	140
 	
-l8945:	
+l9122:	
 	movlw	(low(_Door_Motor|((0x0)<<8)))&0ffh
 	fcall	_Motor_Stop
-	line	80
+	line	144
 	
-l8947:	
+l9124:	
 	movlw	low(06h)
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
@@ -4413,47 +4516,47 @@ l8947:
 	movf	(??_TrashDoor_Open+0)+0,w
 	bcf	status, 7	;select IRP bank0
 	movwf	indf
-	goto	l4242
-	line	84
+	goto	l4276
+	line	148
 	
-l8949:	
+l9126:	
 	movf	(TrashDoor_Open@state),w
 	movwf	fsr0
 		movlw	3
 	xorwf	(indf),w
 	btfss	status,2
-	goto	u4441
-	goto	u4440
-u4441:
-	goto	l4242
-u4440:
-	line	86
+	goto	u4591
+	goto	u4590
+u4591:
+	goto	l4276
+u4590:
+	line	150
 	
-l8951:	
+l9128:	
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u4451
+	goto	u4601
 	movf	(_timeBuffer+2),w
 	btfss	status,2
-	goto	u4451
+	goto	u4601
 	movf	(_timeBuffer+1),w
 	btfss	status,2
-	goto	u4451
+	goto	u4601
 	movlw	11
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u4453
-u4453:
+	goto	u4603
+u4603:
 	btfsc	status,0
-	goto	u4451
-	goto	u4450
+	goto	u4601
+	goto	u4600
 
-u4451:
-	goto	l8957
-u4450:
-	line	90
+u4601:
+	goto	l9134
+u4600:
+	line	154
 	
-l8953:	
+l9130:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	0+(_BUZZER)+01h,w
@@ -4464,44 +4567,44 @@ l8953:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_BUZZER),w
 	fcall	_GPIO_Write
-	line	93
+	line	157
 	movlw	(low(_Door_Motor|((0x0)<<8)))&0ffh
 	fcall	_Motor_Forward_Start
-	goto	l8941
-	line	98
+	goto	l9118
+	line	162
 	
-l8957:	
+l9134:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u4460
+	goto	u4610
 	movf	(_timeBuffer+2),w
 	btfss	status,2
-	goto	u4460
+	goto	u4610
 	movf	(_timeBuffer+1),w
 	btfss	status,2
-	goto	u4460
+	goto	u4610
 	movlw	101
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u4463
-u4463:
+	goto	u4613
+u4613:
 	btfss	status,0
-	goto	u4461
-	goto	u4460
+	goto	u4611
+	goto	u4610
 
-u4461:
-	goto	l4242
-u4460:
-	line	102
+u4611:
+	goto	l4276
+u4610:
+	line	166
 	
-l8959:	
+l9136:	
 	movlw	(low(_Door_Motor|((0x0)<<8)))&0ffh
 	fcall	_Motor_Stop
-	line	106
+	line	170
 	
-l8961:	
+l9138:	
 	movlw	low(04h)
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
@@ -4511,24 +4614,118 @@ l8961:
 	movf	(??_TrashDoor_Open+0)+0,w
 	bcf	status, 7	;select IRP bank0
 	movwf	indf
-	line	110
+	line	174
 	
-l4242:	
+l4276:	
 	return
 	callstack 0
 GLOBAL	__end_of_TrashDoor_Open
 	__end_of_TrashDoor_Open:
 	signat	_TrashDoor_Open,4217
+	global	_Motor_Forward_Start
+
+;; *************** function _Motor_Forward_Start *****************
+;; Defined at:
+;;		line 55 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+;; Parameters:    Size  Location     Type
+;;  motor_handle    1    wreg     PTR struct .
+;;		 -> Door_Motor(8), 
+;; Auto vars:     Size  Location     Type
+;;  motor_handle    1    1[BANK0 ] PTR struct .
+;;		 -> Door_Motor(8), 
+;; Return value:  Size  Location     Type
+;;                  1    wreg      void 
+;; Registers used:
+;;		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
+;; Tracked objects:
+;;		On entry : B00/100
+;;		On exit  : B00/100
+;;		Unchanged: 0/0
+;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+;;      Params:         0       0       0       0       0
+;;      Locals:         0       1       0       0       0
+;;      Temps:          0       1       0       0       0
+;;      Totals:         0       2       0       0       0
+;;Total ram usage:        2 bytes
+;; Hardware stack levels used: 1
+;; Hardware stack levels required when called: 3
+;; This function calls:
+;;		_GPIO_Write
+;;		_Motor_Stop
+;; This function is called by:
+;;		_TrashDoor_Open
+;; This function uses a non-reentrant model
+;;
+psect	text10,local,class=CODE,delta=2,merge=1,group=0
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+	line	55
+global __ptext10
+__ptext10:	;psect for function _Motor_Forward_Start
+psect	text10
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+	line	55
+	
+_Motor_Forward_Start:	
+;incstack = 0
+	callstack 1
+; Regs used in _Motor_Forward_Start: [wreg-fsr0h+status,2+status,0+pclath+cstack]
+	bcf	status, 5	;RP0=0, select bank0
+	movwf	(Motor_Forward_Start@motor_handle)
+	line	58
+	
+l8806:	
+	movf	(Motor_Forward_Start@motor_handle),w
+	fcall	_Motor_Stop
+	line	60
+	bcf	status, 5	;RP0=0, select bank0
+	bcf	status, 6	;RP1=0, select bank0
+	incf	(Motor_Forward_Start@motor_handle),w
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Forward_Start+0)+0
+	movf	(??_Motor_Forward_Start+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Forward_Start@motor_handle),w
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	61
+	bcf	status, 5	;RP0=0, select bank0
+	movf	(Motor_Forward_Start@motor_handle),w
+	addlw	05h
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Forward_Start+0)+0
+	movf	(??_Motor_Forward_Start+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Forward_Start@motor_handle),w
+	addlw	04h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	62
+	
+l3020:	
+	return
+	callstack 0
+GLOBAL	__end_of_Motor_Forward_Start
+	__end_of_Motor_Forward_Start:
+	signat	_Motor_Forward_Start,4217
 	global	_TrashDoor_Close
 
 ;; *************** function _TrashDoor_Close *****************
 ;; Defined at:
-;;		line 112 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 176 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
-;;  state           1    wreg     PTR enum E1105
+;;  state           1    wreg     PTR enum E1120
 ;;		 -> trashDoorState(1), 
 ;; Auto vars:     Size  Location     Type
-;;  state           1    3[BANK0 ] PTR enum E1105
+;;  state           1    3[BANK0 ] PTR enum E1120
 ;;		 -> trashDoorState(1), 
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      void 
@@ -4554,60 +4751,61 @@ GLOBAL	__end_of_TrashDoor_Open
 ;;		_TrashDoor_Ctrl
 ;; This function uses a non-reentrant model
 ;;
-psect	text10,local,class=CODE,delta=2,merge=1,group=0
-	line	112
-global __ptext10
-__ptext10:	;psect for function _TrashDoor_Close
-psect	text10
+psect	text11,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	112
+	line	176
+global __ptext11
+__ptext11:	;psect for function _TrashDoor_Close
+psect	text11
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+	line	176
 	
 _TrashDoor_Close:	
 ;incstack = 0
 	callstack 1
 ; Regs used in _TrashDoor_Close: [wreg-fsr0h+status,2+status,0+pclath+cstack]
 	movwf	(TrashDoor_Close@state)
-	line	114
+	line	178
 	
-l8963:	
+l9140:	
 	movf	(TrashDoor_Close@state),w
 	movwf	fsr0
 		movlw	2
 	xorwf	(indf),w
 	btfss	status,2
-	goto	u4471
-	goto	u4470
-u4471:
-	goto	l8971
-u4470:
-	line	116
+	goto	u4621
+	goto	u4620
+u4621:
+	goto	l9148
+u4620:
+	line	180
 	
-l8965:	
+l9142:	
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u4480
+	goto	u4630
 	movf	(_timeBuffer+2),w
 	btfss	status,2
-	goto	u4480
+	goto	u4630
 	movlw	234
 	subwf	(_timeBuffer+1),w
 	skipz
-	goto	u4483
+	goto	u4633
 	movlw	97
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u4483
-u4483:
+	goto	u4633
+u4633:
 	btfss	status,0
-	goto	u4481
-	goto	u4480
+	goto	u4631
+	goto	u4630
 
-u4481:
-	goto	l4252
-u4480:
-	line	118
+u4631:
+	goto	l4286
+u4630:
+	line	182
 	
-l8967:	
+l9144:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(TrashDoor_Close@state),w
@@ -4615,9 +4813,9 @@ l8967:
 	bcf	status, 7	;select IRP bank0
 	clrf	indf
 	incf	indf,f
-	line	119
+	line	183
 	
-l8969:	
+l9146:	
 	movlw	high highword(0)
 	movwf	(_timeBuffer+3)
 	movlw	low highword(0)
@@ -4627,51 +4825,51 @@ l8969:
 	movlw	low(0)
 	movwf	(_timeBuffer)
 
-	goto	l4252
-	line	122
+	goto	l4286
+	line	186
 	
-l8971:	
+l9148:	
 	movf	(TrashDoor_Close@state),w
 	movwf	fsr0
 		decf	(indf),w
 	btfss	status,2
-	goto	u4491
-	goto	u4490
-u4491:
-	goto	l4252
-u4490:
-	line	125
+	goto	u4641
+	goto	u4640
+u4641:
+	goto	l4286
+u4640:
+	line	189
 	
-l8973:	
+l9150:	
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u4501
+	goto	u4651
 	movf	(_timeBuffer+2),w
 	btfss	status,2
-	goto	u4501
+	goto	u4651
 	movf	(_timeBuffer+1),w
 	btfss	status,2
-	goto	u4501
+	goto	u4651
 	movlw	11
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u4503
-u4503:
+	goto	u4653
+u4653:
 	btfsc	status,0
-	goto	u4501
-	goto	u4500
+	goto	u4651
+	goto	u4650
 
-u4501:
-	goto	l8979
-u4500:
-	line	130
+u4651:
+	goto	l9156
+u4650:
+	line	194
 	
-l8975:	
+l9152:	
 	movlw	(low(_Door_Motor|((0x0)<<8)))&0ffh
 	fcall	_Motor_Reverse_Start
-	line	131
+	line	195
 	
-l8977:	
+l9154:	
 	movlw	0
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(_timeBuffer+3)
@@ -4682,37 +4880,37 @@ l8977:
 	movlw	0Bh
 	movwf	(_timeBuffer)
 
-	line	134
-	goto	l4252
-	line	135
+	line	198
+	goto	l4286
+	line	199
 	
-l8979:	
+l9156:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u4510
+	goto	u4660
 	movf	(_timeBuffer+2),w
 	btfss	status,2
-	goto	u4510
+	goto	u4660
 	movf	(_timeBuffer+1),w
 	btfss	status,2
-	goto	u4510
+	goto	u4660
 	movlw	101
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u4513
-u4513:
+	goto	u4663
+u4663:
 	btfss	status,0
-	goto	u4511
-	goto	u4510
+	goto	u4661
+	goto	u4660
 
-u4511:
-	goto	l4252
-u4510:
-	line	139
+u4661:
+	goto	l4286
+u4660:
+	line	203
 	
-l8981:	
+l9158:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	0+(_BUZZER)+01h,w
@@ -4722,31 +4920,698 @@ l8981:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_BUZZER),w
 	fcall	_GPIO_Write
-	line	141
+	line	205
 	movlw	(low(_Door_Motor|((0x0)<<8)))&0ffh
 	fcall	_Motor_Stop
-	line	145
+	line	209
 	
-l8983:	
+l9160:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(TrashDoor_Close@state),w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
 	clrf	indf
-	line	148
+	line	212
 	
-l4252:	
+l4286:	
 	return
 	callstack 0
 GLOBAL	__end_of_TrashDoor_Close
 	__end_of_TrashDoor_Close:
 	signat	_TrashDoor_Close,4217
+	global	_Motor_Reverse_Start
+
+;; *************** function _Motor_Reverse_Start *****************
+;; Defined at:
+;;		line 63 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+;; Parameters:    Size  Location     Type
+;;  motor_handle    1    wreg     PTR struct .
+;;		 -> Door_Motor(8), 
+;; Auto vars:     Size  Location     Type
+;;  motor_handle    1    1[BANK0 ] PTR struct .
+;;		 -> Door_Motor(8), 
+;; Return value:  Size  Location     Type
+;;                  1    wreg      void 
+;; Registers used:
+;;		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
+;; Tracked objects:
+;;		On entry : 0/0
+;;		On exit  : B00/100
+;;		Unchanged: 0/0
+;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+;;      Params:         0       0       0       0       0
+;;      Locals:         0       1       0       0       0
+;;      Temps:          0       1       0       0       0
+;;      Totals:         0       2       0       0       0
+;;Total ram usage:        2 bytes
+;; Hardware stack levels used: 1
+;; Hardware stack levels required when called: 3
+;; This function calls:
+;;		_GPIO_Write
+;;		_Motor_Stop
+;; This function is called by:
+;;		_TrashDoor_Close
+;; This function uses a non-reentrant model
+;;
+psect	text12,local,class=CODE,delta=2,merge=1,group=0
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+	line	63
+global __ptext12
+__ptext12:	;psect for function _Motor_Reverse_Start
+psect	text12
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+	line	63
+	
+_Motor_Reverse_Start:	
+;incstack = 0
+	callstack 1
+; Regs used in _Motor_Reverse_Start: [wreg-fsr0h+status,2+status,0+pclath+cstack]
+	bcf	status, 5	;RP0=0, select bank0
+	bcf	status, 6	;RP1=0, select bank0
+	movwf	(Motor_Reverse_Start@motor_handle)
+	line	66
+	
+l8808:	
+	movf	(Motor_Reverse_Start@motor_handle),w
+	fcall	_Motor_Stop
+	line	69
+	bcf	status, 5	;RP0=0, select bank0
+	bcf	status, 6	;RP1=0, select bank0
+	movf	(Motor_Reverse_Start@motor_handle),w
+	addlw	03h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Reverse_Start+0)+0
+	movf	(??_Motor_Reverse_Start+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Reverse_Start@motor_handle),w
+	addlw	02h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	70
+	bcf	status, 5	;RP0=0, select bank0
+	movf	(Motor_Reverse_Start@motor_handle),w
+	addlw	07h
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Reverse_Start+0)+0
+	movf	(??_Motor_Reverse_Start+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Reverse_Start@motor_handle),w
+	addlw	06h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	71
+	
+l3023:	
+	return
+	callstack 0
+GLOBAL	__end_of_Motor_Reverse_Start
+	__end_of_Motor_Reverse_Start:
+	signat	_Motor_Reverse_Start,4217
+	global	_Motor_Stop
+
+;; *************** function _Motor_Stop *****************
+;; Defined at:
+;;		line 11 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+;; Parameters:    Size  Location     Type
+;;  motor_handle    1    wreg     PTR struct .
+;;		 -> Door_Motor(8), 
+;; Auto vars:     Size  Location     Type
+;;  motor_handle    1    9[COMMON] PTR struct .
+;;		 -> Door_Motor(8), 
+;; Return value:  Size  Location     Type
+;;                  1    wreg      void 
+;; Registers used:
+;;		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
+;; Tracked objects:
+;;		On entry : 0/0
+;;		On exit  : 0/0
+;;		Unchanged: 0/0
+;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+;;      Params:         0       0       0       0       0
+;;      Locals:         1       0       0       0       0
+;;      Temps:          2       0       0       0       0
+;;      Totals:         3       0       0       0       0
+;;Total ram usage:        3 bytes
+;; Hardware stack levels used: 1
+;; Hardware stack levels required when called: 2
+;; This function calls:
+;;		_GPIO_Read
+;;		_GPIO_Write
+;; This function is called by:
+;;		_Motor_Forward_Start
+;;		_Motor_Reverse_Start
+;;		_TrashDoor_Open
+;;		_TrashDoor_Close
+;; This function uses a non-reentrant model
+;;
+psect	text13,local,class=CODE,delta=2,merge=1,group=0
+	line	11
+global __ptext13
+__ptext13:	;psect for function _Motor_Stop
+psect	text13
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+	line	11
+	
+_Motor_Stop:	
+;incstack = 0
+	callstack 2
+; Regs used in _Motor_Stop: [wreg-fsr0h+status,2+status,0+pclath+cstack]
+	movwf	(Motor_Stop@motor_handle)
+	line	13
+	
+l8724:	
+	movf	(Motor_Stop@motor_handle),w
+	addlw	05h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Read@Pin)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	04h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Read
+	xorlw	0
+	skipz
+	goto	u3781
+	goto	u3780
+u3781:
+	goto	l8728
+u3780:
+	
+l8726:	
+	incf	(Motor_Stop@motor_handle),w
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Read@Pin)
+	movf	(Motor_Stop@motor_handle),w
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Read
+	xorlw	0
+	skipnz
+	goto	u3791
+	goto	u3790
+u3791:
+	goto	l8750
+u3790:
+	line	15
+	
+l8728:	
+	movf	(Motor_Stop@motor_handle),w
+	addlw	05h
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	04h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	16
+	movf	(Motor_Stop@motor_handle),w
+	addlw	07h
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	06h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	17
+	
+l8730:	
+	asmopt push
+asmopt off
+	movlw	16
+movwf	((??_Motor_Stop+0)+0)
+	u5227:
+decfsz	(??_Motor_Stop+0)+0,f
+	goto	u5227
+	nop
+asmopt pop
+
+	line	18
+	
+l8732:	
+	incf	(Motor_Stop@motor_handle),w
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Stop@motor_handle),w
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	19
+	
+l8734:	
+	movf	(Motor_Stop@motor_handle),w
+	addlw	03h
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Stop@motor_handle),w
+	addlw	02h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	20
+	
+l8736:	
+	asmopt push
+asmopt off
+	movlw	8
+movwf	((??_Motor_Stop+0)+0)
+	u5237:
+decfsz	(??_Motor_Stop+0)+0,f
+	goto	u5237
+asmopt pop
+
+	line	21
+	incf	(Motor_Stop@motor_handle),w
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	22
+	
+l8738:	
+		asmopt push
+	asmopt off
+	nop2	;2 cycle nop
+	nop2	;2 cycle nop
+	nop
+	asmopt pop
+
+	line	23
+	movf	(Motor_Stop@motor_handle),w
+	addlw	07h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Stop@motor_handle),w
+	addlw	06h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	24
+	
+l8740:	
+	asmopt push
+asmopt off
+	movlw	166
+movwf	((??_Motor_Stop+0)+0)
+	u5247:
+decfsz	(??_Motor_Stop+0)+0,f
+	goto	u5247
+	nop
+asmopt pop
+
+	line	25
+	
+l8742:	
+	movf	(Motor_Stop@motor_handle),w
+	addlw	03h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	02h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	26
+	
+l8744:	
+		asmopt push
+	asmopt off
+	nop2	;2 cycle nop
+	nop2	;2 cycle nop
+	nop
+	asmopt pop
+
+	line	27
+	
+l8746:	
+	movf	(Motor_Stop@motor_handle),w
+	addlw	05h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Stop@motor_handle),w
+	addlw	04h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	28
+	
+l8748:	
+	asmopt push
+asmopt off
+	movlw	8
+movwf	((??_Motor_Stop+0)+0)
+	u5257:
+decfsz	(??_Motor_Stop+0)+0,f
+	goto	u5257
+asmopt pop
+
+	line	29
+	movf	(Motor_Stop@motor_handle),w
+	addlw	05h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	04h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	30
+	movf	(Motor_Stop@motor_handle),w
+	addlw	07h
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	06h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	32
+	goto	l8772
+	line	35
+	
+l8750:	
+	movf	(Motor_Stop@motor_handle),w
+	addlw	05h
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	04h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	36
+	movf	(Motor_Stop@motor_handle),w
+	addlw	07h
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	06h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	37
+	
+l8752:	
+	asmopt push
+asmopt off
+	movlw	16
+movwf	((??_Motor_Stop+0)+0)
+	u5267:
+decfsz	(??_Motor_Stop+0)+0,f
+	goto	u5267
+	nop
+asmopt pop
+
+	line	38
+	
+l8754:	
+	incf	(Motor_Stop@motor_handle),w
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Stop@motor_handle),w
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	39
+	
+l8756:	
+	movf	(Motor_Stop@motor_handle),w
+	addlw	03h
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Stop@motor_handle),w
+	addlw	02h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	40
+	
+l8758:	
+	asmopt push
+asmopt off
+	movlw	8
+movwf	((??_Motor_Stop+0)+0)
+	u5277:
+decfsz	(??_Motor_Stop+0)+0,f
+	goto	u5277
+asmopt pop
+
+	line	41
+	movf	(Motor_Stop@motor_handle),w
+	addlw	03h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	02h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	42
+	
+l8760:	
+		asmopt push
+	asmopt off
+	nop2	;2 cycle nop
+	nop2	;2 cycle nop
+	nop
+	asmopt pop
+
+	line	43
+	movf	(Motor_Stop@motor_handle),w
+	addlw	05h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Stop@motor_handle),w
+	addlw	04h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	44
+	
+l8762:	
+	asmopt push
+asmopt off
+	movlw	8
+movwf	((??_Motor_Stop+0)+0)
+	u5287:
+decfsz	(??_Motor_Stop+0)+0,f
+	goto	u5287
+asmopt pop
+
+	line	45
+	
+l8764:	
+	incf	(Motor_Stop@motor_handle),w
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	46
+	
+l8766:	
+		asmopt push
+	asmopt off
+	nop2	;2 cycle nop
+	nop2	;2 cycle nop
+	nop
+	asmopt pop
+
+	line	47
+	
+l8768:	
+	movf	(Motor_Stop@motor_handle),w
+	addlw	07h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Motor_Stop@motor_handle),w
+	addlw	06h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	48
+	
+l8770:	
+	asmopt push
+asmopt off
+	movlw	8
+movwf	((??_Motor_Stop+0)+0)
+	u5297:
+decfsz	(??_Motor_Stop+0)+0,f
+	goto	u5297
+asmopt pop
+
+	line	49
+	movf	(Motor_Stop@motor_handle),w
+	addlw	05h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	04h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	50
+	movf	(Motor_Stop@motor_handle),w
+	addlw	07h
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Motor_Stop+0)+0
+	movf	(??_Motor_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Motor_Stop@motor_handle),w
+	addlw	06h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	52
+	
+l8772:	
+	asmopt push
+asmopt off
+movlw	98
+movwf	((??_Motor_Stop+0)+0+1)
+	movlw	101
+movwf	((??_Motor_Stop+0)+0)
+	u5307:
+decfsz	((??_Motor_Stop+0)+0),f
+	goto	u5307
+	decfsz	((??_Motor_Stop+0)+0+1),f
+	goto	u5307
+	nop2
+asmopt pop
+
+	line	54
+	
+l3017:	
+	return
+	callstack 0
+GLOBAL	__end_of_Motor_Stop
+	__end_of_Motor_Stop:
+	signat	_Motor_Stop,4217
 	global	_IRSensor_Read
 
 ;; *************** function _IRSensor_Read *****************
 ;; Defined at:
-;;		line 150 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 71 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -4780,37 +5645,38 @@ GLOBAL	__end_of_TrashDoor_Close
 ;;		_TrashDoor_Ctrl
 ;; This function uses a non-reentrant model
 ;;
-psect	text11,local,class=CODE,delta=2,merge=1,group=0
-	line	150
-global __ptext11
-__ptext11:	;psect for function _IRSensor_Read
-psect	text11
+psect	text14,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	150
+	line	71
+global __ptext14
+__ptext14:	;psect for function _IRSensor_Read
+psect	text14
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+	line	71
 	
 _IRSensor_Read:	
 ;incstack = 0
 	callstack 2
 ; Regs used in _IRSensor_Read: [wreg+status,2+status,0+pclath+cstack]
-	line	152
+	line	73
 	
-l8985:	
+l9060:	
 	movlw	0x0
 	movwf	(IRSensor_Read@adc_value)
 	movlw	0x0
 	movwf	(IRSensor_Read@adc_value+1)
 	movlw	0x0
 	movwf	(IRSensor_Read@adc_value+2)
-	line	153
+	line	74
 	
-l8987:	
-	line	154
+l9062:	
+	line	75
 	
-l8989:	
+l9064:	
 	clrf	(IRSensor_Read@index)
-	line	156
+	line	77
 	
-l8993:	
+l9068:	
 	movlw	low(0)
 	fcall	_ADC_Read
 	movf	(1+(?_ADC_Read)),w
@@ -4838,7 +5704,7 @@ l8993:
 	movwf	(IRSensor_Read@adc_value+1)
 	movf	(2+(?___ftadd)),w
 	movwf	(IRSensor_Read@adc_value+2)
-	line	157
+	line	78
 	movf	(IRSensor_Read@adc_value),w
 	movwf	(___ftge@ff1)
 	movf	(IRSensor_Read@adc_value+1),w
@@ -4853,32 +5719,32 @@ l8993:
 	movwf	(___ftge@ff2+2)
 	fcall	___ftge
 	btfsc	status,0
-	goto	u4521
-	goto	u4520
-u4521:
-	goto	l8997
-u4520:
-	goto	l9001
-	line	154
+	goto	u4511
+	goto	u4510
+u4511:
+	goto	l9072
+u4510:
+	goto	l9076
+	line	75
 	
-l8997:	
+l9072:	
 	movlw	low(01h)
 	movwf	(??_IRSensor_Read+0)+0
 	movf	(??_IRSensor_Read+0)+0,w
 	addwf	(IRSensor_Read@index),f
 	
-l8999:	
+l9074:	
 	movlw	low(0Bh)
 	subwf	(IRSensor_Read@index),w
 	skipc
-	goto	u4531
-	goto	u4530
-u4531:
-	goto	l8993
-u4530:
-	line	163
+	goto	u4521
+	goto	u4520
+u4521:
+	goto	l9068
+u4520:
+	line	84
 	
-l9001:	
+l9076:	
 	movf	(IRSensor_Read@index),w
 	fcall	___lbtoft
 	movf	(0+(?___lbtoft)),w
@@ -4900,7 +5766,7 @@ l9001:
 	movwf	(IRSensor_Read@adc_value+1)
 	movf	(2+(?___ftdiv)),w
 	movwf	(IRSensor_Read@adc_value+2)
-	line	166
+	line	87
 	movlw	0x0
 	movwf	(___ftdiv@f2)
 	movlw	0x80
@@ -4933,18 +5799,18 @@ l9001:
 	movwf	(IRSensor_Read@adc_value+1)
 	movf	(2+(?___ftdiv)),w
 	movwf	(IRSensor_Read@adc_value+2)
-	line	167
+	line	88
 	
-l9003:	
+l9078:	
 	movf	(IRSensor_Read@adc_value),w
 	movwf	(?_IRSensor_Read)
 	movf	(IRSensor_Read@adc_value+1),w
 	movwf	(?_IRSensor_Read+1)
 	movf	(IRSensor_Read@adc_value+2),w
 	movwf	(?_IRSensor_Read+2)
-	line	168
+	line	89
 	
-l4258:	
+l4256:	
 	return
 	callstack 0
 GLOBAL	__end_of_IRSensor_Read
@@ -4981,12 +5847,12 @@ GLOBAL	__end_of_IRSensor_Read
 ;;		_IRSensor_Read
 ;; This function uses a non-reentrant model
 ;;
-psect	text12,local,class=CODE,delta=2,merge=1,group=2
+psect	text15,local,class=CODE,delta=2,merge=1,group=2
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwtoft.c"
 	line	28
-global __ptext12
-__ptext12:	;psect for function ___lwtoft
-psect	text12
+global __ptext15
+__ptext15:	;psect for function ___lwtoft
+psect	text15
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwtoft.c"
 	line	28
 	
@@ -4996,7 +5862,7 @@ ___lwtoft:
 ; Regs used in ___lwtoft: [wreg+status,2+status,0+pclath+cstack]
 	line	30
 	
-l8931:	
+l9050:	
 	movf	(___lwtoft@c),w
 	movwf	(___ftpack@arg)
 	movf	(___lwtoft@c+1),w
@@ -5016,7 +5882,7 @@ l8931:
 	movwf	(?___lwtoft+2)
 	line	31
 	
-l6719:	
+l6736:	
 	return
 	callstack 0
 GLOBAL	__end_of___lwtoft
@@ -5053,12 +5919,12 @@ GLOBAL	__end_of___lwtoft
 ;;		_IRSensor_Read
 ;; This function uses a non-reentrant model
 ;;
-psect	text13,local,class=CODE,delta=2,merge=1,group=2
+psect	text16,local,class=CODE,delta=2,merge=1,group=2
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lbtoft.c"
 	line	27
-global __ptext13
-__ptext13:	;psect for function ___lbtoft
-psect	text13
+global __ptext16
+__ptext16:	;psect for function ___lbtoft
+psect	text16
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lbtoft.c"
 	line	27
 	
@@ -5069,7 +5935,7 @@ ___lbtoft:
 	movwf	(___lbtoft@c)
 	line	29
 	
-l8905:	
+l9024:	
 	movf	(___lbtoft@c),w
 	movwf	((??___lbtoft+0)+0)
 	clrf	((??___lbtoft+0)+0+1)
@@ -5094,7 +5960,7 @@ l8905:
 	movwf	(?___lbtoft+2)
 	line	30
 	
-l6623:	
+l6640:	
 	return
 	callstack 0
 GLOBAL	__end_of___lbtoft
@@ -5135,12 +6001,12 @@ GLOBAL	__end_of___lbtoft
 ;;		_IRSensor_Read
 ;; This function uses a non-reentrant model
 ;;
-psect	text14,local,class=CODE,delta=2,merge=1,group=2
+psect	text17,local,class=CODE,delta=2,merge=1,group=2
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\ftmul.c"
 	line	62
-global __ptext14
-__ptext14:	;psect for function ___ftmul
-psect	text14
+global __ptext17
+__ptext17:	;psect for function ___ftmul
+psect	text17
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\ftmul.c"
 	line	62
 	
@@ -5150,7 +6016,7 @@ ___ftmul:
 ; Regs used in ___ftmul: [wreg+status,2+status,0+pclath+cstack]
 	line	67
 	
-l8849:	
+l8968:	
 	movf	(___ftmul@f1),w
 	movwf	((??___ftmul+0)+0)
 	movf	(___ftmul@f1+1),w
@@ -5165,24 +6031,24 @@ l8849:
 	movwf	(___ftmul@exp)
 	movf	(((___ftmul@exp))),w
 	btfss	status,2
-	goto	u4231
-	goto	u4230
-u4231:
-	goto	l8855
-u4230:
+	goto	u4331
+	goto	u4330
+u4331:
+	goto	l8974
+u4330:
 	line	68
 	
-l8851:	
+l8970:	
 	movlw	0x0
 	movwf	(?___ftmul)
 	movlw	0x0
 	movwf	(?___ftmul+1)
 	movlw	0x0
 	movwf	(?___ftmul+2)
-	goto	l6571
+	goto	l6588
 	line	69
 	
-l8855:	
+l8974:	
 	movf	(___ftmul@f2),w
 	movwf	((??___ftmul+0)+0)
 	movf	(___ftmul@f2+1),w
@@ -5197,24 +6063,24 @@ l8855:
 	movwf	(___ftmul@sign)
 	movf	(((___ftmul@sign))),w
 	btfss	status,2
-	goto	u4241
-	goto	u4240
-u4241:
-	goto	l8861
-u4240:
+	goto	u4341
+	goto	u4340
+u4341:
+	goto	l8980
+u4340:
 	line	70
 	
-l8857:	
+l8976:	
 	movlw	0x0
 	movwf	(?___ftmul)
 	movlw	0x0
 	movwf	(?___ftmul+1)
 	movlw	0x0
 	movwf	(?___ftmul+2)
-	goto	l6571
+	goto	l6588
 	line	71
 	
-l8861:	
+l8980:	
 	movf	(___ftmul@sign),w
 	addlw	07Bh
 	movwf	(??___ftmul+0)+0
@@ -5222,36 +6088,36 @@ l8861:
 	addwf	(___ftmul@exp),f
 	line	72
 	
-l8863:	
+l8982:	
 	movf	0+(___ftmul@f1)+02h,w
 	movwf	(??___ftmul+0)+0
 	movf	(??___ftmul+0)+0,w
 	movwf	(___ftmul@sign)
 	line	73
 	
-l8865:	
+l8984:	
 	movf	0+(___ftmul@f2)+02h,w
 	movwf	(??___ftmul+0)+0
 	movf	(??___ftmul+0)+0,w
 	xorwf	(___ftmul@sign),f
 	line	74
 	
-l8867:	
+l8986:	
 	movlw	low(080h)
 	movwf	(??___ftmul+0)+0
 	movf	(??___ftmul+0)+0,w
 	andwf	(___ftmul@sign),f
 	line	75
 	
-l8869:	
+l8988:	
 	bsf	(___ftmul@f1)+(15/8),(15)&7
 	line	77
 	
-l8871:	
+l8990:	
 	bsf	(___ftmul@f2)+(15/8),(15)&7
 	line	78
 	
-l8873:	
+l8992:	
 	movlw	0FFh
 	andwf	(___ftmul@f2),f
 	movlw	0FFh
@@ -5260,7 +6126,7 @@ l8873:
 	andwf	(___ftmul@f2+2),f
 	line	79
 	
-l8875:	
+l8994:	
 	movlw	low(0)
 	movwf	(___ftmul@f3_as_product)
 	movlw	high(0)
@@ -5269,23 +6135,23 @@ l8875:
 	movwf	(___ftmul@f3_as_product+2)
 	line	134
 	
-l8877:	
+l8996:	
 	movlw	low(07h)
 	movwf	(??___ftmul+0)+0
 	movf	(??___ftmul+0)+0,w
 	movwf	(___ftmul@cntr)
 	line	136
 	
-l8879:	
+l8998:	
 	btfss	(___ftmul@f1),(0)&7
-	goto	u4251
-	goto	u4250
-u4251:
-	goto	l8883
-u4250:
+	goto	u4351
+	goto	u4350
+u4351:
+	goto	l9002
+u4350:
 	line	137
 	
-l8881:	
+l9000:	
 	movf	(___ftmul@f2),w
 	addwf	(___ftmul@f3_as_product),f
 	movf	(___ftmul@f2+1),w
@@ -5293,73 +6159,73 @@ l8881:
 	skipnc
 	incf	(___ftmul@f2+1),w
 	skipnz
-	goto	u4261
+	goto	u4361
 	addwf	(___ftmul@f3_as_product+1),f
-u4261:
+u4361:
 	movf	(___ftmul@f2+2),w
 	clrz
 	skipnc
 	incf	(___ftmul@f2+2),w
 	skipnz
-	goto	u4262
+	goto	u4362
 	addwf	(___ftmul@f3_as_product+2),f
-u4262:
+u4362:
 
 	line	138
 	
-l8883:	
+l9002:	
 	movlw	01h
-u4275:
+u4375:
 	clrc
 	rrf	(___ftmul@f1+2),f
 	rrf	(___ftmul@f1+1),f
 	rrf	(___ftmul@f1),f
 	addlw	-1
 	skipz
-	goto	u4275
+	goto	u4375
 
 	line	139
 	
-l8885:	
+l9004:	
 	movlw	01h
-u4285:
+u4385:
 	clrc
 	rlf	(___ftmul@f2),f
 	rlf	(___ftmul@f2+1),f
 	rlf	(___ftmul@f2+2),f
 	addlw	-1
 	skipz
-	goto	u4285
+	goto	u4385
 	line	140
 	
-l8887:	
+l9006:	
 	movlw	01h
 	subwf	(___ftmul@cntr),f
 	btfss	status,2
-	goto	u4291
-	goto	u4290
-u4291:
-	goto	l8879
-u4290:
+	goto	u4391
+	goto	u4390
+u4391:
+	goto	l8998
+u4390:
 	line	143
 	
-l8889:	
+l9008:	
 	movlw	low(09h)
 	movwf	(??___ftmul+0)+0
 	movf	(??___ftmul+0)+0,w
 	movwf	(___ftmul@cntr)
 	line	145
 	
-l8891:	
+l9010:	
 	btfss	(___ftmul@f1),(0)&7
-	goto	u4301
-	goto	u4300
-u4301:
-	goto	l8895
-u4300:
+	goto	u4401
+	goto	u4400
+u4401:
+	goto	l9014
+u4400:
 	line	146
 	
-l8893:	
+l9012:	
 	movf	(___ftmul@f2),w
 	addwf	(___ftmul@f3_as_product),f
 	movf	(___ftmul@f2+1),w
@@ -5367,58 +6233,58 @@ l8893:
 	skipnc
 	incf	(___ftmul@f2+1),w
 	skipnz
-	goto	u4311
+	goto	u4411
 	addwf	(___ftmul@f3_as_product+1),f
-u4311:
+u4411:
 	movf	(___ftmul@f2+2),w
 	clrz
 	skipnc
 	incf	(___ftmul@f2+2),w
 	skipnz
-	goto	u4312
+	goto	u4412
 	addwf	(___ftmul@f3_as_product+2),f
-u4312:
+u4412:
 
 	line	147
 	
-l8895:	
+l9014:	
 	movlw	01h
-u4325:
+u4425:
 	clrc
 	rrf	(___ftmul@f1+2),f
 	rrf	(___ftmul@f1+1),f
 	rrf	(___ftmul@f1),f
 	addlw	-1
 	skipz
-	goto	u4325
+	goto	u4425
 
 	line	148
 	
-l8897:	
+l9016:	
 	movlw	01h
-u4335:
+u4435:
 	clrc
 	rrf	(___ftmul@f3_as_product+2),f
 	rrf	(___ftmul@f3_as_product+1),f
 	rrf	(___ftmul@f3_as_product),f
 	addlw	-1
 	skipz
-	goto	u4335
+	goto	u4435
 
 	line	149
 	
-l8899:	
+l9018:	
 	movlw	01h
 	subwf	(___ftmul@cntr),f
 	btfss	status,2
-	goto	u4341
-	goto	u4340
-u4341:
-	goto	l8891
-u4340:
+	goto	u4441
+	goto	u4440
+u4441:
+	goto	l9010
+u4440:
 	line	156
 	
-l8901:	
+l9020:	
 	movf	(___ftmul@f3_as_product),w
 	movwf	(___ftpack@arg)
 	movf	(___ftmul@f3_as_product+1),w
@@ -5442,7 +6308,7 @@ l8901:
 	movwf	(?___ftmul+2)
 	line	157
 	
-l6571:	
+l6588:	
 	return
 	callstack 0
 GLOBAL	__end_of___ftmul
@@ -5481,12 +6347,12 @@ GLOBAL	__end_of___ftmul
 ;;		_TrashDoor_Ctrl
 ;; This function uses a non-reentrant model
 ;;
-psect	text15,local,class=CODE,delta=2,merge=1,group=2
+psect	text18,local,class=CODE,delta=2,merge=1,group=2
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\ftge.c"
 	line	4
-global __ptext15
-__ptext15:	;psect for function ___ftge
-psect	text15
+global __ptext18
+__ptext18:	;psect for function ___ftge
+psect	text18
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\ftge.c"
 	line	4
 	
@@ -5496,16 +6362,16 @@ ___ftge:
 ; Regs used in ___ftge: [wreg+status,2+status,0]
 	line	6
 	
-l7981:	
+l8058:	
 	btfss	(___ftge@ff1+2),(23)&7
-	goto	u2491
-	goto	u2490
-u2491:
-	goto	l7985
-u2490:
+	goto	u2561
+	goto	u2560
+u2561:
+	goto	l8062
+u2560:
 	line	7
 	
-l7983:	
+l8060:	
 	movf	(___ftge@ff1),w
 	sublw	0
 	movwf	(___ftge@ff1)
@@ -5522,16 +6388,16 @@ l7983:
 	movwf	2+(___ftge@ff1)
 	line	8
 	
-l7985:	
+l8062:	
 	btfss	(___ftge@ff2+2),(23)&7
-	goto	u2501
-	goto	u2500
-u2501:
-	goto	l7989
-u2500:
+	goto	u2571
+	goto	u2570
+u2571:
+	goto	l8066
+u2570:
 	line	9
 	
-l7987:	
+l8064:	
 	movf	(___ftge@ff2),w
 	sublw	0
 	movwf	(___ftge@ff2)
@@ -5548,46 +6414,46 @@ l7987:
 	movwf	2+(___ftge@ff2)
 	line	10
 	
-l7989:	
+l8066:	
 	movlw	080h
 	xorwf	(___ftge@ff1+2),f
 	line	11
 	
-l7991:	
+l8068:	
 	movlw	080h
 	xorwf	(___ftge@ff2+2),f
 	line	12
 	
-l7993:	
+l8070:	
 	movf	(___ftge@ff2+2),w
 	subwf	(___ftge@ff1+2),w
 	skipz
-	goto	u2515
+	goto	u2585
 	movf	(___ftge@ff2+1),w
 	subwf	(___ftge@ff1+1),w
 	skipz
-	goto	u2515
+	goto	u2585
 	movf	(___ftge@ff2),w
 	subwf	(___ftge@ff1),w
-u2515:
+u2585:
 	skipnc
-	goto	u2511
-	goto	u2510
-u2511:
-	goto	l7997
-u2510:
+	goto	u2581
+	goto	u2580
+u2581:
+	goto	l8074
+u2580:
 	
-l7995:	
+l8072:	
 	clrc
 	
-	goto	l6565
+	goto	l6582
 	
-l7997:	
+l8074:	
 	setc
 	
 	line	13
 	
-l6565:	
+l6582:	
 	return
 	callstack 0
 GLOBAL	__end_of___ftge
@@ -5628,12 +6494,12 @@ GLOBAL	__end_of___ftge
 ;;		_IRSensor_Read
 ;; This function uses a non-reentrant model
 ;;
-psect	text16,local,class=CODE,delta=2,merge=1,group=2
+psect	text19,local,class=CODE,delta=2,merge=1,group=2
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\ftdiv.c"
 	line	56
-global __ptext16
-__ptext16:	;psect for function ___ftdiv
-psect	text16
+global __ptext19
+__ptext19:	;psect for function ___ftdiv
+psect	text19
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\ftdiv.c"
 	line	56
 	
@@ -5643,7 +6509,7 @@ ___ftdiv:
 ; Regs used in ___ftdiv: [wreg+status,2+status,0+pclath+cstack]
 	line	63
 	
-l8807:	
+l8926:	
 	movf	(___ftdiv@f1),w
 	movwf	((??___ftdiv+0)+0)
 	movf	(___ftdiv@f1+1),w
@@ -5658,24 +6524,24 @@ l8807:
 	movwf	(___ftdiv@exp)
 	movf	(((___ftdiv@exp))),w
 	btfss	status,2
-	goto	u4171
-	goto	u4170
-u4171:
-	goto	l8813
-u4170:
+	goto	u4271
+	goto	u4270
+u4271:
+	goto	l8932
+u4270:
 	line	64
 	
-l8809:	
+l8928:	
 	movlw	0x0
 	movwf	(?___ftdiv)
 	movlw	0x0
 	movwf	(?___ftdiv+1)
 	movlw	0x0
 	movwf	(?___ftdiv+2)
-	goto	l6556
+	goto	l6573
 	line	65
 	
-l8813:	
+l8932:	
 	movf	(___ftdiv@f2),w
 	movwf	((??___ftdiv+0)+0)
 	movf	(___ftdiv@f2+1),w
@@ -5690,24 +6556,24 @@ l8813:
 	movwf	(___ftdiv@sign)
 	movf	(((___ftdiv@sign))),w
 	btfss	status,2
-	goto	u4181
-	goto	u4180
-u4181:
-	goto	l8819
-u4180:
+	goto	u4281
+	goto	u4280
+u4281:
+	goto	l8938
+u4280:
 	line	66
 	
-l8815:	
+l8934:	
 	movlw	0x0
 	movwf	(?___ftdiv)
 	movlw	0x0
 	movwf	(?___ftdiv+1)
 	movlw	0x0
 	movwf	(?___ftdiv+2)
-	goto	l6556
+	goto	l6573
 	line	67
 	
-l8819:	
+l8938:	
 	movlw	low(0)
 	movwf	(___ftdiv@f3)
 	movlw	high(0)
@@ -5716,7 +6582,7 @@ l8819:
 	movwf	(___ftdiv@f3+2)
 	line	68
 	
-l8821:	
+l8940:	
 	movlw	low(089h)
 	addwf	(___ftdiv@sign),w
 	movwf	(??___ftdiv+0)+0
@@ -5724,7 +6590,7 @@ l8821:
 	subwf	(___ftdiv@exp),f
 	line	69
 	
-l8823:	
+l8942:	
 	movf	0+(___ftdiv@f1)+02h,w
 	movwf	(??___ftdiv+0)+0
 	movf	(??___ftdiv+0)+0,w
@@ -5741,11 +6607,11 @@ l8823:
 	andwf	(___ftdiv@sign),f
 	line	72
 	
-l8825:	
+l8944:	
 	bsf	(___ftdiv@f1)+(15/8),(15)&7
 	line	73
 	
-l8827:	
+l8946:	
 	movlw	0FFh
 	andwf	(___ftdiv@f1),f
 	movlw	0FFh
@@ -5754,11 +6620,11 @@ l8827:
 	andwf	(___ftdiv@f1+2),f
 	line	74
 	
-l8829:	
+l8948:	
 	bsf	(___ftdiv@f2)+(15/8),(15)&7
 	line	75
 	
-l8831:	
+l8950:	
 	movlw	0FFh
 	andwf	(___ftdiv@f2),f
 	movlw	0FFh
@@ -5767,44 +6633,44 @@ l8831:
 	andwf	(___ftdiv@f2+2),f
 	line	76
 	
-l8833:	
+l8952:	
 	movlw	low(018h)
 	movwf	(??___ftdiv+0)+0
 	movf	(??___ftdiv+0)+0,w
 	movwf	(___ftdiv@cntr)
 	line	78
 	
-l8835:	
+l8954:	
 	movlw	01h
-u4195:
+u4295:
 	clrc
 	rlf	(___ftdiv@f3),f
 	rlf	(___ftdiv@f3+1),f
 	rlf	(___ftdiv@f3+2),f
 	addlw	-1
 	skipz
-	goto	u4195
+	goto	u4295
 	line	79
 	movf	(___ftdiv@f2+2),w
 	subwf	(___ftdiv@f1+2),w
 	skipz
-	goto	u4205
+	goto	u4305
 	movf	(___ftdiv@f2+1),w
 	subwf	(___ftdiv@f1+1),w
 	skipz
-	goto	u4205
+	goto	u4305
 	movf	(___ftdiv@f2),w
 	subwf	(___ftdiv@f1),w
-u4205:
+u4305:
 	skipc
-	goto	u4201
-	goto	u4200
-u4201:
-	goto	l8841
-u4200:
+	goto	u4301
+	goto	u4300
+u4301:
+	goto	l8960
+u4300:
 	line	80
 	
-l8837:	
+l8956:	
 	movf	(___ftdiv@f2),w
 	subwf	(___ftdiv@f1),f
 	movf	(___ftdiv@f2+1),w
@@ -5817,34 +6683,34 @@ l8837:
 	subwf	(___ftdiv@f1+2),f
 	line	81
 	
-l8839:	
+l8958:	
 	bsf	(___ftdiv@f3)+(0/8),(0)&7
 	line	83
 	
-l8841:	
+l8960:	
 	movlw	01h
-u4215:
+u4315:
 	clrc
 	rlf	(___ftdiv@f1),f
 	rlf	(___ftdiv@f1+1),f
 	rlf	(___ftdiv@f1+2),f
 	addlw	-1
 	skipz
-	goto	u4215
+	goto	u4315
 	line	84
 	
-l8843:	
+l8962:	
 	movlw	01h
 	subwf	(___ftdiv@cntr),f
 	btfss	status,2
-	goto	u4221
-	goto	u4220
-u4221:
-	goto	l8835
-u4220:
+	goto	u4321
+	goto	u4320
+u4321:
+	goto	l8954
+u4320:
 	line	85
 	
-l8845:	
+l8964:	
 	movf	(___ftdiv@f3),w
 	movwf	(___ftpack@arg)
 	movf	(___ftdiv@f3+1),w
@@ -5868,7 +6734,7 @@ l8845:
 	movwf	(?___ftdiv+2)
 	line	86
 	
-l6556:	
+l6573:	
 	return
 	callstack 0
 GLOBAL	__end_of___ftdiv
@@ -5908,12 +6774,12 @@ GLOBAL	__end_of___ftdiv
 ;;		_IRSensor_Read
 ;; This function uses a non-reentrant model
 ;;
-psect	text17,local,class=CODE,delta=2,merge=1,group=2
+psect	text20,local,class=CODE,delta=2,merge=1,group=2
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\ftadd.c"
 	line	86
-global __ptext17
-__ptext17:	;psect for function ___ftadd
-psect	text17
+global __ptext20
+__ptext20:	;psect for function ___ftadd
+psect	text20
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\ftadd.c"
 	line	86
 	
@@ -5923,7 +6789,7 @@ ___ftadd:
 ; Regs used in ___ftadd: [wreg+status,2+status,0+pclath+cstack]
 	line	90
 	
-l8737:	
+l8856:	
 	movf	(___ftadd@f1),w
 	movwf	((??___ftadd+0)+0)
 	movf	(___ftadd@f1+1),w
@@ -5952,23 +6818,23 @@ l8737:
 	line	92
 	movf	((___ftadd@exp1)),w
 	btfsc	status,2
-	goto	u3931
-	goto	u3930
-u3931:
-	goto	l8743
-u3930:
+	goto	u4031
+	goto	u4030
+u4031:
+	goto	l8862
+u4030:
 	
-l8739:	
+l8858:	
 	movf	(___ftadd@exp2),w
 	subwf	(___ftadd@exp1),w
 	skipnc
-	goto	u3941
-	goto	u3940
-u3941:
-	goto	l8747
-u3940:
+	goto	u4041
+	goto	u4040
+u4041:
+	goto	l8866
+u4040:
 	
-l8741:	
+l8860:	
 	movf	(___ftadd@exp2),w
 	movwf	(??___ftadd+0)+0
 	movf	(___ftadd@exp1),w
@@ -5976,43 +6842,43 @@ l8741:
 	movlw	low(019h)
 	subwf	0+(??___ftadd+0)+0,w
 	skipc
-	goto	u3951
-	goto	u3950
-u3951:
-	goto	l8747
-u3950:
+	goto	u4051
+	goto	u4050
+u4051:
+	goto	l8866
+u4050:
 	line	93
 	
-l8743:	
+l8862:	
 	movf	(___ftadd@f2),w
 	movwf	(?___ftadd)
 	movf	(___ftadd@f2+1),w
 	movwf	(?___ftadd+1)
 	movf	(___ftadd@f2+2),w
 	movwf	(?___ftadd+2)
-	goto	l6525
+	goto	l6542
 	line	94
 	
-l8747:	
+l8866:	
 	movf	((___ftadd@exp2)),w
 	btfsc	status,2
-	goto	u3961
-	goto	u3960
-u3961:
-	goto	l6528
-u3960:
+	goto	u4061
+	goto	u4060
+u4061:
+	goto	l6545
+u4060:
 	
-l8749:	
+l8868:	
 	movf	(___ftadd@exp1),w
 	subwf	(___ftadd@exp2),w
 	skipnc
-	goto	u3971
-	goto	u3970
-u3971:
-	goto	l8753
-u3970:
+	goto	u4071
+	goto	u4070
+u4071:
+	goto	l8872
+u4070:
 	
-l8751:	
+l8870:	
 	movf	(___ftadd@exp1),w
 	movwf	(??___ftadd+0)+0
 	movf	(___ftadd@exp2),w
@@ -6020,55 +6886,55 @@ l8751:
 	movlw	low(019h)
 	subwf	0+(??___ftadd+0)+0,w
 	skipc
-	goto	u3981
-	goto	u3980
-u3981:
-	goto	l8753
-u3980:
+	goto	u4081
+	goto	u4080
+u4081:
+	goto	l8872
+u4080:
 	
-l6528:	
+l6545:	
 	line	95
-	goto	l6525
+	goto	l6542
 	line	96
 	
-l8753:	
+l8872:	
 	movlw	low(06h)
 	movwf	(??___ftadd+0)+0
 	movf	(??___ftadd+0)+0,w
 	movwf	(___ftadd@sign)
 	line	97
 	
-l8755:	
+l8874:	
 	btfss	(___ftadd@f1+2),(23)&7
-	goto	u3991
-	goto	u3990
-u3991:
-	goto	l6529
-u3990:
+	goto	u4091
+	goto	u4090
+u4091:
+	goto	l6546
+u4090:
 	line	98
 	
-l8757:	
+l8876:	
 	bsf	(___ftadd@sign)+(7/8),(7)&7
 	
-l6529:	
+l6546:	
 	line	99
 	btfss	(___ftadd@f2+2),(23)&7
-	goto	u4001
-	goto	u4000
-u4001:
-	goto	l6530
-u4000:
+	goto	u4101
+	goto	u4100
+u4101:
+	goto	l6547
+u4100:
 	line	100
 	
-l8759:	
+l8878:	
 	bsf	(___ftadd@sign)+(6/8),(6)&7
 	
-l6530:	
+l6547:	
 	line	101
 	bsf	(___ftadd@f1)+(15/8),(15)&7
 	line	102
 	
-l8761:	
+l8880:	
 	movlw	0FFh
 	andwf	(___ftadd@f1),f
 	movlw	0FFh
@@ -6077,7 +6943,7 @@ l8761:
 	andwf	(___ftadd@f1+2),f
 	line	103
 	
-l8763:	
+l8882:	
 	bsf	(___ftadd@f2)+(15/8),(15)&7
 	line	104
 	movlw	0FFh
@@ -6090,62 +6956,62 @@ l8763:
 	movf	(___ftadd@exp2),w
 	subwf	(___ftadd@exp1),w
 	skipnc
-	goto	u4011
-	goto	u4010
-u4011:
-	goto	l8775
-u4010:
+	goto	u4111
+	goto	u4110
+u4111:
+	goto	l8894
+u4110:
 	line	110
 	
-l8765:	
+l8884:	
 	movlw	01h
-u4025:
+u4125:
 	clrc
 	rlf	(___ftadd@f2),f
 	rlf	(___ftadd@f2+1),f
 	rlf	(___ftadd@f2+2),f
 	addlw	-1
 	skipz
-	goto	u4025
+	goto	u4125
 	line	111
 	movlw	01h
 	subwf	(___ftadd@exp2),f
 	line	112
 	
-l8767:	
+l8886:	
 	movf	(___ftadd@exp2),w
 	xorwf	(___ftadd@exp1),w
 	skipnz
-	goto	u4031
-	goto	u4030
-u4031:
-	goto	l8773
-u4030:
+	goto	u4131
+	goto	u4130
+u4131:
+	goto	l8892
+u4130:
 	
-l8769:	
+l8888:	
 	movlw	01h
 	subwf	(___ftadd@sign),f
 	movf	((___ftadd@sign)),w
 	andlw	07h
 	btfss	status,2
-	goto	u4041
-	goto	u4040
-u4041:
-	goto	l8765
-u4040:
-	goto	l8773
+	goto	u4141
+	goto	u4140
+u4141:
+	goto	l8884
+u4140:
+	goto	l8892
 	line	114
 	
-l8771:	
+l8890:	
 	movlw	01h
-u4055:
+u4155:
 	clrc
 	rrf	(___ftadd@f1+2),f
 	rrf	(___ftadd@f1+1),f
 	rrf	(___ftadd@f1),f
 	addlw	-1
 	skipz
-	goto	u4055
+	goto	u4155
 
 	line	115
 	movlw	low(01h)
@@ -6154,78 +7020,78 @@ u4055:
 	addwf	(___ftadd@exp1),f
 	line	113
 	
-l8773:	
+l8892:	
 	movf	(___ftadd@exp1),w
 	xorwf	(___ftadd@exp2),w
 	skipz
-	goto	u4061
-	goto	u4060
-u4061:
-	goto	l8771
-u4060:
-	goto	l6539
+	goto	u4161
+	goto	u4160
+u4161:
+	goto	l8890
+u4160:
+	goto	l6556
 	line	117
 	
-l8775:	
+l8894:	
 	movf	(___ftadd@exp1),w
 	subwf	(___ftadd@exp2),w
 	skipnc
-	goto	u4071
-	goto	u4070
-u4071:
-	goto	l6539
-u4070:
+	goto	u4171
+	goto	u4170
+u4171:
+	goto	l6556
+u4170:
 	line	121
 	
-l8777:	
+l8896:	
 	movlw	01h
-u4085:
+u4185:
 	clrc
 	rlf	(___ftadd@f1),f
 	rlf	(___ftadd@f1+1),f
 	rlf	(___ftadd@f1+2),f
 	addlw	-1
 	skipz
-	goto	u4085
+	goto	u4185
 	line	122
 	movlw	01h
 	subwf	(___ftadd@exp1),f
 	line	123
 	
-l8779:	
+l8898:	
 	movf	(___ftadd@exp2),w
 	xorwf	(___ftadd@exp1),w
 	skipnz
-	goto	u4091
-	goto	u4090
-u4091:
-	goto	l8785
-u4090:
+	goto	u4191
+	goto	u4190
+u4191:
+	goto	l8904
+u4190:
 	
-l8781:	
+l8900:	
 	movlw	01h
 	subwf	(___ftadd@sign),f
 	movf	((___ftadd@sign)),w
 	andlw	07h
 	btfss	status,2
-	goto	u4101
-	goto	u4100
-u4101:
-	goto	l8777
-u4100:
-	goto	l8785
+	goto	u4201
+	goto	u4200
+u4201:
+	goto	l8896
+u4200:
+	goto	l8904
 	line	125
 	
-l8783:	
+l8902:	
 	movlw	01h
-u4115:
+u4215:
 	clrc
 	rrf	(___ftadd@f2+2),f
 	rrf	(___ftadd@f2+1),f
 	rrf	(___ftadd@f2),f
 	addlw	-1
 	skipz
-	goto	u4115
+	goto	u4215
 
 	line	126
 	movlw	low(01h)
@@ -6234,27 +7100,27 @@ u4115:
 	addwf	(___ftadd@exp2),f
 	line	124
 	
-l8785:	
+l8904:	
 	movf	(___ftadd@exp1),w
 	xorwf	(___ftadd@exp2),w
 	skipz
-	goto	u4121
-	goto	u4120
-u4121:
-	goto	l8783
-u4120:
+	goto	u4221
+	goto	u4220
+u4221:
+	goto	l8902
+u4220:
 	line	129
 	
-l6539:	
+l6556:	
 	btfss	(___ftadd@sign),(7)&7
-	goto	u4131
-	goto	u4130
-u4131:
-	goto	l8789
-u4130:
+	goto	u4231
+	goto	u4230
+u4231:
+	goto	l8908
+u4230:
 	line	131
 	
-l8787:	
+l8906:	
 	movlw	0FFh
 	xorwf	(___ftadd@f1),f
 	movlw	0FFh
@@ -6274,16 +7140,16 @@ movlw 1
 	addwf	(___ftadd@f1+2),f
 	line	134
 	
-l8789:	
+l8908:	
 	btfss	(___ftadd@sign),(6)&7
-	goto	u4141
-	goto	u4140
-u4141:
-	goto	l8793
-u4140:
+	goto	u4241
+	goto	u4240
+u4241:
+	goto	l8912
+u4240:
 	line	136
 	
-l8791:	
+l8910:	
 	movlw	0FFh
 	xorwf	(___ftadd@f2),f
 	movlw	0FFh
@@ -6303,11 +7169,11 @@ movlw 1
 	addwf	(___ftadd@f2+2),f
 	line	139
 	
-l8793:	
+l8912:	
 	clrf	(___ftadd@sign)
 	line	140
 	
-l8795:	
+l8914:	
 	movf	(___ftadd@f1),w
 	addwf	(___ftadd@f2),f
 	movf	(___ftadd@f1+1),w
@@ -6315,30 +7181,30 @@ l8795:
 	skipnc
 	incf	(___ftadd@f1+1),w
 	skipnz
-	goto	u4151
+	goto	u4251
 	addwf	(___ftadd@f2+1),f
-u4151:
+u4251:
 	movf	(___ftadd@f1+2),w
 	clrz
 	skipnc
 	incf	(___ftadd@f1+2),w
 	skipnz
-	goto	u4152
+	goto	u4252
 	addwf	(___ftadd@f2+2),f
-u4152:
+u4252:
 
 	line	141
 	
-l8797:	
+l8916:	
 	btfss	(___ftadd@f2+2),(23)&7
-	goto	u4161
-	goto	u4160
-u4161:
-	goto	l8803
-u4160:
+	goto	u4261
+	goto	u4260
+u4261:
+	goto	l8922
+u4260:
 	line	142
 	
-l8799:	
+l8918:	
 	movlw	0FFh
 	xorwf	(___ftadd@f2),f
 	movlw	0FFh
@@ -6358,12 +7224,12 @@ movlw 1
 	addwf	(___ftadd@f2+2),f
 	line	144
 	
-l8801:	
+l8920:	
 	clrf	(___ftadd@sign)
 	incf	(___ftadd@sign),f
 	line	146
 	
-l8803:	
+l8922:	
 	movf	(___ftadd@f2),w
 	movwf	(___ftpack@arg)
 	movf	(___ftadd@f2+1),w
@@ -6387,7 +7253,7 @@ l8803:
 	movwf	(?___ftadd+2)
 	line	148
 	
-l6525:	
+l6542:	
 	return
 	callstack 0
 GLOBAL	__end_of___ftadd
@@ -6430,12 +7296,12 @@ GLOBAL	__end_of___ftadd
 ;;		___lwtoft
 ;; This function uses a non-reentrant model
 ;;
-psect	text18,local,class=CODE,delta=2,merge=1,group=2
+psect	text21,local,class=CODE,delta=2,merge=1,group=2
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\float.c"
 	line	62
-global __ptext18
-__ptext18:	;psect for function ___ftpack
-psect	text18
+global __ptext21
+__ptext21:	;psect for function ___ftpack
+psect	text21
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\float.c"
 	line	62
 	
@@ -6445,75 +7311,75 @@ ___ftpack:
 ; Regs used in ___ftpack: [wreg+status,2+status,0]
 	line	64
 	
-l8669:	
+l8774:	
 	movf	((___ftpack@exp)),w
 	btfsc	status,2
-	goto	u3741
-	goto	u3740
-u3741:
-	goto	l8673
-u3740:
+	goto	u3801
+	goto	u3800
+u3801:
+	goto	l8778
+u3800:
 	
-l8671:	
+l8776:	
 	movf	(___ftpack@arg+2),w
 	iorwf	(___ftpack@arg+1),w
 	iorwf	(___ftpack@arg),w
 	skipz
-	goto	u3751
-	goto	u3750
-u3751:
-	goto	l8679
-u3750:
+	goto	u3811
+	goto	u3810
+u3811:
+	goto	l8784
+u3810:
 	line	65
 	
-l8673:	
+l8778:	
 	movlw	0x0
 	movwf	(?___ftpack)
 	movlw	0x0
 	movwf	(?___ftpack+1)
 	movlw	0x0
 	movwf	(?___ftpack+2)
-	goto	l6504
+	goto	l6521
 	line	67
 	
-l8677:	
+l8782:	
 	movlw	low(01h)
 	movwf	(??___ftpack+0)+0
 	movf	(??___ftpack+0)+0,w
 	addwf	(___ftpack@exp),f
 	line	68
 	movlw	01h
-u3765:
+u3825:
 	clrc
 	rrf	(___ftpack@arg+2),f
 	rrf	(___ftpack@arg+1),f
 	rrf	(___ftpack@arg),f
 	addlw	-1
 	skipz
-	goto	u3765
+	goto	u3825
 
 	line	66
 	
-l8679:	
+l8784:	
 	movlw	low highword(0FE0000h)
 	andwf	(___ftpack@arg+2),w
 	btfss	status,2
-	goto	u3771
-	goto	u3770
-u3771:
-	goto	l8677
-u3770:
-	goto	l6508
+	goto	u3831
+	goto	u3830
+u3831:
+	goto	l8782
+u3830:
+	goto	l6525
 	line	71
 	
-l8681:	
+l8786:	
 	movlw	low(01h)
 	movwf	(??___ftpack+0)+0
 	movf	(??___ftpack+0)+0,w
 	addwf	(___ftpack@exp),f
 	line	72
 	
-l8683:	
+l8788:	
 	movlw	01h
 	addwf	(___ftpack@arg),f
 	movlw	0
@@ -6526,76 +7392,76 @@ movlw 1
 	addwf	(___ftpack@arg+2),f
 	line	73
 	
-l8685:	
+l8790:	
 	movlw	01h
-u3785:
+u3845:
 	clrc
 	rrf	(___ftpack@arg+2),f
 	rrf	(___ftpack@arg+1),f
 	rrf	(___ftpack@arg),f
 	addlw	-1
 	skipz
-	goto	u3785
+	goto	u3845
 
 	line	74
 	
-l6508:	
+l6525:	
 	line	70
 	movlw	low highword(0FF0000h)
 	andwf	(___ftpack@arg+2),w
 	btfss	status,2
-	goto	u3791
-	goto	u3790
-u3791:
-	goto	l8681
-u3790:
-	goto	l8689
+	goto	u3851
+	goto	u3850
+u3851:
+	goto	l8786
+u3850:
+	goto	l8794
 	line	76
 	
-l8687:	
+l8792:	
 	movlw	01h
 	subwf	(___ftpack@exp),f
 	line	77
 	movlw	01h
-u3805:
+u3865:
 	clrc
 	rlf	(___ftpack@arg),f
 	rlf	(___ftpack@arg+1),f
 	rlf	(___ftpack@arg+2),f
 	addlw	-1
 	skipz
-	goto	u3805
+	goto	u3865
 	line	75
 	
-l8689:	
+l8794:	
 	btfsc	(___ftpack@arg+1),(15)&7
-	goto	u3811
-	goto	u3810
-u3811:
-	goto	l6515
-u3810:
+	goto	u3871
+	goto	u3870
+u3871:
+	goto	l6532
+u3870:
 	
-l8691:	
+l8796:	
 	movlw	low(02h)
 	subwf	(___ftpack@exp),w
 	skipnc
-	goto	u3821
-	goto	u3820
-u3821:
-	goto	l8687
-u3820:
+	goto	u3881
+	goto	u3880
+u3881:
+	goto	l8792
+u3880:
 	
-l6515:	
+l6532:	
 	line	79
 	btfsc	(___ftpack@exp),(0)&7
-	goto	u3831
-	goto	u3830
-u3831:
-	goto	l6516
-u3830:
+	goto	u3891
+	goto	u3890
+u3891:
+	goto	l6533
+u3890:
 	line	80
 	
-l8693:	
+l8798:	
 	movlw	0FFh
 	andwf	(___ftpack@arg),f
 	movlw	07Fh
@@ -6603,28 +7469,28 @@ l8693:
 	movlw	0FFh
 	andwf	(___ftpack@arg+2),f
 	
-l6516:	
+l6533:	
 	line	81
 	clrc
 	rrf	(___ftpack@exp),f
 
 	line	82
 	
-l8695:	
+l8800:	
 	movf	(___ftpack@exp),w
 	movwf	((??___ftpack+0)+0)
 	clrf	((??___ftpack+0)+0+1)
 	clrf	((??___ftpack+0)+0+2)
 	movlw	010h
-u3845:
+u3905:
 	clrc
 	rlf	(??___ftpack+0)+0,f
 	rlf	(??___ftpack+0)+1,f
 	rlf	(??___ftpack+0)+2,f
-u3840:
+u3900:
 	addlw	-1
 	skipz
-	goto	u3845
+	goto	u3905
 	movf	0+(??___ftpack+0)+0,w
 	iorwf	(___ftpack@arg),f
 	movf	1+(??___ftpack+0)+0,w
@@ -6633,24 +7499,24 @@ u3840:
 	iorwf	(___ftpack@arg+2),f
 	line	83
 	
-l8697:	
+l8802:	
 	movf	((___ftpack@sign)),w
 	btfsc	status,2
-	goto	u3851
-	goto	u3850
-u3851:
-	goto	l6517
-u3850:
+	goto	u3911
+	goto	u3910
+u3911:
+	goto	l6534
+u3910:
 	line	84
 	
-l8699:	
+l8804:	
 	bsf	(___ftpack@arg)+(23/8),(23)&7
 	
-l6517:	
+l6534:	
 	line	85
 	line	86
 	
-l6504:	
+l6521:	
 	return
 	callstack 0
 GLOBAL	__end_of___ftpack
@@ -6687,12 +7553,12 @@ GLOBAL	__end_of___ftpack
 ;;		_IRSensor_Read
 ;; This function uses a non-reentrant model
 ;;
-psect	text19,local,class=CODE,delta=2,merge=1,group=0
+psect	text22,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\ADC.c"
 	line	96
-global __ptext19
-__ptext19:	;psect for function _ADC_Read
-psect	text19
+global __ptext22
+__ptext22:	;psect for function _ADC_Read
+psect	text22
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\ADC.c"
 	line	96
 	
@@ -6703,36 +7569,36 @@ _ADC_Read:
 	movwf	(ADC_Read@channel)
 	line	98
 	
-l7799:	
+l7862:	
 	fcall	_ADC_BASE_Init
 	line	99
 	
-l7801:	
+l7864:	
 	asmopt push
 asmopt off
 movlw	7
 movwf	((??_ADC_Read+0)+0+1)
 	movlw	125
 movwf	((??_ADC_Read+0)+0)
-	u5147:
+	u5317:
 decfsz	((??_ADC_Read+0)+0),f
-	goto	u5147
+	goto	u5317
 	decfsz	((??_ADC_Read+0)+0+1),f
-	goto	u5147
+	goto	u5317
 asmopt pop
 
 	line	101
 	
-l7803:	
+l7866:	
 	movf	(ADC_Read@channel),w
 	movwf	(??_ADC_Read+0)+0
 	movlw	(03h)-1
-u2075:
+u2105:
 	clrc
 	rlf	(??_ADC_Read+0)+0,f
 	addlw	-1
 	skipz
-	goto	u2075
+	goto	u2105
 	clrc
 	rlf	(??_ADC_Read+0)+0,w
 	movwf	(??_ADC_Read+1)+0
@@ -6742,54 +7608,54 @@ u2075:
 	iorwf	(31),f	;volatile
 	line	102
 	
-l7805:	
+l7868:	
 	bsf	(248/8),(248)&7	;volatile
 	line	103
 	
-l7807:	
+l7870:	
 	asmopt push
 asmopt off
 movlw	7
 movwf	((??_ADC_Read+0)+0+1)
 	movlw	125
 movwf	((??_ADC_Read+0)+0)
-	u5157:
+	u5327:
 decfsz	((??_ADC_Read+0)+0),f
-	goto	u5157
+	goto	u5327
 	decfsz	((??_ADC_Read+0)+0+1),f
-	goto	u5157
+	goto	u5327
 asmopt pop
 
 	line	108
 	
-l7809:	
+l7872:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	bsf	(250/8),(250)&7	;volatile
 	line	114
 	
-l1198:	
+l1199:	
 	btfsc	(250/8),(250)&7	;volatile
-	goto	u2081
-	goto	u2080
-u2081:
-	goto	l1198
-u2080:
+	goto	u2111
+	goto	u2110
+u2111:
+	goto	l1199
+u2110:
 	line	117
 	
-l7811:	
+l7874:	
 	bsf	status, 5	;RP0=1, select bank1
 	clrf	(159)^080h	;volatile
 	line	119
 	
-l7813:	
+l7876:	
 	movlw	low(07h)
 	movwf	(??_ADC_Read+0)+0
 	movf	(??_ADC_Read+0)+0,w
 	iorwf	(159)^080h,f	;volatile
 	line	120
 	
-l7815:	
+l7878:	
 		asmopt push
 	asmopt off
 	nop2	;2 cycle nop
@@ -6799,7 +7665,7 @@ l7815:
 
 	line	123
 	
-l7817:	
+l7880:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(30),w	;volatile
@@ -6809,7 +7675,7 @@ l7817:
 	movwf	(?_ADC_Read)
 	line	124
 	
-l1201:	
+l1202:	
 	return
 	callstack 0
 GLOBAL	__end_of_ADC_Read
@@ -6846,11 +7712,11 @@ GLOBAL	__end_of_ADC_Read
 ;;		_ADC_Read
 ;; This function uses a non-reentrant model
 ;;
-psect	text20,local,class=CODE,delta=2,merge=1,group=0
+psect	text23,local,class=CODE,delta=2,merge=1,group=0
 	line	5
-global __ptext20
-__ptext20:	;psect for function _ADC_BASE_Init
-psect	text20
+global __ptext23
+__ptext23:	;psect for function _ADC_BASE_Init
+psect	text23
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\ADC.c"
 	line	5
 	
@@ -6860,19 +7726,19 @@ _ADC_BASE_Init:
 ; Regs used in _ADC_BASE_Init: [wreg+status,2+status,0]
 	line	8
 	
-l7711:	
+l7774:	
 	clrf	(31)	;volatile
 	line	9
 	bsf	status, 5	;RP0=1, select bank1
 	clrf	(159)^080h	;volatile
 	line	34
 	
-l7713:	
+l7776:	
 	bcf	status, 5	;RP0=0, select bank0
 	movf	(31),w	;volatile
 	line	88
 	
-l7715:	
+l7778:	
 	movlw	low(08Eh)
 	movwf	(??_ADC_BASE_Init+0)+0
 	movf	(??_ADC_BASE_Init+0)+0,w
@@ -6880,7 +7746,7 @@ l7715:
 	iorwf	(159)^080h,f	;volatile
 	line	89
 	
-l1192:	
+l1193:	
 	return
 	callstack 0
 GLOBAL	__end_of_ADC_BASE_Init
@@ -6890,68 +7756,52 @@ GLOBAL	__end_of_ADC_BASE_Init
 
 ;; *************** function _TimeSysTickUpdate *****************
 ;; Defined at:
-;;		line 411 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 466 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;  ptimeSysTick    1    wreg     PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
 ;; Auto vars:     Size  Location     Type
-;;  ptimeSysTick    1   33[BANK0 ] PTR volatile unsigned in
+;;  ptimeSysTick    1    4[COMMON] PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
-;;  TX             10   23[BANK0 ] unsigned char [10]
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      void 
 ;; Registers used:
-;;		wreg, fsr0l, fsr0h, status,2, status,0, btemp+1, pclath, cstack
+;;		wreg, fsr0l, fsr0h, status,2, status,0
 ;; Tracked objects:
-;;		On entry : 300/0
-;;		On exit  : 300/0
+;;		On entry : B00/0
+;;		On exit  : B00/0
 ;;		Unchanged: 0/0
 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
 ;;      Params:         0       0       0       0       0
-;;      Locals:         0      11       0       0       0
-;;      Temps:          0       2       0       0       0
-;;      Totals:         0      13       0       0       0
-;;Total ram usage:       13 bytes
+;;      Locals:         1       0       0       0       0
+;;      Temps:          2       0       0       0       0
+;;      Totals:         3       0       0       0       0
+;;Total ram usage:        3 bytes
 ;; Hardware stack levels used: 1
-;; Hardware stack levels required when called: 4
+;; Hardware stack levels required when called: 1
 ;; This function calls:
-;;		_UART_WriteStr
-;;		___lwmod
-;;		_sprintf
+;;		Nothing
 ;; This function is called by:
 ;;		_Loop
 ;; This function uses a non-reentrant model
 ;;
-psect	text21,local,class=CODE,delta=2,merge=1,group=0
+psect	text24,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	411
-global __ptext21
-__ptext21:	;psect for function _TimeSysTickUpdate
-psect	text21
+	line	466
+global __ptext24
+__ptext24:	;psect for function _TimeSysTickUpdate
+psect	text24
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	411
+	line	466
 	
 _TimeSysTickUpdate:	
 ;incstack = 0
-	callstack 2
-; Regs used in _TimeSysTickUpdate: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
+	callstack 5
+; Regs used in _TimeSysTickUpdate: [wreg-fsr0h+status,2+status,0]
 	movwf	(TimeSysTickUpdate@ptimeSysTick)
-	line	413
+	line	469
 	
-l9281:	
-	movlw	(TimeSysTickUpdate@TX)&0ffh
-	movwf	fsr0
-	movlw	10
-	movwf	btemp+1
-u5040:
-	bcf	status, 7	;select IRP bank0
-	clrf	indf
-	incf	fsr0,f
-	decfsz	btemp+1,f
-	goto	u5040
-	line	414
-	
-l9283:	
+l8622:	
 	movf	(TimeSysTickUpdate@ptimeSysTick),w
 	movwf	fsr0
 	movf	indf,w
@@ -6962,20 +7812,20 @@ l9283:
 	movf	(_timeSysTickBuffer+1),w
 	xorwf	1+(??_TimeSysTickUpdate+0)+0,w
 	skipz
-	goto	u5055
+	goto	u3585
 	movf	(_timeSysTickBuffer),w
 	xorwf	0+(??_TimeSysTickUpdate+0)+0,w
-u5055:
+u3585:
 
 	skipnz
-	goto	u5051
-	goto	u5050
-u5051:
-	goto	l9289
-u5050:
-	line	416
+	goto	u3581
+	goto	u3580
+u3581:
+	goto	l4355
+u3580:
+	line	471
 	
-l9285:	
+l8624:	
 	movf	(TimeSysTickUpdate@ptimeSysTick),w
 	movwf	fsr0
 	movf	indf,w
@@ -6983,9 +7833,9 @@ l9285:
 	incf	fsr0,f
 	movf	indf,w
 	movwf	(_timeSysTickBuffer+1)
-	line	417
+	line	472
 	
-l9287:	
+l8626:	
 	movlw	01h
 	addwf	(_timeBuffer),f
 	movlw	0
@@ -7000,66 +7850,246 @@ movlw 1
 	skipnc
 movlw 1
 	addwf	(_timeBuffer+3),f
-	line	419
+	line	479
 	
-l9289:	
-	movlw	010h
-	movwf	(___lwmod@divisor)
-	movlw	027h
-	movwf	((___lwmod@divisor))+1
-	movf	(TimeSysTickUpdate@ptimeSysTick),w
-	movwf	fsr0
-	movf	indf,w
-	movwf	(___lwmod@dividend)
-	incf	fsr0,f
-	movf	indf,w
-	movwf	(___lwmod@dividend+1)
-	fcall	___lwmod
-	movf	((0+(?___lwmod))),w
-iorwf	((1+(?___lwmod))),w
-	btfss	status,2
-	goto	u5061
-	goto	u5060
-u5061:
-	goto	l4338
-u5060:
-	line	421
-	
-l9291:	
-	movlw	(low((((STR_3)-__stringbase)|8000h)))&0ffh
-	movwf	(??_TimeSysTickUpdate+0)+0
-	movf	(??_TimeSysTickUpdate+0)+0,w
-	movwf	(sprintf@f)
-	movf	(_timeBuffer+3),w
-	movwf	3+(?_sprintf)+01h
-	movf	(_timeBuffer+2),w
-	movwf	2+(?_sprintf)+01h
-	movf	(_timeBuffer+1),w
-	movwf	1+(?_sprintf)+01h
-	movf	(_timeBuffer),w
-	movwf	0+(?_sprintf)+01h
-
-	movlw	(low(TimeSysTickUpdate@TX|((0x0)<<8)))&0ffh
-	fcall	_sprintf
-	line	422
-	movlw	(low(TimeSysTickUpdate@TX|((0x0)<<8))&0ffh)
-	movwf	(UART_WriteStr@data)
-	movlw	(0x0)
-	movwf	(UART_WriteStr@data+1)
-	fcall	_UART_WriteStr
-	line	425
-	
-l4338:	
+l4355:	
 	return
 	callstack 0
 GLOBAL	__end_of_TimeSysTickUpdate
 	__end_of_TimeSysTickUpdate:
 	signat	_TimeSysTickUpdate,4217
+	global	_Step_Start
+
+;; *************** function _Step_Start *****************
+;; Defined at:
+;;		line 86 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+;; Parameters:    Size  Location     Type
+;;  stepHandle      1    wreg     PTR struct .
+;;		 -> compressStepHandle(13), 
+;; Auto vars:     Size  Location     Type
+;;  stepHandle      1    7[COMMON] PTR struct .
+;;		 -> compressStepHandle(13), 
+;; Return value:  Size  Location     Type
+;;                  1    wreg      void 
+;; Registers used:
+;;		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
+;; Tracked objects:
+;;		On entry : 0/0
+;;		On exit  : 800/0
+;;		Unchanged: 0/0
+;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+;;      Params:         0       0       0       0       0
+;;      Locals:         1       0       0       0       0
+;;      Temps:          0       4       0       0       0
+;;      Totals:         1       4       0       0       0
+;;Total ram usage:        5 bytes
+;; Hardware stack levels used: 1
+;; Hardware stack levels required when called: 2
+;; This function calls:
+;;		_GPIO_Read
+;;		_GPIO_Write
+;; This function is called by:
+;;		_Loop
+;; This function uses a non-reentrant model
+;;
+psect	text25,local,class=CODE,delta=2,merge=1,group=0
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+	line	86
+global __ptext25
+__ptext25:	;psect for function _Step_Start
+psect	text25
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+	line	86
+	
+_Step_Start:	
+;incstack = 0
+	callstack 4
+; Regs used in _Step_Start: [wreg-fsr0h+status,2+status,0+pclath+cstack]
+	movwf	(Step_Start@stepHandle)
+	line	88
+	
+l9294:	
+	movf	(Step_Start@stepHandle),w
+	addlw	02h
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	bcf	status, 5	;RP0=0, select bank0
+	bcf	status, 6	;RP1=0, select bank0
+	movwf	(??_Step_Start+0)+0+0
+	incf	fsr0,f
+	movf	indf,w
+	movwf	(??_Step_Start+0)+0+1
+	incf	fsr0,f
+	movf	indf,w
+	movwf	(??_Step_Start+0)+0+2
+	incf	fsr0,f
+	movf	indf,w
+	movwf	(??_Step_Start+0)+0+3
+	movf	3+(??_Step_Start+0)+0,w
+	iorwf	2+(??_Step_Start+0)+0,w
+	iorwf	1+(??_Step_Start+0)+0,w
+	iorwf	0+(??_Step_Start+0)+0,w
+	skipnz
+	goto	u4921
+	goto	u4920
+u4921:
+	goto	l3034
+u4920:
+	line	90
+	
+l9296:	
+	movf	(Step_Start@stepHandle),w
+	addlw	0Ch
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Step_Start+0)+0
+	movf	(??_Step_Start+0)+0,w
+	movwf	(GPIO_Read@Pin)
+	movf	(Step_Start@stepHandle),w
+	addlw	0Bh
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Read
+	xorlw	01h
+	skipz
+	goto	u4931
+	goto	u4930
+u4931:
+	goto	l3033
+u4930:
+	line	92
+	
+l9298:	
+	movf	(Step_Start@stepHandle),w
+	addlw	0Ch
+	movwf	fsr0
+	movf	indf,w
+	bcf	status, 5	;RP0=0, select bank0
+	bcf	status, 6	;RP1=0, select bank0
+	movwf	(??_Step_Start+0)+0
+	movf	(??_Step_Start+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Step_Start@stepHandle),w
+	addlw	0Bh
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	93
+	
+l3033:	
+	line	94
+	movf	(Step_Start@stepHandle),w
+	addlw	0Ah
+	movwf	fsr0
+	movf	indf,w
+	bcf	status, 5	;RP0=0, select bank0
+	bcf	status, 6	;RP1=0, select bank0
+	movwf	(??_Step_Start+0)+0
+	movf	(??_Step_Start+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	movf	(Step_Start@stepHandle),w
+	addlw	09h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	95
+	
+l9300:	
+	asmopt push
+asmopt off
+	movlw	213
+	bcf	status, 5	;RP0=0, select bank0
+	bcf	status, 6	;RP1=0, select bank0
+movwf	((??_Step_Start+0)+0)
+	u5337:
+	nop2
+	nop2
+decfsz	(??_Step_Start+0)+0,f
+	goto	u5337
+	nop2
+	nop2
+	nop2
+asmopt pop
+
+	line	96
+	
+l9302:	
+	movf	(Step_Start@stepHandle),w
+	addlw	0Ah
+	movwf	fsr0
+	bcf	status, 7	;select IRP bank0
+	movf	indf,w
+	bcf	status, 5	;RP0=0, select bank0
+	bcf	status, 6	;RP1=0, select bank0
+	movwf	(??_Step_Start+0)+0
+	movf	(??_Step_Start+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Step_Start@stepHandle),w
+	addlw	09h
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	97
+	asmopt push
+asmopt off
+	movlw	213
+	bcf	status, 5	;RP0=0, select bank0
+	bcf	status, 6	;RP1=0, select bank0
+movwf	((??_Step_Start+0)+0)
+	u5347:
+	nop2
+	nop2
+decfsz	(??_Step_Start+0)+0,f
+	goto	u5347
+	nop2
+	nop2
+	nop2
+asmopt pop
+
+	line	98
+	
+l9304:	
+	movf	(Step_Start@stepHandle),w
+	addlw	02h
+	movwf	fsr0
+	movlw	01h
+	bcf	status, 7	;select IRP bank0
+	subwf	indf,f
+	incf	fsr0
+	movlw	0
+	skipc
+movlw 1
+	subwf	indf,f
+	incf	fsr0
+	movlw	0
+	skipc
+movlw 1
+	subwf	indf,f
+	incf	fsr0
+	movlw	0
+	skipc
+movlw 1
+	subwf	indf,f
+	movlw	3
+	subwf	fsr0
+	line	100
+	
+l3034:	
+	return
+	callstack 0
+GLOBAL	__end_of_Step_Start
+	__end_of_Step_Start:
+	signat	_Step_Start,4217
 	global	_Disionfection_Run
 
 ;; *************** function _Disionfection_Run *****************
 ;; Defined at:
-;;		line 392 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 443 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -7086,55 +8116,56 @@ GLOBAL	__end_of_TimeSysTickUpdate
 ;;		_Loop
 ;; This function uses a non-reentrant model
 ;;
-psect	text22,local,class=CODE,delta=2,merge=1,group=0
-	line	392
-global __ptext22
-__ptext22:	;psect for function _Disionfection_Run
-psect	text22
+psect	text26,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	392
+	line	443
+global __ptext26
+__ptext26:	;psect for function _Disionfection_Run
+psect	text26
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+	line	443
 	
 _Disionfection_Run:	
 ;incstack = 0
 	callstack 4
 ; Regs used in _Disionfection_Run: [wreg-fsr0h+status,2+status,0+pclath+cstack]
-	line	394
+	line	445
 	
-l9267:	
+l9414:	
 		decf	((_disinfectionState)),w
 	btfss	status,2
-	goto	u5011
-	goto	u5010
-u5011:
-	goto	l4329
-u5010:
-	line	396
+	goto	u5131
+	goto	u5130
+u5131:
+	goto	l4349
+u5130:
+	line	447
 	
-l9269:	
+l9416:	
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u5021
+	goto	u5141
 	movf	(_timeBuffer+2),w
 	btfss	status,2
-	goto	u5021
+	goto	u5141
 	movf	(_timeBuffer+1),w
 	btfss	status,2
-	goto	u5021
+	goto	u5141
 	movlw	6
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u5023
-u5023:
+	goto	u5143
+u5143:
 	btfsc	status,0
-	goto	u5021
-	goto	u5020
+	goto	u5141
+	goto	u5140
 
-u5021:
-	goto	l9275
-u5020:
-	line	398
+u5141:
+	goto	l9422
+u5140:
+	line	449
 	
-l9271:	
+l9418:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	0+(_Motor_0)+01h,w
@@ -7144,9 +8175,9 @@ l9271:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_Motor_0),w
 	fcall	_GPIO_Write
-	line	399
+	line	450
 	
-l9273:	
+l9420:	
 	movlw	0
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(_timeBuffer+3)
@@ -7157,38 +8188,38 @@ l9273:
 	movlw	06h
 	movwf	(_timeBuffer)
 
-	line	400
-	goto	l4329
-	line	401
+	line	451
+	goto	l4349
+	line	452
 	
-l9275:	
+l9422:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u5030
+	goto	u5150
 	movf	(_timeBuffer+2),w
 	btfss	status,2
-	goto	u5030
+	goto	u5150
 	movlw	78
 	subwf	(_timeBuffer+1),w
 	skipz
-	goto	u5033
+	goto	u5153
 	movlw	32
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u5033
-u5033:
+	goto	u5153
+u5153:
 	btfss	status,0
-	goto	u5031
-	goto	u5030
+	goto	u5151
+	goto	u5150
 
-u5031:
-	goto	l4329
-u5030:
-	line	403
+u5151:
+	goto	l4349
+u5150:
+	line	454
 	
-l9277:	
+l9424:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	0+(_Motor_0)+01h,w
@@ -7199,17 +8230,17 @@ l9277:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_Motor_0),w
 	fcall	_GPIO_Write
-	line	404
+	line	455
 	
-l9279:	
+l9426:	
 	movlw	low(02h)
 	movwf	(??_Disionfection_Run+0)+0
 	movf	(??_Disionfection_Run+0)+0,w
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(_disinfectionState)
-	line	408
+	line	459
 	
-l4329:	
+l4349:	
 	return
 	callstack 0
 GLOBAL	__end_of_Disionfection_Run
@@ -7219,7 +8250,7 @@ GLOBAL	__end_of_Disionfection_Run
 
 ;; *************** function _Disinfection_Ctrl *****************
 ;; Defined at:
-;;		line 376 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 427 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -7246,55 +8277,55 @@ GLOBAL	__end_of_Disionfection_Run
 ;;		_Loop
 ;; This function uses a non-reentrant model
 ;;
-psect	text23,local,class=CODE,delta=2,merge=1,group=0
-	line	376
-global __ptext23
-__ptext23:	;psect for function _Disinfection_Ctrl
-psect	text23
+psect	text27,local,class=CODE,delta=2,merge=1,group=0
+	line	427
+global __ptext27
+__ptext27:	;psect for function _Disinfection_Ctrl
+psect	text27
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	376
+	line	427
 	
 _Disinfection_Ctrl:	
 ;incstack = 0
 	callstack 5
 ; Regs used in _Disinfection_Ctrl: [wreg+status,2+status,0]
-	line	378
+	line	429
 	
-l8493:	
+l8598:	
 		movlw	2
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	xorwf	((_compressionState)),w
 	btfsc	status,2
-	goto	u3441
-	goto	u3440
-u3441:
-	goto	l8497
-u3440:
-	line	380
+	goto	u3531
+	goto	u3530
+u3531:
+	goto	l8602
+u3530:
+	line	431
 	
-l8495:	
+l8600:	
 	clrf	(_disinfectionState)
-	line	381
-	goto	l4322
-	line	384
+	line	432
+	goto	l4342
+	line	435
 	
-l8497:	
+l8602:	
 	movf	((_disinfectionState)),w
 	btfss	status,2
-	goto	u3451
-	goto	u3450
-u3451:
-	goto	l4322
-u3450:
-	line	386
+	goto	u3541
+	goto	u3540
+u3541:
+	goto	l4342
+u3540:
+	line	437
 	
-l8499:	
+l8604:	
 	clrf	(_disinfectionState)
 	incf	(_disinfectionState),f
-	line	387
+	line	438
 	
-l8501:	
+l8606:	
 	movlw	high highword(0)
 	movwf	(_timeBuffer+3)
 	movlw	low highword(0)
@@ -7304,9 +8335,9 @@ l8501:
 	movlw	low(0)
 	movwf	(_timeBuffer)
 
-	line	390
+	line	441
 	
-l4322:	
+l4342:	
 	return
 	callstack 0
 GLOBAL	__end_of_Disinfection_Ctrl
@@ -7316,15 +8347,15 @@ GLOBAL	__end_of_Disinfection_Ctrl
 
 ;; *************** function _Compression_Run *****************
 ;; Defined at:
-;;		line 281 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 303 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;  ptimeSysTick    1    wreg     PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
 ;; Auto vars:     Size  Location     Type
-;;  ptimeSysTick    1   34[BANK0 ] PTR volatile unsigned in
+;;  ptimeSysTick    1   33[BANK0 ] PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
-;;  TX             10   24[BANK0 ] unsigned char [10]
-;;  distance        1   35[BANK0 ] unsigned char 
+;;  TX             10   23[BANK0 ] unsigned char [10]
+;;  distance        1   34[BANK0 ] unsigned char 
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      void 
 ;; Registers used:
@@ -7343,9 +8374,8 @@ GLOBAL	__end_of_Disinfection_Ctrl
 ;; Hardware stack levels required when called: 4
 ;; This function calls:
 ;;		_GPIO_Write
-;;		_Motor_Forward_Start
-;;		_Motor_Reverse_Start
-;;		_Motor_Stop
+;;		_Step_Set
+;;		_Step_Stop
 ;;		_UART_WriteStr
 ;;		_UltraSensor_Read
 ;;		___llmod
@@ -7354,40 +8384,40 @@ GLOBAL	__end_of_Disinfection_Ctrl
 ;;		_Loop
 ;; This function uses a non-reentrant model
 ;;
-psect	text24,local,class=CODE,delta=2,merge=1,group=0
-	line	281
-global __ptext24
-__ptext24:	;psect for function _Compression_Run
-psect	text24
+psect	text28,local,class=CODE,delta=2,merge=1,group=0
+	line	303
+global __ptext28
+__ptext28:	;psect for function _Compression_Run
+psect	text28
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	281
+	line	303
 	
 _Compression_Run:	
 ;incstack = 0
 	callstack 2
 ; Regs used in _Compression_Run: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
 	movwf	(Compression_Run@ptimeSysTick)
-	line	283
+	line	305
 	
-l9221:	
-	line	284
+l9358:	
+	line	306
 	
-l9223:	
+l9360:	
 	movlw	(Compression_Run@TX)&0ffh
 	movwf	fsr0
 	movlw	10
 	movwf	btemp+1
-u4950:
+u5070:
 	bcf	status, 7	;select IRP bank0
 	clrf	indf
 	incf	fsr0,f
 	decfsz	btemp+1,f
-	goto	u4950
-	line	285
-	goto	l9265
-	line	288
+	goto	u5070
+	line	307
+	goto	l9412
+	line	310
 	
-l9225:	
+l9362:	
 	movf	0+(_LED1)+01h,w
 	movwf	(??_Compression_Run+0)+0
 	movf	(??_Compression_Run+0)+0,w
@@ -7396,7 +8426,7 @@ l9225:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_LED1),w
 	fcall	_GPIO_Write
-	line	290
+	line	312
 	movf	0+(_LED2)+01h,w
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(??_Compression_Run+0)+0
@@ -7405,11 +8435,11 @@ l9225:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_LED2),w
 	fcall	_GPIO_Write
-	line	291
-	goto	l4316
-	line	293
+	line	313
+	goto	l4336
+	line	315
 	
-l9227:	
+l9364:	
 	movf	0+(_LED1)+01h,w
 	movwf	(??_Compression_Run+0)+0
 	movf	(??_Compression_Run+0)+0,w
@@ -7417,7 +8447,7 @@ l9227:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_LED1),w
 	fcall	_GPIO_Write
-	line	295
+	line	317
 	movf	0+(_LED2)+01h,w
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(??_Compression_Run+0)+0
@@ -7426,41 +8456,42 @@ l9227:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_LED2),w
 	fcall	_GPIO_Write
-	line	297
+	line	319
 	bcf	status, 5	;RP0=0, select bank0
 	movf	(Compression_Run@ptimeSysTick),w
 	fcall	_UltraSensor_Read
 	movwf	(??_Compression_Run+0)+0
 	movf	(??_Compression_Run+0)+0,w
 	movwf	(Compression_Run@distance)
-	line	298
+	line	320
 	
-l9229:	
+l9366:	
 	movlw	low(050h)
 	subwf	(Compression_Run@distance),w
 	skipc
-	goto	u4961
-	goto	u4960
-u4961:
-	goto	l9233
-u4960:
-	line	300
+	goto	u5081
+	goto	u5080
+u5081:
+	goto	l9370
+u5080:
+	line	322
 	
-l9231:	
+l9368:	
 	movlw	low(02h)
+	bcf	status, 5	;RP0=0, select bank0
 	movwf	(??_Compression_Run+0)+0
 	movf	(??_Compression_Run+0)+0,w
 	movwf	(_compressionState)
-	line	303
-	goto	l4316
-	line	306
+	line	325
+	goto	l4336
+	line	328
 	
-l9233:	
+l9370:	
 	movlw	low(04h)
 	movwf	(??_Compression_Run+0)+0
 	movf	(??_Compression_Run+0)+0,w
 	movwf	(_compressionState)
-	line	309
+	line	331
 	movlw	high highword(0)
 	movwf	(_timeBuffer+3)
 	movlw	low highword(0)
@@ -7470,10 +8501,10 @@ l9233:
 	movlw	low(0)
 	movwf	(_timeBuffer)
 
-	goto	l4316
-	line	313
+	goto	l4336
+	line	335
 	
-l9235:	
+l9372:	
 	movf	0+(_LED1)+01h,w
 	movwf	(??_Compression_Run+0)+0
 	movf	(??_Compression_Run+0)+0,w
@@ -7481,7 +8512,7 @@ l9235:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_LED1),w
 	fcall	_GPIO_Write
-	line	314
+	line	336
 	movf	0+(_LED2)+01h,w
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(??_Compression_Run+0)+0
@@ -7490,9 +8521,9 @@ l9235:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_LED2),w
 	fcall	_GPIO_Write
-	line	316
+	line	338
 	
-l9237:	
+l9374:	
 	movlw	0
 	movwf	(___llmod@divisor+3)
 	movlw	0
@@ -7518,22 +8549,22 @@ l9237:
 	iorwf	(1+(?___llmod)),w
 	iorwf	(0+(?___llmod)),w
 	skipz
-	goto	u4971
-	goto	u4970
-u4971:
-	goto	l9245
-u4970:
-	line	318
+	goto	u5091
+	goto	u5090
+u5091:
+	goto	l9382
+u5090:
+	line	340
 	
-l9239:	
+l9376:	
 	movf	(Compression_Run@ptimeSysTick),w
 	fcall	_UltraSensor_Read
 	movwf	(??_Compression_Run+0)+0
 	movf	(??_Compression_Run+0)+0,w
 	movwf	(Compression_Run@distance)
-	line	319
+	line	341
 	
-l9241:	
+l9378:	
 	movlw	(low((((STR_2)-__stringbase)|8000h)))&0ffh
 	movwf	(??_Compression_Run+0)+0
 	movf	(??_Compression_Run+0)+0,w
@@ -7547,48 +8578,61 @@ l9241:
 	movwf	1+(?_sprintf)+01h
 	movlw	(low(Compression_Run@TX|((0x0)<<8)))&0ffh
 	fcall	_sprintf
-	line	320
+	line	342
 	
-l9243:	
+l9380:	
 	movlw	(low(Compression_Run@TX|((0x0)<<8))&0ffh)
 	movwf	(UART_WriteStr@data)
 	movlw	(0x0)
 	movwf	(UART_WriteStr@data+1)
 	fcall	_UART_WriteStr
-	line	350
+	line	372
 	
-l9245:	
+l9382:	
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u4981
+	goto	u5101
 	movf	(_timeBuffer+2),w
 	btfss	status,2
-	goto	u4981
+	goto	u5101
 	movf	(_timeBuffer+1),w
 	btfss	status,2
-	goto	u4981
+	goto	u5101
 	movlw	11
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u4983
-u4983:
+	goto	u5103
+u5103:
 	btfsc	status,0
-	goto	u4981
-	goto	u4980
+	goto	u5101
+	goto	u5100
 
-u4981:
-	goto	l9251
-u4980:
-	line	352
+u5101:
+	goto	l9392
+u5100:
+	line	380
 	
-l9247:	
-	movlw	(low(_Compress_Motor|((0x0)<<8)))&0ffh
-	fcall	_Motor_Reverse_Start
-	line	353
+l9384:	
+	bsf	status, 5	;RP0=1, select bank1
+	bcf	status, 6	;RP1=0, select bank1
+	clrf	0+(_compressStepHandle)^080h+06h
+	incf	0+(_compressStepHandle)^080h+06h,f
+	line	381
 	
-l9249:	
+l9386:	
+	movlw	05h
+	movwf	(_compressStepHandle)^080h
 	movlw	0
-	bcf	status, 5	;RP0=0, select bank0
+	movwf	((_compressStepHandle)^080h)+1
+	line	382
+	
+l9388:	
+	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
+	fcall	_Step_Set
+	line	383
+	
+l9390:	
+	movlw	0
 	movwf	(_timeBuffer+3)
 	movlw	0
 	movwf	(_timeBuffer+2)
@@ -7597,11 +8641,11 @@ l9249:
 	movlw	0Bh
 	movwf	(_timeBuffer)
 
-	line	354
-	goto	l4316
-	line	355
+	line	385
+	goto	l4336
+	line	386
 	
-l9251:	
+l9392:	
 		movlw	112
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
@@ -7610,68 +8654,84 @@ l9251:
 	skipnz
 	xorwf	((_timeBuffer+1)),w
 	skipz
-	goto	u4991
+	goto	u5111
 	decf	((_timeBuffer+2)),w
 iorwf	((_timeBuffer+3)),w
 	btfss	status,2
-	goto	u4991
-	goto	u4990
-u4991:
-	goto	l9255
-u4990:
-	line	357
+	goto	u5111
+	goto	u5110
+u5111:
+	goto	l9402
+u5110:
+	line	394
 	
-l9253:	
-	movlw	(low(_Compress_Motor|((0x0)<<8)))&0ffh
-	fcall	_Motor_Forward_Start
-	line	358
-	goto	l4316
-	line	359
+l9394:	
+	bsf	status, 5	;RP0=1, select bank1
+	bcf	status, 6	;RP1=0, select bank1
+	clrf	0+(_compressStepHandle)^080h+06h
+	line	395
 	
-l9255:	
+l9396:	
+	movlw	05h
+	movwf	(_compressStepHandle)^080h
+	movlw	0
+	movwf	((_compressStepHandle)^080h)+1
+	line	396
+	
+l9398:	
+	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
+	fcall	_Step_Set
+	line	397
+	
+l9400:	
+	movlw	0
+	movwf	(_timeBuffer+3)
+	movlw	01h
+	movwf	(_timeBuffer+2)
+	movlw	011h
+	movwf	(_timeBuffer+1)
+	movlw	071h
+	movwf	(_timeBuffer)
+
+	line	399
+	goto	l4336
+	line	400
+	
+l9402:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 		movf	(_timeBuffer+3),w
 	btfss	status,2
-	goto	u5000
+	goto	u5120
 	movlw	2
 	subwf	(_timeBuffer+2),w
 	skipz
-	goto	u5003
+	goto	u5123
 	movlw	34
 	subwf	(_timeBuffer+1),w
 	skipz
-	goto	u5003
+	goto	u5123
 	movlw	224
 	subwf	(_timeBuffer),w
 	skipz
-	goto	u5003
-u5003:
+	goto	u5123
+u5123:
 	btfss	status,0
-	goto	u5001
-	goto	u5000
+	goto	u5121
+	goto	u5120
 
-u5001:
-	goto	l4316
-u5000:
-	line	361
+u5121:
+	goto	l4336
+u5120:
+	line	408
 	
-l9257:	
-	movlw	low(02h)
-	bcf	status, 5	;RP0=0, select bank0
-	bcf	status, 6	;RP1=0, select bank0
-	movwf	(??_Compression_Run+0)+0
-	movf	(??_Compression_Run+0)+0,w
-	movwf	(_compressionState)
-	line	362
+l9404:	
+	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
+	fcall	_Step_Stop
+	goto	l9368
+	line	414
 	
-l9259:	
-	movlw	(low(_Compress_Motor|((0x0)<<8)))&0ffh
-	fcall	_Motor_Stop
-	goto	l4316
-	line	366
-	
-l9261:	
+l9408:	
 	movf	0+(_LED1)+01h,w
 	movwf	(??_Compression_Run+0)+0
 	movf	(??_Compression_Run+0)+0,w
@@ -7679,7 +8739,7 @@ l9261:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_LED1),w
 	fcall	_GPIO_Write
-	line	368
+	line	416
 	movf	0+(_LED2)+01h,w
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(??_Compression_Run+0)+0
@@ -7689,11 +8749,11 @@ l9261:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_LED2),w
 	fcall	_GPIO_Write
-	line	369
-	goto	l4316
-	line	285
+	line	417
+	goto	l4336
+	line	307
 	
-l9265:	
+l9412:	
 	movf	(_compressionState),w
 	; Switch size 1, requested type "simple"
 ; Number of cases is 4, Range of values is 0 to 4
@@ -7708,22 +8768,22 @@ l9265:
 	asmopt off
 	xorlw	0^0	; case 0
 	skipnz
-	goto	l9225
+	goto	l9362
 	xorlw	1^0	; case 1
 	skipnz
-	goto	l9227
+	goto	l9364
 	xorlw	2^1	; case 2
 	skipnz
-	goto	l9261
+	goto	l9408
 	xorlw	4^2	; case 4
 	skipnz
-	goto	l9235
-	goto	l4316
+	goto	l9372
+	goto	l4336
 	asmopt pop
 
-	line	373
+	line	421
 	
-l4316:	
+l4336:	
 	return
 	callstack 0
 GLOBAL	__end_of_Compression_Run
@@ -7736,20 +8796,20 @@ GLOBAL	__end_of_Compression_Run
 ;;		line 505 in file "E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\doprnt.c"
 ;; Parameters:    Size  Location     Type
 ;;  sp              1    wreg     PTR unsigned char 
-;;		 -> TimeSysTickUpdate@TX(10), Compression_Run@TX(10), 
+;;		 -> Compression_Run@TX(10), 
 ;;  f               1    6[BANK0 ] PTR const unsigned char 
-;;		 -> STR_3(7), STR_2(9), 
+;;		 -> STR_2(9), 
 ;; Auto vars:     Size  Location     Type
-;;  sp              1   19[BANK0 ] PTR unsigned char 
-;;		 -> TimeSysTickUpdate@TX(10), Compression_Run@TX(10), 
+;;  sp              1   17[BANK0 ] PTR unsigned char 
+;;		 -> Compression_Run@TX(10), 
 ;;  tmpval          4    0        struct .
-;;  val             2   17[BANK0 ] unsigned int 
+;;  val             2   15[BANK0 ] unsigned int 
 ;;  cp              2    0        PTR const unsigned char 
 ;;  len             2    0        unsigned int 
-;;  c               1   20[BANK0 ] unsigned char 
-;;  prec            1   16[BANK0 ] char 
-;;  flag            1   15[BANK0 ] unsigned char 
-;;  ap              1   14[BANK0 ] PTR void [1]
+;;  c               1   18[BANK0 ] unsigned char 
+;;  prec            1   14[BANK0 ] char 
+;;  flag            1   13[BANK0 ] unsigned char 
+;;  ap              1   12[BANK0 ] PTR void [1]
 ;;		 -> ?_sprintf(2), 
 ;; Return value:  Size  Location     Type
 ;;                  2    6[BANK0 ] int 
@@ -7760,11 +8820,11 @@ GLOBAL	__end_of_Compression_Run
 ;;		On exit  : B00/0
 ;;		Unchanged: 0/0
 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
-;;      Params:         0       5       0       0       0
+;;      Params:         0       3       0       0       0
 ;;      Locals:         0       7       0       0       0
 ;;      Temps:          0       3       0       0       0
-;;      Totals:         0      15       0       0       0
-;;Total ram usage:       15 bytes
+;;      Totals:         0      13       0       0       0
+;;Total ram usage:       13 bytes
 ;; Hardware stack levels used: 1
 ;; Hardware stack levels required when called: 2
 ;; This function calls:
@@ -7772,15 +8832,14 @@ GLOBAL	__end_of_Compression_Run
 ;;		___lwmod
 ;; This function is called by:
 ;;		_Compression_Run
-;;		_TimeSysTickUpdate
 ;; This function uses a non-reentrant model
 ;;
-psect	text25,local,class=CODE,delta=2,merge=1,group=1
+psect	text29,local,class=CODE,delta=2,merge=1,group=1
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\doprnt.c"
 	line	505
-global __ptext25
-__ptext25:	;psect for function _sprintf
-psect	text25
+global __ptext29
+__ptext29:	;psect for function _sprintf
+psect	text29
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\doprnt.c"
 	line	505
 	
@@ -7791,27 +8850,27 @@ _sprintf:
 	movwf	(sprintf@sp)
 	line	550
 	
-l9037:	
+l9162:	
 	movlw	(low(?_sprintf|((0x0)<<8)+01h))&0ffh
 	movwf	(??_sprintf+0)+0
 	movf	(??_sprintf+0)+0,w
 	movwf	(sprintf@ap)
 	line	553
-	goto	l9089
+	goto	l9214
 	line	555
 	
-l9039:	
+l9164:	
 		movlw	37
 	xorwf	((sprintf@c)),w
 	btfsc	status,2
-	goto	u4571
-	goto	u4570
-u4571:
-	goto	l9045
-u4570:
+	goto	u4671
+	goto	u4670
+u4671:
+	goto	l9170
+u4670:
 	line	558
 	
-l9041:	
+l9166:	
 	movf	(sprintf@c),w
 	movwf	(??_sprintf+0)+0
 	movf	(sprintf@sp),w
@@ -7820,20 +8879,20 @@ l9041:
 	bcf	status, 7	;select IRP bank0
 	movwf	indf
 	
-l9043:	
+l9168:	
 	movlw	low(01h)
 	movwf	(??_sprintf+0)+0
 	movf	(??_sprintf+0)+0,w
 	addwf	(sprintf@sp),f
 	line	559
-	goto	l9089
+	goto	l9214
 	line	565
 	
-l9045:	
+l9170:	
 	clrf	(sprintf@flag)
 	line	661
 	
-l9049:	
+l9174:	
 	movlw	01h
 	addwf	(sprintf@f),f
 	movlw	-01h
@@ -7853,19 +8912,19 @@ l9049:
 	asmopt off
 	xorlw	0^0	; case 0
 	skipnz
-	goto	l9091
+	goto	l9216
 	xorlw	100^0	; case 100
 	skipnz
-	goto	l9051
+	goto	l9176
 	xorlw	105^100	; case 105
 	skipnz
-	goto	l9051
-	goto	l9089
+	goto	l9176
+	goto	l9214
 	asmopt pop
 
 	line	1285
 	
-l9051:	
+l9176:	
 	movf	(sprintf@ap),w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
@@ -7875,30 +8934,30 @@ l9051:
 	movf	indf,w
 	movwf	(sprintf@val+1)
 	
-l9053:	
+l9178:	
 	movlw	low(02h)
 	movwf	(??_sprintf+0)+0
 	movf	(??_sprintf+0)+0,w
 	addwf	(sprintf@ap),f
 	line	1287
 	
-l9055:	
+l9180:	
 	btfss	(sprintf@val+1),7
-	goto	u4581
-	goto	u4580
-u4581:
-	goto	l9061
-u4580:
+	goto	u4681
+	goto	u4680
+u4681:
+	goto	l9186
+u4680:
 	line	1288
 	
-l9057:	
+l9182:	
 	movlw	low(03h)
 	movwf	(??_sprintf+0)+0
 	movf	(??_sprintf+0)+0,w
 	iorwf	(sprintf@flag),f
 	line	1289
 	
-l9059:	
+l9184:	
 	comf	(sprintf@val),f
 	comf	(sprintf@val+1),f
 	incf	(sprintf@val),f
@@ -7906,12 +8965,12 @@ l9059:
 	incf	(sprintf@val+1),f
 	line	1331
 	
-l9061:	
+l9186:	
 	clrf	(sprintf@c)
 	incf	(sprintf@c),f
 	line	1332
 	
-l9067:	
+l9192:	
 	movf	(sprintf@c),w
 	movwf	(??_sprintf+0)+0
 	addwf	(??_sprintf+0)+0,w
@@ -7924,20 +8983,20 @@ l9067:
 	movf	1+(??_sprintf+1)+0,w
 	subwf	(sprintf@val+1),w
 	skipz
-	goto	u4595
+	goto	u4695
 	movf	0+(??_sprintf+1)+0,w
 	subwf	(sprintf@val),w
-u4595:
+u4695:
 	skipnc
-	goto	u4591
-	goto	u4590
-u4591:
-	goto	l9071
-u4590:
-	goto	l9073
+	goto	u4691
+	goto	u4690
+u4691:
+	goto	l9196
+u4690:
+	goto	l9198
 	line	1331
 	
-l9071:	
+l9196:	
 	movlw	low(01h)
 	movwf	(??_sprintf+0)+0
 	movf	(??_sprintf+0)+0,w
@@ -7945,25 +9004,25 @@ l9071:
 		movlw	5
 	xorwf	((sprintf@c)),w
 	btfss	status,2
-	goto	u4601
-	goto	u4600
-u4601:
-	goto	l9067
-u4600:
+	goto	u4701
+	goto	u4700
+u4701:
+	goto	l9192
+u4700:
 	line	1464
 	
-l9073:	
+l9198:	
 	movf	(sprintf@flag),w
 	andlw	03h
 	btfsc	status,2
-	goto	u4611
-	goto	u4610
-u4611:
-	goto	l9079
-u4610:
+	goto	u4711
+	goto	u4710
+u4711:
+	goto	l9204
+u4710:
 	line	1465
 	
-l9075:	
+l9200:	
 	movlw	low(02Dh)
 	movwf	(??_sprintf+0)+0
 	movf	(sprintf@sp),w
@@ -7972,23 +9031,23 @@ l9075:
 	bcf	status, 7	;select IRP bank0
 	movwf	indf
 	
-l9077:	
+l9202:	
 	movlw	low(01h)
 	movwf	(??_sprintf+0)+0
 	movf	(??_sprintf+0)+0,w
 	addwf	(sprintf@sp),f
 	line	1498
 	
-l9079:	
+l9204:	
 	movf	(sprintf@c),w
 	movwf	(??_sprintf+0)+0
 	movf	(??_sprintf+0)+0,w
 	movwf	(sprintf@prec)
 	line	1500
-	goto	l9087
+	goto	l9212
 	line	1515
 	
-l9081:	
+l9206:	
 	movlw	0Ah
 	movwf	(___lwmod@divisor)
 	movlw	0
@@ -8019,7 +9078,7 @@ l9081:
 	movwf	(sprintf@c)
 	line	1550
 	
-l9083:	
+l9208:	
 	movf	(sprintf@c),w
 	movwf	(??_sprintf+0)+0
 	movf	(sprintf@sp),w
@@ -8028,28 +9087,28 @@ l9083:
 	bcf	status, 7	;select IRP bank0
 	movwf	indf
 	
-l9085:	
+l9210:	
 	movlw	low(01h)
 	movwf	(??_sprintf+0)+0
 	movf	(??_sprintf+0)+0,w
 	addwf	(sprintf@sp),f
 	line	1500
 	
-l9087:	
+l9212:	
 	movlw	low(-1)
 	movwf	(??_sprintf+0)+0
 	movf	(??_sprintf+0)+0,w
 	addwf	(sprintf@prec),f
 		incf	(((sprintf@prec))),w
 	btfss	status,2
-	goto	u4621
-	goto	u4620
-u4621:
-	goto	l9081
-u4620:
+	goto	u4721
+	goto	u4720
+u4721:
+	goto	l9206
+u4720:
 	line	553
 	
-l9089:	
+l9214:	
 	movlw	01h
 	addwf	(sprintf@f),f
 	movlw	-01h
@@ -8061,21 +9120,21 @@ l9089:
 	movwf	(sprintf@c)
 	movf	(((sprintf@c))),w
 	btfss	status,2
-	goto	u4631
-	goto	u4630
-u4631:
-	goto	l9039
-u4630:
+	goto	u4731
+	goto	u4730
+u4731:
+	goto	l9164
+u4730:
 	line	1564
 	
-l9091:	
+l9216:	
 	movf	(sprintf@sp),w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
 	clrf	indf
 	line	1567
 	
-l6292:	
+l6309:	
 	return
 	callstack 0
 GLOBAL	__end_of_sprintf
@@ -8111,16 +9170,15 @@ GLOBAL	__end_of_sprintf
 ;;		Nothing
 ;; This function is called by:
 ;;		_TrashDoor_Ctrl
-;;		_TimeSysTickUpdate
 ;;		_sprintf
 ;; This function uses a non-reentrant model
 ;;
-psect	text26,local,class=CODE,delta=2,merge=1,group=2
+psect	text30,local,class=CODE,delta=2,merge=1,group=2
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwmod.c"
 	line	5
-global __ptext26
-__ptext26:	;psect for function ___lwmod
-psect	text26
+global __ptext30
+__ptext30:	;psect for function ___lwmod
+psect	text30
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwmod.c"
 	line	5
 	
@@ -8130,69 +9188,69 @@ ___lwmod:
 ; Regs used in ___lwmod: [wreg+status,2+status,0]
 	line	12
 	
-l8909:	
+l9028:	
 	movf	((___lwmod@divisor)),w
 iorwf	((___lwmod@divisor+1)),w
 	btfsc	status,2
-	goto	u4351
-	goto	u4350
-u4351:
-	goto	l8927
-u4350:
+	goto	u4451
+	goto	u4450
+u4451:
+	goto	l9046
+u4450:
 	line	13
 	
-l8911:	
+l9030:	
 	clrf	(___lwmod@counter)
 	incf	(___lwmod@counter),f
 	line	14
-	goto	l8917
+	goto	l9036
 	line	15
 	
-l8913:	
+l9032:	
 	movlw	01h
 	
-u4365:
+u4465:
 	clrc
 	rlf	(___lwmod@divisor),f
 	rlf	(___lwmod@divisor+1),f
 	addlw	-1
 	skipz
-	goto	u4365
+	goto	u4465
 	line	16
 	
-l8915:	
+l9034:	
 	movlw	low(01h)
 	movwf	(??___lwmod+0)+0
 	movf	(??___lwmod+0)+0,w
 	addwf	(___lwmod@counter),f
 	line	14
 	
-l8917:	
+l9036:	
 	btfss	(___lwmod@divisor+1),(15)&7
-	goto	u4371
-	goto	u4370
-u4371:
-	goto	l8913
-u4370:
+	goto	u4471
+	goto	u4470
+u4471:
+	goto	l9032
+u4470:
 	line	19
 	
-l8919:	
+l9038:	
 	movf	(___lwmod@divisor+1),w
 	subwf	(___lwmod@dividend+1),w
 	skipz
-	goto	u4385
+	goto	u4485
 	movf	(___lwmod@divisor),w
 	subwf	(___lwmod@dividend),w
-u4385:
+u4485:
 	skipc
-	goto	u4381
-	goto	u4380
-u4381:
-	goto	l8923
-u4380:
+	goto	u4481
+	goto	u4480
+u4481:
+	goto	l9042
+u4480:
 	line	20
 	
-l8921:	
+l9040:	
 	movf	(___lwmod@divisor),w
 	subwf	(___lwmod@dividend),f
 	movf	(___lwmod@divisor+1),w
@@ -8201,37 +9259,37 @@ l8921:
 	subwf	(___lwmod@dividend+1),f
 	line	21
 	
-l8923:	
+l9042:	
 	movlw	01h
 	
-u4395:
+u4495:
 	clrc
 	rrf	(___lwmod@divisor+1),f
 	rrf	(___lwmod@divisor),f
 	addlw	-1
 	skipz
-	goto	u4395
+	goto	u4495
 	line	22
 	
-l8925:	
+l9044:	
 	movlw	01h
 	subwf	(___lwmod@counter),f
 	btfss	status,2
-	goto	u4401
-	goto	u4400
-u4401:
-	goto	l8919
-u4400:
+	goto	u4501
+	goto	u4500
+u4501:
+	goto	l9038
+u4500:
 	line	24
 	
-l8927:	
+l9046:	
 	movf	(___lwmod@dividend+1),w
 	movwf	(?___lwmod+1)
 	movf	(___lwmod@dividend),w
 	movwf	(?___lwmod)
 	line	25
 	
-l6714:	
+l6731:	
 	return
 	callstack 0
 GLOBAL	__end_of___lwmod
@@ -8269,12 +9327,12 @@ GLOBAL	__end_of___lwmod
 ;;		_Compression_Run
 ;; This function uses a non-reentrant model
 ;;
-psect	text27,local,class=CODE,delta=2,merge=1,group=2
+psect	text31,local,class=CODE,delta=2,merge=1,group=2
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\llmod.c"
 	line	5
-global __ptext27
-__ptext27:	;psect for function ___llmod
-psect	text27
+global __ptext31
+__ptext31:	;psect for function ___llmod
+psect	text31
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\llmod.c"
 	line	5
 	
@@ -8284,37 +9342,37 @@ ___llmod:
 ; Regs used in ___llmod: [wreg+status,2+status,0]
 	line	12
 	
-l9135:	
+l9260:	
 	movf	(___llmod@divisor+3),w
 	iorwf	(___llmod@divisor+2),w
 	iorwf	(___llmod@divisor+1),w
 	iorwf	(___llmod@divisor),w
 	skipnz
-	goto	u4741
-	goto	u4740
-u4741:
-	goto	l9151
-u4740:
+	goto	u4841
+	goto	u4840
+u4841:
+	goto	l9276
+u4840:
 	line	13
 	
-l9137:	
+l9262:	
 	clrf	(___llmod@counter)
 	incf	(___llmod@counter),f
 	line	14
-	goto	l9141
+	goto	l9266
 	line	15
 	
-l9139:	
+l9264:	
 	movlw	01h
 	movwf	(??___llmod+0)+0
-u4755:
+u4855:
 	clrc
 	rlf	(___llmod@divisor),f
 	rlf	(___llmod@divisor+1),f
 	rlf	(___llmod@divisor+2),f
 	rlf	(___llmod@divisor+3),f
 	decfsz	(??___llmod+0)+0
-	goto	u4755
+	goto	u4855
 	line	16
 	movlw	low(01h)
 	movwf	(??___llmod+0)+0
@@ -8322,40 +9380,40 @@ u4755:
 	addwf	(___llmod@counter),f
 	line	14
 	
-l9141:	
+l9266:	
 	btfss	(___llmod@divisor+3),(31)&7
-	goto	u4761
-	goto	u4760
-u4761:
-	goto	l9139
-u4760:
+	goto	u4861
+	goto	u4860
+u4861:
+	goto	l9264
+u4860:
 	line	19
 	
-l9143:	
+l9268:	
 	movf	(___llmod@divisor+3),w
 	subwf	(___llmod@dividend+3),w
 	skipz
-	goto	u4775
+	goto	u4875
 	movf	(___llmod@divisor+2),w
 	subwf	(___llmod@dividend+2),w
 	skipz
-	goto	u4775
+	goto	u4875
 	movf	(___llmod@divisor+1),w
 	subwf	(___llmod@dividend+1),w
 	skipz
-	goto	u4775
+	goto	u4875
 	movf	(___llmod@divisor),w
 	subwf	(___llmod@dividend),w
-u4775:
+u4875:
 	skipc
-	goto	u4771
-	goto	u4770
-u4771:
-	goto	l9147
-u4770:
+	goto	u4871
+	goto	u4870
+u4871:
+	goto	l9272
+u4870:
 	line	20
 	
-l9145:	
+l9270:	
 	movf	(___llmod@divisor),w
 	subwf	(___llmod@dividend),f
 	movf	(___llmod@divisor+1),w
@@ -8372,9 +9430,9 @@ l9145:
 	subwf	(___llmod@dividend+3),f
 	line	21
 	
-l9147:	
+l9272:	
 	movlw	01h
-u4785:
+u4885:
 	clrc
 	rrf	(___llmod@divisor+3),f
 	rrf	(___llmod@divisor+2),f
@@ -8382,22 +9440,22 @@ u4785:
 	rrf	(___llmod@divisor),f
 	addlw	-1
 	skipz
-	goto	u4785
+	goto	u4885
 
 	line	22
 	
-l9149:	
+l9274:	
 	movlw	01h
 	subwf	(___llmod@counter),f
 	btfss	status,2
-	goto	u4791
-	goto	u4790
-u4791:
-	goto	l9143
-u4790:
+	goto	u4891
+	goto	u4890
+u4891:
+	goto	l9268
+u4890:
 	line	24
 	
-l9151:	
+l9276:	
 	movf	(___llmod@dividend+3),w
 	movwf	(?___llmod+3)
 	movf	(___llmod@dividend+2),w
@@ -8409,7 +9467,7 @@ l9151:
 
 	line	25
 	
-l6633:	
+l6650:	
 	return
 	callstack 0
 GLOBAL	__end_of___llmod
@@ -8419,7 +9477,7 @@ GLOBAL	__end_of___llmod
 
 ;; *************** function _UltraSensor_Read *****************
 ;; Defined at:
-;;		line 170 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 91 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;  ptimeSysTick    1    wreg     PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
@@ -8452,32 +9510,32 @@ GLOBAL	__end_of___llmod
 ;;		_Compression_Run
 ;; This function uses a non-reentrant model
 ;;
-psect	text28,local,class=CODE,delta=2,merge=1,group=0
+psect	text32,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	170
-global __ptext28
-__ptext28:	;psect for function _UltraSensor_Read
-psect	text28
+	line	91
+global __ptext32
+__ptext32:	;psect for function _UltraSensor_Read
+psect	text32
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	170
+	line	91
 	
 _UltraSensor_Read:	
 ;incstack = 0
 	callstack 2
 ; Regs used in _UltraSensor_Read: [wreg-fsr0h+status,2+status,0+pclath+cstack]
 	movwf	(UltraSensor_Read@ptimeSysTick)
-	line	172
+	line	93
 	
-l9007:	
+l9082:	
 	clrf	(UltraSensor_Read@distance)
 	clrf	(UltraSensor_Read@distance+1)
-	line	174
+	line	95
 	clrf	(UltraSensor_Read@index)
-	line	175
+	line	96
 	clrf	(UltraSensor_Read@index)
-	line	177
+	line	98
 	
-l9013:	
+l9088:	
 	movf	(UltraSensor_Read@ptimeSysTick),w
 	movwf	(??_UltraSensor_Read+0)+0
 	movf	(??_UltraSensor_Read+0)+0,w
@@ -8491,54 +9549,54 @@ l9013:
 	movwf	(UltraSensor_Read@distance_buff)
 	rlf	1+(??_UltraSensor_Read+1)+0,w
 	movwf	1+(UltraSensor_Read@distance_buff)
-	line	178
+	line	99
 	
-l9015:	
+l9090:	
 	movlw	0
 	subwf	(UltraSensor_Read@distance_buff+1),w
 	movlw	08Dh
 	skipnz
 	subwf	(UltraSensor_Read@distance_buff),w
 	skipc
-	goto	u4541
-	goto	u4540
-u4541:
-	goto	l9023
-u4540:
-	line	180
+	goto	u4531
+	goto	u4530
+u4531:
+	goto	l9098
+u4530:
+	line	101
 	
-l9017:	
+l9092:	
 	movf	(UltraSensor_Read@distance_buff),w
-	goto	l4264
-	line	184
+	goto	l4262
+	line	105
 	
-l9023:	
+l9098:	
 	movf	(UltraSensor_Read@distance_buff),w
 	addwf	(UltraSensor_Read@distance),f
 	skipnc
 	incf	(UltraSensor_Read@distance+1),f
 	movf	(UltraSensor_Read@distance_buff+1),w
 	addwf	(UltraSensor_Read@distance+1),f
-	line	175
+	line	96
 	
-l9025:	
+l9100:	
 	movlw	low(01h)
 	movwf	(??_UltraSensor_Read+0)+0
 	movf	(??_UltraSensor_Read+0)+0,w
 	addwf	(UltraSensor_Read@index),f
 	
-l9027:	
+l9102:	
 	movlw	low(0Bh)
 	subwf	(UltraSensor_Read@index),w
 	skipc
-	goto	u4551
-	goto	u4550
-u4551:
-	goto	l9013
-u4550:
-	line	187
+	goto	u4541
+	goto	u4540
+u4541:
+	goto	l9088
+u4540:
+	line	108
 	
-l9029:	
+l9104:	
 	movf	(UltraSensor_Read@index),w
 	movwf	(??_UltraSensor_Read+0)+0
 	clrf	(??_UltraSensor_Read+0)+0+1
@@ -8555,32 +9613,32 @@ l9029:
 	movwf	(UltraSensor_Read@distance+1)
 	movf	(0+(?___lwdiv)),w
 	movwf	(UltraSensor_Read@distance)
-	line	188
+	line	109
 	
-l9031:	
+l9106:	
 	movf	((UltraSensor_Read@distance)),w
 iorwf	((UltraSensor_Read@distance+1)),w
 	btfss	status,2
-	goto	u4561
-	goto	u4560
-u4561:
-	goto	l4266
-u4560:
-	line	190
+	goto	u4551
+	goto	u4550
+u4551:
+	goto	l4264
+u4550:
+	line	111
 	
-l9033:	
+l9108:	
 	movlw	096h
 	movwf	(UltraSensor_Read@distance)
 	movlw	0
 	movwf	((UltraSensor_Read@distance))+1
-	line	191
-	
-l4266:	
-	line	192
-	movf	(UltraSensor_Read@distance),w
-	line	193
+	line	112
 	
 l4264:	
+	line	113
+	movf	(UltraSensor_Read@distance),w
+	line	114
+	
+l4262:	
 	return
 	callstack 0
 GLOBAL	__end_of_UltraSensor_Read
@@ -8620,12 +9678,12 @@ GLOBAL	__end_of_UltraSensor_Read
 ;;		_sprintf
 ;; This function uses a non-reentrant model
 ;;
-psect	text29,local,class=CODE,delta=2,merge=1,group=2
+psect	text33,local,class=CODE,delta=2,merge=1,group=2
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwdiv.c"
 	line	5
-global __ptext29
-__ptext29:	;psect for function ___lwdiv
-psect	text29
+global __ptext33
+__ptext33:	;psect for function ___lwdiv
+psect	text33
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwdiv.c"
 	line	5
 	
@@ -8635,84 +9693,84 @@ ___lwdiv:
 ; Regs used in ___lwdiv: [wreg+status,2+status,0]
 	line	13
 	
-l8061:	
+l8138:	
 	clrf	(___lwdiv@quotient)
 	clrf	(___lwdiv@quotient+1)
 	line	14
 	
-l8063:	
+l8140:	
 	movf	((___lwdiv@divisor)),w
 iorwf	((___lwdiv@divisor+1)),w
 	btfsc	status,2
-	goto	u2641
-	goto	u2640
-u2641:
-	goto	l8083
-u2640:
+	goto	u2711
+	goto	u2710
+u2711:
+	goto	l8160
+u2710:
 	line	15
 	
-l8065:	
+l8142:	
 	clrf	(___lwdiv@counter)
 	incf	(___lwdiv@counter),f
 	line	16
-	goto	l8071
+	goto	l8148
 	line	17
 	
-l8067:	
+l8144:	
 	movlw	01h
 	
-u2655:
+u2725:
 	clrc
 	rlf	(___lwdiv@divisor),f
 	rlf	(___lwdiv@divisor+1),f
 	addlw	-1
 	skipz
-	goto	u2655
+	goto	u2725
 	line	18
 	
-l8069:	
+l8146:	
 	movlw	low(01h)
 	movwf	(??___lwdiv+0)+0
 	movf	(??___lwdiv+0)+0,w
 	addwf	(___lwdiv@counter),f
 	line	16
 	
-l8071:	
+l8148:	
 	btfss	(___lwdiv@divisor+1),(15)&7
-	goto	u2661
-	goto	u2660
-u2661:
-	goto	l8067
-u2660:
+	goto	u2731
+	goto	u2730
+u2731:
+	goto	l8144
+u2730:
 	line	21
 	
-l8073:	
+l8150:	
 	movlw	01h
 	
-u2675:
+u2745:
 	clrc
 	rlf	(___lwdiv@quotient),f
 	rlf	(___lwdiv@quotient+1),f
 	addlw	-1
 	skipz
-	goto	u2675
+	goto	u2745
 	line	22
 	movf	(___lwdiv@divisor+1),w
 	subwf	(___lwdiv@dividend+1),w
 	skipz
-	goto	u2685
+	goto	u2755
 	movf	(___lwdiv@divisor),w
 	subwf	(___lwdiv@dividend),w
-u2685:
+u2755:
 	skipc
-	goto	u2681
-	goto	u2680
-u2681:
-	goto	l8079
-u2680:
+	goto	u2751
+	goto	u2750
+u2751:
+	goto	l8156
+u2750:
 	line	23
 	
-l8075:	
+l8152:	
 	movf	(___lwdiv@divisor),w
 	subwf	(___lwdiv@dividend),f
 	movf	(___lwdiv@divisor+1),w
@@ -8721,41 +9779,41 @@ l8075:
 	subwf	(___lwdiv@dividend+1),f
 	line	24
 	
-l8077:	
+l8154:	
 	bsf	(___lwdiv@quotient)+(0/8),(0)&7
 	line	26
 	
-l8079:	
+l8156:	
 	movlw	01h
 	
-u2695:
+u2765:
 	clrc
 	rrf	(___lwdiv@divisor+1),f
 	rrf	(___lwdiv@divisor),f
 	addlw	-1
 	skipz
-	goto	u2695
+	goto	u2765
 	line	27
 	
-l8081:	
+l8158:	
 	movlw	01h
 	subwf	(___lwdiv@counter),f
 	btfss	status,2
-	goto	u2701
-	goto	u2700
-u2701:
-	goto	l8073
-u2700:
+	goto	u2771
+	goto	u2770
+u2771:
+	goto	l8150
+u2770:
 	line	29
 	
-l8083:	
+l8160:	
 	movf	(___lwdiv@quotient+1),w
 	movwf	(?___lwdiv+1)
 	movf	(___lwdiv@quotient),w
 	movwf	(?___lwdiv)
 	line	30
 	
-l6704:	
+l6721:	
 	return
 	callstack 0
 GLOBAL	__end_of___lwdiv
@@ -8798,12 +9856,12 @@ GLOBAL	__end_of___lwdiv
 ;;		_UltraSensor_Read
 ;; This function uses a non-reentrant model
 ;;
-psect	text30,local,class=CODE,delta=2,merge=1,group=0
+psect	text34,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UltraSonicSensor.c"
 	line	12
-global __ptext30
-__ptext30:	;psect for function _UltraSonicSensor_Read
-psect	text30
+global __ptext34
+__ptext34:	;psect for function _UltraSonicSensor_Read
+psect	text34
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UltraSonicSensor.c"
 	line	12
 	
@@ -8814,10 +9872,10 @@ _UltraSonicSensor_Read:
 	movwf	(UltraSonicSensor_Read@sensor)
 	line	14
 	
-l8705:	
+l8810:	
 	line	15
 	
-l8707:	
+l8812:	
 	incf	(UltraSonicSensor_Read@sensor),w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
@@ -8832,16 +9890,16 @@ l8707:
 	fcall	_GPIO_Write
 	line	16
 	
-l8709:	
+l8814:	
 	asmopt push
 asmopt off
 	movlw	2
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 movwf	((??_UltraSonicSensor_Read+0)+0)
-	u5167:
+	u5357:
 decfsz	(??_UltraSonicSensor_Read+0)+0,f
-	goto	u5167
+	goto	u5357
 	nop
 asmopt pop
 
@@ -8863,22 +9921,22 @@ asmopt pop
 	fcall	_GPIO_Write
 	line	18
 	
-l8711:	
+l8816:	
 	asmopt push
 asmopt off
 	movlw	7
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 movwf	((??_UltraSonicSensor_Read+0)+0)
-	u5177:
+	u5367:
 decfsz	(??_UltraSonicSensor_Read+0)+0,f
-	goto	u5177
+	goto	u5367
 	nop
 asmopt pop
 
 	line	19
 	
-l8713:	
+l8818:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	incf	(UltraSonicSensor_Read@sensor),w
@@ -8895,7 +9953,7 @@ l8713:
 	fcall	_GPIO_Write
 	line	20
 	
-l8715:	
+l8820:	
 	bcf	status, 5	;RP0=0, select bank0
 	movf	(UltraSonicSensor_Read@sensor),w
 	addlw	03h
@@ -8911,14 +9969,14 @@ l8715:
 	fcall	_GPIO_Read
 	xorlw	0
 	skipz
-	goto	u3861
-	goto	u3860
-u3861:
-	goto	l8721
-u3860:
+	goto	u3921
+	goto	u3920
+u3921:
+	goto	l8826
+u3920:
 	line	22
 	
-l8719:	
+l8824:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(UltraSonicSensor_Read@sensor),w
@@ -8935,14 +9993,14 @@ l8719:
 	fcall	_GPIO_Read
 	xorlw	0
 	skipnz
-	goto	u3871
-	goto	u3870
-u3871:
-	goto	l8719
-u3870:
+	goto	u3931
+	goto	u3930
+u3931:
+	goto	l8824
+u3930:
 	line	24
 	
-l8721:	
+l8826:	
 	movf	(UltraSonicSensor_Read@system_tick),w
 	movwf	fsr0
 	movf	indf,w
@@ -8959,10 +10017,10 @@ l8721:
 	clrf	2+((UltraSonicSensor_Read@buff_time))
 	clrf	3+((UltraSonicSensor_Read@buff_time))
 	line	25
-	goto	l8727
+	goto	l8832
 	line	27
 	
-l8723:	
+l8828:	
 	movf	(UltraSonicSensor_Read@system_tick),w
 	movwf	fsr0
 	movf	indf,w
@@ -8983,54 +10041,54 @@ l8723:
 	movf	(UltraSonicSensor_Read@buff_time+1),w
 	skipc
 	incfsz	(UltraSonicSensor_Read@buff_time+1),w
-	goto	u3881
-	goto	u3882
-u3881:
+	goto	u3941
+	goto	u3942
+u3941:
 	subwf	(??_UltraSonicSensor_Read+2)+1,f
-u3882:
+u3942:
 	movf	(UltraSonicSensor_Read@buff_time+2),w
 	skipc
 	incfsz	(UltraSonicSensor_Read@buff_time+2),w
-	goto	u3883
-	goto	u3884
-u3883:
+	goto	u3943
+	goto	u3944
+u3943:
 	subwf	(??_UltraSonicSensor_Read+2)+2,f
-u3884:
+u3944:
 	movf	(UltraSonicSensor_Read@buff_time+3),w
 	skipc
 	incfsz	(UltraSonicSensor_Read@buff_time+3),w
-	goto	u3885
-	goto	u3886
-u3885:
+	goto	u3945
+	goto	u3946
+u3945:
 	subwf	(??_UltraSonicSensor_Read+2)+3,f
-u3886:
+u3946:
 
 		movf	(??_UltraSonicSensor_Read+2)+3,w
 	btfss	status,2
-	goto	u3890
+	goto	u3950
 	movf	(??_UltraSonicSensor_Read+2)+2,w
 	btfss	status,2
-	goto	u3890
+	goto	u3950
 	movlw	1
 	subwf	(??_UltraSonicSensor_Read+2)+1,w
 	skipz
-	goto	u3893
+	goto	u3953
 	movlw	45
 	subwf	(??_UltraSonicSensor_Read+2)+0,w
 	skipz
-	goto	u3893
-u3893:
+	goto	u3953
+u3953:
 	btfss	status,0
-	goto	u3891
-	goto	u3890
+	goto	u3951
+	goto	u3950
 
-u3891:
-	goto	l8727
-u3890:
-	goto	l8729
+u3951:
+	goto	l8832
+u3950:
+	goto	l8834
 	line	25
 	
-l8727:	
+l8832:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(UltraSonicSensor_Read@sensor),w
@@ -9048,14 +10106,14 @@ l8727:
 	fcall	_GPIO_Read
 	xorlw	0
 	skipz
-	goto	u3901
-	goto	u3900
-u3901:
-	goto	l8723
-u3900:
+	goto	u3961
+	goto	u3960
+u3961:
+	goto	l8828
+u3960:
 	line	32
 	
-l8729:	
+l8834:	
 	movf	(UltraSonicSensor_Read@system_tick),w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
@@ -9077,27 +10135,27 @@ l8729:
 	movf	(UltraSonicSensor_Read@buff_time+1),w
 	skipc
 	incfsz	(UltraSonicSensor_Read@buff_time+1),w
-	goto	u3911
-	goto	u3912
-u3911:
+	goto	u3971
+	goto	u3972
+u3971:
 	subwf	(??_UltraSonicSensor_Read+2)+1,f
-u3912:
+u3972:
 	movf	(UltraSonicSensor_Read@buff_time+2),w
 	skipc
 	incfsz	(UltraSonicSensor_Read@buff_time+2),w
-	goto	u3913
-	goto	u3914
-u3913:
+	goto	u3973
+	goto	u3974
+u3973:
 	subwf	(??_UltraSonicSensor_Read+2)+2,f
-u3914:
+u3974:
 	movf	(UltraSonicSensor_Read@buff_time+3),w
 	skipc
 	incfsz	(UltraSonicSensor_Read@buff_time+3),w
-	goto	u3915
-	goto	u3916
-u3915:
+	goto	u3975
+	goto	u3976
+u3975:
 	subwf	(??_UltraSonicSensor_Read+2)+3,f
-u3916:
+u3976:
 
 	movf	3+(??_UltraSonicSensor_Read+2)+0,w
 	movwf	(UltraSonicSensor_Read@buff_time+3)
@@ -9110,31 +10168,31 @@ u3916:
 
 	line	34
 	
-l8731:	
+l8836:	
 		movf	(UltraSonicSensor_Read@buff_time+3),w
 	btfss	status,2
-	goto	u3920
+	goto	u3980
 	movf	(UltraSonicSensor_Read@buff_time+2),w
 	btfss	status,2
-	goto	u3920
+	goto	u3980
 	movf	(UltraSonicSensor_Read@buff_time+1),w
 	btfss	status,2
-	goto	u3920
+	goto	u3980
 	movlw	151
 	subwf	(UltraSonicSensor_Read@buff_time),w
 	skipz
-	goto	u3923
-u3923:
+	goto	u3983
+u3983:
 	btfss	status,0
-	goto	u3921
-	goto	u3920
+	goto	u3981
+	goto	u3980
 
-u3921:
-	goto	l6181
-u3920:
+u3981:
+	goto	l6198
+u3980:
 	line	36
 	
-l8733:	
+l8838:	
 	movlw	high highword(0)
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
@@ -9148,19 +10206,112 @@ l8733:
 
 	line	37
 	
-l6181:	
+l6198:	
 	line	38
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(UltraSonicSensor_Read@buff_time),w
 	line	39
 	
-l6182:	
+l6199:	
 	return
 	callstack 0
 GLOBAL	__end_of_UltraSonicSensor_Read
 	__end_of_UltraSonicSensor_Read:
 	signat	_UltraSonicSensor_Read,8313
+	global	_GPIO_Read
+
+;; *************** function _GPIO_Read *****************
+;; Defined at:
+;;		line 40 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
+;; Parameters:    Size  Location     Type
+;;  GPIO_Port       1    wreg     PTR volatile unsigned ch
+;;		 -> PORTA(1), PORTC(1), PORTD(1), PORTB(1), 
+;;  Pin             1    2[COMMON] unsigned char 
+;; Auto vars:     Size  Location     Type
+;;  GPIO_Port       1    4[COMMON] PTR volatile unsigned ch
+;;		 -> PORTA(1), PORTC(1), PORTD(1), PORTB(1), 
+;; Return value:  Size  Location     Type
+;;                  1    wreg      unsigned char 
+;; Registers used:
+;;		wreg, fsr0l, fsr0h, status,2, status,0
+;; Tracked objects:
+;;		On entry : 0/0
+;;		On exit  : 800/0
+;;		Unchanged: 0/0
+;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+;;      Params:         1       0       0       0       0
+;;      Locals:         1       0       0       0       0
+;;      Temps:          1       0       0       0       0
+;;      Totals:         3       0       0       0       0
+;;Total ram usage:        3 bytes
+;; Hardware stack levels used: 1
+;; Hardware stack levels required when called: 1
+;; This function calls:
+;;		Nothing
+;; This function is called by:
+;;		_Motor_Stop
+;;		_Step_Start
+;;		_TrashDoor_Ctrl
+;;		_UltraSonicSensor_Read
+;; This function uses a non-reentrant model
+;;
+psect	text35,local,class=CODE,delta=2,merge=1,group=0
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
+	line	40
+global __ptext35
+__ptext35:	;psect for function _GPIO_Read
+psect	text35
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
+	line	40
+	
+_GPIO_Read:	
+;incstack = 0
+	callstack 2
+; Regs used in _GPIO_Read: [wreg-fsr0h+status,2+status,0]
+	movwf	(GPIO_Read@GPIO_Port)
+	line	42
+	
+l8712:	
+	movf	(GPIO_Read@GPIO_Port),w
+	movwf	fsr0
+	movlw	low(01h)
+	movwf	(??_GPIO_Read+0)+0
+	incf	(GPIO_Read@Pin),w
+	goto	u3764
+u3765:
+	clrc
+	rlf	(??_GPIO_Read+0)+0,f
+u3764:
+	addlw	-1
+	skipz
+	goto	u3765
+	movf	0+(??_GPIO_Read+0)+0,w
+	bcf	status, 7	;select IRP bank0
+	andwf	indf,w
+	btfsc	status,2
+	goto	u3771
+	goto	u3770
+u3771:
+	goto	l8720
+u3770:
+	line	44
+	
+l8714:	
+	movlw	low(01h)
+	goto	l2414
+	line	48
+	
+l8720:	
+	movlw	low(0)
+	line	51
+	
+l2414:	
+	return
+	callstack 0
+GLOBAL	__end_of_GPIO_Read
+	__end_of_GPIO_Read:
+	signat	_GPIO_Read,8313
 	global	_UART_WriteStr
 
 ;; *************** function _UART_WriteStr *****************
@@ -9168,7 +10319,7 @@ GLOBAL	__end_of_UltraSonicSensor_Read
 ;;		line 37 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UART.c"
 ;; Parameters:    Size  Location     Type
 ;;  data            2    6[COMMON] PTR const unsigned char 
-;;		 -> TimeSysTickUpdate@TX(10), Compression_Run@TX(10), STR_1(11), 
+;;		 -> Compression_Run@TX(10), STR_1(11), 
 ;; Auto vars:     Size  Location     Type
 ;;  len             2    0[BANK0 ] unsigned int 
 ;;  i               1    2[BANK0 ] unsigned char 
@@ -9194,15 +10345,14 @@ GLOBAL	__end_of_UltraSonicSensor_Read
 ;; This function is called by:
 ;;		_MCU_Config
 ;;		_Compression_Run
-;;		_TimeSysTickUpdate
 ;; This function uses a non-reentrant model
 ;;
-psect	text31,local,class=CODE,delta=2,merge=1,group=0
+psect	text36,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UART.c"
 	line	37
-global __ptext31
-__ptext31:	;psect for function _UART_WriteStr
-psect	text31
+global __ptext36
+__ptext36:	;psect for function _UART_WriteStr
+psect	text36
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UART.c"
 	line	37
 	
@@ -9212,10 +10362,10 @@ _UART_WriteStr:
 ; Regs used in _UART_WriteStr: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
 	line	39
 	
-l8113:	
+l8192:	
 	line	40
 	
-l8115:	
+l8194:	
 		movf	(UART_WriteStr@data),w
 	movwf	(strlen@s)
 movf	(UART_WriteStr@data+1),w
@@ -9228,12 +10378,12 @@ movwf	(strlen@s+1)
 	movwf	(UART_WriteStr@len)
 	line	41
 	
-l8117:	
+l8196:	
 	clrf	(UART_WriteStr@i)
-	goto	l8123
+	goto	l8202
 	line	43
 	
-l8119:	
+l8198:	
 	movf	(UART_WriteStr@i),w
 	addwf	(UART_WriteStr@data),w
 	movwf	fsr0
@@ -9245,33 +10395,33 @@ l8119:
 	fcall	_UART_WriteChar
 	line	41
 	
-l8121:	
+l8200:	
 	movlw	low(01h)
 	movwf	(??_UART_WriteStr+0)+0
 	movf	(??_UART_WriteStr+0)+0,w
 	bcf	status, 5	;RP0=0, select bank0
 	addwf	(UART_WriteStr@i),f
 	
-l8123:	
+l8202:	
 	movf	(UART_WriteStr@i),w
 	movwf	(??_UART_WriteStr+0)+0
 	clrf	(??_UART_WriteStr+0)+0+1
 	movf	1+(??_UART_WriteStr+0)+0,w
 	subwf	(UART_WriteStr@len+1),w
 	skipz
-	goto	u2775
+	goto	u2845
 	movf	0+(??_UART_WriteStr+0)+0,w
 	subwf	(UART_WriteStr@len),w
-u2775:
+u2845:
 	skipnc
-	goto	u2771
-	goto	u2770
-u2771:
-	goto	l8119
-u2770:
+	goto	u2841
+	goto	u2840
+u2841:
+	goto	l8198
+u2840:
 	line	45
 	
-l5580:	
+l5597:	
 	return
 	callstack 0
 GLOBAL	__end_of_UART_WriteStr
@@ -9284,10 +10434,10 @@ GLOBAL	__end_of_UART_WriteStr
 ;;		line 4 in file "E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\strlen.c"
 ;; Parameters:    Size  Location     Type
 ;;  s               2    2[COMMON] PTR const unsigned char 
-;;		 -> TimeSysTickUpdate@TX(10), Compression_Run@TX(10), STR_1(11), 
+;;		 -> Compression_Run@TX(10), STR_1(11), 
 ;; Auto vars:     Size  Location     Type
 ;;  cp              2    4[COMMON] PTR const unsigned char 
-;;		 -> TimeSysTickUpdate@TX(10), Compression_Run@TX(10), STR_1(11), 
+;;		 -> Compression_Run@TX(10), STR_1(11), 
 ;; Return value:  Size  Location     Type
 ;;                  2    2[COMMON] unsigned int 
 ;; Registers used:
@@ -9310,12 +10460,12 @@ GLOBAL	__end_of_UART_WriteStr
 ;;		_UART_WriteStr
 ;; This function uses a non-reentrant model
 ;;
-psect	text32,local,class=CODE,delta=2,merge=1,group=3
+psect	text37,local,class=CODE,delta=2,merge=1,group=3
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\strlen.c"
 	line	4
-global __ptext32
-__ptext32:	;psect for function _strlen
-psect	text32
+global __ptext37
+__ptext37:	;psect for function _strlen
+psect	text37
 	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\strlen.c"
 	line	4
 	
@@ -9325,17 +10475,17 @@ _strlen:
 ; Regs used in _strlen: [wreg-fsr0h+status,2+status,0+btemp+1+pclath]
 	line	8
 	
-l7859:	
+l7922:	
 		movf	(strlen@s),w
 	movwf	(strlen@cp)
 movf	(strlen@s+1),w
 movwf	(strlen@cp+1)
 
 	line	9
-	goto	l7863
+	goto	l7926
 	line	10
 	
-l7861:	
+l7924:	
 	movlw	01h
 	addwf	(strlen@cp),f
 	skipnc
@@ -9344,7 +10494,7 @@ l7861:
 	addwf	(strlen@cp+1),f
 	line	9
 	
-l7863:	
+l7926:	
 	movf	(strlen@cp+1),w
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
@@ -9354,14 +10504,14 @@ l7863:
 	fcall	stringtab
 	xorlw	0
 	skipz
-	goto	u2181
-	goto	u2180
-u2181:
-	goto	l7861
-u2180:
+	goto	u2211
+	goto	u2210
+u2211:
+	goto	l7924
+u2210:
 	line	12
 	
-l7865:	
+l7928:	
 	movf	(strlen@s),w
 	subwf	(strlen@cp),w
 	movwf	(?_strlen)
@@ -9372,7 +10522,7 @@ l7865:
 	movwf	1+(?_strlen)
 	line	13
 	
-l6725:	
+l6742:	
 	return
 	callstack 0
 GLOBAL	__end_of_strlen
@@ -9409,12 +10559,12 @@ GLOBAL	__end_of_strlen
 ;;		_UART_WriteStr
 ;; This function uses a non-reentrant model
 ;;
-psect	text33,local,class=CODE,delta=2,merge=1,group=0
+psect	text38,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UART.c"
 	line	21
-global __ptext33
-__ptext33:	;psect for function _UART_WriteChar
-psect	text33
+global __ptext38
+__ptext38:	;psect for function _UART_WriteChar
+psect	text38
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\UART.c"
 	line	21
 	
@@ -9425,149 +10575,51 @@ _UART_WriteChar:
 	movwf	(UART_WriteChar@data)
 	line	23
 	
-l7857:	
+l7920:	
 	movf	(UART_WriteChar@data),w
 	movwf	(25)	;volatile
 	line	24
 	
-l5562:	
+l5579:	
 	btfss	(100/8),(100)&7	;volatile
-	goto	u2161
-	goto	u2160
-u2161:
-	goto	l5562
-u2160:
+	goto	u2191
+	goto	u2190
+u2191:
+	goto	l5579
+u2190:
 	
-l5564:	
+l5581:	
 	line	25
 	bcf	(100/8),(100)&7	;volatile
 	line	26
 	
-l5565:	
+l5582:	
 	bsf	status, 5	;RP0=1, select bank1
 	btfss	(1217/8)^080h,(1217)&7	;volatile
-	goto	u2171
-	goto	u2170
-u2171:
-	goto	l5565
-u2170:
+	goto	u2201
+	goto	u2200
+u2201:
+	goto	l5582
+u2200:
 	line	27
 	
-l5568:	
+l5585:	
 	return
 	callstack 0
 GLOBAL	__end_of_UART_WriteChar
 	__end_of_UART_WriteChar:
 	signat	_UART_WriteChar,4217
-	global	_Motor_Reverse_Start
+	global	_Step_Stop
 
-;; *************** function _Motor_Reverse_Start *****************
+;; *************** function _Step_Stop *****************
 ;; Defined at:
-;;		line 63 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+;;		line 80 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
 ;; Parameters:    Size  Location     Type
-;;  motor_handle    1    wreg     PTR struct .
-;;		 -> Door_Motor(8), Compress_Motor(8), 
+;;  stepHandle      1    wreg     PTR struct .
+;;		 -> compressStepHandle(13), 
 ;; Auto vars:     Size  Location     Type
-;;  motor_handle    1    1[BANK0 ] PTR struct .
-;;		 -> Door_Motor(8), Compress_Motor(8), 
-;; Return value:  Size  Location     Type
-;;                  1    wreg      void 
-;; Registers used:
-;;		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
-;; Tracked objects:
-;;		On entry : 0/0
-;;		On exit  : B00/100
-;;		Unchanged: 0/0
-;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
-;;      Params:         0       0       0       0       0
-;;      Locals:         0       1       0       0       0
-;;      Temps:          0       1       0       0       0
-;;      Totals:         0       2       0       0       0
-;;Total ram usage:        2 bytes
-;; Hardware stack levels used: 1
-;; Hardware stack levels required when called: 3
-;; This function calls:
-;;		_GPIO_Write
-;;		_Motor_Stop
-;; This function is called by:
-;;		_TrashDoor_Close
-;;		_Compression_Run
-;; This function uses a non-reentrant model
-;;
-psect	text34,local,class=CODE,delta=2,merge=1,group=0
-	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
-	line	63
-global __ptext34
-__ptext34:	;psect for function _Motor_Reverse_Start
-psect	text34
-	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
-	line	63
-	
-_Motor_Reverse_Start:	
-;incstack = 0
-	callstack 1
-; Regs used in _Motor_Reverse_Start: [wreg-fsr0h+status,2+status,0+pclath+cstack]
-	bcf	status, 5	;RP0=0, select bank0
-	bcf	status, 6	;RP1=0, select bank0
-	movwf	(Motor_Reverse_Start@motor_handle)
-	line	66
-	
-l8703:	
-	movf	(Motor_Reverse_Start@motor_handle),w
-	fcall	_Motor_Stop
-	line	69
-	bcf	status, 5	;RP0=0, select bank0
-	bcf	status, 6	;RP1=0, select bank0
-	movf	(Motor_Reverse_Start@motor_handle),w
-	addlw	03h
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Reverse_Start+0)+0
-	movf	(??_Motor_Reverse_Start+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Reverse_Start@motor_handle),w
-	addlw	02h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	70
-	bcf	status, 5	;RP0=0, select bank0
-	movf	(Motor_Reverse_Start@motor_handle),w
-	addlw	07h
-	movwf	fsr0
-	movf	indf,w
-	movwf	(??_Motor_Reverse_Start+0)+0
-	movf	(??_Motor_Reverse_Start+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Reverse_Start@motor_handle),w
-	addlw	06h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	71
-	
-l3020:	
-	return
-	callstack 0
-GLOBAL	__end_of_Motor_Reverse_Start
-	__end_of_Motor_Reverse_Start:
-	signat	_Motor_Reverse_Start,4217
-	global	_Motor_Forward_Start
-
-;; *************** function _Motor_Forward_Start *****************
-;; Defined at:
-;;		line 55 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
-;; Parameters:    Size  Location     Type
-;;  motor_handle    1    wreg     PTR struct .
-;;		 -> Door_Motor(8), Compress_Motor(8), 
-;; Auto vars:     Size  Location     Type
-;;  motor_handle    1    1[BANK0 ] PTR struct .
-;;		 -> Door_Motor(8), Compress_Motor(8), 
+;;  stepHandle      1    8[COMMON] PTR struct .
+;;		 -> compressStepHandle(13), 
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      void 
 ;; Registers used:
@@ -9578,651 +10630,307 @@ GLOBAL	__end_of_Motor_Reverse_Start
 ;;		Unchanged: 0/0
 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
 ;;      Params:         0       0       0       0       0
-;;      Locals:         0       1       0       0       0
-;;      Temps:          0       1       0       0       0
-;;      Totals:         0       2       0       0       0
+;;      Locals:         1       0       0       0       0
+;;      Temps:          1       0       0       0       0
+;;      Totals:         2       0       0       0       0
 ;;Total ram usage:        2 bytes
 ;; Hardware stack levels used: 1
-;; Hardware stack levels required when called: 3
+;; Hardware stack levels required when called: 2
 ;; This function calls:
 ;;		_GPIO_Write
-;;		_Motor_Stop
 ;; This function is called by:
-;;		_TrashDoor_Open
+;;		_MCU_Config
 ;;		_Compression_Run
 ;; This function uses a non-reentrant model
 ;;
-psect	text35,local,class=CODE,delta=2,merge=1,group=0
-	line	55
-global __ptext35
-__ptext35:	;psect for function _Motor_Forward_Start
-psect	text35
+psect	text39,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
-	line	55
+	line	80
+global __ptext39
+__ptext39:	;psect for function _Step_Stop
+psect	text39
+	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+	line	80
 	
-_Motor_Forward_Start:	
+_Step_Stop:	
 ;incstack = 0
-	callstack 1
-; Regs used in _Motor_Forward_Start: [wreg-fsr0h+status,2+status,0+pclath+cstack]
-	bcf	status, 5	;RP0=0, select bank0
-	bcf	status, 6	;RP1=0, select bank0
-	movwf	(Motor_Forward_Start@motor_handle)
-	line	58
+	callstack 4
+; Regs used in _Step_Stop: [wreg-fsr0h+status,2+status,0+pclath+cstack]
+	movwf	(Step_Stop@stepHandle)
+	line	82
 	
-l8701:	
-	movf	(Motor_Forward_Start@motor_handle),w
-	fcall	_Motor_Stop
-	line	60
-	bcf	status, 5	;RP0=0, select bank0
-	bcf	status, 6	;RP1=0, select bank0
-	incf	(Motor_Forward_Start@motor_handle),w
+l9056:	
+	movlw	low(02h)
+	addwf	(Step_Stop@stepHandle),w
+	movwf	(??_Step_Stop+0)+0
+	movf	0+(??_Step_Stop+0)+0,w
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Forward_Start+0)+0
-	movf	(??_Motor_Forward_Start+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Forward_Start@motor_handle),w
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	61
-	bcf	status, 5	;RP0=0, select bank0
-	movf	(Motor_Forward_Start@motor_handle),w
-	addlw	05h
-	movwf	fsr0
-	movf	indf,w
-	movwf	(??_Motor_Forward_Start+0)+0
-	movf	(??_Motor_Forward_Start+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Forward_Start@motor_handle),w
-	addlw	04h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	62
 	
-l3017:	
+	clrf	indf
+	incf	fsr0,f
+	clrf	indf
+	incf	fsr0,f
+	clrf	indf
+	incf	fsr0,f
+	clrf	indf
+	line	83
+	
+l9058:	
+	movf	(Step_Stop@stepHandle),w
+	addlw	0Ch
+	movwf	fsr0
+	movf	indf,w
+	movwf	(??_Step_Stop+0)+0
+	movf	(??_Step_Stop+0)+0,w
+	movwf	(GPIO_Write@Pin)
+	clrf	(GPIO_Write@GPIO_State)
+	incf	(GPIO_Write@GPIO_State),f
+	movf	(Step_Stop@stepHandle),w
+	addlw	0Bh
+	movwf	fsr0
+	movf	indf,w
+	fcall	_GPIO_Write
+	line	84
+	
+l3029:	
 	return
 	callstack 0
-GLOBAL	__end_of_Motor_Forward_Start
-	__end_of_Motor_Forward_Start:
-	signat	_Motor_Forward_Start,4217
-	global	_Motor_Stop
+GLOBAL	__end_of_Step_Stop
+	__end_of_Step_Stop:
+	signat	_Step_Stop,4217
+	global	_Step_Set
 
-;; *************** function _Motor_Stop *****************
+;; *************** function _Step_Set *****************
 ;; Defined at:
-;;		line 11 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+;;		line 74 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
 ;; Parameters:    Size  Location     Type
-;;  motor_handle    1    wreg     PTR struct .
-;;		 -> Door_Motor(8), Compress_Motor(8), 
+;;  stepHandle      1    wreg     PTR struct .
+;;		 -> compressStepHandle(13), 
 ;; Auto vars:     Size  Location     Type
-;;  motor_handle    1    9[COMMON] PTR struct .
-;;		 -> Door_Motor(8), Compress_Motor(8), 
+;;  stepHandle      1    8[COMMON] PTR struct .
+;;		 -> compressStepHandle(13), 
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      void 
 ;; Registers used:
 ;;		wreg, fsr0l, fsr0h, status,2, status,0, pclath, cstack
 ;; Tracked objects:
-;;		On entry : 0/0
-;;		On exit  : 0/0
+;;		On entry : 300/100
+;;		On exit  : B00/0
 ;;		Unchanged: 0/0
 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
 ;;      Params:         0       0       0       0       0
 ;;      Locals:         1       0       0       0       0
-;;      Temps:          2       0       0       0       0
-;;      Totals:         3       0       0       0       0
-;;Total ram usage:        3 bytes
+;;      Temps:          0       4       0       0       0
+;;      Totals:         1       4       0       0       0
+;;Total ram usage:        5 bytes
 ;; Hardware stack levels used: 1
 ;; Hardware stack levels required when called: 2
 ;; This function calls:
-;;		_GPIO_Read
 ;;		_GPIO_Write
+;;		___wmul
 ;; This function is called by:
-;;		_Motor_Forward_Start
-;;		_Motor_Reverse_Start
-;;		_TrashDoor_Open
-;;		_TrashDoor_Close
+;;		_main
 ;;		_Compression_Run
 ;; This function uses a non-reentrant model
 ;;
-psect	text36,local,class=CODE,delta=2,merge=1,group=0
-	line	11
-global __ptext36
-__ptext36:	;psect for function _Motor_Stop
-psect	text36
+psect	text40,local,class=CODE,delta=2,merge=1,group=0
+	line	74
+global __ptext40
+__ptext40:	;psect for function _Step_Set
+psect	text40
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
-	line	11
+	line	74
 	
-_Motor_Stop:	
+_Step_Set:	
 ;incstack = 0
-	callstack 2
-; Regs used in _Motor_Stop: [wreg-fsr0h+status,2+status,0+pclath+cstack]
-	movwf	(Motor_Stop@motor_handle)
-	line	13
+	callstack 5
+; Regs used in _Step_Set: [wreg-fsr0h+status,2+status,0+pclath+cstack]
+	movwf	(Step_Set@stepHandle)
+	line	76
 	
-l8619:	
-	movf	(Motor_Stop@motor_handle),w
-	addlw	05h
+l9054:	
+	movf	(Step_Set@stepHandle),w
+	addlw	08h
 	movwf	fsr0
 	bcf	status, 7	;select IRP bank0
 	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Read@Pin)
-	movf	(Motor_Stop@motor_handle),w
-	addlw	04h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Read
-	xorlw	0
-	skipz
-	goto	u3721
-	goto	u3720
-u3721:
-	goto	l8623
-u3720:
-	
-l8621:	
-	incf	(Motor_Stop@motor_handle),w
-	movwf	fsr0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Read@Pin)
-	movf	(Motor_Stop@motor_handle),w
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Read
-	xorlw	0
-	skipnz
-	goto	u3731
-	goto	u3730
-u3731:
-	goto	l8645
-u3730:
-	line	15
-	
-l8623:	
-	movf	(Motor_Stop@motor_handle),w
-	addlw	05h
-	movwf	fsr0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
+	bcf	status, 5	;RP0=0, select bank0
+	movwf	(??_Step_Set+0)+0
+	movf	(??_Step_Set+0)+0,w
 	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	addlw	04h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	16
-	movf	(Motor_Stop@motor_handle),w
-	addlw	07h
-	movwf	fsr0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
+	movf	(Step_Set@stepHandle),w
 	addlw	06h
 	movwf	fsr0
 	movf	indf,w
-	fcall	_GPIO_Write
-	line	17
-	
-l8625:	
-	asmopt push
-asmopt off
-	movlw	16
-movwf	((??_Motor_Stop+0)+0)
-	u5187:
-decfsz	(??_Motor_Stop+0)+0,f
-	goto	u5187
-	nop
-asmopt pop
-
-	line	18
-	
-l8627:	
-	incf	(Motor_Stop@motor_handle),w
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Stop@motor_handle),w
+	movwf	(??_Step_Set+1)+0
+	movf	(??_Step_Set+1)+0,w
+	movwf	(GPIO_Write@GPIO_State)
+	movf	(Step_Set@stepHandle),w
+	addlw	07h
 	movwf	fsr0
 	movf	indf,w
 	fcall	_GPIO_Write
-	line	19
-	
-l8629:	
-	movf	(Motor_Stop@motor_handle),w
-	addlw	03h
+	line	77
+	movf	(Step_Set@stepHandle),w
 	movwf	fsr0
 	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Stop@motor_handle),w
+	movwf	(___wmul@multiplier)
+	incf	fsr0,f
+	movf	indf,w
+	movwf	(___wmul@multiplier+1)
+	movlw	040h
+	movwf	(___wmul@multiplicand)
+	movlw	06h
+	movwf	((___wmul@multiplicand))+1
+	fcall	___wmul
+	movf	(0+(?___wmul)),w
+	bcf	status, 5	;RP0=0, select bank0
+	movwf	((??_Step_Set+0)+0)
+	movf	(1+(?___wmul)),w
+	movwf	((??_Step_Set+0)+0+1)
+	clrf	((??_Step_Set+0)+0+2)
+	clrf	((??_Step_Set+0)+0+3)
+	movf	(Step_Set@stepHandle),w
 	addlw	02h
 	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	20
+	movf	0+(??_Step_Set+0)+0,w
+	movwf	indf
+	incf	fsr0,f
+	movf	1+(??_Step_Set+0)+0,w
+	movwf	indf
+	incf	fsr0,f
+	movf	2+(??_Step_Set+0)+0,w
+	movwf	indf
+	incf	fsr0,f
+	movf	3+(??_Step_Set+0)+0,w
+	movwf	indf
+	line	78
 	
-l8631:	
-	asmopt push
-asmopt off
-	movlw	8
-movwf	((??_Motor_Stop+0)+0)
-	u5197:
-decfsz	(??_Motor_Stop+0)+0,f
-	goto	u5197
-asmopt pop
-
-	line	21
-	incf	(Motor_Stop@motor_handle),w
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	22
-	
-l8633:	
-		asmopt push
-	asmopt off
-	nop2	;2 cycle nop
-	nop2	;2 cycle nop
-	nop
-	asmopt pop
-
-	line	23
-	movf	(Motor_Stop@motor_handle),w
-	addlw	07h
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Stop@motor_handle),w
-	addlw	06h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	24
-	
-l8635:	
-	asmopt push
-asmopt off
-	movlw	166
-movwf	((??_Motor_Stop+0)+0)
-	u5207:
-decfsz	(??_Motor_Stop+0)+0,f
-	goto	u5207
-	nop
-asmopt pop
-
-	line	25
-	
-l8637:	
-	movf	(Motor_Stop@motor_handle),w
-	addlw	03h
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	addlw	02h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	26
-	
-l8639:	
-		asmopt push
-	asmopt off
-	nop2	;2 cycle nop
-	nop2	;2 cycle nop
-	nop
-	asmopt pop
-
-	line	27
-	
-l8641:	
-	movf	(Motor_Stop@motor_handle),w
-	addlw	05h
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Stop@motor_handle),w
-	addlw	04h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	28
-	
-l8643:	
-	asmopt push
-asmopt off
-	movlw	8
-movwf	((??_Motor_Stop+0)+0)
-	u5217:
-decfsz	(??_Motor_Stop+0)+0,f
-	goto	u5217
-asmopt pop
-
-	line	29
-	movf	(Motor_Stop@motor_handle),w
-	addlw	05h
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	addlw	04h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	30
-	movf	(Motor_Stop@motor_handle),w
-	addlw	07h
-	movwf	fsr0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	addlw	06h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	32
-	goto	l8667
-	line	35
-	
-l8645:	
-	movf	(Motor_Stop@motor_handle),w
-	addlw	05h
-	movwf	fsr0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	addlw	04h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	36
-	movf	(Motor_Stop@motor_handle),w
-	addlw	07h
-	movwf	fsr0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	addlw	06h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	37
-	
-l8647:	
-	asmopt push
-asmopt off
-	movlw	16
-movwf	((??_Motor_Stop+0)+0)
-	u5227:
-decfsz	(??_Motor_Stop+0)+0,f
-	goto	u5227
-	nop
-asmopt pop
-
-	line	38
-	
-l8649:	
-	incf	(Motor_Stop@motor_handle),w
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Stop@motor_handle),w
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	39
-	
-l8651:	
-	movf	(Motor_Stop@motor_handle),w
-	addlw	03h
-	movwf	fsr0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Stop@motor_handle),w
-	addlw	02h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	40
-	
-l8653:	
-	asmopt push
-asmopt off
-	movlw	8
-movwf	((??_Motor_Stop+0)+0)
-	u5237:
-decfsz	(??_Motor_Stop+0)+0,f
-	goto	u5237
-asmopt pop
-
-	line	41
-	movf	(Motor_Stop@motor_handle),w
-	addlw	03h
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	addlw	02h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	42
-	
-l8655:	
-		asmopt push
-	asmopt off
-	nop2	;2 cycle nop
-	nop2	;2 cycle nop
-	nop
-	asmopt pop
-
-	line	43
-	movf	(Motor_Stop@motor_handle),w
-	addlw	05h
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Stop@motor_handle),w
-	addlw	04h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	44
-	
-l8657:	
-	asmopt push
-asmopt off
-	movlw	8
-movwf	((??_Motor_Stop+0)+0)
-	u5247:
-decfsz	(??_Motor_Stop+0)+0,f
-	goto	u5247
-asmopt pop
-
-	line	45
-	
-l8659:	
-	incf	(Motor_Stop@motor_handle),w
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	46
-	
-l8661:	
-		asmopt push
-	asmopt off
-	nop2	;2 cycle nop
-	nop2	;2 cycle nop
-	nop
-	asmopt pop
-
-	line	47
-	
-l8663:	
-	movf	(Motor_Stop@motor_handle),w
-	addlw	07h
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	incf	(GPIO_Write@GPIO_State),f
-	movf	(Motor_Stop@motor_handle),w
-	addlw	06h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	48
-	
-l8665:	
-	asmopt push
-asmopt off
-	movlw	8
-movwf	((??_Motor_Stop+0)+0)
-	u5257:
-decfsz	(??_Motor_Stop+0)+0,f
-	goto	u5257
-asmopt pop
-
-	line	49
-	movf	(Motor_Stop@motor_handle),w
-	addlw	05h
-	movwf	fsr0
-	bcf	status, 7	;select IRP bank0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	addlw	04h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	50
-	movf	(Motor_Stop@motor_handle),w
-	addlw	07h
-	movwf	fsr0
-	movf	indf,w
-	movwf	(??_Motor_Stop+0)+0
-	movf	(??_Motor_Stop+0)+0,w
-	movwf	(GPIO_Write@Pin)
-	clrf	(GPIO_Write@GPIO_State)
-	movf	(Motor_Stop@motor_handle),w
-	addlw	06h
-	movwf	fsr0
-	movf	indf,w
-	fcall	_GPIO_Write
-	line	52
-	
-l8667:	
-	asmopt push
-asmopt off
-movlw	98
-movwf	((??_Motor_Stop+0)+0+1)
-	movlw	101
-movwf	((??_Motor_Stop+0)+0)
-	u5267:
-decfsz	((??_Motor_Stop+0)+0),f
-	goto	u5267
-	decfsz	((??_Motor_Stop+0)+0+1),f
-	goto	u5267
-	nop2
-asmopt pop
-
-	line	54
-	
-l3014:	
+l3026:	
 	return
 	callstack 0
-GLOBAL	__end_of_Motor_Stop
-	__end_of_Motor_Stop:
-	signat	_Motor_Stop,4217
+GLOBAL	__end_of_Step_Set
+	__end_of_Step_Set:
+	signat	_Step_Set,4217
+	global	___wmul
+
+;; *************** function ___wmul *****************
+;; Defined at:
+;;		line 15 in file "E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\Umul16.c"
+;; Parameters:    Size  Location     Type
+;;  multiplier      2    2[COMMON] unsigned int 
+;;  multiplicand    2    4[COMMON] unsigned int 
+;; Auto vars:     Size  Location     Type
+;;  product         2    6[COMMON] unsigned int 
+;; Return value:  Size  Location     Type
+;;                  2    2[COMMON] unsigned int 
+;; Registers used:
+;;		wreg, status,2, status,0
+;; Tracked objects:
+;;		On entry : B00/100
+;;		On exit  : B00/100
+;;		Unchanged: B00/0
+;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+;;      Params:         4       0       0       0       0
+;;      Locals:         2       0       0       0       0
+;;      Temps:          0       0       0       0       0
+;;      Totals:         6       0       0       0       0
+;;Total ram usage:        6 bytes
+;; Hardware stack levels used: 1
+;; Hardware stack levels required when called: 1
+;; This function calls:
+;;		Nothing
+;; This function is called by:
+;;		_Step_Set
+;; This function uses a non-reentrant model
+;;
+psect	text41,local,class=CODE,delta=2,merge=1,group=2
+	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\Umul16.c"
+	line	15
+global __ptext41
+__ptext41:	;psect for function ___wmul
+psect	text41
+	file	"E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\Umul16.c"
+	line	15
+	
+___wmul:	
+;incstack = 0
+	callstack 5
+; Regs used in ___wmul: [wreg+status,2+status,0]
+	line	43
+	
+l8842:	
+	clrf	(___wmul@product)
+	clrf	(___wmul@product+1)
+	line	45
+	
+l8844:	
+	btfss	(___wmul@multiplier),(0)&7
+	goto	u3991
+	goto	u3990
+u3991:
+	goto	l6313
+u3990:
+	line	46
+	
+l8846:	
+	movf	(___wmul@multiplicand),w
+	addwf	(___wmul@product),f
+	skipnc
+	incf	(___wmul@product+1),f
+	movf	(___wmul@multiplicand+1),w
+	addwf	(___wmul@product+1),f
+	
+l6313:	
+	line	47
+	movlw	01h
+	
+u4005:
+	clrc
+	rlf	(___wmul@multiplicand),f
+	rlf	(___wmul@multiplicand+1),f
+	addlw	-1
+	skipz
+	goto	u4005
+	line	48
+	
+l8848:	
+	movlw	01h
+	
+u4015:
+	clrc
+	rrf	(___wmul@multiplier+1),f
+	rrf	(___wmul@multiplier),f
+	addlw	-1
+	skipz
+	goto	u4015
+	line	49
+	
+l8850:	
+	movf	((___wmul@multiplier)),w
+iorwf	((___wmul@multiplier+1)),w
+	btfss	status,2
+	goto	u4021
+	goto	u4020
+u4021:
+	goto	l8844
+u4020:
+	line	52
+	
+l8852:	
+	movf	(___wmul@product+1),w
+	movwf	(?___wmul+1)
+	movf	(___wmul@product),w
+	movwf	(?___wmul)
+	line	53
+	
+l6315:	
+	return
+	callstack 0
+GLOBAL	__end_of___wmul
+	__end_of___wmul:
+	signat	___wmul,8314
 	global	_GPIO_Write
 
 ;; *************** function _GPIO_Write *****************
@@ -10230,14 +10938,12 @@ GLOBAL	__end_of_Motor_Stop
 ;;		line 4 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
 ;; Parameters:    Size  Location     Type
 ;;  GPIO_Port       1    wreg     PTR volatile unsigned ch
-;;		 -> PORTA(1), PORTE(1), PORTD(1), PORTC(1), 
-;;		 -> PORTB(1), 
+;;		 -> PORTA(1), PORTC(1), PORTD(1), PORTB(1), 
 ;;  Pin             1    2[COMMON] unsigned char 
 ;;  GPIO_State      1    3[COMMON] unsigned char 
 ;; Auto vars:     Size  Location     Type
 ;;  GPIO_Port       1    6[COMMON] PTR volatile unsigned ch
-;;		 -> PORTA(1), PORTE(1), PORTD(1), PORTC(1), 
-;;		 -> PORTB(1), 
+;;		 -> PORTA(1), PORTC(1), PORTD(1), PORTB(1), 
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      void 
 ;; Registers used:
@@ -10263,6 +10969,9 @@ GLOBAL	__end_of_Motor_Stop
 ;;		_Motor_Stop
 ;;		_Motor_Forward_Start
 ;;		_Motor_Reverse_Start
+;;		_Step_Set
+;;		_Step_Stop
+;;		_Step_Start
 ;;		_TrashDoor_Open
 ;;		_TrashDoor_Close
 ;;		_Compression_Run
@@ -10270,136 +10979,34 @@ GLOBAL	__end_of_Motor_Stop
 ;;		_UltraSonicSensor_Read
 ;; This function uses a non-reentrant model
 ;;
-psect	text37,local,class=CODE,delta=2,merge=1,group=0
+psect	text42,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
 	line	4
-global __ptext37
-__ptext37:	;psect for function _GPIO_Write
-psect	text37
+global __ptext42
+__ptext42:	;psect for function _GPIO_Write
+psect	text42
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
 	line	4
 	
 _GPIO_Write:	
 ;incstack = 0
-	callstack 4
+	callstack 5
 ; Regs used in _GPIO_Write: [wreg-fsr0h+status,2+status,0]
 	movwf	(GPIO_Write@GPIO_Port)
 	line	6
 	
-l8579:	
+l8684:	
 	movf	(GPIO_Write@GPIO_Port),w
 	xorlw	low(5|((0x0)<<8))&0ffh
-	skipz
-	goto	u3591
-	goto	u3590
-u3591:
-	goto	l8583
-u3590:
-	line	8
-	
-l8581:	
-	movlw	low(01h)
-	movwf	(??_GPIO_Write+0)+0
-	incf	(GPIO_Write@Pin),w
-	goto	u3604
-u3605:
-	clrc
-	rlf	(??_GPIO_Write+0)+0,f
-u3604:
-	addlw	-1
-	skipz
-	goto	u3605
-	movf	0+(??_GPIO_Write+0)+0,w
-	xorlw	0ffh
-	movwf	(??_GPIO_Write+1)+0
-	movf	(??_GPIO_Write+1)+0,w
-	bsf	status, 5	;RP0=1, select bank1
-	bcf	status, 6	;RP1=0, select bank1
-	andwf	(133)^080h,f	;volatile
-	line	9
-	goto	l8605
-	line	10
-	
-l8583:	
-	movf	(GPIO_Write@GPIO_Port),w
-	xorlw	low(6|((0x0)<<8))&0ffh
-	skipz
-	goto	u3611
-	goto	u3610
-u3611:
-	goto	l8587
-u3610:
-	line	12
-	
-l8585:	
-	movlw	low(01h)
-	movwf	(??_GPIO_Write+0)+0
-	incf	(GPIO_Write@Pin),w
-	goto	u3624
-u3625:
-	clrc
-	rlf	(??_GPIO_Write+0)+0,f
-u3624:
-	addlw	-1
-	skipz
-	goto	u3625
-	movf	0+(??_GPIO_Write+0)+0,w
-	xorlw	0ffh
-	movwf	(??_GPIO_Write+1)+0
-	movf	(??_GPIO_Write+1)+0,w
-	bsf	status, 5	;RP0=1, select bank1
-	bcf	status, 6	;RP1=0, select bank1
-	andwf	(134)^080h,f	;volatile
-	line	13
-	goto	l8605
-	line	14
-	
-l8587:	
-	movf	(GPIO_Write@GPIO_Port),w
-	xorlw	low(7|((0x0)<<8))&0ffh
-	skipz
-	goto	u3631
-	goto	u3630
-u3631:
-	goto	l8591
-u3630:
-	line	16
-	
-l8589:	
-	movlw	low(01h)
-	movwf	(??_GPIO_Write+0)+0
-	incf	(GPIO_Write@Pin),w
-	goto	u3644
-u3645:
-	clrc
-	rlf	(??_GPIO_Write+0)+0,f
-u3644:
-	addlw	-1
-	skipz
-	goto	u3645
-	movf	0+(??_GPIO_Write+0)+0,w
-	xorlw	0ffh
-	movwf	(??_GPIO_Write+1)+0
-	movf	(??_GPIO_Write+1)+0,w
-	bsf	status, 5	;RP0=1, select bank1
-	bcf	status, 6	;RP1=0, select bank1
-	andwf	(135)^080h,f	;volatile
-	line	17
-	goto	l8605
-	line	18
-	
-l8591:	
-	movf	(GPIO_Write@GPIO_Port),w
-	xorlw	low(8|((0x0)<<8))&0ffh
 	skipz
 	goto	u3651
 	goto	u3650
 u3651:
-	goto	l8595
+	goto	l8688
 u3650:
-	line	20
+	line	8
 	
-l8593:	
+l8686:	
 	movlw	low(01h)
 	movwf	(??_GPIO_Write+0)+0
 	incf	(GPIO_Write@Pin),w
@@ -10417,34 +11024,23 @@ u3664:
 	movf	(??_GPIO_Write+1)+0,w
 	bsf	status, 5	;RP0=1, select bank1
 	bcf	status, 6	;RP1=0, select bank1
-	andwf	(136)^080h,f	;volatile
-	line	21
-	goto	l8605
-	line	24
+	andwf	(133)^080h,f	;volatile
+	line	9
+	goto	l8710
+	line	10
 	
-l8595:	
-	movlw	low(01h)
-	movwf	(??_GPIO_Write+0)+0
-	incf	(GPIO_Write@Pin),w
-	goto	u3674
-u3675:
-	clrc
-	rlf	(??_GPIO_Write+0)+0,f
-u3674:
-	addlw	-1
+l8688:	
+	movf	(GPIO_Write@GPIO_Port),w
+	xorlw	low(6|((0x0)<<8))&0ffh
 	skipz
-	goto	u3675
-	movf	0+(??_GPIO_Write+0)+0,w
-	xorlw	0ffh
-	movwf	(??_GPIO_Write+1)+0
-	movf	(??_GPIO_Write+1)+0,w
-	bsf	status, 5	;RP0=1, select bank1
-	bcf	status, 6	;RP1=0, select bank1
-	andwf	(137)^080h,f	;volatile
-	goto	l8605
-	line	29
+	goto	u3671
+	goto	u3670
+u3671:
+	goto	l8692
+u3670:
+	line	12
 	
-l8597:	
+l8690:	
 	movlw	low(01h)
 	movwf	(??_GPIO_Write+0)+0
 	incf	(GPIO_Write@Pin),w
@@ -10457,6 +11053,119 @@ u3684:
 	skipz
 	goto	u3685
 	movf	0+(??_GPIO_Write+0)+0,w
+	xorlw	0ffh
+	movwf	(??_GPIO_Write+1)+0
+	movf	(??_GPIO_Write+1)+0,w
+	bsf	status, 5	;RP0=1, select bank1
+	bcf	status, 6	;RP1=0, select bank1
+	andwf	(134)^080h,f	;volatile
+	line	13
+	goto	l8710
+	line	14
+	
+l8692:	
+	movf	(GPIO_Write@GPIO_Port),w
+	xorlw	low(7|((0x0)<<8))&0ffh
+	skipz
+	goto	u3691
+	goto	u3690
+u3691:
+	goto	l8696
+u3690:
+	line	16
+	
+l8694:	
+	movlw	low(01h)
+	movwf	(??_GPIO_Write+0)+0
+	incf	(GPIO_Write@Pin),w
+	goto	u3704
+u3705:
+	clrc
+	rlf	(??_GPIO_Write+0)+0,f
+u3704:
+	addlw	-1
+	skipz
+	goto	u3705
+	movf	0+(??_GPIO_Write+0)+0,w
+	xorlw	0ffh
+	movwf	(??_GPIO_Write+1)+0
+	movf	(??_GPIO_Write+1)+0,w
+	bsf	status, 5	;RP0=1, select bank1
+	bcf	status, 6	;RP1=0, select bank1
+	andwf	(135)^080h,f	;volatile
+	line	17
+	goto	l8710
+	line	18
+	
+l8696:	
+	movf	(GPIO_Write@GPIO_Port),w
+	xorlw	low(8|((0x0)<<8))&0ffh
+	skipz
+	goto	u3711
+	goto	u3710
+u3711:
+	goto	l8700
+u3710:
+	line	20
+	
+l8698:	
+	movlw	low(01h)
+	movwf	(??_GPIO_Write+0)+0
+	incf	(GPIO_Write@Pin),w
+	goto	u3724
+u3725:
+	clrc
+	rlf	(??_GPIO_Write+0)+0,f
+u3724:
+	addlw	-1
+	skipz
+	goto	u3725
+	movf	0+(??_GPIO_Write+0)+0,w
+	xorlw	0ffh
+	movwf	(??_GPIO_Write+1)+0
+	movf	(??_GPIO_Write+1)+0,w
+	bsf	status, 5	;RP0=1, select bank1
+	bcf	status, 6	;RP1=0, select bank1
+	andwf	(136)^080h,f	;volatile
+	line	21
+	goto	l8710
+	line	24
+	
+l8700:	
+	movlw	low(01h)
+	movwf	(??_GPIO_Write+0)+0
+	incf	(GPIO_Write@Pin),w
+	goto	u3734
+u3735:
+	clrc
+	rlf	(??_GPIO_Write+0)+0,f
+u3734:
+	addlw	-1
+	skipz
+	goto	u3735
+	movf	0+(??_GPIO_Write+0)+0,w
+	xorlw	0ffh
+	movwf	(??_GPIO_Write+1)+0
+	movf	(??_GPIO_Write+1)+0,w
+	bsf	status, 5	;RP0=1, select bank1
+	bcf	status, 6	;RP1=0, select bank1
+	andwf	(137)^080h,f	;volatile
+	goto	l8710
+	line	29
+	
+l8702:	
+	movlw	low(01h)
+	movwf	(??_GPIO_Write+0)+0
+	incf	(GPIO_Write@Pin),w
+	goto	u3744
+u3745:
+	clrc
+	rlf	(??_GPIO_Write+0)+0,f
+u3744:
+	addlw	-1
+	skipz
+	goto	u3745
+	movf	0+(??_GPIO_Write+0)+0,w
 	movwf	(??_GPIO_Write+1)+0
 	movf	(GPIO_Write@GPIO_Port),w
 	movwf	fsr0
@@ -10464,21 +11173,21 @@ u3684:
 	bcf	status, 7	;select IRP bank0
 	iorwf	indf,f
 	line	30
-	goto	l2407
+	goto	l2410
 	line	32
 	
-l8599:	
+l8704:	
 	movlw	low(01h)
 	movwf	(??_GPIO_Write+0)+0
 	incf	(GPIO_Write@Pin),w
-	goto	u3694
-u3695:
+	goto	u3754
+u3755:
 	clrc
 	rlf	(??_GPIO_Write+0)+0,f
-u3694:
+u3754:
 	addlw	-1
 	skipz
-	goto	u3695
+	goto	u3755
 	movf	0+(??_GPIO_Write+0)+0,w
 	xorlw	0ffh
 	movwf	(??_GPIO_Write+1)+0
@@ -10488,10 +11197,10 @@ u3694:
 	bcf	status, 7	;select IRP bank0
 	andwf	indf,f
 	line	33
-	goto	l2407
+	goto	l2410
 	line	26
 	
-l8605:	
+l8710:	
 	movf	(GPIO_Write@GPIO_State),w
 	; Switch size 1, requested type "simple"
 ; Number of cases is 2, Range of values is 0 to 1
@@ -10506,119 +11215,26 @@ l8605:
 	asmopt off
 	xorlw	0^0	; case 0
 	skipnz
-	goto	l8599
+	goto	l8704
 	xorlw	1^0	; case 1
 	skipnz
-	goto	l8597
-	goto	l8599
+	goto	l8702
+	goto	l8704
 	asmopt pop
 
 	line	38
 	
-l2407:	
+l2410:	
 	return
 	callstack 0
 GLOBAL	__end_of_GPIO_Write
 	__end_of_GPIO_Write:
 	signat	_GPIO_Write,12409
-	global	_GPIO_Read
-
-;; *************** function _GPIO_Read *****************
-;; Defined at:
-;;		line 40 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
-;; Parameters:    Size  Location     Type
-;;  GPIO_Port       1    wreg     PTR volatile unsigned ch
-;;		 -> PORTA(1), PORTE(1), PORTD(1), PORTC(1), 
-;;		 -> PORTB(1), 
-;;  Pin             1    2[COMMON] unsigned char 
-;; Auto vars:     Size  Location     Type
-;;  GPIO_Port       1    4[COMMON] PTR volatile unsigned ch
-;;		 -> PORTA(1), PORTE(1), PORTD(1), PORTC(1), 
-;;		 -> PORTB(1), 
-;; Return value:  Size  Location     Type
-;;                  1    wreg      unsigned char 
-;; Registers used:
-;;		wreg, fsr0l, fsr0h, status,2, status,0
-;; Tracked objects:
-;;		On entry : 0/0
-;;		On exit  : 800/0
-;;		Unchanged: 0/0
-;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
-;;      Params:         1       0       0       0       0
-;;      Locals:         1       0       0       0       0
-;;      Temps:          1       0       0       0       0
-;;      Totals:         3       0       0       0       0
-;;Total ram usage:        3 bytes
-;; Hardware stack levels used: 1
-;; Hardware stack levels required when called: 1
-;; This function calls:
-;;		Nothing
-;; This function is called by:
-;;		_Motor_Stop
-;;		_TrashDoor_Ctrl
-;;		_UltraSonicSensor_Read
-;; This function uses a non-reentrant model
-;;
-psect	text38,local,class=CODE,delta=2,merge=1,group=0
-	line	40
-global __ptext38
-__ptext38:	;psect for function _GPIO_Read
-psect	text38
-	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
-	line	40
-	
-_GPIO_Read:	
-;incstack = 0
-	callstack 2
-; Regs used in _GPIO_Read: [wreg-fsr0h+status,2+status,0]
-	movwf	(GPIO_Read@GPIO_Port)
-	line	42
-	
-l8607:	
-	movf	(GPIO_Read@GPIO_Port),w
-	movwf	fsr0
-	movlw	low(01h)
-	movwf	(??_GPIO_Read+0)+0
-	incf	(GPIO_Read@Pin),w
-	goto	u3704
-u3705:
-	clrc
-	rlf	(??_GPIO_Read+0)+0,f
-u3704:
-	addlw	-1
-	skipz
-	goto	u3705
-	movf	0+(??_GPIO_Read+0)+0,w
-	bcf	status, 7	;select IRP bank0
-	andwf	indf,w
-	btfsc	status,2
-	goto	u3711
-	goto	u3710
-u3711:
-	goto	l8615
-u3710:
-	line	44
-	
-l8609:	
-	movlw	low(01h)
-	goto	l2411
-	line	48
-	
-l8615:	
-	movlw	low(0)
-	line	51
-	
-l2411:	
-	return
-	callstack 0
-GLOBAL	__end_of_GPIO_Read
-	__end_of_GPIO_Read:
-	signat	_GPIO_Read,8313
 	global	_Compression_Ctrl
 
 ;; *************** function _Compression_Ctrl *****************
 ;; Defined at:
-;;		line 259 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 281 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -10645,108 +11261,108 @@ GLOBAL	__end_of_GPIO_Read
 ;;		_Loop
 ;; This function uses a non-reentrant model
 ;;
-psect	text39,local,class=CODE,delta=2,merge=1,group=0
+psect	text43,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	259
-global __ptext39
-__ptext39:	;psect for function _Compression_Ctrl
-psect	text39
+	line	281
+global __ptext43
+__ptext43:	;psect for function _Compression_Ctrl
+psect	text43
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	259
+	line	281
 	
 _Compression_Ctrl:	
 ;incstack = 0
 	callstack 5
 ; Regs used in _Compression_Ctrl: [wreg+status,2+status,0]
-	line	261
+	line	283
 	
-l8429:	
+l8524:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	((_trashDoorState)),w
 	btfsc	status,2
-	goto	u3321
-	goto	u3320
-u3321:
-	goto	l8435
-u3320:
+	goto	u3411
+	goto	u3410
+u3411:
+	goto	l8530
+u3410:
 	
-l8431:	
+l8526:	
 		decf	((_trashDoorState)),w
 	btfsc	status,2
-	goto	u3331
-	goto	u3330
-u3331:
-	goto	l8435
-u3330:
-	line	263
+	goto	u3421
+	goto	u3420
+u3421:
+	goto	l8530
+u3420:
+	line	285
 	
-l8433:	
+l8528:	
 	movlw	low(03h)
 	movwf	(??_Compression_Ctrl+0)+0
 	movf	(??_Compression_Ctrl+0)+0,w
 	movwf	(_compressionState)
-	line	264
-	goto	l4296
-	line	265
+	line	286
+	goto	l4316
+	line	287
 	
-l8435:	
+l8530:	
 		movlw	2
 	xorwf	((_compressionState)),w
 	btfsc	status,2
-	goto	u3341
-	goto	u3340
-u3341:
-	goto	l4296
-u3340:
-	line	267
+	goto	u3431
+	goto	u3430
+u3431:
+	goto	l4316
+u3430:
+	line	289
 	
-l8437:	
+l8532:	
 		decf	((_trashDoorState)),w
 	btfss	status,2
-	goto	u3351
-	goto	u3350
-u3351:
-	goto	l8441
-u3350:
-	line	269
+	goto	u3441
+	goto	u3440
+u3441:
+	goto	l8536
+u3440:
+	line	291
 	
-l8439:	
+l8534:	
 	clrf	(_compressionState)
-	line	270
-	goto	l4296
-	line	273
+	line	292
+	goto	l4316
+	line	295
 	
-l8441:	
+l8536:	
 		decf	((_compressionState)),w
 	btfsc	status,2
-	goto	u3361
-	goto	u3360
-u3361:
-	goto	l4292
-u3360:
+	goto	u3451
+	goto	u3450
+u3451:
+	goto	l4312
+u3450:
 	
-l8443:	
+l8538:	
 		movlw	4
 	xorwf	((_compressionState)),w
 	btfsc	status,2
-	goto	u3371
-	goto	u3370
-u3371:
-	goto	l4292
-u3370:
-	line	275
+	goto	u3461
+	goto	u3460
+u3461:
+	goto	l4312
+u3460:
+	line	297
 	
-l8445:	
+l8540:	
 	clrf	(_compressionState)
 	incf	(_compressionState),f
-	goto	l4296
-	line	278
+	goto	l4316
+	line	300
 	
-l4292:	
-	line	279
+l4312:	
+	line	301
 	
-l4296:	
+l4316:	
 	return
 	callstack 0
 GLOBAL	__end_of_Compression_Ctrl
@@ -10782,12 +11398,12 @@ GLOBAL	__end_of_Compression_Ctrl
 ;;		Interrupt level 1
 ;; This function uses a non-reentrant model
 ;;
-psect	text40,local,class=CODE,delta=2,merge=1,group=0
+psect	text44,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c"
 	line	3
-global __ptext40
-__ptext40:	;psect for function _Interrupts_Function
-psect	text40
+global __ptext44
+__ptext44:	;psect for function _Interrupts_Function
+psect	text44
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c"
 	line	3
 	
@@ -10808,30 +11424,30 @@ interrupt_function:
 	movf	pclath,w
 	movwf	(??_Interrupts_Function+1)
 	ljmp	_Interrupts_Function
-psect	text40
+psect	text44
 	line	14
 	
-i1l8567:	
+i1l8672:	
 	bsf	status, 5	;RP0=1, select bank1
 	bcf	status, 6	;RP1=0, select bank1
 	btfss	(140)^080h,(1)&7	;volatile
-	goto	u355_21
-	goto	u355_20
-u355_21:
-	goto	i1l3613
-u355_20:
+	goto	u361_21
+	goto	u361_20
+u361_21:
+	goto	i1l3627
+u361_20:
 	
-i1l8569:	
+i1l8674:	
 	bcf	status, 5	;RP0=0, select bank0
 	btfss	(12),(1)&7	;volatile
-	goto	u356_21
-	goto	u356_20
-u356_21:
-	goto	i1l3613
-u356_20:
+	goto	u362_21
+	goto	u362_20
+u362_21:
+	goto	i1l3627
+u362_20:
 	line	16
 	
-i1l8571:	
+i1l8676:	
 	movlw	01h
 	addwf	(_timeReset_flag),f
 	skipnc
@@ -10852,31 +11468,31 @@ i1l8571:
 	skipnz
 	subwf	(_timeSysTick),w	;volatile
 	skipc
-	goto	u357_21
-	goto	u357_20
-u357_21:
-	goto	i1l3614
-u357_20:
+	goto	u363_21
+	goto	u363_20
+u363_21:
+	goto	i1l3628
+u363_20:
 	line	20
 	
-i1l8573:	
+i1l8678:	
 	movlw	01h
 	movwf	(_timeSysTick)	;volatile
 	movlw	0
 	movwf	((_timeSysTick))+1	;volatile
 	line	21
 	
-i1l3614:	
+i1l3628:	
 	line	22
 	movlw	low(0DDh)
 	movwf	(17)	;volatile
 	line	23
 	
-i1l8575:	
+i1l8680:	
 	bcf	(97/8),(97)&7	;volatile
 	line	25
 	
-i1l3613:	
+i1l3627:	
 	line	26
 	movlw	013h
 	bcf	status, 5	;RP0=0, select bank0
@@ -10885,20 +11501,20 @@ i1l3613:
 	skipnz
 	subwf	(_timeReset_flag),w
 	skipnc
-	goto	u358_21
-	goto	u358_20
-u358_21:
-	goto	i1l3616
-u358_20:
+	goto	u364_21
+	goto	u364_20
+u364_21:
+	goto	i1l3630
+u364_20:
 	line	28
 	
-i1l8577:	
+i1l8682:	
 # 28 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c"
 clrwdt ;# 
-psect	text40
+psect	text44
 	line	30
 	
-i1l3616:	
+i1l3630:	
 	movf	(??_Interrupts_Function+1),w
 	movwf	pclath
 	swapf	(??_Interrupts_Function+0),w

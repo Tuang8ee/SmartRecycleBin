@@ -2,6 +2,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "38 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
+"45
+[s S101 `ui 1 `ul 1 `uc 1 `S100 1 `S100 1 `S100 1 ]
+[n S101 . vong step chieu DIR_Pin PUL_Pin ENA_Pin ]
 "14 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/GPIO.h
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
 [v F184 `(v ~T0 @X0 1 tf1`ul ]
@@ -698,7 +701,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x WRT=OFF ]
 "31
 [p x CP=OFF ]
-"45 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
+"55 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [v _LED1 `S100 ~T0 @X0 1 e ]
 [i _LED1
 :U ..
@@ -708,7 +711,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"46
+"56
 [v _LED2 `S100 ~T0 @X0 1 e ]
 [i _LED2
 :U ..
@@ -718,7 +721,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"47
+"57
 [v _BUZZER `S100 ~T0 @X0 1 e ]
 [i _BUZZER
 :U ..
@@ -728,7 +731,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"48
+"58
 [v _Motor_0 `S100 ~T0 @X0 1 e ]
 [i _Motor_0
 :U ..
@@ -738,143 +741,170 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"51
-[v _Motor_1 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_1
-:U ..
-:U ..
-"52
-&U _PORTC
--> -> 4 `i `uc
-..
-:U ..
-"53
-&U _PORTC
--> -> 5 `i `uc
-..
-:U ..
-"54
-&U _PORTC
--> -> 6 `i `uc
-..
-:U ..
-"55
-&U _PORTC
--> -> 7 `i `uc
-..
-..
-]
-"59
-[v _Compress_Motor `S100 ~T0 @X0 -> 4 `i e ]
-[i _Compress_Motor
-:U ..
-:U ..
-"60
-&U _PORTD
--> -> 4 `i `uc
-..
-:U ..
 "61
-&U _PORTD
--> -> 5 `i `uc
-..
+[v _compressStepHandle `S101 ~T0 @X0 1 e ]
+[i _compressStepHandle
+:U ..
 :U ..
 "62
+-> -> 0 `i `ui
+"63
+-> -> -> 0 `i `l `ul
+"64
+-> -> 1 `i `uc
+:U ..
+:U ..
+"65
 &U _PORTD
 -> -> 6 `i `uc
 ..
+..
 :U ..
-"63
+:U ..
+"66
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"67
 &U _PORTD
 -> -> 7 `i `uc
 ..
 ..
+..
+..
 ]
-"67
+"71
+[v _doorStepHandle `S101 ~T0 @X0 1 e ]
+[i _doorStepHandle
+:U ..
+:U ..
+"72
+-> -> 0 `i `ui
+"73
+-> -> -> 0 `i `l `ul
+"74
+-> -> 1 `i `uc
+:U ..
+:U ..
+"75
+&U _PORTD
+-> -> 6 `i `uc
+..
+..
+:U ..
+:U ..
+"76
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"77
+&U _PORTD
+-> -> 7 `i `uc
+..
+..
+..
+..
+]
+"81
+[v _winchStepHandle `S101 ~T0 @X0 1 e ]
+[i _winchStepHandle
+:U ..
+:U ..
+"82
+-> -> 0 `i `ui
+"83
+-> -> -> 0 `i `l `ul
+"84
+-> -> 1 `i `uc
+:U ..
+:U ..
+"85
+&U _PORTD
+-> -> 6 `i `uc
+..
+..
+:U ..
+:U ..
+"86
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"87
+&U _PORTD
+-> -> 7 `i `uc
+..
+..
+..
+..
+]
+"108
 [v _Door_Motor `S100 ~T0 @X0 -> 4 `i e ]
 [i _Door_Motor
 :U ..
 :U ..
-"68
+"109
 &U _PORTD
 -> -> 1 `i `uc
 ..
 :U ..
-"69
+"110
 &U _PORTD
 -> -> 0 `i `uc
 ..
 :U ..
-"70
+"111
 &U _PORTC
 -> -> 3 `i `uc
 ..
 :U ..
-"71
+"112
 &U _PORTC
 -> -> 2 `i `uc
 ..
 ..
 ]
-"75
-[v _Motor_4 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_4
-:U ..
-:U ..
-"76
-&U _PORTC
--> -> 1 `i `uc
-..
-:U ..
-"77
-&U _PORTC
--> -> 0 `i `uc
-..
-:U ..
-"78
-&U _PORTE
--> -> 2 `i `uc
-..
-:U ..
-"79
-&U _PORTE
--> -> 1 `i `uc
-..
-..
-]
-"87
+"128
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"88
+"129
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"89
+"130
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"97
+"138
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"98
+"139
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"99
+"140
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"107
+"148
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -884,7 +914,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"108
+"149
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -894,7 +924,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"115
+"156
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -904,7 +934,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"116
+"157
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -938,54 +968,54 @@ Version 3.2 HI-TECH Software Intermediate Code
 "19
 [e ( _GPIO_Write (3 , , . *U + _sensor * -> -> 0 `i `x -> -> # *U _sensor `i `x 0 . *U + _sensor * -> -> 0 `i `x -> -> # *U _sensor `i `x 1 -> -> 0 `i `uc ]
 "20
-[e $ ! ! != -> ( _GPIO_Read (2 , . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 0 . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 1 `i -> -> -> 0 `i `uc `i 102  ]
+[e $ ! ! != -> ( _GPIO_Read (2 , . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 0 . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 1 `i -> -> -> 0 `i `uc `i 103  ]
 "21
 {
 "22
-[e $U 103  ]
-[e :U 104 ]
-[e :U 103 ]
-[e $ ! != -> ( _GPIO_Read (2 , . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 0 . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 1 `i -> -> -> 0 `i `uc `i 104  ]
+[e $U 104  ]
 [e :U 105 ]
+[e :U 104 ]
+[e $ ! != -> ( _GPIO_Read (2 , . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 0 . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 1 `i -> -> -> 0 `i `uc `i 105  ]
+[e :U 106 ]
 "23
 }
-[e :U 102 ]
+[e :U 103 ]
 "24
 [e = _buff_time -> *U _system_tick `ul ]
 "25
-[e $U 106  ]
-[e :U 107 ]
+[e $U 107  ]
+[e :U 108 ]
 "26
 {
 "27
-[e $ ! > - -> *U _system_tick `ul _buff_time -> -> -> 300 `i `l `ul 109  ]
+[e $ ! > - -> *U _system_tick `ul _buff_time -> -> -> 300 `i `l `ul 110  ]
 "28
 {
 "29
-[e $U 108  ]
+[e $U 109  ]
 "30
 }
-[e :U 109 ]
+[e :U 110 ]
 "31
 }
-[e :U 106 ]
+[e :U 107 ]
 "25
-[e $ != -> ( _GPIO_Read (2 , . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 0 . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 1 `i -> -> -> 0 `i `uc `i 107  ]
-[e :U 108 ]
+[e $ != -> ( _GPIO_Read (2 , . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 0 . *U + _sensor * -> -> 1 `i `x -> -> # *U _sensor `i `x 1 `i -> -> -> 0 `i `uc `i 108  ]
+[e :U 109 ]
 "32
 [e = _buff_time - -> *U _system_tick `ul _buff_time ]
 "34
-[e $ ! > _buff_time -> -> -> 150 `i `l `ul 110  ]
+[e $ ! > _buff_time -> -> -> 150 `i `l `ul 111  ]
 "35
 {
 "36
 [e = _buff_time -> -> -> 0 `i `l `ul ]
 "37
 }
-[e :U 110 ]
+[e :U 111 ]
 "38
 [e ) -> _buff_time `uc ]
-[e $UE 101  ]
+[e $UE 102  ]
 "39
-[e :UE 101 ]
+[e :UE 102 ]
 }

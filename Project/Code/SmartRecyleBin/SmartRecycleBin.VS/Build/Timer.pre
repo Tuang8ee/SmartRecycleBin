@@ -2226,6 +2226,16 @@ uint8_t Pin;
 }
 Peripheral_Pin;
 
+typedef struct
+{
+uint16_t vong;
+uint32_t step;
+uint8_t chieu;
+Peripheral_Pin DIR_Pin;
+Peripheral_Pin PUL_Pin;
+Peripheral_Pin ENA_Pin;
+}StepHandle;
+
 
 Peripheral_Pin LED1 = {&PORTB, 3};
 Peripheral_Pin LED2 = {&PORTB, 2};
@@ -2233,22 +2243,36 @@ Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
 
-Peripheral_Pin Motor_1[4] = {
-{&PORTC, 4},
-{&PORTC, 5},
-{&PORTC, 6},
-{&PORTC, 7}
-};
-
-
-Peripheral_Pin Compress_Motor[4] = {
-{&PORTD, 4},
-{&PORTD, 5},
+StepHandle compressStepHandle = {
+0,
+0,
+1,
 {&PORTD, 6},
-{&PORTD, 7}
+{&PORTD, 5},
+{&PORTD, 7},
 };
 
 
+StepHandle doorStepHandle = {
+0,
+0,
+1,
+{&PORTD, 6},
+{&PORTD, 5},
+{&PORTD, 7},
+};
+
+
+StepHandle winchStepHandle = {
+0,
+0,
+1,
+{&PORTD, 6},
+{&PORTD, 5},
+{&PORTD, 7},
+};
+
+# 108
 Peripheral_Pin Door_Motor[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
@@ -2256,31 +2280,23 @@ Peripheral_Pin Door_Motor[4] = {
 {&PORTC, 2}
 };
 
-
-Peripheral_Pin Motor_4[4] = {
-{&PORTC, 1},
-{&PORTC, 0},
-{&PORTE, 2},
-{&PORTE, 1}
-};
-
-# 87
+# 128
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 97
+# 138
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 107
+# 148
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 115
+# 156
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 

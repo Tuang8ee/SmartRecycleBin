@@ -2,6 +2,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "38 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
+"45
+[s S101 `ui 1 `ul 1 `uc 1 `S100 1 `S100 1 `S100 1 ]
+[n S101 . vong step chieu DIR_Pin PUL_Pin ENA_Pin ]
 "14 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
 [v F186 `(v ~T0 @X0 1 tf1`ul ]
@@ -14,6 +17,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _UART_BASE_Init `(v ~T0 @X0 0 ef1`l ]
 "22
 [v _UART_WriteStr `(v ~T0 @X0 0 ef1`*Cuc ]
+"24 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\HBrightCtrl.h
+[v _Step_Stop `(v ~T0 @X0 0 ef1`*S101 ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [; <" INDF equ 00h ;# ">
 "62
@@ -702,7 +707,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x WRT=OFF ]
 "31
 [p x CP=OFF ]
-"45 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
+"55 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [v _LED1 `S100 ~T0 @X0 1 e ]
 [i _LED1
 :U ..
@@ -712,7 +717,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"46
+"56
 [v _LED2 `S100 ~T0 @X0 1 e ]
 [i _LED2
 :U ..
@@ -722,7 +727,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"47
+"57
 [v _BUZZER `S100 ~T0 @X0 1 e ]
 [i _BUZZER
 :U ..
@@ -732,7 +737,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"48
+"58
 [v _Motor_0 `S100 ~T0 @X0 1 e ]
 [i _Motor_0
 :U ..
@@ -742,143 +747,170 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"51
-[v _Motor_1 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_1
-:U ..
-:U ..
-"52
-&U _PORTC
--> -> 4 `i `uc
-..
-:U ..
-"53
-&U _PORTC
--> -> 5 `i `uc
-..
-:U ..
-"54
-&U _PORTC
--> -> 6 `i `uc
-..
-:U ..
-"55
-&U _PORTC
--> -> 7 `i `uc
-..
-..
-]
-"59
-[v _Compress_Motor `S100 ~T0 @X0 -> 4 `i e ]
-[i _Compress_Motor
-:U ..
-:U ..
-"60
-&U _PORTD
--> -> 4 `i `uc
-..
-:U ..
 "61
-&U _PORTD
--> -> 5 `i `uc
-..
+[v _compressStepHandle `S101 ~T0 @X0 1 e ]
+[i _compressStepHandle
+:U ..
 :U ..
 "62
+-> -> 0 `i `ui
+"63
+-> -> -> 0 `i `l `ul
+"64
+-> -> 1 `i `uc
+:U ..
+:U ..
+"65
 &U _PORTD
 -> -> 6 `i `uc
 ..
+..
 :U ..
-"63
+:U ..
+"66
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"67
 &U _PORTD
 -> -> 7 `i `uc
 ..
 ..
+..
+..
 ]
-"67
+"71
+[v _doorStepHandle `S101 ~T0 @X0 1 e ]
+[i _doorStepHandle
+:U ..
+:U ..
+"72
+-> -> 0 `i `ui
+"73
+-> -> -> 0 `i `l `ul
+"74
+-> -> 1 `i `uc
+:U ..
+:U ..
+"75
+&U _PORTD
+-> -> 6 `i `uc
+..
+..
+:U ..
+:U ..
+"76
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"77
+&U _PORTD
+-> -> 7 `i `uc
+..
+..
+..
+..
+]
+"81
+[v _winchStepHandle `S101 ~T0 @X0 1 e ]
+[i _winchStepHandle
+:U ..
+:U ..
+"82
+-> -> 0 `i `ui
+"83
+-> -> -> 0 `i `l `ul
+"84
+-> -> 1 `i `uc
+:U ..
+:U ..
+"85
+&U _PORTD
+-> -> 6 `i `uc
+..
+..
+:U ..
+:U ..
+"86
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"87
+&U _PORTD
+-> -> 7 `i `uc
+..
+..
+..
+..
+]
+"108
 [v _Door_Motor `S100 ~T0 @X0 -> 4 `i e ]
 [i _Door_Motor
 :U ..
 :U ..
-"68
+"109
 &U _PORTD
 -> -> 1 `i `uc
 ..
 :U ..
-"69
+"110
 &U _PORTD
 -> -> 0 `i `uc
 ..
 :U ..
-"70
+"111
 &U _PORTC
 -> -> 3 `i `uc
 ..
 :U ..
-"71
+"112
 &U _PORTC
 -> -> 2 `i `uc
 ..
 ..
 ]
-"75
-[v _Motor_4 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_4
-:U ..
-:U ..
-"76
-&U _PORTC
--> -> 1 `i `uc
-..
-:U ..
-"77
-&U _PORTC
--> -> 0 `i `uc
-..
-:U ..
-"78
-&U _PORTE
--> -> 2 `i `uc
-..
-:U ..
-"79
-&U _PORTE
--> -> 1 `i `uc
-..
-..
-]
-"87
+"128
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"88
+"129
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"89
+"130
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"97
+"138
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"98
+"139
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"99
+"140
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"107
+"148
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -888,7 +920,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"108
+"149
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -898,7 +930,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"115
+"156
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -908,7 +940,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"116
+"157
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -918,75 +950,77 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"16 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c
+"17 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c
 [v _Startup_Infor `(v ~T0 @X0 1 ef2`*S100`uc ]
-"17
+"18
 {
 [e :U _Startup_Infor ]
-"16
+"17
 [v _GPIO `*S100 ~T0 @X0 1 r1 ]
 [v _index `uc ~T0 @X0 1 r2 ]
-"17
-[f ]
 "18
-[e $U 102  ]
+[f ]
+"19
+[e $U 103  ]
+[e :U 104 ]
+"20
+{
+"21
+[e ( _GPIO_Write (3 , , . *U _GPIO 0 . *U _GPIO 1 -> -> 1 `i `uc ]
+"22
+[e ( __delay (1 -> * -> -> -> 100 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"23
+[e ( _GPIO_Write (3 , , . *U _GPIO 0 . *U _GPIO 1 -> -> 0 `i `uc ]
+"24
+[e ( __delay (1 -> * -> -> -> 100 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
+"25
+}
 [e :U 103 ]
 "19
-{
-"20
-[e ( _GPIO_Write (3 , , . *U _GPIO 0 . *U _GPIO 1 -> -> 1 `i `uc ]
-"21
-[e ( __delay (1 -> * -> -> -> 100 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"22
-[e ( _GPIO_Write (3 , , . *U _GPIO 0 . *U _GPIO 1 -> -> 0 `i `uc ]
-"23
-[e ( __delay (1 -> * -> -> -> 100 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"24
+[e $ != -> -- _index -> -> 1 `i `uc `i -> -> -> 0 `i `uc `i 104  ]
+[e :U 105 ]
+"26
+[e :UE 102 ]
 }
-[e :U 102 ]
-"18
-[e $ != -> -- _index -> -> 1 `i `uc `i -> -> -> 0 `i `uc `i 103  ]
-[e :U 104 ]
-"25
-[e :UE 101 ]
-}
-"27
-[v _Reset_ADC_Register `(v ~T0 @X0 1 ef ]
 "28
+[v _Reset_ADC_Register `(v ~T0 @X0 1 ef ]
+"29
 {
 [e :U _Reset_ADC_Register ]
 [f ]
-"30
-[e = _ADCON0 -> -> 0 `i `uc ]
 "31
+[e = _ADCON0 -> -> 0 `i `uc ]
+"32
 [e = _ADCON1 -> -> 0 `i `uc ]
-"33
-[e =| _ADCON1 -> << -> 7 `i -> 0 `i `uc ]
 "34
-[e :UE 105 ]
+[e =| _ADCON1 -> << -> 7 `i -> 0 `i `uc ]
+"35
+[e :UE 106 ]
 }
-"36
-[v _MCU_Config `(v ~T0 @X0 1 ef ]
 "37
+[v _MCU_Config `(v ~T0 @X0 1 ef ]
+"38
 {
 [e :U _MCU_Config ]
 [f ]
-"42
+"43
 [e ( _Startup_Infor (2 , &U _BUZZER -> -> 5 `i `uc ]
-"45
+"46
 [e ( _Timer2_Interrupt_Init ..  ]
-"48
+"49
 [e ( _Reset_ADC_Register ..  ]
-"51
-[e ( _UART_BASE_Init (1 -> -> 9600 `i `l ]
 "52
+[e ( _UART_BASE_Init (1 -> -> 9600 `i `l ]
+"53
 [e ( __delay (1 -> * -> -> -> 500 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
-"57
-[e ( _UART_WriteStr (1 :s 1C ]
 "58
-[e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 0 `i `uc ]
+[e ( _UART_WriteStr (1 :s 1C ]
 "59
-[e :UE 106 ]
+[e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 0 `i `uc ]
+"61
+[e ( _Step_Stop (1 &U _compressStepHandle ]
+"62
+[e :UE 107 ]
 }
 [a 1C 82 69 83 69 84 58 32 79 75 10 0 ]
 

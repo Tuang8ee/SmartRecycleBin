@@ -2229,6 +2229,16 @@ uint8_t Pin;
 }
 Peripheral_Pin;
 
+typedef struct
+{
+uint16_t vong;
+uint32_t step;
+uint8_t chieu;
+Peripheral_Pin DIR_Pin;
+Peripheral_Pin PUL_Pin;
+Peripheral_Pin ENA_Pin;
+}StepHandle;
+
 
 Peripheral_Pin LED1 = {&PORTB, 3};
 Peripheral_Pin LED2 = {&PORTB, 2};
@@ -2236,22 +2246,36 @@ Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
 
-Peripheral_Pin Motor_1[4] = {
-{&PORTC, 4},
-{&PORTC, 5},
-{&PORTC, 6},
-{&PORTC, 7}
-};
-
-
-Peripheral_Pin Compress_Motor[4] = {
-{&PORTD, 4},
-{&PORTD, 5},
+StepHandle compressStepHandle = {
+0,
+0,
+1,
 {&PORTD, 6},
-{&PORTD, 7}
+{&PORTD, 5},
+{&PORTD, 7},
 };
 
 
+StepHandle doorStepHandle = {
+0,
+0,
+1,
+{&PORTD, 6},
+{&PORTD, 5},
+{&PORTD, 7},
+};
+
+
+StepHandle winchStepHandle = {
+0,
+0,
+1,
+{&PORTD, 6},
+{&PORTD, 5},
+{&PORTD, 7},
+};
+
+# 108
 Peripheral_Pin Door_Motor[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
@@ -2259,31 +2283,23 @@ Peripheral_Pin Door_Motor[4] = {
 {&PORTC, 2}
 };
 
-
-Peripheral_Pin Motor_4[4] = {
-{&PORTC, 1},
-{&PORTC, 0},
-{&PORTE, 2},
-{&PORTE, 1}
-};
-
-# 87
+# 128
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 97
+# 138
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 107
+# 148
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 115
+# 156
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
@@ -2322,7 +2338,17 @@ void ADC_Interrupts_Init(void);
 
 uint16_t ADC_Read(uint8_t channel);
 
-# 16 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
+# 19 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\HBrightCtrl.h"
+void Motor_Forward_Start(Peripheral_Pin *motor_handle);
+void Motor_Reverse_Start(Peripheral_Pin *motor_handle);
+void Motor_Stop(Peripheral_Pin *motor_handle);
+
+void Step_Set(StepHandle *stepHandle);
+void Step_Stop(StepHandle *stepHandle);
+void Step_Start(StepHandle *stepHandle);
+void Step_Ctrl();
+
+# 17 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
 void Startup_Infor(Peripheral_Pin *GPIO, uint8_t index)
 {
 while (index--)
@@ -2366,5 +2392,7 @@ _delay((unsigned long)(((unsigned long)500)*(20000000/4000.0)));
 
 UART_WriteStr("RESET: OK\n");
 GPIO_Write(LED2.Port, LED2.Pin, 0);
+
+Step_Stop(&compressStepHandle);
 }
 

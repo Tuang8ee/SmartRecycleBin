@@ -2,6 +2,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "38 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
+"45
+[s S101 `ui 1 `ul 1 `uc 1 `S100 1 `S100 1 `S100 1 ]
+[n S101 . vong step chieu DIR_Pin PUL_Pin ENA_Pin ]
 "1251 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [v _OPTION_REG `Vuc ~T0 @X0 0 e@129 ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
@@ -692,7 +695,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x WRT=OFF ]
 "31
 [p x CP=OFF ]
-"45 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
+"55 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [v _LED1 `S100 ~T0 @X0 1 e ]
 [i _LED1
 :U ..
@@ -702,7 +705,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"46
+"56
 [v _LED2 `S100 ~T0 @X0 1 e ]
 [i _LED2
 :U ..
@@ -712,7 +715,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"47
+"57
 [v _BUZZER `S100 ~T0 @X0 1 e ]
 [i _BUZZER
 :U ..
@@ -722,7 +725,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"48
+"58
 [v _Motor_0 `S100 ~T0 @X0 1 e ]
 [i _Motor_0
 :U ..
@@ -732,143 +735,170 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"51
-[v _Motor_1 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_1
-:U ..
-:U ..
-"52
-&U _PORTC
--> -> 4 `i `uc
-..
-:U ..
-"53
-&U _PORTC
--> -> 5 `i `uc
-..
-:U ..
-"54
-&U _PORTC
--> -> 6 `i `uc
-..
-:U ..
-"55
-&U _PORTC
--> -> 7 `i `uc
-..
-..
-]
-"59
-[v _Compress_Motor `S100 ~T0 @X0 -> 4 `i e ]
-[i _Compress_Motor
-:U ..
-:U ..
-"60
-&U _PORTD
--> -> 4 `i `uc
-..
-:U ..
 "61
-&U _PORTD
--> -> 5 `i `uc
-..
+[v _compressStepHandle `S101 ~T0 @X0 1 e ]
+[i _compressStepHandle
+:U ..
 :U ..
 "62
+-> -> 0 `i `ui
+"63
+-> -> -> 0 `i `l `ul
+"64
+-> -> 1 `i `uc
+:U ..
+:U ..
+"65
 &U _PORTD
 -> -> 6 `i `uc
 ..
+..
 :U ..
-"63
+:U ..
+"66
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"67
 &U _PORTD
 -> -> 7 `i `uc
 ..
 ..
+..
+..
 ]
-"67
+"71
+[v _doorStepHandle `S101 ~T0 @X0 1 e ]
+[i _doorStepHandle
+:U ..
+:U ..
+"72
+-> -> 0 `i `ui
+"73
+-> -> -> 0 `i `l `ul
+"74
+-> -> 1 `i `uc
+:U ..
+:U ..
+"75
+&U _PORTD
+-> -> 6 `i `uc
+..
+..
+:U ..
+:U ..
+"76
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"77
+&U _PORTD
+-> -> 7 `i `uc
+..
+..
+..
+..
+]
+"81
+[v _winchStepHandle `S101 ~T0 @X0 1 e ]
+[i _winchStepHandle
+:U ..
+:U ..
+"82
+-> -> 0 `i `ui
+"83
+-> -> -> 0 `i `l `ul
+"84
+-> -> 1 `i `uc
+:U ..
+:U ..
+"85
+&U _PORTD
+-> -> 6 `i `uc
+..
+..
+:U ..
+:U ..
+"86
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"87
+&U _PORTD
+-> -> 7 `i `uc
+..
+..
+..
+..
+]
+"108
 [v _Door_Motor `S100 ~T0 @X0 -> 4 `i e ]
 [i _Door_Motor
 :U ..
 :U ..
-"68
+"109
 &U _PORTD
 -> -> 1 `i `uc
 ..
 :U ..
-"69
+"110
 &U _PORTD
 -> -> 0 `i `uc
 ..
 :U ..
-"70
+"111
 &U _PORTC
 -> -> 3 `i `uc
 ..
 :U ..
-"71
+"112
 &U _PORTC
 -> -> 2 `i `uc
 ..
 ..
 ]
-"75
-[v _Motor_4 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_4
-:U ..
-:U ..
-"76
-&U _PORTC
--> -> 1 `i `uc
-..
-:U ..
-"77
-&U _PORTC
--> -> 0 `i `uc
-..
-:U ..
-"78
-&U _PORTE
--> -> 2 `i `uc
-..
-:U ..
-"79
-&U _PORTE
--> -> 1 `i `uc
-..
-..
-]
-"87
+"128
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"88
+"129
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"89
+"130
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"97
+"138
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"98
+"139
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"99
+"140
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"107
+"148
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -878,7 +908,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"108
+"149
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -888,7 +918,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"115
+"156
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -898,7 +928,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"116
+"157
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -935,7 +965,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "80
 [e =| _INTCON -> << -> 0 `i -> 2 `i `uc ]
 "81
-[e :UE 101 ]
+[e :UE 102 ]
 }
 "83
 [v _Timer0_Interrupt_Init `(v ~T0 @X0 1 ef ]
@@ -964,7 +994,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "148
 [e =| _INTCON -> << -> 0 `i -> 2 `i `uc ]
 "149
-[e :UE 102 ]
+[e :UE 103 ]
 }
 "156
 [v _Timer1_BASE_Init `(v ~T0 @X0 1 ef ]
@@ -985,7 +1015,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "196
 [e = _TMR1ON -> -> 1 `i `b ]
 "197
-[e :UE 103 ]
+[e :UE 104 ]
 }
 "203
 [v _Timer2_BASE_Init `(v ~T0 @X0 1 ef ]
@@ -1000,7 +1030,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "218
 [e = _T2CKPS1 -> -> 1 `i `b ]
 "219
-[e :UE 104 ]
+[e :UE 105 ]
 }
 "220
 [v _Timer2_Interrupt_Init `(v ~T0 @X0 1 ef ]
@@ -1023,7 +1053,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "261
 [e = _TMR2IF -> -> 0 `i `b ]
 "262
-[e :UE 105 ]
+[e :UE 106 ]
 }
 "265
 [v _Timer_Delay `(uc ~T0 @X0 1 ef2`uc`ui ]
@@ -1036,70 +1066,70 @@ Version 3.2 HI-TECH Software Intermediate Code
 "266
 [f ]
 "268
-[e $U 108  ]
+[e $U 109  ]
 "269
 {
 "270
-[e :U 109 ]
+[e :U 110 ]
 "271
 [e ( _Timer0_BASE_Init ..  ]
 "272
-[e $U 107  ]
+[e $U 108  ]
 "273
-[e :U 110 ]
+[e :U 111 ]
 "274
 [e ( _Timer1_BASE_Init ..  ]
 "275
-[e $U 107  ]
+[e $U 108  ]
 "276
-[e :U 111 ]
+[e :U 112 ]
 "277
 [e = _value * _value -> -> 2 `i `ui ]
 "278
 [e ( _Timer2_BASE_Init ..  ]
 "279
-[e $U 107  ]
+[e $U 108  ]
 "280
-[e :U 112 ]
+[e :U 113 ]
 "281
 [e ) -> -> 0 `i `uc ]
-[e $UE 106  ]
+[e $UE 107  ]
 "282
 }
-[e $U 107  ]
+[e $U 108  ]
 "268
-[e :U 108 ]
-[e [\ _timer_counter , $ -> -> 0 `i `uc 109
- , $ -> -> 1 `i `uc 110
- , $ -> -> 2 `i `uc 111
- 112 ]
+[e :U 109 ]
+[e [\ _timer_counter , $ -> -> 0 `i `uc 110
+ , $ -> -> 1 `i `uc 111
+ , $ -> -> 2 `i `uc 112
+ 113 ]
 "282
-[e :U 107 ]
+[e :U 108 ]
 "284
-[e $U 113  ]
-[e :U 114 ]
+[e $U 114  ]
+[e :U 115 ]
 "285
 {
 "286
-[e $U 117  ]
+[e $U 118  ]
 "287
 {
 "288
-[e :U 118 ]
+[e :U 119 ]
 "290
 [e = _TMR0IF -> -> 0 `i `b ]
 "292
 [e = _TMR0 -> -> 100 `i `uc ]
 "294
-[e $U 119  ]
-[e :U 120 ]
-[e :U 119 ]
-[e $ ! _TMR0IF 120  ]
+[e $U 120  ]
 [e :U 121 ]
-"295
-[e $U 116  ]
-"296
+[e :U 120 ]
+[e $ ! _TMR0IF 121  ]
 [e :U 122 ]
+"295
+[e $U 117  ]
+"296
+[e :U 123 ]
 "298
 [e = _TMR1IF -> -> 0 `i `b ]
 "300
@@ -1107,52 +1137,52 @@ Version 3.2 HI-TECH Software Intermediate Code
 "301
 [e = _TMR1L -> & - -> 65535 `ui -> * -> 155 `i -> 4 `i `ui -> -> 255 `i `ui `uc ]
 "303
-[e $U 123  ]
-[e :U 124 ]
-[e :U 123 ]
-[e $ ! _TMR1IF 124  ]
+[e $U 124  ]
 [e :U 125 ]
-"304
-[e $U 116  ]
-"305
+[e :U 124 ]
+[e $ ! _TMR1IF 125  ]
 [e :U 126 ]
+"304
+[e $U 117  ]
+"305
+[e :U 127 ]
 "306
 [e = _TMR2IF -> -> 0 `i `b ]
 "308
 [e = _TMR2 -> -> 100 `i `uc ]
 "310
-[e $U 127  ]
-[e :U 128 ]
-[e :U 127 ]
-[e $ ! _TMR2IF 128  ]
+[e $U 128  ]
 [e :U 129 ]
-"311
-[e $U 116  ]
-"312
+[e :U 128 ]
+[e $ ! _TMR2IF 129  ]
 [e :U 130 ]
+"311
+[e $U 117  ]
+"312
+[e :U 131 ]
 "313
 [e ) -> -> 0 `i `uc ]
-[e $UE 106  ]
+[e $UE 107  ]
 "314
 }
-[e $U 116  ]
+[e $U 117  ]
 "286
-[e :U 117 ]
-[e [\ _timer_counter , $ -> -> 0 `i `uc 118
- , $ -> -> 1 `i `uc 122
- , $ -> -> 2 `i `uc 126
- 130 ]
+[e :U 118 ]
+[e [\ _timer_counter , $ -> -> 0 `i `uc 119
+ , $ -> -> 1 `i `uc 123
+ , $ -> -> 2 `i `uc 127
+ 131 ]
 "314
-[e :U 116 ]
+[e :U 117 ]
 "315
 }
-[e :U 113 ]
+[e :U 114 ]
 "284
-[e $ != -- _value -> -> 1 `i `ui -> -> 0 `i `ui 114  ]
-[e :U 115 ]
+[e $ != -- _value -> -> 1 `i `ui -> -> 0 `i `ui 115  ]
+[e :U 116 ]
 "316
 [e ) -> -> 1 `i `uc ]
-[e $UE 106  ]
+[e $UE 107  ]
 "317
-[e :UE 106 ]
+[e :UE 107 ]
 }

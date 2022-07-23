@@ -2,6 +2,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 "38 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
+"45
+[s S101 `ui 1 `ul 1 `uc 1 `S100 1 `S100 1 `S100 1 ]
+[n S101 . vong step chieu DIR_Pin PUL_Pin ENA_Pin ]
 "15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h
 [v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
 "14
@@ -698,7 +701,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x WRT=OFF ]
 "31
 [p x CP=OFF ]
-"45 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
+"55 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
 [v _LED1 `S100 ~T0 @X0 1 e ]
 [i _LED1
 :U ..
@@ -708,7 +711,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"46
+"56
 [v _LED2 `S100 ~T0 @X0 1 e ]
 [i _LED2
 :U ..
@@ -718,7 +721,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"47
+"57
 [v _BUZZER `S100 ~T0 @X0 1 e ]
 [i _BUZZER
 :U ..
@@ -728,7 +731,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"48
+"58
 [v _Motor_0 `S100 ~T0 @X0 1 e ]
 [i _Motor_0
 :U ..
@@ -738,143 +741,170 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"51
-[v _Motor_1 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_1
-:U ..
-:U ..
-"52
-&U _PORTC
--> -> 4 `i `uc
-..
-:U ..
-"53
-&U _PORTC
--> -> 5 `i `uc
-..
-:U ..
-"54
-&U _PORTC
--> -> 6 `i `uc
-..
-:U ..
-"55
-&U _PORTC
--> -> 7 `i `uc
-..
-..
-]
-"59
-[v _Compress_Motor `S100 ~T0 @X0 -> 4 `i e ]
-[i _Compress_Motor
-:U ..
-:U ..
-"60
-&U _PORTD
--> -> 4 `i `uc
-..
-:U ..
 "61
-&U _PORTD
--> -> 5 `i `uc
-..
+[v _compressStepHandle `S101 ~T0 @X0 1 e ]
+[i _compressStepHandle
+:U ..
 :U ..
 "62
+-> -> 0 `i `ui
+"63
+-> -> -> 0 `i `l `ul
+"64
+-> -> 1 `i `uc
+:U ..
+:U ..
+"65
 &U _PORTD
 -> -> 6 `i `uc
 ..
+..
 :U ..
-"63
+:U ..
+"66
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"67
 &U _PORTD
 -> -> 7 `i `uc
 ..
 ..
+..
+..
 ]
-"67
+"71
+[v _doorStepHandle `S101 ~T0 @X0 1 e ]
+[i _doorStepHandle
+:U ..
+:U ..
+"72
+-> -> 0 `i `ui
+"73
+-> -> -> 0 `i `l `ul
+"74
+-> -> 1 `i `uc
+:U ..
+:U ..
+"75
+&U _PORTD
+-> -> 6 `i `uc
+..
+..
+:U ..
+:U ..
+"76
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"77
+&U _PORTD
+-> -> 7 `i `uc
+..
+..
+..
+..
+]
+"81
+[v _winchStepHandle `S101 ~T0 @X0 1 e ]
+[i _winchStepHandle
+:U ..
+:U ..
+"82
+-> -> 0 `i `ui
+"83
+-> -> -> 0 `i `l `ul
+"84
+-> -> 1 `i `uc
+:U ..
+:U ..
+"85
+&U _PORTD
+-> -> 6 `i `uc
+..
+..
+:U ..
+:U ..
+"86
+&U _PORTD
+-> -> 5 `i `uc
+..
+..
+:U ..
+:U ..
+"87
+&U _PORTD
+-> -> 7 `i `uc
+..
+..
+..
+..
+]
+"108
 [v _Door_Motor `S100 ~T0 @X0 -> 4 `i e ]
 [i _Door_Motor
 :U ..
 :U ..
-"68
+"109
 &U _PORTD
 -> -> 1 `i `uc
 ..
 :U ..
-"69
+"110
 &U _PORTD
 -> -> 0 `i `uc
 ..
 :U ..
-"70
+"111
 &U _PORTC
 -> -> 3 `i `uc
 ..
 :U ..
-"71
+"112
 &U _PORTC
 -> -> 2 `i `uc
 ..
 ..
 ]
-"75
-[v _Motor_4 `S100 ~T0 @X0 -> 4 `i e ]
-[i _Motor_4
-:U ..
-:U ..
-"76
-&U _PORTC
--> -> 1 `i `uc
-..
-:U ..
-"77
-&U _PORTC
--> -> 0 `i `uc
-..
-:U ..
-"78
-&U _PORTE
--> -> 2 `i `uc
-..
-:U ..
-"79
-&U _PORTE
--> -> 1 `i `uc
-..
-..
-]
-"87
+"128
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1
 :U ..
 :U ..
-"88
+"129
 &U _PORTB
 -> -> 4 `i `uc
 ..
 :U ..
-"89
+"130
 &U _PORTB
 -> -> 5 `i `uc
 ..
 ..
 ]
-"97
+"138
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"98
+"139
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"99
+"140
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"107
+"148
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -884,7 +914,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"108
+"149
 [v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_2
 :U ..
@@ -894,7 +924,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"115
+"156
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -904,7 +934,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"116
+"157
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -924,7 +954,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "12
 [f ]
 "13
-[e $ ! || != -> ( _GPIO_Read (2 , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 `i -> -> -> 0 `i `uc `i != -> ( _GPIO_Read (2 , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 `i -> -> -> 0 `i `uc `i 102  ]
+[e $ ! || != -> ( _GPIO_Read (2 , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 `i -> -> -> 0 `i `uc `i != -> ( _GPIO_Read (2 , . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 0 `i `x -> -> # *U _motor_handle `i `x 1 `i -> -> -> 0 `i `uc `i 103  ]
 "14
 {
 "15
@@ -961,9 +991,9 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
 "32
 }
-[e $U 103  ]
+[e $U 104  ]
 "33
-[e :U 102 ]
+[e :U 103 ]
 "34
 {
 "35
@@ -1000,11 +1030,11 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 0 `i `uc ]
 "51
 }
-[e :U 103 ]
+[e :U 104 ]
 "52
 [e ( __delay (1 -> * -> -> -> 15 `i `ul `d / -> -> 20000000 `l `d .4000.0 `ul ]
 "54
-[e :UE 101 ]
+[e :UE 102 ]
 }
 "55
 [v _Motor_Forward_Start `(v ~T0 @X0 1 ef1`*S100 ]
@@ -1022,7 +1052,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "61
 [e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 2 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
 "62
-[e :UE 104 ]
+[e :UE 105 ]
 }
 "63
 [v _Motor_Reverse_Start `(v ~T0 @X0 1 ef1`*S100 ]
@@ -1040,5 +1070,75 @@ Version 3.2 HI-TECH Software Intermediate Code
 "70
 [e ( _GPIO_Write (3 , , . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 0 . *U + _motor_handle * -> -> 3 `i `x -> -> # *U _motor_handle `i `x 1 -> -> 1 `i `uc ]
 "71
-[e :UE 105 ]
+[e :UE 106 ]
+}
+"74
+[v _Step_Set `(v ~T0 @X0 1 ef1`*S101 ]
+"75
+{
+[e :U _Step_Set ]
+"74
+[v _stepHandle `*S101 ~T0 @X0 1 r1 ]
+"75
+[f ]
+"76
+[e ( _GPIO_Write (3 , , . . *U _stepHandle 3 0 . . *U _stepHandle 3 1 . *U _stepHandle 2 ]
+"77
+[e = . *U _stepHandle 1 -> * . *U _stepHandle 0 -> -> 1600 `i `ui `ul ]
+"78
+[e :UE 107 ]
+}
+"80
+[v _Step_Stop `(v ~T0 @X0 1 ef1`*S101 ]
+"81
+{
+[e :U _Step_Stop ]
+"80
+[v _stepHandle `*S101 ~T0 @X0 1 r1 ]
+"81
+[f ]
+"82
+[e = . *U _stepHandle 1 -> -> -> 0 `i `l `ul ]
+"83
+[e ( _GPIO_Write (3 , , . . *U _stepHandle 5 0 . . *U _stepHandle 5 1 -> -> 1 `i `uc ]
+"84
+[e :UE 108 ]
+}
+"86
+[v _Step_Start `(v ~T0 @X0 1 ef1`*S101 ]
+"87
+{
+[e :U _Step_Start ]
+"86
+[v _stepHandle `*S101 ~T0 @X0 1 r1 ]
+"87
+[f ]
+"88
+[e $ ! > . *U _stepHandle 1 -> -> -> 0 `i `l `ul 110  ]
+"89
+{
+"90
+[e $ ! == -> ( _GPIO_Read (2 , . . *U _stepHandle 5 0 . . *U _stepHandle 5 1 `i -> 1 `i 111  ]
+"91
+{
+"92
+[e ( _GPIO_Write (3 , , . . *U _stepHandle 5 0 . . *U _stepHandle 5 1 -> -> 0 `i `uc ]
+"93
+}
+[e :U 111 ]
+"94
+[e ( _GPIO_Write (3 , , . . *U _stepHandle 4 0 . . *U _stepHandle 4 1 -> -> 0 `i `uc ]
+"95
+[e ( __delay (1 -> * -> -> -> 300 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"96
+[e ( _GPIO_Write (3 , , . . *U _stepHandle 4 0 . . *U _stepHandle 4 1 -> -> 1 `i `uc ]
+"97
+[e ( __delay (1 -> * -> -> -> 300 `i `ul `d / -> -> 20000000 `l `d .4000000.0 `ul ]
+"98
+[e =- . *U _stepHandle 1 -> -> -> 1 `i `l `ul ]
+"99
+}
+[e :U 110 ]
+"100
+[e :UE 109 ]
 }

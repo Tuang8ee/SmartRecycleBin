@@ -2226,6 +2226,16 @@ uint8_t Pin;
 }
 Peripheral_Pin;
 
+typedef struct
+{
+uint16_t vong;
+uint32_t step;
+uint8_t chieu;
+Peripheral_Pin DIR_Pin;
+Peripheral_Pin PUL_Pin;
+Peripheral_Pin ENA_Pin;
+}StepHandle;
+
 
 Peripheral_Pin LED1 = {&PORTB, 3};
 Peripheral_Pin LED2 = {&PORTB, 2};
@@ -2233,22 +2243,36 @@ Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
 
-Peripheral_Pin Motor_1[4] = {
-{&PORTC, 4},
-{&PORTC, 5},
-{&PORTC, 6},
-{&PORTC, 7}
-};
-
-
-Peripheral_Pin Compress_Motor[4] = {
-{&PORTD, 4},
-{&PORTD, 5},
+StepHandle compressStepHandle = {
+0,
+0,
+1,
 {&PORTD, 6},
-{&PORTD, 7}
+{&PORTD, 5},
+{&PORTD, 7},
 };
 
 
+StepHandle doorStepHandle = {
+0,
+0,
+1,
+{&PORTD, 6},
+{&PORTD, 5},
+{&PORTD, 7},
+};
+
+
+StepHandle winchStepHandle = {
+0,
+0,
+1,
+{&PORTD, 6},
+{&PORTD, 5},
+{&PORTD, 7},
+};
+
+# 108
 Peripheral_Pin Door_Motor[4] = {
 {&PORTD, 1},
 {&PORTD, 0},
@@ -2256,31 +2280,23 @@ Peripheral_Pin Door_Motor[4] = {
 {&PORTC, 2}
 };
 
-
-Peripheral_Pin Motor_4[4] = {
-{&PORTC, 1},
-{&PORTC, 0},
-{&PORTE, 2},
-{&PORTE, 1}
-};
-
-# 87
+# 128
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
 {&PORTB, 5}
 };
 
-# 97
+# 138
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 107
+# 148
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
-# 115
+# 156
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
@@ -2291,6 +2307,11 @@ void Loop(volatile uint16_t *timeSysTick);
 void Motor_Forward_Start(Peripheral_Pin *motor_handle);
 void Motor_Reverse_Start(Peripheral_Pin *motor_handle);
 void Motor_Stop(Peripheral_Pin *motor_handle);
+
+void Step_Set(StepHandle *stepHandle);
+void Step_Stop(StepHandle *stepHandle);
+void Step_Start(StepHandle *stepHandle);
+void Step_Ctrl();
 
 # 24 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\UltraSonicSensor.h"
 uint8_t UltraSonicSensor_Read(Peripheral_Pin *sensor, volatile uint16_t *system_tick);
@@ -2315,7 +2336,7 @@ void ADC_Interrupts_Init(void);
 
 uint16_t ADC_Read(uint8_t channel);
 
-# 22 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+# 27 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 typedef enum{
 CLOSED,
 CLOSING,
@@ -2329,6 +2350,9 @@ SS_OPENED
 TrashDoorState trashDoorState = CLOSED;
 uint32_t timeBuffer = 0;
 
+
+
+
 uint8_t distanceBuffer = 0;
 typedef enum{
 WAIT_COMPRESS = 0,
@@ -2339,6 +2363,9 @@ COMPRESSING
 }CompressionState;
 CompressionState compressionState = WAIT_COMPRESS;
 
+
+
+
 typedef enum{
 WAIT_DISINFECTING = 0,
 DISINFECTING,
@@ -2346,6 +2373,53 @@ DISINFECTED
 }DisinfectionState;
 
 DisinfectionState disinfectionState = DISINFECTED;
+
+# 71
+double IRSensor_Read(void)
+{
+double adc_value = 0.0;
+uint8_t index = 0;
+for (index = 0; index <= 10; index++)
+{
+adc_value += ADC_Read(0);
+if(adc_value < 100)
+
+{
+break;
+}
+}
+adc_value = adc_value / index;
+
+
+adc_value = adc_value * 5 / 1024.0;
+return adc_value;
+}
+
+uint8_t UltraSensor_Read(volatile uint16_t *ptimeSysTick)
+{
+uint16_t distance = 0, distance_buff;
+
+uint8_t index = 0;
+for (index = 0; index <= 10; index++)
+{
+distance_buff = 2 * UltraSonicSensor_Read(UltraSonic_2, ptimeSysTick);
+if(distance_buff > 140)
+{
+return distance_buff;
+}
+else
+{
+distance += distance_buff;
+}
+}
+distance = distance / index;
+if(distance == 0)
+{
+distance = 150;
+}
+return distance;
+}
+
 
 
 
@@ -2444,51 +2518,6 @@ Motor_Stop(Door_Motor);
 }
 }
 
-double IRSensor_Read(void)
-{
-double adc_value = 0.0;
-uint8_t index = 0;
-for (index = 0; index <= 10; index++)
-{
-adc_value += ADC_Read(0);
-if(adc_value < 100)
-
-{
-break;
-}
-}
-adc_value = adc_value / index;
-
-
-adc_value = adc_value * 5 / 1024.0;
-return adc_value;
-}
-
-uint8_t UltraSensor_Read(volatile uint16_t *ptimeSysTick)
-{
-uint16_t distance = 0, distance_buff;
-
-uint8_t index = 0;
-for (index = 0; index <= 10; index++)
-{
-distance_buff = 2 * UltraSonicSensor_Read(UltraSonic_2, ptimeSysTick);
-if(distance_buff > 140)
-{
-return distance_buff;
-}
-else
-{
-distance += distance_buff;
-}
-}
-distance = distance / index;
-if(distance == 0)
-{
-distance = 150;
-}
-return distance;
-}
-
 void TrashDoor_Ctrl(TrashDoorState* state, volatile uint16_t *timeSysTick)
 {
 
@@ -2552,7 +2581,7 @@ TrashDoor_Open(state);
 }
 }
 
-
+# 281
 void Compression_Ctrl(void)
 {
 if (trashDoorState != CLOSED && trashDoorState != CLOSING)
@@ -2616,21 +2645,35 @@ distance = UltraSensor_Read(ptimeSysTick);
 sprintf(TX, "C:%dcm\n\0", distance);
 UART_WriteStr(TX);
 
-# 349
+# 371
 }
 if(timeBuffer <= 10)
 {
-Motor_Reverse_Start(Compress_Motor);
+
+# 380
+compressStepHandle.chieu = 1;
+compressStepHandle.vong = 5;
+Step_Set(&compressStepHandle);
 timeBuffer = 10 + 1;
+
 }
 else if(timeBuffer == 70000)
 {
-Motor_Forward_Start(Compress_Motor);
+
+# 394
+compressStepHandle.chieu = 0;
+compressStepHandle.vong = 5;
+Step_Set(&compressStepHandle);
+timeBuffer = 70000 + 1;
+
 }
 else if(timeBuffer >= 70000 + 70000)
 {
+
+# 408
+Step_Stop(&compressStepHandle);
+
 compressionState = COMPRESSED;
-Motor_Stop(Compress_Motor);
 }
 break;
 case COMPRESSED:
@@ -2643,7 +2686,7 @@ break;
 }
 }
 
-
+# 427
 void Disinfection_Ctrl(void)
 {
 if(compressionState != COMPRESSED)
@@ -2678,23 +2721,21 @@ disinfectionState = DISINFECTED;
 }
 }
 
+# 465
 uint16_t timeSysTickBuffer = 0;
 void TimeSysTickUpdate(volatile uint16_t *ptimeSysTick)
 {
-uint8_t TX[10] = "";
+
 if(timeSysTickBuffer != *ptimeSysTick)
 {
 timeSysTickBuffer = *ptimeSysTick;
 timeBuffer++;
 }
-if (*ptimeSysTick % 10000 == 0)
-{
-sprintf(TX, "T:%d\n\0", timeBuffer);
-UART_WriteStr(TX);
+
+# 479
 }
 
-}
-
+# 489
 void Loop(volatile uint16_t *ptimeSysTick)
 {
 
@@ -2708,6 +2749,9 @@ Compression_Run(ptimeSysTick);
 
 Disinfection_Ctrl();
 Disionfection_Run();
+
+
+Step_Start(&compressStepHandle);
 
 TimeSysTickUpdate(ptimeSysTick);
 }
