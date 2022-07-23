@@ -301,6 +301,8 @@ void TrashDoor_Ctrl(TrashDoorState* state, volatile uint16_t *timeSysTick)
 
 
 
+#define NENXUONG     HIGH
+#define KEOLEN       LOW
 /* ======== Compression Functions Controler ======== */ 
 void Compression_Ctrl(void)
 {
@@ -401,9 +403,14 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 /* ============================================= */
 
                 /* ============= Step Motor Ctrl ============= */
-                compressStepHandle.chieu = HIGH;
+                compressStepHandle.chieu = NENXUONG;
                 compressStepHandle.vong = 50;
                 Step_Set(&compressStepHandle);
+
+                winchStepHandle.chieu = NENXUONG;
+                winchStepHandle.vong = 50;
+                Step_Set(&winchStepHandle);
+
                 timeBuffer = TIME_STARTUP_COMPRESS + 1;
                 /* ============================================= */
             }
@@ -415,9 +422,14 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 /* ============================================= */
                 
                 /* ============= Step Motor Ctrl ============= */
-                compressStepHandle.chieu = LOW;
+                compressStepHandle.chieu = KEOLEN;
                 compressStepHandle.vong = 50;
                 Step_Set(&compressStepHandle);
+                
+                winchStepHandle.chieu = KEOLEN;
+                winchStepHandle.vong = 50;
+                Step_Set(&winchStepHandle);
+
                 timeBuffer = TIME_COMPRESS + 1;
                 /* ============================================= */
             }
@@ -526,6 +538,7 @@ void Loop(volatile uint16_t *ptimeSysTick)
 
     
     Step_Start(&compressStepHandle);
+    Step_Start(&winchStepHandle);
     Step_Start(&doorStepHandle);
 
     TimeSysTickUpdate(ptimeSysTick);
