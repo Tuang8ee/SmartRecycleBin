@@ -11,12 +11,12 @@
   0h - 5h		(Build\main.hex)
   8h - FFDh		(Build\main.hex)
   1000h - 105Bh		(Build\main.hex)
-  1142h - 1FFFh		(Build\main.hex)
+  112Eh - 1FFFh		(Build\main.hex)
   400Eh - 400Fh		(Build\main.hex)
  Unused ranges:
   6h - 7h
   FFEh - FFFh
-  105Ch - 1141h
+  105Ch - 112Dh
   2000h - 400Dh
 
 ### Hex Memory Map ###
@@ -289,7 +289,9 @@
 00001040 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00001050 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- -- -- --
 ----------------------------------------------------------
-00001140 | -- -- H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00001120 | -- -- -- -- -- -- -- -- -- -- -- -- -- -- H1 H1
+00001130 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00001140 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00001150 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00001160 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00001170 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1

@@ -10,11 +10,13 @@ void main(void)
     compressStepHandle.vong = 400;
     compressStepHandle.speed = 90;
     Step_Set(&compressStepHandle);
+    Step_Stop(&compressStepHandle);
 
     
     winchStepHandle.vong = 400;
     winchStepHandle.speed = 75;
     Step_Set(&winchStepHandle);
+    Step_Stop(&winchStepHandle);
 
     
     doorStepHandle.vong = 400;

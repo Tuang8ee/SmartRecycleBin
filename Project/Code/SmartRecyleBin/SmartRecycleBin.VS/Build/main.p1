@@ -954,32 +954,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . _compressStepHandle 3 -> -> 90 `i `ui ]
 "12
 [e ( _Step_Set (1 &U _compressStepHandle ]
-"15
-[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
+"13
+[e ( _Step_Stop (1 &U _compressStepHandle ]
 "16
-[e = . _winchStepHandle 3 -> -> 75 `i `ui ]
+[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
 "17
+[e = . _winchStepHandle 3 -> -> 75 `i `ui ]
+"18
 [e ( _Step_Set (1 &U _winchStepHandle ]
-"20
-[e = . _doorStepHandle 0 -> -> 400 `i `ui ]
-"21
-[e = . _doorStepHandle 3 -> -> 90 `i `ui ]
+"19
+[e ( _Step_Stop (1 &U _winchStepHandle ]
 "22
-[e ( _Step_Set (1 &U _doorStepHandle ]
+[e = . _doorStepHandle 0 -> -> 400 `i `ui ]
 "23
+[e = . _doorStepHandle 3 -> -> 90 `i `ui ]
+"24
+[e ( _Step_Set (1 &U _doorStepHandle ]
+"25
 [e ( _Step_Stop (1 &U _doorStepHandle ]
-"26
+"28
 [e :U 104 ]
-"27
-{
 "29
+{
+"31
 [e ( _Loop (1 &U _timeSysTick ]
-"88
+"90
 }
 [e :U 103 ]
-"26
+"28
 [e $U 104  ]
 [e :U 105 ]
-"89
+"91
 [e :UE 102 ]
 }
