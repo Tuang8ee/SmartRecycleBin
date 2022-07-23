@@ -224,7 +224,7 @@ void TrashDoor_Close(TrashDoorState *state)
             // GPIO_Write(LED2.Port, LED2.Pin, LOW);
             GPIO_Write(BUZZER.Port, BUZZER.Pin, LOW);
             // Motor_Stop_Fn()
-            
+
             // Motor_Stop(Door_Motor);
             Step_Stop(&doorStepHandle);
             /* ======================================= */
@@ -518,11 +518,11 @@ void Loop(volatile uint16_t *ptimeSysTick)
         TrashDoor_Ctrl(&trashDoorState, ptimeSysTick);
     }
 
-    Compression_Ctrl();
-    Compression_Run(ptimeSysTick);
+    // Compression_Ctrl();
+    // Compression_Run(ptimeSysTick);
 
-    Disinfection_Ctrl();
-    Disionfection_Run();
+    // Disinfection_Ctrl();
+    // Disionfection_Run();
 
     
     Step_Start(&compressStepHandle);

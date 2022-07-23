@@ -1712,14 +1712,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 "519
 }
 [e :U 184 ]
-"521
-[e ( _Compression_Ctrl ..  ]
-"522
-[e ( _Compression_Run (1 _ptimeSysTick ]
-"524
-[e ( _Disinfection_Ctrl ..  ]
-"525
-[e ( _Disionfection_Run ..  ]
 "528
 [e ( _Step_Start (1 &U _compressStepHandle ]
 "529

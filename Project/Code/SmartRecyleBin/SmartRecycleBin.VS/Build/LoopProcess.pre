@@ -2754,13 +2754,7 @@ if(compressionState != COMPRESSING && compressionState != CHECK_COMPRESS)
 TrashDoor_Ctrl(&trashDoorState, ptimeSysTick);
 }
 
-Compression_Ctrl();
-Compression_Run(ptimeSysTick);
-
-Disinfection_Ctrl();
-Disionfection_Run();
-
-
+# 528
 Step_Start(&compressStepHandle);
 Step_Start(&doorStepHandle);
 
