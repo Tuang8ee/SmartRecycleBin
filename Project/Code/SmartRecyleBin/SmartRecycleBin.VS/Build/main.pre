@@ -2330,11 +2330,12 @@ void main(void)
 MCU_Config();
 GPIO_Write(Motor_0.Port, Motor_0.Pin, 1);
 
-# 25
 while(1)
 {
 
-# 87
+Loop(&timeSysTick);
+
+# 73
 }
 }
 

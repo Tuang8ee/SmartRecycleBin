@@ -518,11 +518,11 @@ void Loop(volatile uint16_t *ptimeSysTick)
         TrashDoor_Ctrl(&trashDoorState, ptimeSysTick);
     }
 
-    // Compression_Ctrl();
-    // Compression_Run(ptimeSysTick);
+    Compression_Ctrl();
+    Compression_Run(ptimeSysTick);
 
-    // Disinfection_Ctrl();
-    // Disionfection_Run();
+    Disinfection_Ctrl();
+    Disionfection_Run();
 
     
     Step_Start(&compressStepHandle);

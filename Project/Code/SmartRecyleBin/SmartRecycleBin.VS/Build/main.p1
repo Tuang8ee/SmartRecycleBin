@@ -10,6 +10,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _MCU_Config `(v ~T0 @X0 0 ef ]
 "14 .\Peripheral_Libs/Hearder/GPIO.h
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
+"15 .\Peripheral_Libs/Hearder/LoopProcess.h
+[v _Loop `(v ~T0 @X0 0 ef1`*Vui ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [; <" INDF equ 00h ;# ">
 "62
@@ -942,16 +944,18 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e ( _MCU_Config ..  ]
 "9
 [e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 1 `i `uc ]
-"25
+"11
 [e :U 104 ]
-"26
+"12
 {
-"87
+"14
+[e ( _Loop (1 &U _timeSysTick ]
+"73
 }
 [e :U 103 ]
-"25
+"11
 [e $U 104  ]
 [e :U 105 ]
-"88
+"74
 [e :UE 102 ]
 }
