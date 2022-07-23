@@ -65,10 +65,10 @@ void main(void)
         //     Step_Stop(&winchStepHandle);
         // }
 
-        // if (timeReset_flag != 0)
-        // {
-        //     timeReset_flag = 0;
-        // }
+        if (timeReset_flag != 0)
+        {
+            timeReset_flag = 0;
+        }
         /*==================================*/
     }
 }
