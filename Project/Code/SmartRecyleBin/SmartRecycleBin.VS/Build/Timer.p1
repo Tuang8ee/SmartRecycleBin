@@ -784,22 +784,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 :U ..
 :U ..
 "75
-&U _PORTD
--> -> 6 `i `uc
+&U _PORTC
+-> -> 3 `i `uc
 ..
 ..
 :U ..
 :U ..
 "76
 &U _PORTD
--> -> 5 `i `uc
+-> -> 0 `i `uc
 ..
 ..
 :U ..
 :U ..
 "77
-&U _PORTD
--> -> 7 `i `uc
+&U _PORTC
+-> -> 2 `i `uc
 ..
 ..
 ..
@@ -819,22 +819,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 :U ..
 :U ..
 "85
-&U _PORTD
--> -> 6 `i `uc
+&U _PORTE
+-> -> 2 `i `uc
 ..
 ..
 :U ..
 :U ..
 "86
-&U _PORTD
--> -> 5 `i `uc
+&U _PORTC
+-> -> 0 `i `uc
 ..
 ..
 :U ..
 :U ..
 "87
-&U _PORTD
--> -> 7 `i `uc
+&U _PORTE
+-> -> 1 `i `uc
 ..
 ..
 ..

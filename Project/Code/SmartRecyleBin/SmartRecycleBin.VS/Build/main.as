@@ -1523,12 +1523,12 @@ __pidataBANK1:
 	retlw	high highword(0)
 
 	retlw	01h
-	retlw	low(8|((0x0)<<8))
-	retlw	06h
-	retlw	low(8|((0x0)<<8))
-	retlw	05h
-	retlw	low(8|((0x0)<<8))
-	retlw	07h
+	retlw	low(9|((0x0)<<8))
+	retlw	02h
+	retlw	low(7|((0x0)<<8))
+	retlw	low(0)
+	retlw	low(9|((0x0)<<8))
+	retlw	01h
 	line	71
 
 ;initializer for _doorStepHandle
@@ -1541,12 +1541,12 @@ __pidataBANK1:
 	retlw	high highword(0)
 
 	retlw	01h
+	retlw	low(7|((0x0)<<8))
+	retlw	03h
 	retlw	low(8|((0x0)<<8))
-	retlw	06h
-	retlw	low(8|((0x0)<<8))
-	retlw	05h
-	retlw	low(8|((0x0)<<8))
-	retlw	07h
+	retlw	low(0)
+	retlw	low(7|((0x0)<<8))
+	retlw	02h
 	line	128
 
 ;initializer for _UltraSonic_1
@@ -1663,6 +1663,8 @@ _TMR2	set	17
 _PIR1	set	12
 	global	_INTCON
 _INTCON	set	11
+	global	_PORTE
+_PORTE	set	9
 	global	_PORTD
 _PORTD	set	8
 	global	_PORTC
@@ -2337,13 +2339,16 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!Pointer List with Targets:
 ;!
 ;!    Step_Start@stepHandle.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Stop@stepHandle.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Set@stepHandle.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    strlen@s	PTR const unsigned char  size(2) Largest target is 11
 ;!		 -> Compression_Run@TX(BANK0[10]), STR_1(CODE[11]), 
@@ -2364,7 +2369,8 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!		 -> timeSysTick(BANK0[2]), 
 ;!
 ;!    UltraSonicSensor_Read@sensor.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    UltraSonicSensor_Read@sensor	PTR struct . size(1) Largest target is 6
 ;!		 -> UltraSonic_2(BANK1[4]), 
@@ -2397,133 +2403,169 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!		 -> timeSysTick(BANK0[2]), 
 ;!
 ;!    Step_Start@stepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Start@stepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Start@stepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Start@stepHandle	PTR struct . size(1) Largest target is 16
 ;!		 -> compressStepHandle(BANK1[13]), 
 ;!
 ;!    Step_Stop@stepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Stop@stepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Stop@stepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Stop@stepHandle	PTR struct . size(1) Largest target is 16
 ;!		 -> compressStepHandle(BANK1[13]), 
 ;!
 ;!    Step_Set@stepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Set@stepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Set@stepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Step_Set@stepHandle	PTR struct . size(1) Largest target is 16
 ;!		 -> compressStepHandle(BANK1[13]), 
 ;!
 ;!    Motor_Reverse_Start@motor_handle.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Motor_Reverse_Start@motor_handle	PTR struct . size(1) Largest target is 12
 ;!		 -> Door_Motor(BANK1[8]), 
 ;!
 ;!    Motor_Forward_Start@motor_handle.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Motor_Forward_Start@motor_handle	PTR struct . size(1) Largest target is 12
 ;!		 -> Door_Motor(BANK1[8]), 
 ;!
 ;!    Motor_Stop@motor_handle.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Motor_Stop@motor_handle	PTR struct . size(1) Largest target is 12
 ;!		 -> Door_Motor(BANK1[8]), 
 ;!
 ;!    GPIO_Read@GPIO_Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    GPIO_Write@GPIO_Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Startup_Infor@GPIO.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Startup_Infor@GPIO	PTR struct . size(1) Largest target is 3
 ;!		 -> BUZZER(BANK0[2]), 
 ;!
 ;!    SW2.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    SW1.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    IR_Sensor_2.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    IR_Sensor_1.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    UltraSonic_2.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    UltraSonic_1.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Door_Motor.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    winchStepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    winchStepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    winchStepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    doorStepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    doorStepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    doorStepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    compressStepHandle.ENA_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    compressStepHandle.PUL_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    compressStepHandle.DIR_Pin.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    Motor_0.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    BUZZER.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    LED2.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    S22$Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 ;!    LED1.Port	PTR volatile unsigned char  size(1) Largest target is 1
-;!		 -> PORTA(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), PORTB(SFR0[1]), 
+;!		 -> PORTA(SFR0[1]), PORTE(SFR0[1]), PORTC(SFR0[1]), PORTD(SFR0[1]), 
+;!		 -> PORTB(SFR0[1]), 
 ;!
 
 
@@ -10226,11 +10268,13 @@ GLOBAL	__end_of_UltraSonicSensor_Read
 ;;		line 40 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
 ;; Parameters:    Size  Location     Type
 ;;  GPIO_Port       1    wreg     PTR volatile unsigned ch
-;;		 -> PORTA(1), PORTC(1), PORTD(1), PORTB(1), 
+;;		 -> PORTA(1), PORTE(1), PORTC(1), PORTD(1), 
+;;		 -> PORTB(1), 
 ;;  Pin             1    2[COMMON] unsigned char 
 ;; Auto vars:     Size  Location     Type
 ;;  GPIO_Port       1    4[COMMON] PTR volatile unsigned ch
-;;		 -> PORTA(1), PORTC(1), PORTD(1), PORTB(1), 
+;;		 -> PORTA(1), PORTE(1), PORTC(1), PORTD(1), 
+;;		 -> PORTB(1), 
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      unsigned char 
 ;; Registers used:
@@ -10938,12 +10982,14 @@ GLOBAL	__end_of___wmul
 ;;		line 4 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c"
 ;; Parameters:    Size  Location     Type
 ;;  GPIO_Port       1    wreg     PTR volatile unsigned ch
-;;		 -> PORTA(1), PORTC(1), PORTD(1), PORTB(1), 
+;;		 -> PORTA(1), PORTE(1), PORTC(1), PORTD(1), 
+;;		 -> PORTB(1), 
 ;;  Pin             1    2[COMMON] unsigned char 
 ;;  GPIO_State      1    3[COMMON] unsigned char 
 ;; Auto vars:     Size  Location     Type
 ;;  GPIO_Port       1    6[COMMON] PTR volatile unsigned ch
-;;		 -> PORTA(1), PORTC(1), PORTD(1), PORTB(1), 
+;;		 -> PORTA(1), PORTE(1), PORTC(1), PORTD(1), 
+;;		 -> PORTB(1), 
 ;; Return value:  Size  Location     Type
 ;;                  1    wreg      void 
 ;; Registers used:

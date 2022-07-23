@@ -167,6 +167,8 @@ DISINFECTED 2
 [v _PORTC PORTC `VEuc  1 e 1 @7 ]
 "28
 [v _PORTD PORTD `VEuc  1 e 1 @8 ]
+"29
+[v _PORTE PORTE `VEuc  1 e 1 @9 ]
 "32
 [v _INTCON INTCON `VEuc  1 e 1 @11 ]
 "33
