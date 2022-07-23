@@ -40,19 +40,19 @@ void main(void)
             Step_Set(&winchStepHandle);
             Step_Start(&winchStepHandle);
         }
-        else if(GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
-        {
-            compressStepHandle.chieu = LOW;
-            compressStepHandle.vong = 400;
-            Step_Set(&compressStepHandle);
-            Step_Start(&compressStepHandle);
+        // else if(GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
+        // {
+        //     compressStepHandle.chieu = LOW;
+        //     compressStepHandle.vong = 400;
+        //     Step_Set(&compressStepHandle);
+        //     Step_Start(&compressStepHandle);
 
             
-            winchStepHandle.chieu = LOW;
-            winchStepHandle.vong = 400;
-            Step_Set(&winchStepHandle);
-            Step_Start(&winchStepHandle);
-        }
+        //     winchStepHandle.chieu = LOW;
+        //     winchStepHandle.vong = 400;
+        //     Step_Set(&winchStepHandle);
+        //     Step_Start(&winchStepHandle);
+        // }
         else
         {
             Step_Stop(&compressStepHandle);
