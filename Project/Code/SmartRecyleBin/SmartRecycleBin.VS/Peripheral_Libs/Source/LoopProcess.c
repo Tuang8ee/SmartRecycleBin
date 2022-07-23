@@ -8,7 +8,7 @@
 #define IR_VALUE_THREDHOLD          1.2
 #define DISTANCE_THREADHOLD         80
 #define DISTANCE_SPACE_TO_COMPRESS  5
-#define WAIT_DOOR_MOTOR_RUN         100
+#define WAIT_DOOR_MOTOR_RUN         1000
 #define CTRL_DOOR_TIME              10
 
 #define WAIT_CLOSE_TIME             60000
