@@ -2504,7 +2504,7 @@ l7480:
 	line	11
 	
 l7482:	
-	movlw	096h
+	movlw	03Ch
 	movwf	0+(_compressStepHandle)+07h
 	movlw	0
 	movwf	(0+(_compressStepHandle)+07h)+1
@@ -2523,7 +2523,7 @@ l7486:
 	line	16
 	
 l7488:	
-	movlw	096h
+	movlw	032h
 	movwf	0+(_winchStepHandle)+07h
 	movlw	0
 	movwf	(0+(_winchStepHandle)+07h)+1

@@ -953,13 +953,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 "10
 [e = . _compressStepHandle 0 -> -> 400 `i `ui ]
 "11
-[e = . _compressStepHandle 3 -> -> 150 `i `ui ]
+[e = . _compressStepHandle 3 -> -> 60 `i `ui ]
 "12
 [e ( _Step_Set (1 &U _compressStepHandle ]
 "15
 [e = . _winchStepHandle 0 -> -> 400 `i `ui ]
 "16
-[e = . _winchStepHandle 3 -> -> 150 `i `ui ]
+[e = . _winchStepHandle 3 -> -> 50 `i `ui ]
 "17
 [e ( _Step_Set (1 &U _winchStepHandle ]
 "20

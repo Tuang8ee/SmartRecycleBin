@@ -8,12 +8,12 @@ void main(void)
     MCU_Config();
     GPIO_Write(Motor_0.Port, Motor_0.Pin, HIGH);
     compressStepHandle.vong = 400;
-    compressStepHandle.speed = 150;
+    compressStepHandle.speed = 60;
     Step_Set(&compressStepHandle);
 
     
     winchStepHandle.vong = 400;
-    winchStepHandle.speed = 150;
+    winchStepHandle.speed = 50;
     Step_Set(&winchStepHandle);
 
 
