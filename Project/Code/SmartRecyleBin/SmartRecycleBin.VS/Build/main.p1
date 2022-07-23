@@ -12,12 +12,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
 "23 .\Peripheral_Libs/Hearder/HBrightCtrl.h
 [v _Step_Set `(v ~T0 @X0 0 ef1`*S101 ]
-"15 .\Peripheral_Libs/Hearder/GPIO.h
-[v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
-"25 .\Peripheral_Libs/Hearder/HBrightCtrl.h
-[v _Step_Start `(v ~T0 @X0 0 ef1`*S101 ]
-"24
-[v _Step_Stop `(v ~T0 @X0 0 ef1`*S101 ]
+"15 .\Peripheral_Libs/Hearder/LoopProcess.h
+[v _Loop `(v ~T0 @X0 0 ef1`*Vui ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [; <" INDF equ 00h ;# ">
 "62
@@ -972,60 +968,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 104 ]
 "26
 {
-"36
-[e $ ! == -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> 1 `i 106  ]
-"37
-{
-"50
-[e = . _doorStepHandle 2 -> -> 1 `i `uc ]
-"51
-[e = . _doorStepHandle 0 -> -> 400 `i `ui ]
-"52
-[e ( _Step_Set (1 &U _doorStepHandle ]
-"53
-[e ( _Step_Start (1 &U _doorStepHandle ]
-"54
-}
-[e $U 107  ]
-"56
-[e :U 106 ]
-[e $ ! == -> ( _GPIO_Read (2 , . _SW2 0 . _SW2 1 `i -> 1 `i 108  ]
-"57
-{
-"70
-[e = . _doorStepHandle 2 -> -> 0 `i `uc ]
-"71
-[e = . _doorStepHandle 0 -> -> 400 `i `ui ]
-"72
-[e ( _Step_Set (1 &U _doorStepHandle ]
-"73
-[e ( _Step_Start (1 &U _doorStepHandle ]
-"74
-}
-[e $U 109  ]
-"75
-[e :U 108 ]
-"76
-{
-"77
-[e ( _Step_Stop (1 &U _compressStepHandle ]
-"78
-[e ( _Step_Stop (1 &U _doorStepHandle ]
-"79
-[e ( _Step_Stop (1 &U _winchStepHandle ]
-"80
-}
-[e :U 109 ]
-[e :U 107 ]
-"82
-[e $ ! != _timeReset_flag -> -> 0 `i `ui 110  ]
-"83
-{
-"84
-[e = _timeReset_flag -> -> 0 `i `ui ]
-"85
-}
-[e :U 110 ]
+"28
+[e ( _Loop (1 &U _timeSysTick ]
 "87
 }
 [e :U 103 ]
