@@ -2272,14 +2272,6 @@ StepHandle winchStepHandle = {
 {&PORTE, 1},
 };
 
-# 108
-Peripheral_Pin Door_Motor[4] = {
-{&PORTD, 1},
-{&PORTD, 0},
-{&PORTC, 3},
-{&PORTC, 2}
-};
-
 # 128
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},

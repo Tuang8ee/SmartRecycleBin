@@ -838,32 +838,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"108
-[v _Door_Motor `S100 ~T0 @X0 -> 4 `i e ]
-[i _Door_Motor
-:U ..
-:U ..
-"109
-&U _PORTD
--> -> 1 `i `uc
-..
-:U ..
-"110
-&U _PORTD
--> -> 0 `i `uc
-..
-:U ..
-"111
-&U _PORTC
--> -> 3 `i `uc
-..
-:U ..
-"112
-&U _PORTC
--> -> 2 `i `uc
-..
-..
-]
 "128
 [v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_1

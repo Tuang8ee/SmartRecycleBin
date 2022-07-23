@@ -115,6 +115,8 @@ uint8_t UltraSensor_Read(volatile uint16_t *ptimeSysTick)
 /* ================================================ */
 
 
+#define MO      HIGH
+#define DONG    LOW
 /* =========== Trash Functions Controler =========== */ 
 void TrashDoor_Open(TrashDoorState *state)
 {
@@ -126,8 +128,14 @@ void TrashDoor_Open(TrashDoorState *state)
             // GPIO_Write(LED2.Port, LED2.Pin, HIGH);
             GPIO_Write(BUZZER.Port, BUZZER.Pin, HIGH);
             // UART_WriteStr("SS_OPENING...\n");
+
             // Motor_RunToOpen_Fn()
-            Motor_Forward_Start(Door_Motor);
+
+            // Motor_Forward_Start(Door_Motor);
+            doorStepHandle.chieu = MO;
+            doorStepHandle.vong = 5;
+            Step_Set(&doorStepHandle);
+
             timeBuffer = CTRL_DOOR_TIME + 1;
 
             /* ===================================== */
@@ -137,7 +145,9 @@ void TrashDoor_Open(TrashDoorState *state)
         {
             /* ====== TO DO: STOP Motor in here ====== */
             // Motor_Stop_Fn()
-            Motor_Stop(Door_Motor);
+
+            // Motor_Stop(Door_Motor);
+            Step_Stop(&doorStepHandle);
             /* ======================================= */
 
             // UART_WriteStr("SS_OPENED\n");
@@ -154,7 +164,12 @@ void TrashDoor_Open(TrashDoorState *state)
             GPIO_Write(BUZZER.Port, BUZZER.Pin, HIGH);
             // UART_WriteStr("SW_OPENING...\n");
             // Motor_RunToOpen_Fn()
-            Motor_Forward_Start(Door_Motor);
+
+            // Motor_Forward_Start(Door_Motor);
+            doorStepHandle.chieu = MO;
+            doorStepHandle.vong = 5;
+            Step_Set(&doorStepHandle);
+
             timeBuffer = CTRL_DOOR_TIME + 1;
             /* ===================================== */
 
@@ -163,7 +178,9 @@ void TrashDoor_Open(TrashDoorState *state)
         {
             /* ====== TO DO: STOP Motor in here ====== */
             // Motor_Stop_Fn()
-            Motor_Stop(Door_Motor);
+
+            // Motor_Stop(Door_Motor);
+            Step_Stop(&doorStepHandle);
             /* ======================================= */
 
             // UART_WriteStr("SW_OPENED\n");
@@ -191,7 +208,12 @@ void TrashDoor_Close(TrashDoorState *state)
             /* ===== TO DO: Ctrl Motor Close in here ===== */
             // UART_WriteStr("CLOSING...\n");
             // Motor_RunToClose_Fn()
-            Motor_Reverse_Start(Door_Motor);
+
+            // Motor_Reverse_Start(Door_Motor);
+            doorStepHandle.chieu = DONG;
+            doorStepHandle.vong = 5;
+            Step_Set(&doorStepHandle);
+
             timeBuffer = CTRL_DOOR_TIME + 1;
             /* ===================================== */
 
@@ -202,7 +224,9 @@ void TrashDoor_Close(TrashDoorState *state)
             // GPIO_Write(LED2.Port, LED2.Pin, LOW);
             GPIO_Write(BUZZER.Port, BUZZER.Pin, LOW);
             // Motor_Stop_Fn()
-            Motor_Stop(Door_Motor);
+            
+            // Motor_Stop(Door_Motor);
+            Step_Stop(&doorStepHandle);
             /* ======================================= */
 
             // UART_WriteStr("CLOSED\n");
@@ -502,6 +526,7 @@ void Loop(volatile uint16_t *ptimeSysTick)
 
     
     Step_Start(&compressStepHandle);
+    Step_Start(&doorStepHandle);
 
     TimeSysTickUpdate(ptimeSysTick);
 }

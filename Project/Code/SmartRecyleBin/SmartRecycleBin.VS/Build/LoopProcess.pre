@@ -2272,14 +2272,6 @@ StepHandle winchStepHandle = {
 {&PORTE, 1},
 };
 
-# 108
-Peripheral_Pin Door_Motor[4] = {
-{&PORTD, 1},
-{&PORTD, 0},
-{&PORTC, 3},
-{&PORTC, 2}
-};
-
 # 128
 Peripheral_Pin UltraSonic_1[2] = {
 {&PORTB, 4},
@@ -2420,9 +2412,7 @@ distance = 150;
 return distance;
 }
 
-
-
-
+# 121
 void TrashDoor_Open(TrashDoorState *state)
 {
 if(*state == SS_OPEN)
@@ -2433,8 +2423,11 @@ if(timeBuffer <= 10)
 
 GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
 
+# 135
+doorStepHandle.chieu = 1;
+doorStepHandle.vong = 5;
+Step_Set(&doorStepHandle);
 
-Motor_Forward_Start(Door_Motor);
 timeBuffer = 10 + 1;
 
 
@@ -2444,7 +2437,9 @@ else if (timeBuffer > 100)
 {
 
 
-Motor_Stop(Door_Motor);
+
+
+Step_Stop(&doorStepHandle);
 
 
 
@@ -2461,7 +2456,12 @@ if(timeBuffer <= 10)
 GPIO_Write(BUZZER.Port, BUZZER.Pin, 1);
 
 
-Motor_Forward_Start(Door_Motor);
+
+
+doorStepHandle.chieu = 1;
+doorStepHandle.vong = 5;
+Step_Set(&doorStepHandle);
+
 timeBuffer = 10 + 1;
 
 
@@ -2470,7 +2470,9 @@ else if (timeBuffer > 100)
 {
 
 
-Motor_Stop(Door_Motor);
+
+
+Step_Stop(&doorStepHandle);
 
 
 
@@ -2496,9 +2498,11 @@ else if(*state == CLOSING)
 if(timeBuffer <= 10)
 {
 
+# 213
+doorStepHandle.chieu = 0;
+doorStepHandle.vong = 5;
+Step_Set(&doorStepHandle);
 
-
-Motor_Reverse_Start(Door_Motor);
 timeBuffer = 10 + 1;
 
 
@@ -2509,7 +2513,9 @@ else if (timeBuffer > 100)
 
 GPIO_Write(BUZZER.Port, BUZZER.Pin, 0);
 
-Motor_Stop(Door_Motor);
+
+
+Step_Stop(&doorStepHandle);
 
 
 
@@ -2581,7 +2587,7 @@ TrashDoor_Open(state);
 }
 }
 
-# 281
+# 305
 void Compression_Ctrl(void)
 {
 if (trashDoorState != CLOSED && trashDoorState != CLOSING)
@@ -2645,12 +2651,12 @@ distance = UltraSensor_Read(ptimeSysTick);
 sprintf(TX, "C:%dcm\n\0", distance);
 UART_WriteStr(TX);
 
-# 371
+# 395
 }
 if(timeBuffer <= 10)
 {
 
-# 380
+# 404
 compressStepHandle.chieu = 1;
 compressStepHandle.vong = 5;
 Step_Set(&compressStepHandle);
@@ -2660,7 +2666,7 @@ timeBuffer = 10 + 1;
 else if(timeBuffer == 70000)
 {
 
-# 394
+# 418
 compressStepHandle.chieu = 0;
 compressStepHandle.vong = 5;
 Step_Set(&compressStepHandle);
@@ -2670,7 +2676,7 @@ timeBuffer = 70000 + 1;
 else if(timeBuffer >= 70000 + 70000)
 {
 
-# 408
+# 432
 Step_Stop(&compressStepHandle);
 
 compressionState = COMPRESSED;
@@ -2686,7 +2692,7 @@ break;
 }
 }
 
-# 427
+# 451
 void Disinfection_Ctrl(void)
 {
 if(compressionState != COMPRESSED)
@@ -2721,7 +2727,7 @@ disinfectionState = DISINFECTED;
 }
 }
 
-# 465
+# 489
 uint16_t timeSysTickBuffer = 0;
 void TimeSysTickUpdate(volatile uint16_t *ptimeSysTick)
 {
@@ -2732,10 +2738,10 @@ timeSysTickBuffer = *ptimeSysTick;
 timeBuffer++;
 }
 
-# 479
+# 503
 }
 
-# 489
+# 513
 void Loop(volatile uint16_t *ptimeSysTick)
 {
 
@@ -2752,6 +2758,7 @@ Disionfection_Run();
 
 
 Step_Start(&compressStepHandle);
+Step_Start(&doorStepHandle);
 
 TimeSysTickUpdate(ptimeSysTick);
 }

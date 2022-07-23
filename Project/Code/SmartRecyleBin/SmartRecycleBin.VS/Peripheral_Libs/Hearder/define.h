@@ -105,12 +105,12 @@ typedef struct
                 //                             };
     
     /*Motor 3 Pin for HBridge*/
-    Peripheral_Pin Door_Motor[4] = {
-                                    {&PORTD, PIN1},
-                                    {&PORTD, PIN0},
-                                    {&PORTC, PIN3},
-                                    {&PORTC, PIN2}
-                                };
+    // Peripheral_Pin Door_Motor[4] = {
+    //                                 {&PORTD, PIN1},
+    //                                 {&PORTD, PIN0},
+    //                                 {&PORTC, PIN3},
+    //                                 {&PORTC, PIN2}
+    //                             };
     
     /*Motor 4 Pin for HBridge*/
                 // Peripheral_Pin Motor_4[4] = {
