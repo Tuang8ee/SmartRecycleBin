@@ -1523,7 +1523,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "404
 [e = . _compressStepHandle 2 -> -> 1 `i `uc ]
 "405
-[e = . _compressStepHandle 0 -> -> 5 `i `ui ]
+[e = . _compressStepHandle 0 -> -> 50 `i `ui ]
 "406
 [e ( _Step_Set (1 &U _compressStepHandle ]
 "407
@@ -1539,7 +1539,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "418
 [e = . _compressStepHandle 2 -> -> 0 `i `uc ]
 "419
-[e = . _compressStepHandle 0 -> -> 5 `i `ui ]
+[e = . _compressStepHandle 0 -> -> 50 `i `ui ]
 "420
 [e ( _Step_Set (1 &U _compressStepHandle ]
 "421

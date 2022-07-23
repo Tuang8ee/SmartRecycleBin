@@ -2662,7 +2662,7 @@ if(timeBuffer <= 10)
 
 # 404
 compressStepHandle.chieu = 1;
-compressStepHandle.vong = 5;
+compressStepHandle.vong = 50;
 Step_Set(&compressStepHandle);
 timeBuffer = 10 + 1;
 
@@ -2672,7 +2672,7 @@ else if(timeBuffer == 70000)
 
 # 418
 compressStepHandle.chieu = 0;
-compressStepHandle.vong = 5;
+compressStepHandle.vong = 50;
 Step_Set(&compressStepHandle);
 timeBuffer = 70000 + 1;
 

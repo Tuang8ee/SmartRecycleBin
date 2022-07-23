@@ -7975,7 +7975,7 @@ l9241:
 	line	405
 	
 l9243:	
-	movlw	05h
+	movlw	032h
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
@@ -8027,7 +8027,7 @@ l9251:
 	line	419
 	
 l9253:	
-	movlw	05h
+	movlw	032h
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
