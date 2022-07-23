@@ -20,6 +20,7 @@ void main(void)
     doorStepHandle.vong = 400;
     doorStepHandle.speed = 90;
     Step_Set(&doorStepHandle);
+    Step_Stop(&doorStepHandle);
 
 
     while(1)

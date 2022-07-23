@@ -2342,6 +2342,7 @@ Step_Set(&winchStepHandle);
 doorStepHandle.vong = 400;
 doorStepHandle.speed = 90;
 Step_Set(&doorStepHandle);
+Step_Stop(&doorStepHandle);
 
 
 while(1)
@@ -2349,7 +2350,7 @@ while(1)
 
 Loop(&timeSysTick);
 
-# 87
+# 88
 }
 }
 

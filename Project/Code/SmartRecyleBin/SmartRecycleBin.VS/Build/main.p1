@@ -12,6 +12,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
 "23 .\Peripheral_Libs/Hearder/HBrightCtrl.h
 [v _Step_Set `(v ~T0 @X0 0 ef1`*S101 ]
+"24
+[v _Step_Stop `(v ~T0 @X0 0 ef1`*S101 ]
 "15 .\Peripheral_Libs/Hearder/LoopProcess.h
 [v _Loop `(v ~T0 @X0 0 ef1`*Vui ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
@@ -964,18 +966,20 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = . _doorStepHandle 3 -> -> 90 `i `ui ]
 "22
 [e ( _Step_Set (1 &U _doorStepHandle ]
-"25
-[e :U 104 ]
+"23
+[e ( _Step_Stop (1 &U _doorStepHandle ]
 "26
+[e :U 104 ]
+"27
 {
-"28
+"29
 [e ( _Loop (1 &U _timeSysTick ]
-"87
+"88
 }
 [e :U 103 ]
-"25
+"26
 [e $U 104  ]
 [e :U 105 ]
-"88
+"89
 [e :UE 102 ]
 }
