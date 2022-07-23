@@ -8,12 +8,12 @@ void main(void)
     MCU_Config();
     GPIO_Write(Motor_0.Port, Motor_0.Pin, HIGH);
     compressStepHandle.vong = 400;
-    compressStepHandle.speed = 300;
+    compressStepHandle.speed = 150;
     Step_Set(&compressStepHandle);
 
     
     winchStepHandle.vong = 400;
-    winchStepHandle.speed = 400;
+    winchStepHandle.speed = 150;
     Step_Set(&winchStepHandle);
 
 
@@ -27,6 +27,7 @@ void main(void)
 
 
         /*============== Test ==============*/
+        // Đi xuống
         if(GPIO_Read(SW1.Port, SW1.Pin) == HIGH)
         {
             compressStepHandle.chieu = HIGH;
@@ -40,19 +41,20 @@ void main(void)
             Step_Set(&winchStepHandle);
             Step_Start(&winchStepHandle);
         }
-        // else if(GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
-        // {
-        //     compressStepHandle.chieu = LOW;
-        //     compressStepHandle.vong = 400;
-        //     Step_Set(&compressStepHandle);
-        //     Step_Start(&compressStepHandle);
+        //Đi lên
+        else if(GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
+        {
+            compressStepHandle.chieu = LOW;
+            compressStepHandle.vong = 400;
+            Step_Set(&compressStepHandle);
+            Step_Start(&compressStepHandle);
 
             
-        //     winchStepHandle.chieu = LOW;
-        //     winchStepHandle.vong = 400;
-        //     Step_Set(&winchStepHandle);
-        //     Step_Start(&winchStepHandle);
-        // }
+            winchStepHandle.chieu = LOW;
+            winchStepHandle.vong = 400;
+            Step_Set(&winchStepHandle);
+            Step_Start(&winchStepHandle);
+        }
         else
         {
             Step_Stop(&compressStepHandle);
