@@ -25,7 +25,7 @@ void main(void)
     while(1)
     {
         /*==================================*/
-        Loop(&timeSysTick);
+        // Loop(&timeSysTick);
 
         /*==================================*/
 

@@ -2334,8 +2334,6 @@ GPIO_Write(Motor_0.Port, Motor_0.Pin, 1);
 while(1)
 {
 
-Loop(&timeSysTick);
-
 # 87
 }
 }
