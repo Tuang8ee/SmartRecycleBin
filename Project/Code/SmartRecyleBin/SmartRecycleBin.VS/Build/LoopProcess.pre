@@ -2687,6 +2687,7 @@ else if(timeBuffer >= 70000 + 70000)
 
 # 446
 Step_Stop(&compressStepHandle);
+Step_Stop(&winchStepHandle);
 
 compressionState = COMPRESSED;
 }
@@ -2701,7 +2702,7 @@ break;
 }
 }
 
-# 465
+# 466
 void Disinfection_Ctrl(void)
 {
 if(compressionState != COMPRESSED)
@@ -2736,7 +2737,7 @@ disinfectionState = DISINFECTED;
 }
 }
 
-# 503
+# 504
 uint16_t timeSysTickBuffer = 0;
 void TimeSysTickUpdate(volatile uint16_t *ptimeSysTick)
 {
@@ -2747,10 +2748,10 @@ timeSysTickBuffer = *ptimeSysTick;
 timeBuffer++;
 }
 
-# 517
+# 518
 }
 
-# 527
+# 528
 void Loop(volatile uint16_t *ptimeSysTick)
 {
 

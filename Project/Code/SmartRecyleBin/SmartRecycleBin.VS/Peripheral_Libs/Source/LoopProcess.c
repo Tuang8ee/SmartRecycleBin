@@ -444,6 +444,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 
                 /* ============= Step Motor Ctrl ============= */
                 Step_Stop(&compressStepHandle);
+                Step_Stop(&winchStepHandle);
                 /* ============================================= */
                 compressionState = COMPRESSED;
             }

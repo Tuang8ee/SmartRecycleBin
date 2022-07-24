@@ -2513,13 +2513,13 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! ---------------------------------------------------------------------------------
 ;! (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
 ;! ---------------------------------------------------------------------------------
-;! (0) _main                                                 1     1      0  173461
+;! (0) _main                                                 1     1      0  173593
 ;!                                              0 BANK1      1     1      0
 ;!                         _GPIO_Write
 ;!                               _Loop
 ;!                         _MCU_Config
 ;! ---------------------------------------------------------------------------------
-;! (1) _MCU_Config                                           3     3      0   28561
+;! (1) _MCU_Config                                           3     3      0   28594
 ;!                                             15 BANK0      3     3      0
 ;!                         _GPIO_Write
 ;!                 _Reset_ADC_Register
@@ -2559,7 +2559,7 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! (2) _Reset_ADC_Register                                   1     1      0       0
 ;!                                              2 COMMON     1     1      0
 ;! ---------------------------------------------------------------------------------
-;! (1) _Loop                                                 2     2      0  135907
+;! (1) _Loop                                                 2     2      0  136006
 ;!                                             48 BANK0      2     2      0
 ;!                   _Compression_Ctrl
 ;!                    _Compression_Run
@@ -2569,7 +2569,7 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;!                  _TimeSysTickUpdate
 ;!                     _TrashDoor_Ctrl
 ;! ---------------------------------------------------------------------------------
-;! (2) _TrashDoor_Ctrl                                       8     7      1   76500
+;! (2) _TrashDoor_Ctrl                                       8     7      1   76566
 ;!                                             40 BANK0      8     7      1
 ;!                          _GPIO_Read
 ;!                      _IRSensor_Read
@@ -2581,14 +2581,14 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! (3) ___lwmod                                              6     2      4     287
 ;!                                              2 COMMON     6     2      4
 ;! ---------------------------------------------------------------------------------
-;! (3) _TrashDoor_Open                                       2     2      0   28136
+;! (3) _TrashDoor_Open                                       2     2      0   28169
 ;!                                              9 COMMON     1     1      0
 ;!                                              4 BANK0      1     1      0
 ;!                         _GPIO_Write
 ;!                           _Step_Set
 ;!                          _Step_Stop
 ;! ---------------------------------------------------------------------------------
-;! (3) _TrashDoor_Close                                      2     2      0   28136
+;! (3) _TrashDoor_Close                                      2     2      0   28169
 ;!                                              9 COMMON     1     1      0
 ;!                                              4 BANK0      1     1      0
 ;!                         _GPIO_Write
@@ -2662,7 +2662,7 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! ---------------------------------------------------------------------------------
 ;! (2) _Disinfection_Ctrl                                    0     0      0       0
 ;! ---------------------------------------------------------------------------------
-;! (2) _Compression_Run                                     13    13      0   39748
+;! (2) _Compression_Run                                     13    13      0   39781
 ;!                                             20 BANK0     13    13      0
 ;!                         _GPIO_Write
 ;!                           _Step_Set
@@ -2691,7 +2691,7 @@ Loop@ptimeSysTick:	; 1 bytes @ 0x31
 ;! (3) _GPIO_Read                                            3     2      1     851
 ;!                                              2 COMMON     3     2      1
 ;! ---------------------------------------------------------------------------------
-;! (2) _Step_Stop                                            2     2      0    9317
+;! (2) _Step_Stop                                            2     2      0    9350
 ;!                                              7 COMMON     2     2      0
 ;!                         _GPIO_Write
 ;! ---------------------------------------------------------------------------------
@@ -4046,7 +4046,7 @@ GLOBAL	__end_of_Reset_ADC_Register
 
 ;; *************** function _Loop *****************
 ;; Defined at:
-;;		line 527 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 528 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;  ptimeSysTick    1    wreg     PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
@@ -4083,12 +4083,12 @@ GLOBAL	__end_of_Reset_ADC_Register
 ;;
 psect	text10,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	527
+	line	528
 global __ptext10
 __ptext10:	;psect for function _Loop
 psect	text10
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	527
+	line	528
 	
 _Loop:	
 ;incstack = 0
@@ -4096,7 +4096,7 @@ _Loop:
 ; Regs used in _Loop: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
 	bcf	status, 5	;RP0=0, select bank0
 	movwf	(Loop@ptimeSysTick)
-	line	530
+	line	531
 	
 l9049:	
 		movlw	4
@@ -4116,7 +4116,7 @@ l9051:
 u4861:
 	goto	l9055
 u4860:
-	line	532
+	line	533
 	
 l9053:	
 	movf	(Loop@ptimeSysTick),w
@@ -4125,46 +4125,46 @@ l9053:
 	movwf	(TrashDoor_Ctrl@timeSysTick)
 	movlw	(low(_trashDoorState|((0x0)<<8)))&0ffh
 	fcall	_TrashDoor_Ctrl
-	line	535
+	line	536
 	
 l9055:	
 	fcall	_Compression_Ctrl
-	line	536
+	line	537
 	
 l9057:	
 	movf	(Loop@ptimeSysTick),w
 	fcall	_Compression_Run
-	line	538
+	line	539
 	
 l9059:	
 	fcall	_Disinfection_Ctrl
-	line	539
+	line	540
 	
 l9061:	
 	fcall	_Disionfection_Run
-	line	542
+	line	543
 	
 l9063:	
 	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Start
-	line	543
+	line	544
 	
 l9065:	
 	movlw	(low(_winchStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Start
-	line	544
+	line	545
 	
 l9067:	
 	movlw	(low(_doorStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Start
-	line	546
+	line	547
 	
 l9069:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(Loop@ptimeSysTick),w
 	fcall	_TimeSysTickUpdate
-	line	547
+	line	548
 	
 l4312:	
 	return
@@ -7365,7 +7365,7 @@ GLOBAL	__end_of_ADC_BASE_Init
 
 ;; *************** function _TimeSysTickUpdate *****************
 ;; Defined at:
-;;		line 504 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 505 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;  ptimeSysTick    1    wreg     PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
@@ -7396,19 +7396,19 @@ GLOBAL	__end_of_ADC_BASE_Init
 ;;
 psect	text25,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	504
+	line	505
 global __ptext25
 __ptext25:	;psect for function _TimeSysTickUpdate
 psect	text25
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	504
+	line	505
 	
 _TimeSysTickUpdate:	
 ;incstack = 0
 	callstack 5
 ; Regs used in _TimeSysTickUpdate: [wreg-fsr0h+status,2+status,0]
 	movwf	(TimeSysTickUpdate@ptimeSysTick)
-	line	507
+	line	508
 	
 l8351:	
 	movf	(TimeSysTickUpdate@ptimeSysTick),w
@@ -7432,7 +7432,7 @@ u3435:
 u3431:
 	goto	l4308
 u3430:
-	line	509
+	line	510
 	
 l8353:	
 	movf	(TimeSysTickUpdate@ptimeSysTick),w
@@ -7442,7 +7442,7 @@ l8353:
 	incf	fsr0,f
 	movf	indf,w
 	movwf	(_timeSysTickBuffer+1)
-	line	510
+	line	511
 	
 l8355:	
 	movlw	01h
@@ -7459,7 +7459,7 @@ movlw 1
 	skipnc
 movlw 1
 	addwf	(_timeBuffer+3),f
-	line	517
+	line	518
 	
 l4308:	
 	return
@@ -7763,7 +7763,7 @@ GLOBAL	__end_of_Delay_us
 
 ;; *************** function _Disionfection_Run *****************
 ;; Defined at:
-;;		line 481 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 482 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -7792,18 +7792,18 @@ GLOBAL	__end_of_Delay_us
 ;;
 psect	text28,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	481
+	line	482
 global __ptext28
 __ptext28:	;psect for function _Disionfection_Run
 psect	text28
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	481
+	line	482
 	
 _Disionfection_Run:	
 ;incstack = 0
 	callstack 4
 ; Regs used in _Disionfection_Run: [wreg-fsr0h+status,2+status,0+pclath+cstack]
-	line	483
+	line	484
 	
 l9015:	
 		decf	((_disinfectionState)),w
@@ -7813,7 +7813,7 @@ l9015:
 u4821:
 	goto	l4302
 u4820:
-	line	485
+	line	486
 	
 l9017:	
 		movf	(_timeBuffer+3),w
@@ -7837,7 +7837,7 @@ u4833:
 u4831:
 	goto	l9023
 u4830:
-	line	487
+	line	488
 	
 l9019:	
 	bcf	status, 5	;RP0=0, select bank0
@@ -7849,7 +7849,7 @@ l9019:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_Motor_0),w
 	fcall	_GPIO_Write
-	line	488
+	line	489
 	
 l9021:	
 	movlw	0
@@ -7862,9 +7862,9 @@ l9021:
 	movlw	06h
 	movwf	(_timeBuffer)
 
-	line	489
-	goto	l4302
 	line	490
+	goto	l4302
+	line	491
 	
 l9023:	
 	bcf	status, 5	;RP0=0, select bank0
@@ -7891,7 +7891,7 @@ u4843:
 u4841:
 	goto	l4302
 u4840:
-	line	492
+	line	493
 	
 l9025:	
 	bcf	status, 5	;RP0=0, select bank0
@@ -7904,14 +7904,14 @@ l9025:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_Motor_0),w
 	fcall	_GPIO_Write
-	line	493
+	line	494
 	
 l9027:	
 	movlw	low(02h)
 	movwf	(??_Disionfection_Run+0)+0
 	movf	(??_Disionfection_Run+0)+0,w
 	movwf	(_disinfectionState)
-	line	497
+	line	498
 	
 l4302:	
 	return
@@ -7923,7 +7923,7 @@ GLOBAL	__end_of_Disionfection_Run
 
 ;; *************** function _Disinfection_Ctrl *****************
 ;; Defined at:
-;;		line 465 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 466 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -7951,18 +7951,18 @@ GLOBAL	__end_of_Disionfection_Run
 ;; This function uses a non-reentrant model
 ;;
 psect	text29,local,class=CODE,delta=2,merge=1,group=0
-	line	465
+	line	466
 global __ptext29
 __ptext29:	;psect for function _Disinfection_Ctrl
 psect	text29
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	465
+	line	466
 	
 _Disinfection_Ctrl:	
 ;incstack = 0
 	callstack 5
 ; Regs used in _Disinfection_Ctrl: [wreg+status,2+status,0]
-	line	467
+	line	468
 	
 l8327:	
 		movlw	2
@@ -7975,13 +7975,13 @@ l8327:
 u3381:
 	goto	l8331
 u3380:
-	line	469
+	line	470
 	
 l8329:	
 	clrf	(_disinfectionState)
-	line	470
+	line	471
 	goto	l4295
-	line	473
+	line	474
 	
 l8331:	
 	movf	((_disinfectionState)),w
@@ -7991,12 +7991,12 @@ l8331:
 u3391:
 	goto	l4295
 u3390:
-	line	475
+	line	476
 	
 l8333:	
 	clrf	(_disinfectionState)
 	incf	(_disinfectionState),f
-	line	476
+	line	477
 	
 l8335:	
 	movlw	high highword(0)
@@ -8008,7 +8008,7 @@ l8335:
 	movlw	low(0)
 	movwf	(_timeBuffer)
 
-	line	479
+	line	480
 	
 l4295:	
 	return
@@ -8403,8 +8403,11 @@ u4810:
 l9005:	
 	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Stop
+	line	447
+	movlw	(low(_winchStepHandle|((0x0)<<8)))&0ffh
+	fcall	_Step_Stop
 	goto	l8965
-	line	452
+	line	453
 	
 l9009:	
 	movf	0+(_LED1)+01h,w
@@ -8414,7 +8417,7 @@ l9009:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_LED1),w
 	fcall	_GPIO_Write
-	line	454
+	line	455
 	bcf	status, 5	;RP0=0, select bank0
 	movf	0+(_LED2)+01h,w
 	movwf	(??_Compression_Run+0)+0
@@ -8424,7 +8427,7 @@ l9009:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_LED2),w
 	fcall	_GPIO_Write
-	line	455
+	line	456
 	goto	l4289
 	line	335
 	
@@ -8456,7 +8459,7 @@ l9013:
 	goto	l4289
 	asmopt pop
 
-	line	459
+	line	460
 	
 l4289:	
 	return
