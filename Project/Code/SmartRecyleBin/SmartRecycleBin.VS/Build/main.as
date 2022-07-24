@@ -8549,7 +8549,7 @@ l9168:
 	line	410
 	
 l9170:	
-	movlw	03Fh
+	movlw	03Ch
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
@@ -8559,7 +8559,7 @@ l9172:
 	clrf	0+(_winchStepHandle)^080h+06h
 	incf	0+(_winchStepHandle)^080h+06h,f
 	line	413
-	movlw	03Fh
+	movlw	041h
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
@@ -8711,7 +8711,7 @@ l9190:
 	line	436
 	
 l9192:	
-	movlw	03Fh
+	movlw	03Ch
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
@@ -8728,7 +8728,7 @@ l9196:
 	line	440
 	
 l9198:	
-	movlw	03Fh
+	movlw	041h
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
