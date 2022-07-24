@@ -12,6 +12,14 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
 "15 .\Peripheral_Libs/Hearder/LoopProcess.h
 [v _Loop `(v ~T0 @X0 0 ef1`*Vui ]
+"15 .\Peripheral_Libs/Hearder/GPIO.h
+[v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
+"23 .\Peripheral_Libs/Hearder/HBrightCtrl.h
+[v _Step_Set `(v ~T0 @X0 0 ef1`*S101 ]
+"25
+[v _Step_Start `(v ~T0 @X0 0 ef1`*S101 ]
+"24
+[v _Step_Stop `(v ~T0 @X0 0 ef1`*S101 ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [; <" INDF equ 00h ;# ">
 "62
@@ -915,30 +923,108 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U _main ]
 [f ]
 "8
-[e ( _MCU_Config ..  ]
+[v _test `uc ~T0 @X0 1 a ]
+[e = _test -> -> 1 `i `uc ]
 "9
+[e ( _MCU_Config ..  ]
+"10
 [e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 1 `i `uc ]
-"11
-[e :U 104 ]
 "12
+[e :U 104 ]
+"13
 {
 "14
-[e ( _Loop (1 &U _timeSysTick ]
-"68
-[e $ ! != _timeReset_flag -> -> 0 `i `ui 106  ]
-"69
+[e $ ! != -> _test `i -> 1 `i 106  ]
+"16
 {
+"17
+[e ( _Loop (1 &U _timeSysTick ]
+"18
+}
+[e $U 107  ]
+"22
+[e :U 106 ]
+"23
+{
+"26
+[e $ ! == -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> 1 `i 108  ]
+"27
+{
+"28
+[e = . _compressStepHandle 2 -> -> 1 `i `uc ]
+"29
+[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
+"30
+[e ( _Step_Set (1 &U _compressStepHandle ]
+"31
+[e ( _Step_Start (1 &U _compressStepHandle ]
+"34
+[e = . _winchStepHandle 2 -> -> 1 `i `uc ]
+"35
+[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
+"36
+[e ( _Step_Set (1 &U _winchStepHandle ]
+"37
+[e ( _Step_Start (1 &U _winchStepHandle ]
+"44
+}
+[e $U 109  ]
+"46
+[e :U 108 ]
+[e $ ! == -> ( _GPIO_Read (2 , . _SW2 0 . _SW2 1 `i -> 1 `i 110  ]
+"47
+{
+"48
+[e = . _compressStepHandle 2 -> -> 0 `i `uc ]
+"49
+[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
+"50
+[e ( _Step_Set (1 &U _compressStepHandle ]
+"51
+[e ( _Step_Start (1 &U _compressStepHandle ]
+"54
+[e = . _winchStepHandle 2 -> -> 0 `i `uc ]
+"55
+[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
+"56
+[e ( _Step_Set (1 &U _winchStepHandle ]
+"57
+[e ( _Step_Start (1 &U _winchStepHandle ]
+"64
+}
+[e $U 111  ]
+"65
+[e :U 110 ]
+"66
+{
+"67
+[e ( _Step_Stop (1 &U _compressStepHandle ]
+"68
+[e ( _Step_Stop (1 &U _doorStepHandle ]
+"69
+[e ( _Step_Stop (1 &U _winchStepHandle ]
 "70
-[e = _timeReset_flag -> -> 0 `i `ui ]
+}
+[e :U 111 ]
+[e :U 109 ]
 "71
 }
-[e :U 106 ]
+[e :U 107 ]
+"72
+[e $ ! != _timeReset_flag -> -> 0 `i `ui 112  ]
 "73
+{
+"74
+[e = _timeReset_flag -> -> 0 `i `ui ]
+"75
+}
+[e :U 112 ]
+"77
 }
 [e :U 103 ]
-"11
+"12
 [e $U 104  ]
 [e :U 105 ]
-"74
+"78
 [e :UE 102 ]
 }
