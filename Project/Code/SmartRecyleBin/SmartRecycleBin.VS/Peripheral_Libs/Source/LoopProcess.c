@@ -436,7 +436,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 timeBuffer = TIME_COMPRESS + 1;
                 /* ============================================= */
             }
-            else if(timeBuffer > TIME_COMPRESS && timeBuffer < (TIME_COMPRESS + TIME_UNCOMPRESS))
+            else if(timeBuffer < (TIME_COMPRESS + TIME_UNCOMPRESS))
             {
                 /* Xử lý nén chạy lên cao bị kẹt, cho nén dừng, tời tiếp tục chạy*/
                 if (compressStepHandle.step < 5 * 1600 && compressStepHandle.chieu == KEOLEN)
@@ -455,6 +455,8 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 winchStepHandle.chieu = KEOLEN;
                 winchStepHandle.vong = 4;
                 Step_Set(&winchStepHandle);
+
+                timeBuffer = timeBuffer + 1;
             }
             else if(timeBuffer >= TIME_COMPRESS + TIME_UNCOMPRESS + TIME_WAIT)
             {
