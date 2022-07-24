@@ -1507,7 +1507,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "420
 {
 "421
-[e $ ! && < . _winchStepHandle 1 -> -> * -> 55 `i -> 1600 `i `l `ul == . _compressStepHandle 1 -> -> -> 0 `i `l `ul 168  ]
+[e $ ! && && < . _winchStepHandle 1 -> -> * -> 55 `i -> 1600 `i `l `ul == . _compressStepHandle 1 -> -> -> 0 `i `l `ul == -> . _compressStepHandle 2 `i -> 1 `i 168  ]
 "422
 {
 "423

@@ -2668,7 +2668,7 @@ timeBuffer = 10 + 1;
 }
 else if (timeBuffer > 10 && timeBuffer < 70000)
 {
-if(winchStepHandle.step < 55 * 1600 && compressStepHandle.step == 0)
+if(winchStepHandle.step < 55 * 1600 && compressStepHandle.step == 0 && compressStepHandle.chieu == 1)
 {
 Step_Set(&compressStepHandle);
 }

@@ -418,7 +418,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
             }
             else if (timeBuffer > TIME_STARTUP_COMPRESS && timeBuffer < TIME_COMPRESS)
             {
-                if(winchStepHandle.step < 55 * 1600 && compressStepHandle.step == 0)
+                if(winchStepHandle.step < 55 * 1600 && compressStepHandle.step == 0 && compressStepHandle.chieu == NENXUONG)
                 {
                     Step_Set(&compressStepHandle);
                 }
