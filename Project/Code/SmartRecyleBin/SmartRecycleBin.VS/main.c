@@ -21,42 +21,42 @@ void main(void)
         // Đi xuống
         if(GPIO_Read(SW1.Port, SW1.Pin) == HIGH)
         {
-            compressStepHandle.chieu = HIGH;
-            compressStepHandle.vong = 400;
-            Step_Set(&compressStepHandle);
-            Step_Start(&compressStepHandle);
+            // compressStepHandle.chieu = HIGH;
+            // compressStepHandle.vong = 400;
+            // Step_Set(&compressStepHandle);
+            // Step_Start(&compressStepHandle);
 
             
-            winchStepHandle.chieu = HIGH;
-            winchStepHandle.vong = 400;
-            Step_Set(&winchStepHandle);
-            Step_Start(&winchStepHandle);
+            // winchStepHandle.chieu = HIGH;
+            // winchStepHandle.vong = 400;
+            // Step_Set(&winchStepHandle);
+            // Step_Start(&winchStepHandle);
 
             
-            // doorStepHandle.chieu = HIGH;
-            // doorStepHandle.vong = 400;
-            // Step_Set(&doorStepHandle);
-            // Step_Start(&doorStepHandle);
+            doorStepHandle.chieu = HIGH;
+            doorStepHandle.vong = 400;
+            Step_Set(&doorStepHandle);
+            Step_Start(&doorStepHandle);
         }
         //Đi lên
         else if(GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
         {
-            compressStepHandle.chieu = LOW;
-            compressStepHandle.vong = 400;
-            Step_Set(&compressStepHandle);
-            Step_Start(&compressStepHandle);
+            // compressStepHandle.chieu = LOW;
+            // compressStepHandle.vong = 400;
+            // Step_Set(&compressStepHandle);
+            // Step_Start(&compressStepHandle);
 
             
-            winchStepHandle.chieu = LOW;
-            winchStepHandle.vong = 400;
-            Step_Set(&winchStepHandle);
-            Step_Start(&winchStepHandle);
+            // winchStepHandle.chieu = LOW;
+            // winchStepHandle.vong = 400;
+            // Step_Set(&winchStepHandle);
+            // Step_Start(&winchStepHandle);
 
             
-            // doorStepHandle.chieu = LOW;
-            // doorStepHandle.vong = 400;
-            // Step_Set(&doorStepHandle);
-            // Step_Start(&doorStepHandle);
+            doorStepHandle.chieu = LOW;
+            doorStepHandle.vong = 400;
+            Step_Set(&doorStepHandle);
+            Step_Start(&doorStepHandle);
         }
         else
         {

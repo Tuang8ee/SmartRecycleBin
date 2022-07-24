@@ -2331,34 +2331,22 @@ Loop(&timeSysTick);
 # 22
 if(GPIO_Read(SW1.Port, SW1.Pin) == 1)
 {
-compressStepHandle.chieu = 1;
-compressStepHandle.vong = 400;
-Step_Set(&compressStepHandle);
-Step_Start(&compressStepHandle);
 
-
-winchStepHandle.chieu = 1;
-winchStepHandle.vong = 400;
-Step_Set(&winchStepHandle);
-Step_Start(&winchStepHandle);
-
-# 40
+# 36
+doorStepHandle.chieu = 1;
+doorStepHandle.vong = 400;
+Step_Set(&doorStepHandle);
+Step_Start(&doorStepHandle);
 }
 
 else if(GPIO_Read(SW2.Port, SW2.Pin) == 1)
 {
-compressStepHandle.chieu = 0;
-compressStepHandle.vong = 400;
-Step_Set(&compressStepHandle);
-Step_Start(&compressStepHandle);
 
-
-winchStepHandle.chieu = 0;
-winchStepHandle.vong = 400;
-Step_Set(&winchStepHandle);
-Step_Start(&winchStepHandle);
-
-# 60
+# 56
+doorStepHandle.chieu = 0;
+doorStepHandle.vong = 400;
+Step_Set(&doorStepHandle);
+Step_Start(&doorStepHandle);
 }
 else
 {
