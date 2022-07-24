@@ -3,7 +3,7 @@
 [d edition pro ]
 [d chip 16F877 ]
 [d frameptr 0 ]
-"44 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"45 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [e E1118 . `uc
 CLOSED 0
 CLOSING 1
@@ -13,7 +13,7 @@ SW_OPENED 4
 SS_OPEN 5
 SS_OPENED 6
 ]
-"58
+"59
 [e E1130 . `uc
 WAIT_COMPRESS 0
 CHECK_COMPRESS 1
@@ -21,7 +21,7 @@ COMPRESSED 2
 DON_T_COMPRESS 3
 COMPRESSING 4
 ]
-"69
+"70
 [e E1138 . `uc
 WAIT_DISINFECTING 0
 DISINFECTING 1
@@ -55,27 +55,27 @@ DISINFECTED 2
 [v _Step_Start Step_Start `(v  1 e 1 0 ]
 "3 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c
 [v _Interrupts_Function Interrupts_Function `II(v  1 e 1 0 ]
-"78 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"79 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _IRSensor_Read IRSensor_Read `(d  1 e 3 0 ]
-"98
+"99
 [v _UltraSensor_Read UltraSensor_Read `(uc  1 e 1 0 ]
-"126
+"127
 [v _TrashDoor_Open TrashDoor_Open `(v  1 e 1 0 ]
-"198
+"199
 [v _TrashDoor_Close TrashDoor_Close `(v  1 e 1 0 ]
-"243
+"244
 [v _TrashDoor_Ctrl TrashDoor_Ctrl `(v  1 e 1 0 ]
-"309
+"310
 [v _Compression_Ctrl Compression_Ctrl `(v  1 e 1 0 ]
-"331
+"332
 [v _Compression_Run Compression_Run `(v  1 e 1 0 ]
-"476
+"487
 [v _Disinfection_Ctrl Disinfection_Ctrl `(v  1 e 1 0 ]
-"492
+"503
 [v _Disionfection_Run Disionfection_Run `(v  1 e 1 0 ]
-"515
+"526
 [v _TimeSysTickUpdate TimeSysTickUpdate `(v  1 e 1 0 ]
-"538
+"549
 [v _Loop Loop `(v  1 e 1 0 ]
 "15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Timer.c
 [v _Timer0_BASE_Init Timer0_BASE_Init `(v  1 e 1 0 ]
@@ -149,15 +149,15 @@ DISINFECTED 2
 [v _timeSysTick timeSysTick `VEui  1 e 2 0 ]
 "15
 [v _timeReset_flag timeReset_flag `ui  1 e 2 0 ]
-"44 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"45 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _trashDoorState trashDoorState `E1118  1 e 1 0 ]
-"45
+"46
 [v _timeBuffer timeBuffer `ul  1 e 4 0 ]
-"58
+"59
 [v _compressionState compressionState `E1130  1 e 1 0 ]
-"69
+"70
 [v _disinfectionState disinfectionState `E1138  1 e 1 0 ]
-"514
+"525
 [v _timeSysTickBuffer timeSysTickBuffer `ui  1 e 2 0 ]
 "24 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\legacy\pic168xa_legacy.h
 [v _PORTA PORTA `VEuc  1 e 1 @5 ]
@@ -306,24 +306,24 @@ DISINFECTED 2
 {
 "35
 } 0
-"538 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"549 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _Loop Loop `(v  1 e 1 0 ]
 {
 [v Loop@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
 [v Loop@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
-"541
+"552
 [v Loop@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 49 ]
-"558
+"569
 } 0
-"243
+"244
 [v _TrashDoor_Ctrl TrashDoor_Ctrl `(v  1 e 1 0 ]
 {
 [v TrashDoor_Ctrl@state state `*.4E1118  1 a 1 wreg ]
 [v TrashDoor_Ctrl@state state `*.4E1118  1 a 1 wreg ]
 [v TrashDoor_Ctrl@timeSysTick timeSysTick `*.4VEui  1 p 1 40 ]
-"246
+"247
 [v TrashDoor_Ctrl@state state `*.4E1118  1 a 1 47 ]
-"304
+"305
 } 0
 "5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwmod.c
 [v ___lwmod __lwmod `(ui  1 e 2 0 ]
@@ -335,32 +335,32 @@ DISINFECTED 2
 [v ___lwmod@dividend dividend `ui  1 p 2 4 ]
 "25
 } 0
-"126 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"127 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _TrashDoor_Open TrashDoor_Open `(v  1 e 1 0 ]
 {
 [v TrashDoor_Open@state state `*.4E1118  1 a 1 wreg ]
 [v TrashDoor_Open@state state `*.4E1118  1 a 1 wreg ]
-"128
+"129
 [v TrashDoor_Open@state state `*.4E1118  1 a 1 4 ]
-"196
+"197
 } 0
-"198
+"199
 [v _TrashDoor_Close TrashDoor_Close `(v  1 e 1 0 ]
 {
 [v TrashDoor_Close@state state `*.4E1118  1 a 1 wreg ]
 [v TrashDoor_Close@state state `*.4E1118  1 a 1 wreg ]
-"200
+"201
 [v TrashDoor_Close@state state `*.4E1118  1 a 1 4 ]
-"241
+"242
 } 0
-"78
+"79
 [v _IRSensor_Read IRSensor_Read `(d  1 e 3 0 ]
 {
-"80
-[v IRSensor_Read@adc_value adc_value `d  1 a 3 37 ]
 "81
+[v IRSensor_Read@adc_value adc_value `d  1 a 3 37 ]
+"82
 [v IRSensor_Read@index index `uc  1 a 1 36 ]
-"96
+"97
 } 0
 "28 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwtoft.c
 [v ___lwtoft __lwtoft `(f  1 e 3 0 ]
@@ -446,14 +446,14 @@ DISINFECTED 2
 {
 "89
 } 0
-"515 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"526 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _TimeSysTickUpdate TimeSysTickUpdate `(v  1 e 1 0 ]
 {
 [v TimeSysTickUpdate@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
 [v TimeSysTickUpdate@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
-"518
+"529
 [v TimeSysTickUpdate@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 4 ]
-"528
+"539
 } 0
 "103 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c
 [v _Step_Start Step_Start `(v  1 e 1 0 ]
@@ -473,28 +473,28 @@ DISINFECTED 2
 [v Delay_us@time time `ui  1 p 2 2 ]
 "17
 } 0
-"492 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"503 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _Disionfection_Run Disionfection_Run `(v  1 e 1 0 ]
 {
-"508
+"519
 } 0
-"476
+"487
 [v _Disinfection_Ctrl Disinfection_Ctrl `(v  1 e 1 0 ]
 {
-"490
+"501
 } 0
-"331
+"332
 [v _Compression_Run Compression_Run `(v  1 e 1 0 ]
 {
 [v Compression_Run@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
-"334
+"335
 [v Compression_Run@TX TX `[10]uc  1 a 10 21 ]
-"333
+"334
 [v Compression_Run@distance distance `uc  1 a 1 31 ]
-"331
+"332
 [v Compression_Run@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
 [v Compression_Run@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 32 ]
-"470
+"481
 } 0
 "5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\llmod.c
 [v ___llmod __llmod `(ul  1 e 4 0 ]
@@ -506,20 +506,20 @@ DISINFECTED 2
 [v ___llmod@dividend dividend `ul  1 p 4 6 ]
 "25
 } 0
-"98 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"99 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _UltraSensor_Read UltraSensor_Read `(uc  1 e 1 0 ]
 {
 [v UltraSensor_Read@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
-"100
+"101
 [v UltraSensor_Read@distance distance `ui  1 a 2 18 ]
 [v UltraSensor_Read@distance_buff distance_buff `ui  1 a 2 15 ]
-"102
+"103
 [v UltraSensor_Read@index index `uc  1 a 1 17 ]
-"98
+"99
 [v UltraSensor_Read@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
-"100
+"101
 [v UltraSensor_Read@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 14 ]
-"121
+"122
 } 0
 "5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\lwdiv.c
 [v ___lwdiv __lwdiv `(ui  1 e 2 0 ]
@@ -601,10 +601,10 @@ DISINFECTED 2
 [v GPIO_Write@GPIO_Port GPIO_Port `*.4VEuc  1 a 1 6 ]
 "38
 } 0
-"309 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"310 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _Compression_Ctrl Compression_Ctrl `(v  1 e 1 0 ]
 {
-"329
+"330
 } 0
 "3 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c
 [v _Interrupts_Function Interrupts_Function `II(v  1 e 1 0 ]

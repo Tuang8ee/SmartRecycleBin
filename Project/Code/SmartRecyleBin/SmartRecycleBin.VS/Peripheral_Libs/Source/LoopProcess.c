@@ -18,6 +18,7 @@
 #define TIME_STARTUP_COMPRESS       10
 #define TIME_COMPRESS               70000
 #define TIME_UNCOMPRESS             70000
+#define TIME_WAIT                   10000
 
 
 
@@ -446,6 +447,16 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 /* ============================================= */
             }
             else if(timeBuffer >= TIME_COMPRESS + TIME_UNCOMPRESS)
+            {
+                compressStepHandle.chieu = KEOLEN;
+                compressStepHandle.vong = 2;
+                Step_Set(&compressStepHandle);
+                
+                winchStepHandle.chieu = KEOLEN;
+                winchStepHandle.vong = 3;
+                Step_Set(&winchStepHandle);
+            }
+            else if(timeBuffer >= TIME_COMPRESS + TIME_UNCOMPRESS + TIME_WAIT)
             {
                 /* ============= Normal Motor Ctrl ============= */
                 // Motor_Stop(Compress_Motor);
