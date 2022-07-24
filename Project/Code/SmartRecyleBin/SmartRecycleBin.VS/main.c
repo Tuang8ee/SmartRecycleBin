@@ -5,13 +5,18 @@
 
 void main(void) 
 {
-    uint8_t test = 1;
+    uint8_t test = 0;
     MCU_Config();
     GPIO_Write(Motor_0.Port, Motor_0.Pin, HIGH);
 
+    if(GPIO_Read(SW1.Port, SW1.Pin) == HIGH)
+    {
+        test = 1;
+    }
+
     while(1)
     {
-        if (test != 1)
+        if (test == 0)
         /*==================================*/
         {
             Loop(&timeSysTick);

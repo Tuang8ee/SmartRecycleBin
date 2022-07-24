@@ -10,10 +10,10 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _MCU_Config `(v ~T0 @X0 0 ef ]
 "14 .\Peripheral_Libs/Hearder/GPIO.h
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
+"15
+[v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
 "15 .\Peripheral_Libs/Hearder/LoopProcess.h
 [v _Loop `(v ~T0 @X0 0 ef1`*Vui ]
-"15 .\Peripheral_Libs/Hearder/GPIO.h
-[v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
 "23 .\Peripheral_Libs/Hearder/HBrightCtrl.h
 [v _Step_Set `(v ~T0 @X0 0 ef1`*S101 ]
 "25
@@ -924,107 +924,116 @@ Version 3.2 HI-TECH Software Intermediate Code
 [f ]
 "8
 [v _test `uc ~T0 @X0 1 a ]
-[e = _test -> -> 1 `i `uc ]
+[e = _test -> -> 0 `i `uc ]
 "9
 [e ( _MCU_Config ..  ]
 "10
 [e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 1 `i `uc ]
 "12
-[e :U 104 ]
+[e $ ! == -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> 1 `i 103  ]
 "13
 {
 "14
-[e $ ! != -> _test `i -> 1 `i 106  ]
-"16
-{
+[e = _test -> -> 1 `i `uc ]
+"15
+}
+[e :U 103 ]
 "17
-[e ( _Loop (1 &U _timeSysTick ]
+[e :U 105 ]
 "18
-}
-[e $U 107  ]
+{
+"19
+[e $ ! == -> _test `i -> 0 `i 107  ]
+"21
+{
 "22
-[e :U 106 ]
+[e ( _Loop (1 &U _timeSysTick ]
 "23
-{
-"26
-[e $ ! == -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> 1 `i 108  ]
+}
+[e $U 108  ]
 "27
-{
-"28
-[e = . _compressStepHandle 2 -> -> 1 `i `uc ]
-"29
-[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
-"30
-[e ( _Step_Set (1 &U _compressStepHandle ]
-"31
-[e ( _Step_Start (1 &U _compressStepHandle ]
-"34
-[e = . _winchStepHandle 2 -> -> 1 `i `uc ]
-"35
-[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
-"36
-[e ( _Step_Set (1 &U _winchStepHandle ]
-"37
-[e ( _Step_Start (1 &U _winchStepHandle ]
-"44
-}
-[e $U 109  ]
-"46
-[e :U 108 ]
-[e $ ! == -> ( _GPIO_Read (2 , . _SW2 0 . _SW2 1 `i -> 1 `i 110  ]
-"47
-{
-"48
-[e = . _compressStepHandle 2 -> -> 0 `i `uc ]
-"49
-[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
-"50
-[e ( _Step_Set (1 &U _compressStepHandle ]
-"51
-[e ( _Step_Start (1 &U _compressStepHandle ]
-"54
-[e = . _winchStepHandle 2 -> -> 0 `i `uc ]
-"55
-[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
-"56
-[e ( _Step_Set (1 &U _winchStepHandle ]
-"57
-[e ( _Step_Start (1 &U _winchStepHandle ]
-"64
-}
-[e $U 111  ]
-"65
-[e :U 110 ]
-"66
-{
-"67
-[e ( _Step_Stop (1 &U _compressStepHandle ]
-"68
-[e ( _Step_Stop (1 &U _doorStepHandle ]
-"69
-[e ( _Step_Stop (1 &U _winchStepHandle ]
-"70
-}
-[e :U 111 ]
-[e :U 109 ]
-"71
-}
 [e :U 107 ]
-"72
-[e $ ! != _timeReset_flag -> -> 0 `i `ui 112  ]
-"73
+"28
 {
+"31
+[e $ ! == -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> 1 `i 109  ]
+"32
+{
+"33
+[e = . _compressStepHandle 2 -> -> 1 `i `uc ]
+"34
+[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
+"35
+[e ( _Step_Set (1 &U _compressStepHandle ]
+"36
+[e ( _Step_Start (1 &U _compressStepHandle ]
+"39
+[e = . _winchStepHandle 2 -> -> 1 `i `uc ]
+"40
+[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
+"41
+[e ( _Step_Set (1 &U _winchStepHandle ]
+"42
+[e ( _Step_Start (1 &U _winchStepHandle ]
+"49
+}
+[e $U 110  ]
+"51
+[e :U 109 ]
+[e $ ! == -> ( _GPIO_Read (2 , . _SW2 0 . _SW2 1 `i -> 1 `i 111  ]
+"52
+{
+"53
+[e = . _compressStepHandle 2 -> -> 0 `i `uc ]
+"54
+[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
+"55
+[e ( _Step_Set (1 &U _compressStepHandle ]
+"56
+[e ( _Step_Start (1 &U _compressStepHandle ]
+"59
+[e = . _winchStepHandle 2 -> -> 0 `i `uc ]
+"60
+[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
+"61
+[e ( _Step_Set (1 &U _winchStepHandle ]
+"62
+[e ( _Step_Start (1 &U _winchStepHandle ]
+"69
+}
+[e $U 112  ]
+"70
+[e :U 111 ]
+"71
+{
+"72
+[e ( _Step_Stop (1 &U _compressStepHandle ]
+"73
+[e ( _Step_Stop (1 &U _doorStepHandle ]
 "74
-[e = _timeReset_flag -> -> 0 `i `ui ]
+[e ( _Step_Stop (1 &U _winchStepHandle ]
 "75
 }
 [e :U 112 ]
-"77
+[e :U 110 ]
+"76
 }
-[e :U 103 ]
-"12
-[e $U 104  ]
-[e :U 105 ]
+[e :U 108 ]
+"77
+[e $ ! != _timeReset_flag -> -> 0 `i `ui 113  ]
 "78
+{
+"79
+[e = _timeReset_flag -> -> 0 `i `ui ]
+"80
+}
+[e :U 113 ]
+"82
+}
+[e :U 104 ]
+"17
+[e $U 105  ]
+[e :U 106 ]
+"83
 [e :UE 102 ]
 }
