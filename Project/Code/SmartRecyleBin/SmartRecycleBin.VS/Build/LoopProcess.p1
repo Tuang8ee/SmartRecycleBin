@@ -1489,13 +1489,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 "408
 [e = . _compressStepHandle 2 -> -> 1 `i `uc ]
 "409
-[e = . _compressStepHandle 0 -> -> 50 `i `ui ]
+[e = . _compressStepHandle 0 -> -> 70 `i `ui ]
 "410
 [e ( _Step_Set (1 &U _compressStepHandle ]
 "412
 [e = . _winchStepHandle 2 -> -> 1 `i `uc ]
 "413
-[e = . _winchStepHandle 0 -> -> 50 `i `ui ]
+[e = . _winchStepHandle 0 -> -> 70 `i `ui ]
 "414
 [e ( _Step_Set (1 &U _winchStepHandle ]
 "416
@@ -1511,13 +1511,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 "427
 [e = . _compressStepHandle 2 -> -> 0 `i `uc ]
 "428
-[e = . _compressStepHandle 0 -> -> 50 `i `ui ]
+[e = . _compressStepHandle 0 -> -> 70 `i `ui ]
 "429
 [e ( _Step_Set (1 &U _compressStepHandle ]
 "431
 [e = . _winchStepHandle 2 -> -> 0 `i `uc ]
 "432
-[e = . _winchStepHandle 0 -> -> 50 `i `ui ]
+[e = . _winchStepHandle 0 -> -> 70 `i `ui ]
 "433
 [e ( _Step_Set (1 &U _winchStepHandle ]
 "435

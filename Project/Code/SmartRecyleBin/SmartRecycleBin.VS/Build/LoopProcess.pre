@@ -2657,11 +2657,11 @@ if(timeBuffer <= 10)
 
 # 408
 compressStepHandle.chieu = 1;
-compressStepHandle.vong = 50;
+compressStepHandle.vong = 70;
 Step_Set(&compressStepHandle);
 
 winchStepHandle.chieu = 1;
-winchStepHandle.vong = 50;
+winchStepHandle.vong = 70;
 Step_Set(&winchStepHandle);
 
 timeBuffer = 10 + 1;
@@ -2672,11 +2672,11 @@ else if(timeBuffer == 70000)
 
 # 427
 compressStepHandle.chieu = 0;
-compressStepHandle.vong = 50;
+compressStepHandle.vong = 70;
 Step_Set(&compressStepHandle);
 
 winchStepHandle.chieu = 0;
-winchStepHandle.vong = 50;
+winchStepHandle.vong = 70;
 Step_Set(&winchStepHandle);
 
 timeBuffer = 70000 + 1;

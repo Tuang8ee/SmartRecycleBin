@@ -406,11 +406,11 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
 
                 /* ============= Step Motor Ctrl ============= */
                 compressStepHandle.chieu = NENXUONG;
-                compressStepHandle.vong = 50;
+                compressStepHandle.vong = 70;
                 Step_Set(&compressStepHandle);
 
                 winchStepHandle.chieu = NENXUONG;
-                winchStepHandle.vong = 50;
+                winchStepHandle.vong = 70;
                 Step_Set(&winchStepHandle);
 
                 timeBuffer = TIME_STARTUP_COMPRESS + 1;
@@ -425,11 +425,11 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 
                 /* ============= Step Motor Ctrl ============= */
                 compressStepHandle.chieu = KEOLEN;
-                compressStepHandle.vong = 50;
+                compressStepHandle.vong = 70;
                 Step_Set(&compressStepHandle);
                 
                 winchStepHandle.chieu = KEOLEN;
-                winchStepHandle.vong = 50;
+                winchStepHandle.vong = 70;
                 Step_Set(&winchStepHandle);
 
                 timeBuffer = TIME_COMPRESS + 1;
