@@ -10,9 +10,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _MCU_Config `(v ~T0 @X0 0 ef ]
 "14 .\Peripheral_Libs/Hearder/GPIO.h
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
-"15 .\Peripheral_Libs/Hearder/LoopProcess.h
-[v _Loop `(v ~T0 @X0 0 ef1`*Vui ]
-"15 .\Peripheral_Libs/Hearder/GPIO.h
+"15
 [v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
 "23 .\Peripheral_Libs/Hearder/HBrightCtrl.h
 [v _Step_Set `(v ~T0 @X0 0 ef1`*S101 ]
@@ -930,20 +928,26 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 104 ]
 "12
 {
-"14
-[e ( _Loop (1 &U _timeSysTick ]
 "22
 [e $ ! == -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> 1 `i 106  ]
 "23
 {
-"36
-[e = . _doorStepHandle 2 -> -> 1 `i `uc ]
-"37
-[e = . _doorStepHandle 0 -> -> 400 `i `ui ]
-"38
-[e ( _Step_Set (1 &U _doorStepHandle ]
-"39
-[e ( _Step_Start (1 &U _doorStepHandle ]
+"24
+[e = . _compressStepHandle 2 -> -> 1 `i `uc ]
+"25
+[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
+"26
+[e ( _Step_Set (1 &U _compressStepHandle ]
+"27
+[e ( _Step_Start (1 &U _compressStepHandle ]
+"30
+[e = . _winchStepHandle 2 -> -> 1 `i `uc ]
+"31
+[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
+"32
+[e ( _Step_Set (1 &U _winchStepHandle ]
+"33
+[e ( _Step_Start (1 &U _winchStepHandle ]
 "40
 }
 [e $U 107  ]
@@ -952,14 +956,22 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $ ! == -> ( _GPIO_Read (2 , . _SW2 0 . _SW2 1 `i -> 1 `i 108  ]
 "43
 {
-"56
-[e = . _doorStepHandle 2 -> -> 0 `i `uc ]
-"57
-[e = . _doorStepHandle 0 -> -> 400 `i `ui ]
-"58
-[e ( _Step_Set (1 &U _doorStepHandle ]
-"59
-[e ( _Step_Start (1 &U _doorStepHandle ]
+"44
+[e = . _compressStepHandle 2 -> -> 0 `i `uc ]
+"45
+[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
+"46
+[e ( _Step_Set (1 &U _compressStepHandle ]
+"47
+[e ( _Step_Start (1 &U _compressStepHandle ]
+"50
+[e = . _winchStepHandle 2 -> -> 0 `i `uc ]
+"51
+[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
+"52
+[e ( _Step_Set (1 &U _winchStepHandle ]
+"53
+[e ( _Step_Start (1 &U _winchStepHandle ]
 "60
 }
 [e $U 109  ]
