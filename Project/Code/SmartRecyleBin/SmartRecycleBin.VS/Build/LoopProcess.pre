@@ -2699,10 +2699,10 @@ compressStepHandle.vong = 2;
 Step_Set(&compressStepHandle);
 
 winchStepHandle.chieu = 0;
-winchStepHandle.vong = 3;
+winchStepHandle.vong = 4;
 Step_Set(&winchStepHandle);
 }
-else if(timeBuffer >= 70000 + 70000 + 10000)
+else if(timeBuffer >= 70000 + 70000 + 20000)
 {
 
 # 467

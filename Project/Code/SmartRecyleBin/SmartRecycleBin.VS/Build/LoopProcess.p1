@@ -1556,7 +1556,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "455
 [e = . _winchStepHandle 2 -> -> 0 `i `uc ]
 "456
-[e = . _winchStepHandle 0 -> -> 3 `i `ui ]
+[e = . _winchStepHandle 0 -> -> 4 `i `ui ]
 "457
 [e ( _Step_Set (1 &U _winchStepHandle ]
 "458
@@ -1564,7 +1564,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 173  ]
 "459
 [e :U 172 ]
-[e $ ! >= _timeBuffer -> + + -> 70000 `l -> 70000 `l -> -> 10000 `i `l `ul 174  ]
+[e $ ! >= _timeBuffer -> + + -> 70000 `l -> 70000 `l -> -> 20000 `i `l `ul 174  ]
 "460
 {
 "467

@@ -2328,6 +2328,10 @@ if(GPIO_Read(SW1.Port, SW1.Pin) == 1)
 {
 test = 1;
 }
+else if(GPIO_Read(SW2.Port, SW2.Pin) == 1)
+{
+test = 2;
+}
 
 while(1)
 {
@@ -2345,6 +2349,8 @@ else
 
 if(GPIO_Read(SW1.Port, SW1.Pin) == 1)
 {
+if (test == 1)
+{
 compressStepHandle.chieu = 1;
 compressStepHandle.vong = 400;
 Step_Set(&compressStepHandle);
@@ -2355,11 +2361,20 @@ winchStepHandle.chieu = 1;
 winchStepHandle.vong = 400;
 Step_Set(&winchStepHandle);
 Step_Start(&winchStepHandle);
+}
+else
+{
 
-# 49
+doorStepHandle.chieu = 1;
+doorStepHandle.vong = 400;
+Step_Set(&doorStepHandle);
+Step_Start(&doorStepHandle);
+}
 }
 
 else if(GPIO_Read(SW2.Port, SW2.Pin) == 1)
+{
+if (test == 1)
 {
 compressStepHandle.chieu = 0;
 compressStepHandle.vong = 400;
@@ -2371,8 +2386,14 @@ winchStepHandle.chieu = 0;
 winchStepHandle.vong = 400;
 Step_Set(&winchStepHandle);
 Step_Start(&winchStepHandle);
-
-# 69
+}
+else
+{
+doorStepHandle.chieu = 0;
+doorStepHandle.vong = 400;
+Step_Set(&doorStepHandle);
+Step_Start(&doorStepHandle);
+}
 }
 else
 {

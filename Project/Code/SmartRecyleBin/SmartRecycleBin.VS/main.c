@@ -13,6 +13,10 @@ void main(void)
     {
         test = 1;
     }
+    else if(GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
+    {
+        test = 2;
+    }
 
     while(1)
     {
@@ -24,48 +28,57 @@ void main(void)
         /*==================================*/
 
 
-        else
+        else 
         {
         /*============== Test ==============*/
         // Đi xuống
             if(GPIO_Read(SW1.Port, SW1.Pin) == HIGH)
             {
-                compressStepHandle.chieu = HIGH;
-                compressStepHandle.vong = 400;
-                Step_Set(&compressStepHandle);
-                Step_Start(&compressStepHandle);
+                if (test == 1)
+                {
+                    compressStepHandle.chieu = HIGH;
+                    compressStepHandle.vong = 400;
+                    Step_Set(&compressStepHandle);
+                    Step_Start(&compressStepHandle);
 
+                    
+                    winchStepHandle.chieu = HIGH;
+                    winchStepHandle.vong = 400;
+                    Step_Set(&winchStepHandle);
+                    Step_Start(&winchStepHandle);
+                }
+                else
+                {
                 
-                winchStepHandle.chieu = HIGH;
-                winchStepHandle.vong = 400;
-                Step_Set(&winchStepHandle);
-                Step_Start(&winchStepHandle);
-
-                
-                // doorStepHandle.chieu = HIGH;
-                // doorStepHandle.vong = 400;
-                // Step_Set(&doorStepHandle);
-                // Step_Start(&doorStepHandle);
+                    doorStepHandle.chieu = HIGH;
+                    doorStepHandle.vong = 400;
+                    Step_Set(&doorStepHandle);
+                    Step_Start(&doorStepHandle);
+                }
             }
             //Đi lên
             else if(GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
             {
-                compressStepHandle.chieu = LOW;
-                compressStepHandle.vong = 400;
-                Step_Set(&compressStepHandle);
-                Step_Start(&compressStepHandle);
+                if (test == 1)
+                {
+                    compressStepHandle.chieu = LOW;
+                    compressStepHandle.vong = 400;
+                    Step_Set(&compressStepHandle);
+                    Step_Start(&compressStepHandle);
 
-                
-                winchStepHandle.chieu = LOW;
-                winchStepHandle.vong = 400;
-                Step_Set(&winchStepHandle);
-                Step_Start(&winchStepHandle);
-
-                
-                // doorStepHandle.chieu = LOW;
-                // doorStepHandle.vong = 400;
-                // Step_Set(&doorStepHandle);
-                // Step_Start(&doorStepHandle);
+                    
+                    winchStepHandle.chieu = LOW;
+                    winchStepHandle.vong = 400;
+                    Step_Set(&winchStepHandle);
+                    Step_Start(&winchStepHandle);
+                }
+                else
+                {
+                    doorStepHandle.chieu = LOW;
+                    doorStepHandle.vong = 400;
+                    Step_Set(&doorStepHandle);
+                    Step_Start(&doorStepHandle);
+                }
             }
             else
             {

@@ -937,103 +937,158 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e = _test -> -> 1 `i `uc ]
 "15
 }
+[e $U 104  ]
+"16
 [e :U 103 ]
+[e $ ! == -> ( _GPIO_Read (2 , . _SW2 0 . _SW2 1 `i -> 1 `i 105  ]
 "17
-[e :U 105 ]
+{
 "18
-{
+[e = _test -> -> 2 `i `uc ]
 "19
-[e $ ! == -> _test `i -> 0 `i 107  ]
-"21
-{
-"22
-[e ( _Loop (1 &U _timeSysTick ]
-"23
 }
-[e $U 108  ]
-"27
+[e :U 105 ]
+"21
+[e :U 104 ]
 [e :U 107 ]
-"28
+"22
 {
+"23
+[e $ ! == -> _test `i -> 0 `i 109  ]
+"25
+{
+"26
+[e ( _Loop (1 &U _timeSysTick ]
+"27
+}
+[e $U 110  ]
 "31
-[e $ ! == -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> 1 `i 109  ]
+[e :U 109 ]
 "32
 {
-"33
-[e = . _compressStepHandle 2 -> -> 1 `i `uc ]
-"34
-[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
 "35
-[e ( _Step_Set (1 &U _compressStepHandle ]
+[e $ ! == -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> 1 `i 111  ]
 "36
-[e ( _Step_Start (1 &U _compressStepHandle ]
+{
+"37
+[e $ ! == -> _test `i -> 1 `i 112  ]
+"38
+{
 "39
-[e = . _winchStepHandle 2 -> -> 1 `i `uc ]
+[e = . _compressStepHandle 2 -> -> 1 `i `uc ]
 "40
-[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
+[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
 "41
-[e ( _Step_Set (1 &U _winchStepHandle ]
+[e ( _Step_Set (1 &U _compressStepHandle ]
 "42
+[e ( _Step_Start (1 &U _compressStepHandle ]
+"45
+[e = . _winchStepHandle 2 -> -> 1 `i `uc ]
+"46
+[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
+"47
+[e ( _Step_Set (1 &U _winchStepHandle ]
+"48
 [e ( _Step_Start (1 &U _winchStepHandle ]
 "49
 }
-[e $U 110  ]
+[e $U 113  ]
+"50
+[e :U 112 ]
 "51
-[e :U 109 ]
-[e $ ! == -> ( _GPIO_Read (2 , . _SW2 0 . _SW2 1 `i -> 1 `i 111  ]
-"52
 {
 "53
-[e = . _compressStepHandle 2 -> -> 0 `i `uc ]
+[e = . _doorStepHandle 2 -> -> 1 `i `uc ]
 "54
-[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
+[e = . _doorStepHandle 0 -> -> 400 `i `ui ]
 "55
-[e ( _Step_Set (1 &U _compressStepHandle ]
+[e ( _Step_Set (1 &U _doorStepHandle ]
 "56
-[e ( _Step_Start (1 &U _compressStepHandle ]
-"59
-[e = . _winchStepHandle 2 -> -> 0 `i `uc ]
-"60
-[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
-"61
-[e ( _Step_Set (1 &U _winchStepHandle ]
-"62
-[e ( _Step_Start (1 &U _winchStepHandle ]
-"69
-}
-[e $U 112  ]
-"70
-[e :U 111 ]
-"71
-{
-"72
-[e ( _Step_Stop (1 &U _compressStepHandle ]
-"73
-[e ( _Step_Stop (1 &U _doorStepHandle ]
-"74
-[e ( _Step_Stop (1 &U _winchStepHandle ]
-"75
-}
-[e :U 112 ]
-[e :U 110 ]
-"76
-}
-[e :U 108 ]
-"77
-[e $ ! != _timeReset_flag -> -> 0 `i `ui 113  ]
-"78
-{
-"79
-[e = _timeReset_flag -> -> 0 `i `ui ]
-"80
+[e ( _Step_Start (1 &U _doorStepHandle ]
+"57
 }
 [e :U 113 ]
+"58
+}
+[e $U 114  ]
+"60
+[e :U 111 ]
+[e $ ! == -> ( _GPIO_Read (2 , . _SW2 0 . _SW2 1 `i -> 1 `i 115  ]
+"61
+{
+"62
+[e $ ! == -> _test `i -> 1 `i 116  ]
+"63
+{
+"64
+[e = . _compressStepHandle 2 -> -> 0 `i `uc ]
+"65
+[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
+"66
+[e ( _Step_Set (1 &U _compressStepHandle ]
+"67
+[e ( _Step_Start (1 &U _compressStepHandle ]
+"70
+[e = . _winchStepHandle 2 -> -> 0 `i `uc ]
+"71
+[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
+"72
+[e ( _Step_Set (1 &U _winchStepHandle ]
+"73
+[e ( _Step_Start (1 &U _winchStepHandle ]
+"74
+}
+[e $U 117  ]
+"75
+[e :U 116 ]
+"76
+{
+"77
+[e = . _doorStepHandle 2 -> -> 0 `i `uc ]
+"78
+[e = . _doorStepHandle 0 -> -> 400 `i `ui ]
+"79
+[e ( _Step_Set (1 &U _doorStepHandle ]
+"80
+[e ( _Step_Start (1 &U _doorStepHandle ]
+"81
+}
+[e :U 117 ]
 "82
 }
-[e :U 104 ]
-"17
-[e $U 105  ]
-[e :U 106 ]
+[e $U 118  ]
 "83
+[e :U 115 ]
+"84
+{
+"85
+[e ( _Step_Stop (1 &U _compressStepHandle ]
+"86
+[e ( _Step_Stop (1 &U _doorStepHandle ]
+"87
+[e ( _Step_Stop (1 &U _winchStepHandle ]
+"88
+}
+[e :U 118 ]
+[e :U 114 ]
+"89
+}
+[e :U 110 ]
+"90
+[e $ ! != _timeReset_flag -> -> 0 `i `ui 119  ]
+"91
+{
+"92
+[e = _timeReset_flag -> -> 0 `i `ui ]
+"93
+}
+[e :U 119 ]
+"95
+}
+[e :U 106 ]
+"21
+[e $U 107  ]
+[e :U 108 ]
+"96
 [e :UE 102 ]
 }
