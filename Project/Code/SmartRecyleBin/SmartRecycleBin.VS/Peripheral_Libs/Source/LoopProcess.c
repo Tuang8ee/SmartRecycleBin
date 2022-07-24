@@ -408,6 +408,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 /* ============= Step Motor Ctrl ============= */
                 compressStepHandle.chieu = NENXUONG;
                 compressStepHandle.vong = 63;
+                Step_Set(&compressStepHandle);
 
                 winchStepHandle.chieu = NENXUONG;
                 winchStepHandle.vong = 63;
