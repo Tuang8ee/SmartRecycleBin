@@ -2432,7 +2432,7 @@ timeBuffer = 10 + 1;
 
 
 }
-else if (timeBuffer > 2000)
+else if (timeBuffer > 3000)
 {
 
 
@@ -2465,7 +2465,7 @@ timeBuffer = 10 + 1;
 
 
 }
-else if (timeBuffer > 2000)
+else if (timeBuffer > 3000)
 {
 
 
@@ -2506,7 +2506,7 @@ timeBuffer = 10 + 1;
 
 
 }
-else if (timeBuffer > 2000)
+else if (timeBuffer > 3000)
 {
 
 

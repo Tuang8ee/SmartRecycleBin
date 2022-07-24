@@ -4822,11 +4822,11 @@ l8771:
 	movf	(_timeBuffer+2),w
 	btfss	status,2
 	goto	u4340
-	movlw	7
+	movlw	11
 	subwf	(_timeBuffer+1),w
 	skipz
 	goto	u4343
-	movlw	209
+	movlw	185
 	subwf	(_timeBuffer),w
 	skipz
 	goto	u4343
@@ -4944,11 +4944,11 @@ l8789:
 	movf	(_timeBuffer+2),w
 	btfss	status,2
 	goto	u4370
-	movlw	7
+	movlw	11
 	subwf	(_timeBuffer+1),w
 	skipz
 	goto	u4373
-	movlw	209
+	movlw	185
 	subwf	(_timeBuffer),w
 	skipz
 	goto	u4373
@@ -5171,11 +5171,11 @@ l8815:
 	movf	(_timeBuffer+2),w
 	btfss	status,2
 	goto	u4420
-	movlw	7
+	movlw	11
 	subwf	(_timeBuffer+1),w
 	skipz
 	goto	u4423
-	movlw	209
+	movlw	185
 	subwf	(_timeBuffer),w
 	skipz
 	goto	u4423

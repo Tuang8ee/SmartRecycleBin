@@ -1093,7 +1093,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 117  ]
 "149
 [e :U 116 ]
-[e $ ! > _timeBuffer -> -> -> 2000 `i `l `ul 118  ]
+[e $ ! > _timeBuffer -> -> -> 3000 `i `l `ul 118  ]
 "150
 {
 "155
@@ -1131,7 +1131,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 122  ]
 "182
 [e :U 121 ]
-[e $ ! > _timeBuffer -> -> -> 2000 `i `l `ul 123  ]
+[e $ ! > _timeBuffer -> -> -> 3000 `i `l `ul 123  ]
 "183
 {
 "188
@@ -1198,7 +1198,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 130  ]
 "226
 [e :U 129 ]
-[e $ ! > _timeBuffer -> -> -> 2000 `i `l `ul 131  ]
+[e $ ! > _timeBuffer -> -> -> 3000 `i `l `ul 131  ]
 "227
 {
 "230
