@@ -4332,7 +4332,7 @@ GLOBAL	__end_of_Reset_ADC_Register
 
 ;; *************** function _Loop *****************
 ;; Defined at:
-;;		line 552 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 551 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;  ptimeSysTick    1    wreg     PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
@@ -4369,19 +4369,19 @@ GLOBAL	__end_of_Reset_ADC_Register
 ;;
 psect	text10,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	552
+	line	551
 global __ptext10
 __ptext10:	;psect for function _Loop
 psect	text10
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	552
+	line	551
 	
 _Loop:	
 ;incstack = 0
 	callstack 2
 ; Regs used in _Loop: [wreg-fsr0h+status,2+status,0+btemp+1+pclath+cstack]
 	movwf	(Loop@ptimeSysTick)
-	line	555
+	line	554
 	
 l9280:	
 		movlw	4
@@ -4401,7 +4401,7 @@ l9282:
 u5151:
 	goto	l9286
 u5150:
-	line	557
+	line	556
 	
 l9284:	
 	movf	(Loop@ptimeSysTick),w
@@ -4410,46 +4410,46 @@ l9284:
 	movwf	(TrashDoor_Ctrl@timeSysTick)
 	movlw	(low(_trashDoorState|((0x0)<<8)))&0ffh
 	fcall	_TrashDoor_Ctrl
-	line	560
+	line	559
 	
 l9286:	
 	fcall	_Compression_Ctrl
-	line	561
+	line	560
 	
 l9288:	
 	movf	(Loop@ptimeSysTick),w
 	fcall	_Compression_Run
-	line	563
+	line	562
 	
 l9290:	
 	fcall	_Disinfection_Ctrl
-	line	564
+	line	563
 	
 l9292:	
 	fcall	_Disionfection_Run
-	line	567
+	line	566
 	
 l9294:	
 	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Start
-	line	568
+	line	567
 	
 l9296:	
 	movlw	(low(_winchStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Start
-	line	569
+	line	568
 	
 l9298:	
 	movlw	(low(_doorStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Start
-	line	571
+	line	570
 	
 l9300:	
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	movf	(Loop@ptimeSysTick),w
 	fcall	_TimeSysTickUpdate
-	line	572
+	line	571
 	
 l4339:	
 	return
@@ -7650,7 +7650,7 @@ GLOBAL	__end_of_ADC_BASE_Init
 
 ;; *************** function _TimeSysTickUpdate *****************
 ;; Defined at:
-;;		line 529 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 528 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;  ptimeSysTick    1    wreg     PTR volatile unsigned in
 ;;		 -> timeSysTick(2), 
@@ -7681,19 +7681,19 @@ GLOBAL	__end_of_ADC_BASE_Init
 ;;
 psect	text25,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	529
+	line	528
 global __ptext25
 __ptext25:	;psect for function _TimeSysTickUpdate
 psect	text25
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	529
+	line	528
 	
 _TimeSysTickUpdate:	
 ;incstack = 0
 	callstack 5
 ; Regs used in _TimeSysTickUpdate: [wreg-fsr0h+status,2+status,0]
 	movwf	(TimeSysTickUpdate@ptimeSysTick)
-	line	532
+	line	531
 	
 l8492:	
 	movf	(TimeSysTickUpdate@ptimeSysTick),w
@@ -7717,7 +7717,7 @@ u3605:
 u3601:
 	goto	l4335
 u3600:
-	line	534
+	line	533
 	
 l8494:	
 	movf	(TimeSysTickUpdate@ptimeSysTick),w
@@ -7727,7 +7727,7 @@ l8494:
 	incf	fsr0,f
 	movf	indf,w
 	movwf	(_timeSysTickBuffer+1)
-	line	535
+	line	534
 	
 l8496:	
 	movlw	01h
@@ -7744,7 +7744,7 @@ movlw 1
 	skipnc
 movlw 1
 	addwf	(_timeBuffer+3),f
-	line	542
+	line	541
 	
 l4335:	
 	return
@@ -8068,7 +8068,7 @@ GLOBAL	__end_of_Delay_us
 
 ;; *************** function _Disionfection_Run *****************
 ;; Defined at:
-;;		line 506 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 505 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -8097,18 +8097,18 @@ GLOBAL	__end_of_Delay_us
 ;;
 psect	text28,local,class=CODE,delta=2,merge=1,group=0
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	506
+	line	505
 global __ptext28
 __ptext28:	;psect for function _Disionfection_Run
 psect	text28
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	506
+	line	505
 	
 _Disionfection_Run:	
 ;incstack = 0
 	callstack 4
 ; Regs used in _Disionfection_Run: [wreg-fsr0h+status,2+status,0+pclath+cstack]
-	line	508
+	line	507
 	
 l9246:	
 		decf	((_disinfectionState)),w
@@ -8118,7 +8118,7 @@ l9246:
 u5111:
 	goto	l4329
 u5110:
-	line	510
+	line	509
 	
 l9248:	
 		movf	(_timeBuffer+3),w
@@ -8142,7 +8142,7 @@ u5123:
 u5121:
 	goto	l9254
 u5120:
-	line	512
+	line	511
 	
 l9250:	
 	bcf	status, 5	;RP0=0, select bank0
@@ -8154,7 +8154,7 @@ l9250:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_Motor_0),w
 	fcall	_GPIO_Write
-	line	513
+	line	512
 	
 l9252:	
 	movlw	0
@@ -8167,9 +8167,9 @@ l9252:
 	movlw	06h
 	movwf	(_timeBuffer)
 
-	line	514
+	line	513
 	goto	l4329
-	line	515
+	line	514
 	
 l9254:	
 	bcf	status, 5	;RP0=0, select bank0
@@ -8196,7 +8196,7 @@ u5133:
 u5131:
 	goto	l4329
 u5130:
-	line	517
+	line	516
 	
 l9256:	
 	bcf	status, 5	;RP0=0, select bank0
@@ -8209,14 +8209,14 @@ l9256:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_Motor_0),w
 	fcall	_GPIO_Write
-	line	518
+	line	517
 	
 l9258:	
 	movlw	low(02h)
 	movwf	(??_Disionfection_Run+0)+0
 	movf	(??_Disionfection_Run+0)+0,w
 	movwf	(_disinfectionState)
-	line	522
+	line	521
 	
 l4329:	
 	return
@@ -8228,7 +8228,7 @@ GLOBAL	__end_of_Disionfection_Run
 
 ;; *************** function _Disinfection_Ctrl *****************
 ;; Defined at:
-;;		line 490 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
+;;		line 489 in file "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
 ;; Parameters:    Size  Location     Type
 ;;		None
 ;; Auto vars:     Size  Location     Type
@@ -8256,18 +8256,18 @@ GLOBAL	__end_of_Disionfection_Run
 ;; This function uses a non-reentrant model
 ;;
 psect	text29,local,class=CODE,delta=2,merge=1,group=0
-	line	490
+	line	489
 global __ptext29
 __ptext29:	;psect for function _Disinfection_Ctrl
 psect	text29
 	file	"D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c"
-	line	490
+	line	489
 	
 _Disinfection_Ctrl:	
 ;incstack = 0
 	callstack 5
 ; Regs used in _Disinfection_Ctrl: [wreg+status,2+status,0]
-	line	492
+	line	491
 	
 l8468:	
 		movlw	2
@@ -8280,13 +8280,13 @@ l8468:
 u3551:
 	goto	l8472
 u3550:
-	line	494
+	line	493
 	
 l8470:	
 	clrf	(_disinfectionState)
-	line	495
+	line	494
 	goto	l4322
-	line	498
+	line	497
 	
 l8472:	
 	movf	((_disinfectionState)),w
@@ -8296,12 +8296,12 @@ l8472:
 u3561:
 	goto	l4322
 u3560:
-	line	500
+	line	499
 	
 l8474:	
 	clrf	(_disinfectionState)
 	incf	(_disinfectionState),f
-	line	501
+	line	500
 	
 l8476:	
 	movlw	high highword(0)
@@ -8313,7 +8313,7 @@ l8476:
 	movlw	low(0)
 	movwf	(_timeBuffer)
 
-	line	504
+	line	503
 	
 l4322:	
 	return
@@ -8574,7 +8574,7 @@ l9186:
 	line	410
 	
 l9188:	
-	movlw	03Ch
+	movlw	03Fh
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
@@ -8592,7 +8592,7 @@ l9192:
 	line	414
 	
 l9194:	
-	movlw	03Ch
+	movlw	03Fh
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
@@ -8613,17 +8613,19 @@ l9196:
 
 	line	419
 	goto	l4316
-	line	421
+	line	420
 	
 l9198:	
-		movlw	80
+		movlw	112
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	xorwf	((_timeBuffer)),w
-	movlw	195
+	movlw	17
 	skipnz
 	xorwf	((_timeBuffer+1)),w
-iorwf	((_timeBuffer+2)),w
+	skipz
+	goto	u5041
+	decf	((_timeBuffer+2)),w
 iorwf	((_timeBuffer+3)),w
 	btfss	status,2
 	goto	u5041
@@ -8631,54 +8633,54 @@ iorwf	((_timeBuffer+3)),w
 u5041:
 	goto	l9212
 u5040:
-	line	429
+	line	428
 	
 l9200:	
 	bsf	status, 5	;RP0=1, select bank1
 	bcf	status, 6	;RP1=0, select bank1
 	clrf	0+(_compressStepHandle)^080h+06h
-	line	430
+	line	429
 	
 l9202:	
-	movlw	03Ch
+	movlw	03Fh
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
-	line	431
+	line	430
 	
 l9204:	
 	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Set
-	line	433
+	line	432
 	
 l9206:	
 	bsf	status, 5	;RP0=1, select bank1
 	clrf	0+(_winchStepHandle)^080h+06h
-	line	434
+	line	433
 	
 l9208:	
-	movlw	03Ch
+	movlw	03Fh
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
-	line	435
+	line	434
 	movlw	(low(_winchStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Set
-	line	437
+	line	436
 	
 l9210:	
 	movlw	0
 	movwf	(_timeBuffer+3)
-	movlw	0
+	movlw	01h
 	movwf	(_timeBuffer+2)
-	movlw	0C3h
+	movlw	011h
 	movwf	(_timeBuffer+1)
-	movlw	051h
+	movlw	071h
 	movwf	(_timeBuffer)
 
-	line	439
+	line	438
 	goto	l4316
-	line	440
+	line	439
 	
 l9212:	
 	bcf	status, 5	;RP0=0, select bank0
@@ -8686,15 +8688,15 @@ l9212:
 		movf	(_timeBuffer+3),w
 	btfss	status,2
 	goto	u5051
-	movlw	1
+	movlw	2
 	subwf	(_timeBuffer+2),w
 	skipz
 	goto	u5053
-	movlw	134
+	movlw	34
 	subwf	(_timeBuffer+1),w
 	skipz
 	goto	u5053
-	movlw	160
+	movlw	224
 	subwf	(_timeBuffer),w
 	skipz
 	goto	u5053
@@ -8706,7 +8708,7 @@ u5053:
 u5051:
 	goto	l9220
 u5050:
-	line	443
+	line	442
 	
 l9214:	
 	bsf	status, 5	;RP0=1, select bank1
@@ -8744,25 +8746,25 @@ l9216:
 u5071:
 	goto	l4316
 u5070:
-	line	445
+	line	444
 	
 l9218:	
 	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Stop
 	goto	l4316
-	line	450
+	line	449
 	
 l9220:	
-		movlw	160
+		movlw	224
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	xorwf	((_timeBuffer)),w
-	movlw	134
+	movlw	34
 	skipnz
 	xorwf	((_timeBuffer+1)),w
-	skipz
-	goto	u5081
-	decf	((_timeBuffer+2)),w
+	movlw	2
+	skipnz
+	xorwf	((_timeBuffer+2)),w
 iorwf	((_timeBuffer+3)),w
 	btfss	status,2
 	goto	u5081
@@ -8770,40 +8772,40 @@ iorwf	((_timeBuffer+3)),w
 u5081:
 	goto	l9234
 u5080:
-	line	452
+	line	451
 	
 l9222:	
 	bsf	status, 5	;RP0=1, select bank1
 	bcf	status, 6	;RP1=0, select bank1
 	clrf	0+(_compressStepHandle)^080h+06h
-	line	453
+	line	452
 	
 l9224:	
 	movlw	01h
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
-	line	454
+	line	453
 	
 l9226:	
 	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Set
-	line	456
+	line	455
 	
 l9228:	
 	bsf	status, 5	;RP0=1, select bank1
 	clrf	0+(_winchStepHandle)^080h+06h
-	line	457
+	line	456
 	
 l9230:	
-	movlw	01h
+	movlw	02h
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
-	line	458
+	line	457
 	movlw	(low(_winchStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Set
-	line	460
+	line	459
 	
 l9232:	
 	movlw	01h
@@ -8845,9 +8847,9 @@ u5093:
 	movf	0+(??_Compression_Run+0)+0,w
 	movwf	(_timeBuffer)
 
-	line	461
+	line	460
 	goto	l4316
-	line	462
+	line	461
 	
 l9234:	
 	bcf	status, 5	;RP0=0, select bank0
@@ -8855,15 +8857,15 @@ l9234:
 		movf	(_timeBuffer+3),w
 	btfss	status,2
 	goto	u5100
-	movlw	1
+	movlw	2
 	subwf	(_timeBuffer+2),w
 	skipz
 	goto	u5103
-	movlw	138
+	movlw	113
 	subwf	(_timeBuffer+1),w
 	skipz
 	goto	u5103
-	movlw	136
+	movlw	0
 	subwf	(_timeBuffer),w
 	skipz
 	goto	u5103
@@ -8875,16 +8877,16 @@ u5103:
 u5101:
 	goto	l4301
 u5100:
-	line	470
+	line	469
 	
 l9236:	
 	movlw	(low(_compressStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Stop
-	line	471
+	line	470
 	movlw	(low(_winchStepHandle|((0x0)<<8)))&0ffh
 	fcall	_Step_Stop
 	goto	l9174
-	line	477
+	line	476
 	
 l9240:	
 	movf	0+(_LED1)+01h,w
@@ -8894,7 +8896,7 @@ l9240:
 	clrf	(GPIO_Write@GPIO_State)
 	movf	(_LED1),w
 	fcall	_GPIO_Write
-	line	479
+	line	478
 	bcf	status, 5	;RP0=0, select bank0
 	movf	0+(_LED2)+01h,w
 	movwf	(??_Compression_Run+0)+0
@@ -8904,7 +8906,7 @@ l9240:
 	incf	(GPIO_Write@GPIO_State),f
 	movf	(_LED2),w
 	fcall	_GPIO_Write
-	line	480
+	line	479
 	goto	l4316
 	line	336
 	
@@ -8936,7 +8938,7 @@ l9244:
 	goto	l4316
 	asmopt pop
 
-	line	484
+	line	483
 	
 l4316:	
 	return

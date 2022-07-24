@@ -1489,13 +1489,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 "409
 [e = . _compressStepHandle 2 -> -> 1 `i `uc ]
 "410
-[e = . _compressStepHandle 0 -> -> 60 `i `ui ]
+[e = . _compressStepHandle 0 -> -> 63 `i `ui ]
 "411
 [e ( _Step_Set (1 &U _compressStepHandle ]
 "413
 [e = . _winchStepHandle 2 -> -> 1 `i `uc ]
 "414
-[e = . _winchStepHandle 0 -> -> 60 `i `ui ]
+[e = . _winchStepHandle 0 -> -> 63 `i `ui ]
 "415
 [e ( _Step_Set (1 &U _winchStepHandle ]
 "417
@@ -1503,100 +1503,100 @@ Version 3.2 HI-TECH Software Intermediate Code
 "419
 }
 [e $U 166  ]
-"421
+"420
 [e :U 165 ]
-[e $ ! == _timeBuffer -> -> 50000 `l `ul 167  ]
-"422
+[e $ ! == _timeBuffer -> -> 70000 `l `ul 167  ]
+"421
 {
-"429
+"428
 [e = . _compressStepHandle 2 -> -> 0 `i `uc ]
+"429
+[e = . _compressStepHandle 0 -> -> 63 `i `ui ]
 "430
-[e = . _compressStepHandle 0 -> -> 60 `i `ui ]
-"431
 [e ( _Step_Set (1 &U _compressStepHandle ]
-"433
+"432
 [e = . _winchStepHandle 2 -> -> 0 `i `uc ]
+"433
+[e = . _winchStepHandle 0 -> -> 63 `i `ui ]
 "434
-[e = . _winchStepHandle 0 -> -> 60 `i `ui ]
-"435
 [e ( _Step_Set (1 &U _winchStepHandle ]
-"437
-[e = _timeBuffer -> + -> 50000 `l -> -> 1 `i `l `ul ]
-"439
+"436
+[e = _timeBuffer -> + -> 70000 `l -> -> 1 `i `l `ul ]
+"438
 }
 [e $U 168  ]
-"440
+"439
 [e :U 167 ]
-[e $ ! < _timeBuffer -> + -> 50000 `l -> 50000 `l `ul 169  ]
-"441
+[e $ ! < _timeBuffer -> + -> 70000 `l -> 70000 `l `ul 169  ]
+"440
 {
-"443
+"442
 [e $ ! && < . _compressStepHandle 1 -> -> * -> 5 `i -> 1600 `i `l `ul == -> . _compressStepHandle 2 `i -> 0 `i 170  ]
-"444
+"443
 {
-"445
+"444
 [e ( _Step_Stop (1 &U _compressStepHandle ]
-"446
+"445
 }
 [e :U 170 ]
-"449
+"448
 }
 [e $U 171  ]
-"450
+"449
 [e :U 169 ]
-[e $ ! == _timeBuffer -> + -> 50000 `l -> 50000 `l `ul 172  ]
-"451
+[e $ ! == _timeBuffer -> + -> 70000 `l -> 70000 `l `ul 172  ]
+"450
 {
-"452
+"451
 [e = . _compressStepHandle 2 -> -> 0 `i `uc ]
-"453
+"452
 [e = . _compressStepHandle 0 -> -> 1 `i `ui ]
-"454
+"453
 [e ( _Step_Set (1 &U _compressStepHandle ]
-"456
+"455
 [e = . _winchStepHandle 2 -> -> 0 `i `uc ]
+"456
+[e = . _winchStepHandle 0 -> -> 2 `i `ui ]
 "457
-[e = . _winchStepHandle 0 -> -> 1 `i `ui ]
-"458
 [e ( _Step_Set (1 &U _winchStepHandle ]
-"460
+"459
 [e = _timeBuffer + _timeBuffer -> -> -> 1 `i `l `ul ]
-"461
+"460
 }
 [e $U 173  ]
-"462
+"461
 [e :U 172 ]
-[e $ ! >= _timeBuffer -> + + -> 50000 `l -> 50000 `l -> -> 1000 `i `l `ul 174  ]
-"463
+[e $ ! >= _timeBuffer -> + + -> 70000 `l -> 70000 `l -> -> 20000 `i `l `ul 174  ]
+"462
 {
-"470
+"469
 [e ( _Step_Stop (1 &U _compressStepHandle ]
-"471
+"470
 [e ( _Step_Stop (1 &U _winchStepHandle ]
-"473
+"472
 [e = _compressionState . `E1130 2 ]
-"474
+"473
 }
 [e :U 174 ]
-"475
+"474
 [e :U 173 ]
 [e :U 171 ]
 [e :U 168 ]
 [e :U 166 ]
 [e $U 157  ]
-"476
+"475
 [e :U 175 ]
-"477
+"476
 [e ( _GPIO_Write (3 , , . _LED1 0 . _LED1 1 -> -> 0 `i `uc ]
-"479
+"478
 [e ( _GPIO_Write (3 , , . _LED2 0 . _LED2 1 -> -> 1 `i `uc ]
+"479
+[e $U 157  ]
 "480
-[e $U 157  ]
-"481
 [e :U 176 ]
-"482
+"481
 [e $U 157  ]
-"483
+"482
 }
 [e $U 157  ]
 "336
@@ -1606,149 +1606,149 @@ Version 3.2 HI-TECH Software Intermediate Code
  , $ . `E1130 4 163
  , $ . `E1130 2 175
  176 ]
-"483
+"482
 [e :U 157 ]
-"484
+"483
 [e :UE 156 ]
 }
-"490
+"489
 [v _Disinfection_Ctrl `(v ~T0 @X0 1 ef ]
-"491
+"490
 {
 [e :U _Disinfection_Ctrl ]
 [f ]
-"492
+"491
 [e $ ! != -> _compressionState `i -> . `E1130 2 `i 178  ]
-"493
+"492
 {
-"494
+"493
 [e = _disinfectionState . `E1138 0 ]
-"495
+"494
 }
 [e $U 179  ]
-"496
+"495
 [e :U 178 ]
+"496
+{
 "497
-{
-"498
 [e $ ! == -> _disinfectionState `i -> . `E1138 0 `i 180  ]
-"499
+"498
 {
-"500
+"499
 [e = _disinfectionState . `E1138 1 ]
-"501
+"500
 [e = _timeBuffer -> -> -> 0 `i `l `ul ]
-"502
+"501
 }
 [e :U 180 ]
-"503
+"502
 }
 [e :U 179 ]
-"504
+"503
 [e :UE 177 ]
 }
-"506
+"505
 [v _Disionfection_Run `(v ~T0 @X0 1 ef ]
-"507
+"506
 {
 [e :U _Disionfection_Run ]
 [f ]
-"508
+"507
 [e $ ! == -> _disinfectionState `i -> . `E1138 1 `i 182  ]
+"508
+{
 "509
-{
-"510
 [e $ ! <= _timeBuffer -> -> -> 5 `i `l `ul 183  ]
-"511
+"510
 {
-"512
+"511
 [e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 0 `i `uc ]
-"513
+"512
 [e = _timeBuffer -> -> -> 6 `i `l `ul ]
-"514
+"513
 }
 [e $U 184  ]
-"515
+"514
 [e :U 183 ]
 [e $ ! >= _timeBuffer -> -> -> 20000 `i `l `ul 185  ]
-"516
+"515
 {
-"517
+"516
 [e ( _GPIO_Write (3 , , . _Motor_0 0 . _Motor_0 1 -> -> 1 `i `uc ]
-"518
+"517
 [e = _disinfectionState . `E1138 2 ]
-"519
+"518
 }
 [e :U 185 ]
-"521
+"520
 [e :U 184 ]
 }
 [e :U 182 ]
-"522
+"521
 [e :UE 181 ]
 }
-"528
+"527
 [v _timeSysTickBuffer `ui ~T0 @X0 1 e ]
 [i _timeSysTickBuffer
 -> -> 0 `i `ui
 ]
-"529
+"528
 [v _TimeSysTickUpdate `(v ~T0 @X0 1 ef1`*Vui ]
-"530
+"529
 {
 [e :U _TimeSysTickUpdate ]
-"529
+"528
 [v _ptimeSysTick `*Vui ~T0 @X0 1 r1 ]
-"530
+"529
 [f ]
-"532
+"531
 [e $ ! != _timeSysTickBuffer *U _ptimeSysTick 187  ]
-"533
+"532
 {
-"534
+"533
 [e = _timeSysTickBuffer *U _ptimeSysTick ]
-"535
+"534
 [e ++ _timeBuffer -> -> -> 1 `i `l `ul ]
-"536
+"535
 }
 [e :U 187 ]
-"542
+"541
 [e :UE 186 ]
 }
-"552
+"551
 [v _Loop `(v ~T0 @X0 1 ef1`*Vui ]
-"553
+"552
 {
 [e :U _Loop ]
-"552
+"551
 [v _ptimeSysTick `*Vui ~T0 @X0 1 r1 ]
-"553
+"552
 [f ]
-"555
+"554
 [e $ ! && != -> _compressionState `i -> . `E1130 4 `i != -> _compressionState `i -> . `E1130 1 `i 189  ]
-"556
+"555
 {
-"557
+"556
 [e ( _TrashDoor_Ctrl (2 , &U _trashDoorState _ptimeSysTick ]
-"558
+"557
 }
 [e :U 189 ]
-"560
+"559
 [e ( _Compression_Ctrl ..  ]
-"561
+"560
 [e ( _Compression_Run (1 _ptimeSysTick ]
-"563
+"562
 [e ( _Disinfection_Ctrl ..  ]
-"564
+"563
 [e ( _Disionfection_Run ..  ]
-"567
+"566
 [e ( _Step_Start (1 &U _compressStepHandle ]
-"568
+"567
 [e ( _Step_Start (1 &U _winchStepHandle ]
-"569
+"568
 [e ( _Step_Start (1 &U _doorStepHandle ]
-"571
+"570
 [e ( _TimeSysTickUpdate (1 _ptimeSysTick ]
-"572
+"571
 [e :UE 188 ]
 }

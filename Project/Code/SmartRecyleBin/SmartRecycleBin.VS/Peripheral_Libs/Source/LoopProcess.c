@@ -16,9 +16,9 @@
 
 
 #define TIME_STARTUP_COMPRESS       10
-#define TIME_COMPRESS               50000
-#define TIME_UNCOMPRESS             50000
-#define TIME_WAIT                   1000
+#define TIME_COMPRESS               70000
+#define TIME_UNCOMPRESS             70000
+#define TIME_WAIT                   20000
 
 
 
@@ -407,17 +407,16 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
 
                 /* ============= Step Motor Ctrl ============= */
                 compressStepHandle.chieu = NENXUONG;
-                compressStepHandle.vong = 60;
+                compressStepHandle.vong = 63;
                 Step_Set(&compressStepHandle);
 
                 winchStepHandle.chieu = NENXUONG;
-                winchStepHandle.vong = 60;
+                winchStepHandle.vong = 63;
                 Step_Set(&winchStepHandle);
 
                 timeBuffer = TIME_STARTUP_COMPRESS + 1;
                 /* ============================================= */
             }
-            
             else if(timeBuffer == TIME_COMPRESS)
             {
                 /* ============= Normal Motor Ctrl ============= */
@@ -427,11 +426,11 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 
                 /* ============= Step Motor Ctrl ============= */
                 compressStepHandle.chieu = KEOLEN;
-                compressStepHandle.vong = 60;
+                compressStepHandle.vong = 63;
                 Step_Set(&compressStepHandle);
                 
                 winchStepHandle.chieu = KEOLEN;
-                winchStepHandle.vong = 60;
+                winchStepHandle.vong = 63;
                 Step_Set(&winchStepHandle);
 
                 timeBuffer = TIME_COMPRESS + 1;
@@ -454,7 +453,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 Step_Set(&compressStepHandle);
                 
                 winchStepHandle.chieu = KEOLEN;
-                winchStepHandle.vong = 1;
+                winchStepHandle.vong = 2;
                 Step_Set(&winchStepHandle);
 
                 timeBuffer = timeBuffer + 1;
