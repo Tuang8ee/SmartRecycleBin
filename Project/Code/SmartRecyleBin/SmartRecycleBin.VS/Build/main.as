@@ -8264,7 +8264,7 @@ l8977:
 	line	409
 	
 l8979:	
-	movlw	046h
+	movlw	03Ch
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
@@ -8282,7 +8282,7 @@ l8983:
 	line	413
 	
 l8985:	
-	movlw	046h
+	movlw	03Ch
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
@@ -8332,7 +8332,7 @@ l8991:
 	line	428
 	
 l8993:	
-	movlw	046h
+	movlw	03Ch
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
@@ -8349,7 +8349,7 @@ l8997:
 	line	432
 	
 l8999:	
-	movlw	046h
+	movlw	03Ch
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
