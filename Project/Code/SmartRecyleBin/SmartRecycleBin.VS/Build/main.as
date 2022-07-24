@@ -1534,7 +1534,7 @@ __pidataBANK1:
 	retlw	high highword(0)
 
 	retlw	01h
-	retlw	05Ah
+	retlw	04Bh
 	retlw	0
 
 	retlw	low(7|((0x0)<<8))
@@ -1555,7 +1555,7 @@ __pidataBANK1:
 	retlw	high highword(0)
 
 	retlw	01h
-	retlw	05Ah
+	retlw	04Bh
 	retlw	0
 
 	retlw	low(8|((0x0)<<8))
@@ -8574,7 +8574,7 @@ l9186:
 	line	410
 	
 l9188:	
-	movlw	03Fh
+	movlw	03Ch
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
@@ -8592,7 +8592,7 @@ l9192:
 	line	414
 	
 l9194:	
-	movlw	03Fh
+	movlw	03Ch
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
@@ -8616,16 +8616,14 @@ l9196:
 	line	421
 	
 l9198:	
-		movlw	112
+		movlw	80
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	xorwf	((_timeBuffer)),w
-	movlw	17
+	movlw	195
 	skipnz
 	xorwf	((_timeBuffer+1)),w
-	skipz
-	goto	u5041
-	decf	((_timeBuffer+2)),w
+iorwf	((_timeBuffer+2)),w
 iorwf	((_timeBuffer+3)),w
 	btfss	status,2
 	goto	u5041
@@ -8642,7 +8640,7 @@ l9200:
 	line	430
 	
 l9202:	
-	movlw	03Fh
+	movlw	03Ch
 	movwf	(_compressStepHandle)^080h
 	movlw	0
 	movwf	((_compressStepHandle)^080h)+1
@@ -8659,7 +8657,7 @@ l9206:
 	line	434
 	
 l9208:	
-	movlw	03Fh
+	movlw	03Ch
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
@@ -8671,11 +8669,11 @@ l9208:
 l9210:	
 	movlw	0
 	movwf	(_timeBuffer+3)
-	movlw	01h
+	movlw	0
 	movwf	(_timeBuffer+2)
-	movlw	011h
+	movlw	0C3h
 	movwf	(_timeBuffer+1)
-	movlw	071h
+	movlw	051h
 	movwf	(_timeBuffer)
 
 	line	439
@@ -8688,15 +8686,15 @@ l9212:
 		movf	(_timeBuffer+3),w
 	btfss	status,2
 	goto	u5051
-	movlw	2
+	movlw	1
 	subwf	(_timeBuffer+2),w
 	skipz
 	goto	u5053
-	movlw	34
+	movlw	134
 	subwf	(_timeBuffer+1),w
 	skipz
 	goto	u5053
-	movlw	224
+	movlw	160
 	subwf	(_timeBuffer),w
 	skipz
 	goto	u5053
@@ -8755,16 +8753,16 @@ l9218:
 	line	450
 	
 l9220:	
-		movlw	224
+		movlw	160
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
 	xorwf	((_timeBuffer)),w
-	movlw	34
+	movlw	134
 	skipnz
 	xorwf	((_timeBuffer+1)),w
-	movlw	2
-	skipnz
-	xorwf	((_timeBuffer+2)),w
+	skipz
+	goto	u5081
+	decf	((_timeBuffer+2)),w
 iorwf	((_timeBuffer+3)),w
 	btfss	status,2
 	goto	u5081
@@ -8857,15 +8855,15 @@ l9234:
 		movf	(_timeBuffer+3),w
 	btfss	status,2
 	goto	u5100
-	movlw	2
+	movlw	1
 	subwf	(_timeBuffer+2),w
 	skipz
 	goto	u5103
-	movlw	73
+	movlw	138
 	subwf	(_timeBuffer+1),w
 	skipz
 	goto	u5103
-	movlw	240
+	movlw	136
 	subwf	(_timeBuffer),w
 	skipz
 	goto	u5103

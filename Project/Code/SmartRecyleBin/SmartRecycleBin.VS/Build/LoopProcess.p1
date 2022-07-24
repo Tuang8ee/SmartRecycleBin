@@ -772,7 +772,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "65
 -> -> 1 `i `uc
 "66
--> -> 90 `i `ui
+-> -> 75 `i `ui
 :U ..
 :U ..
 "67
@@ -809,7 +809,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "76
 -> -> 1 `i `uc
 "77
--> -> 90 `i `ui
+-> -> 75 `i `ui
 :U ..
 :U ..
 "78
@@ -1489,13 +1489,13 @@ Version 3.2 HI-TECH Software Intermediate Code
 "409
 [e = . _compressStepHandle 2 -> -> 1 `i `uc ]
 "410
-[e = . _compressStepHandle 0 -> -> 63 `i `ui ]
+[e = . _compressStepHandle 0 -> -> 60 `i `ui ]
 "411
 [e ( _Step_Set (1 &U _compressStepHandle ]
 "413
 [e = . _winchStepHandle 2 -> -> 1 `i `uc ]
 "414
-[e = . _winchStepHandle 0 -> -> 63 `i `ui ]
+[e = . _winchStepHandle 0 -> -> 60 `i `ui ]
 "415
 [e ( _Step_Set (1 &U _winchStepHandle ]
 "417
@@ -1505,29 +1505,29 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 166  ]
 "421
 [e :U 165 ]
-[e $ ! == _timeBuffer -> -> 70000 `l `ul 167  ]
+[e $ ! == _timeBuffer -> -> 50000 `l `ul 167  ]
 "422
 {
 "429
 [e = . _compressStepHandle 2 -> -> 0 `i `uc ]
 "430
-[e = . _compressStepHandle 0 -> -> 63 `i `ui ]
+[e = . _compressStepHandle 0 -> -> 60 `i `ui ]
 "431
 [e ( _Step_Set (1 &U _compressStepHandle ]
 "433
 [e = . _winchStepHandle 2 -> -> 0 `i `uc ]
 "434
-[e = . _winchStepHandle 0 -> -> 63 `i `ui ]
+[e = . _winchStepHandle 0 -> -> 60 `i `ui ]
 "435
 [e ( _Step_Set (1 &U _winchStepHandle ]
 "437
-[e = _timeBuffer -> + -> 70000 `l -> -> 1 `i `l `ul ]
+[e = _timeBuffer -> + -> 50000 `l -> -> 1 `i `l `ul ]
 "439
 }
 [e $U 168  ]
 "440
 [e :U 167 ]
-[e $ ! < _timeBuffer -> + -> 70000 `l -> 70000 `l `ul 169  ]
+[e $ ! < _timeBuffer -> + -> 50000 `l -> 50000 `l `ul 169  ]
 "441
 {
 "443
@@ -1544,7 +1544,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 171  ]
 "450
 [e :U 169 ]
-[e $ ! == _timeBuffer -> + -> 70000 `l -> 70000 `l `ul 172  ]
+[e $ ! == _timeBuffer -> + -> 50000 `l -> 50000 `l `ul 172  ]
 "451
 {
 "452
@@ -1566,7 +1566,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 173  ]
 "462
 [e :U 172 ]
-[e $ ! >= _timeBuffer -> + + -> 70000 `l -> 70000 `l -> -> 10000 `i `l `ul 174  ]
+[e $ ! >= _timeBuffer -> + + -> 50000 `l -> 50000 `l -> -> 1000 `i `l `ul 174  ]
 "463
 {
 "470

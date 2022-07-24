@@ -2248,7 +2248,7 @@ StepHandle compressStepHandle = {
 0,
 0,
 1,
-90,
+75,
 {&PORTD, 6},
 {&PORTD, 5},
 {&PORTD, 7},
@@ -2259,7 +2259,7 @@ StepHandle doorStepHandle = {
 0,
 0,
 1,
-90,
+75,
 {&PORTC, 3},
 {&PORTD, 0},
 {&PORTC, 2},
@@ -2657,33 +2657,33 @@ if(timeBuffer <= 10)
 
 # 409
 compressStepHandle.chieu = 1;
-compressStepHandle.vong = 63;
+compressStepHandle.vong = 60;
 Step_Set(&compressStepHandle);
 
 winchStepHandle.chieu = 1;
-winchStepHandle.vong = 63;
+winchStepHandle.vong = 60;
 Step_Set(&winchStepHandle);
 
 timeBuffer = 10 + 1;
 
 }
 
-else if(timeBuffer == 70000)
+else if(timeBuffer == 50000)
 {
 
 # 429
 compressStepHandle.chieu = 0;
-compressStepHandle.vong = 63;
+compressStepHandle.vong = 60;
 Step_Set(&compressStepHandle);
 
 winchStepHandle.chieu = 0;
-winchStepHandle.vong = 63;
+winchStepHandle.vong = 60;
 Step_Set(&winchStepHandle);
 
-timeBuffer = 70000 + 1;
+timeBuffer = 50000 + 1;
 
 }
-else if(timeBuffer < (70000 + 70000))
+else if(timeBuffer < (50000 + 50000))
 {
 
 if (compressStepHandle.step < 5 * 1600 && compressStepHandle.chieu == 0)
@@ -2693,7 +2693,7 @@ Step_Stop(&compressStepHandle);
 
 
 }
-else if(timeBuffer == 70000 + 70000)
+else if(timeBuffer == 50000 + 50000)
 {
 compressStepHandle.chieu = 0;
 compressStepHandle.vong = 1;
@@ -2705,7 +2705,7 @@ Step_Set(&winchStepHandle);
 
 timeBuffer = timeBuffer + 1;
 }
-else if(timeBuffer >= 70000 + 70000 + 10000)
+else if(timeBuffer >= 50000 + 50000 + 1000)
 {
 
 # 470

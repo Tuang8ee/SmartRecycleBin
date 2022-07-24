@@ -749,7 +749,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "65
 -> -> 1 `i `uc
 "66
--> -> 90 `i `ui
+-> -> 75 `i `ui
 :U ..
 :U ..
 "67
@@ -786,7 +786,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "76
 -> -> 1 `i `uc
 "77
--> -> 90 `i `ui
+-> -> 75 `i `ui
 :U ..
 :U ..
 "78
