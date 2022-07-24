@@ -410,7 +410,6 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 Step_Set(&compressStepHandle);
 
                 winchStepHandle.chieu = NENXUONG;
-                winchStepHandle.speed = 50;
                 winchStepHandle.vong = 63;
                 Step_Set(&winchStepHandle);
 
@@ -430,7 +429,6 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 Step_Set(&compressStepHandle);
                 
                 winchStepHandle.chieu = KEOLEN;
-                winchStepHandle.speed = 75;
                 winchStepHandle.vong = 63;
                 Step_Set(&winchStepHandle);
 
@@ -440,7 +438,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
             else if(timeBuffer > TIME_COMPRESS && timeBuffer < (TIME_COMPRESS + TIME_UNCOMPRESS))
             {
                 /* Xử lý nén chạy lên cao bị kẹt, cho nén dừng, tời tiếp tục chạy*/
-                if (compressStepHandle.step > 57 * 1600)
+                if (compressStepHandle.step < 5 * 1600 && compressStepHandle.chieu == KEOLEN)
                 {
                     Step_Stop(&compressStepHandle);
                 }
