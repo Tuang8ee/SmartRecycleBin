@@ -2657,33 +2657,26 @@ if(timeBuffer <= 10)
 
 # 409
 compressStepHandle.chieu = 1;
-compressStepHandle.vong = 60;
+compressStepHandle.vong = 63;
 
 winchStepHandle.chieu = 1;
-winchStepHandle.vong = 60;
+winchStepHandle.vong = 63;
 Step_Set(&winchStepHandle);
 
 timeBuffer = 10 + 1;
 
 }
-else if (timeBuffer > 10 && timeBuffer < 70000)
-{
-if(winchStepHandle.step < 55 * 1600 && compressStepHandle.step == 0 && compressStepHandle.chieu == 1)
-{
-Step_Set(&compressStepHandle);
-}
-}
 
 else if(timeBuffer == 70000)
 {
 
-# 435
+# 428
 compressStepHandle.chieu = 0;
-compressStepHandle.vong = 60;
+compressStepHandle.vong = 63;
 Step_Set(&compressStepHandle);
 
 winchStepHandle.chieu = 0;
-winchStepHandle.vong = 60;
+winchStepHandle.vong = 63;
 Step_Set(&winchStepHandle);
 
 timeBuffer = 70000 + 1;
@@ -2701,14 +2694,20 @@ Step_Stop(&compressStepHandle);
 }
 else if(timeBuffer == 70000 + 70000)
 {
+compressStepHandle.chieu = 0;
+compressStepHandle.vong = 1;
+Step_Set(&compressStepHandle);
 
-# 466
+winchStepHandle.chieu = 0;
+winchStepHandle.vong = 1;
+Step_Set(&winchStepHandle);
+
 timeBuffer = timeBuffer + 1;
 }
 else if(timeBuffer >= 70000 + 70000 + 10000)
 {
 
-# 476
+# 469
 Step_Stop(&compressStepHandle);
 Step_Stop(&winchStepHandle);
 
@@ -2725,7 +2724,7 @@ break;
 }
 }
 
-# 496
+# 489
 void Disinfection_Ctrl(void)
 {
 if(compressionState != COMPRESSED)
@@ -2760,7 +2759,7 @@ disinfectionState = DISINFECTED;
 }
 }
 
-# 534
+# 527
 uint16_t timeSysTickBuffer = 0;
 void TimeSysTickUpdate(volatile uint16_t *ptimeSysTick)
 {
@@ -2771,10 +2770,10 @@ timeSysTickBuffer = *ptimeSysTick;
 timeBuffer++;
 }
 
-# 548
+# 541
 }
 
-# 558
+# 551
 void Loop(volatile uint16_t *ptimeSysTick)
 {
 

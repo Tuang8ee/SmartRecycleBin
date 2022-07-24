@@ -9,14 +9,12 @@
 ### Memory Usage ###
  Intel Hex-file ranges:
   0h - 5h		(Build\main.hex)
-  8h - FF7h		(Build\main.hex)
-  1000h - 1021h		(Build\main.hex)
-  1056h - 1FFFh		(Build\main.hex)
+  8h - FFDh		(Build\main.hex)
+  1098h - 1FFFh		(Build\main.hex)
   400Eh - 400Fh		(Build\main.hex)
  Unused ranges:
   6h - 7h
-  FF8h - FFFh
-  1022h - 1055h
+  FFEh - 1097h
   2000h - 400Dh
 
 ### Hex Memory Map ###
@@ -281,16 +279,9 @@
 00000FC0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00000FD0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00000FE0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00000FF0 | H1 H1 H1 H1 H1 H1 H1 H1 -- -- -- -- -- -- -- --
-00001000 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00001010 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00001020 | H1 H1 -- -- -- -- -- -- -- -- -- -- -- -- -- --
+00000FF0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- --
 ----------------------------------------------------------
-00001050 | -- -- -- -- -- -- H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00001060 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00001070 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00001080 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00001090 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00001090 | -- -- -- -- -- -- -- -- H1 H1 H1 H1 H1 H1 H1 H1
 000010A0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 000010B0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 000010C0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1

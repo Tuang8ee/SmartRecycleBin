@@ -407,21 +407,14 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
 
                 /* ============= Step Motor Ctrl ============= */
                 compressStepHandle.chieu = NENXUONG;
-                compressStepHandle.vong = 60;
+                compressStepHandle.vong = 63;
 
                 winchStepHandle.chieu = NENXUONG;
-                winchStepHandle.vong = 60;
+                winchStepHandle.vong = 63;
                 Step_Set(&winchStepHandle);
 
                 timeBuffer = TIME_STARTUP_COMPRESS + 1;
                 /* ============================================= */
-            }
-            else if (timeBuffer > TIME_STARTUP_COMPRESS && timeBuffer < TIME_COMPRESS)
-            {
-                if(winchStepHandle.step < 55 * 1600 && compressStepHandle.step == 0 && compressStepHandle.chieu == NENXUONG)
-                {
-                    Step_Set(&compressStepHandle);
-                }
             }
             
             else if(timeBuffer == TIME_COMPRESS)
@@ -433,11 +426,11 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 
                 /* ============= Step Motor Ctrl ============= */
                 compressStepHandle.chieu = KEOLEN;
-                compressStepHandle.vong = 60;
+                compressStepHandle.vong = 63;
                 Step_Set(&compressStepHandle);
                 
                 winchStepHandle.chieu = KEOLEN;
-                winchStepHandle.vong = 60;
+                winchStepHandle.vong = 63;
                 Step_Set(&winchStepHandle);
 
                 timeBuffer = TIME_COMPRESS + 1;
@@ -455,13 +448,13 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
             }
             else if(timeBuffer == TIME_COMPRESS + TIME_UNCOMPRESS)
             {
-                // compressStepHandle.chieu = KEOLEN;
-                // compressStepHandle.vong = 2;
-                // Step_Set(&compressStepHandle);
+                compressStepHandle.chieu = KEOLEN;
+                compressStepHandle.vong = 1;
+                Step_Set(&compressStepHandle);
                 
-                // winchStepHandle.chieu = KEOLEN;
-                // winchStepHandle.vong = 4;
-                // Step_Set(&winchStepHandle);
+                winchStepHandle.chieu = KEOLEN;
+                winchStepHandle.vong = 1;
+                Step_Set(&winchStepHandle);
 
                 timeBuffer = timeBuffer + 1;
             }
