@@ -2699,9 +2699,12 @@ Step_Stop(&compressStepHandle);
 
 
 }
+else if(timeBuffer == 70000 + 70000)
+{
 
-# 468
-else if(timeBuffer >= 70000 + 70000 + 0)
+# 467
+}
+else if(timeBuffer >= 70000 + 70000 + 10000)
 {
 
 # 476
