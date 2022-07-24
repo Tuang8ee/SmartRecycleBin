@@ -69,13 +69,13 @@ DISINFECTED 2
 [v _Compression_Ctrl Compression_Ctrl `(v  1 e 1 0 ]
 "331
 [v _Compression_Run Compression_Run `(v  1 e 1 0 ]
-"466
+"478
 [v _Disinfection_Ctrl Disinfection_Ctrl `(v  1 e 1 0 ]
-"482
+"494
 [v _Disionfection_Run Disionfection_Run `(v  1 e 1 0 ]
-"505
+"517
 [v _TimeSysTickUpdate TimeSysTickUpdate `(v  1 e 1 0 ]
-"528
+"540
 [v _Loop Loop `(v  1 e 1 0 ]
 "15 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Timer.c
 [v _Timer0_BASE_Init Timer0_BASE_Init `(v  1 e 1 0 ]
@@ -157,7 +157,7 @@ DISINFECTED 2
 [v _compressionState compressionState `E1130  1 e 1 0 ]
 "69
 [v _disinfectionState disinfectionState `E1138  1 e 1 0 ]
-"504
+"516
 [v _timeSysTickBuffer timeSysTickBuffer `ui  1 e 2 0 ]
 "24 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\legacy\pic168xa_legacy.h
 [v _PORTA PORTA `VEuc  1 e 1 @5 ]
@@ -306,14 +306,14 @@ DISINFECTED 2
 {
 "35
 } 0
-"528 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"540 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _Loop Loop `(v  1 e 1 0 ]
 {
 [v Loop@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
 [v Loop@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
-"531
+"543
 [v Loop@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 49 ]
-"548
+"560
 } 0
 "243
 [v _TrashDoor_Ctrl TrashDoor_Ctrl `(v  1 e 1 0 ]
@@ -446,14 +446,14 @@ DISINFECTED 2
 {
 "89
 } 0
-"505 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"517 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _TimeSysTickUpdate TimeSysTickUpdate `(v  1 e 1 0 ]
 {
 [v TimeSysTickUpdate@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
 [v TimeSysTickUpdate@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
-"508
+"520
 [v TimeSysTickUpdate@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 4 ]
-"518
+"530
 } 0
 "103 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c
 [v _Step_Start Step_Start `(v  1 e 1 0 ]
@@ -473,15 +473,15 @@ DISINFECTED 2
 [v Delay_us@time time `ui  1 p 2 2 ]
 "17
 } 0
-"482 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
+"494 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\LoopProcess.c
 [v _Disionfection_Run Disionfection_Run `(v  1 e 1 0 ]
 {
-"498
+"510
 } 0
-"466
+"478
 [v _Disinfection_Ctrl Disinfection_Ctrl `(v  1 e 1 0 ]
 {
-"480
+"492
 } 0
 "331
 [v _Compression_Run Compression_Run `(v  1 e 1 0 ]
@@ -494,7 +494,7 @@ DISINFECTED 2
 "331
 [v Compression_Run@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 wreg ]
 [v Compression_Run@ptimeSysTick ptimeSysTick `*.4VEui  1 a 1 32 ]
-"460
+"472
 } 0
 "5 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\sources\c90\common\llmod.c
 [v ___llmod __llmod `(ul  1 e 4 0 ]
