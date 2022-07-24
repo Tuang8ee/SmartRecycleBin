@@ -2405,4 +2405,8 @@ GPIO_Write(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin, 1);
 Delay_us(stepHandle -> speed);
 stepHandle -> step -= 1;
 }
+else
+{
+GPIO_Write(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin, 1);
+}
 }

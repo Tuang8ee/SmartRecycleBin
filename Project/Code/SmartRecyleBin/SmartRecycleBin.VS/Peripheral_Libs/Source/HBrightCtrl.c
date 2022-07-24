@@ -114,4 +114,8 @@ void Step_Start(StepHandle *stepHandle)
         Delay_us(stepHandle -> speed);
         stepHandle -> step -= 1;
     }
+    else
+    {
+        GPIO_Write(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin, HIGH);
+    }
 }

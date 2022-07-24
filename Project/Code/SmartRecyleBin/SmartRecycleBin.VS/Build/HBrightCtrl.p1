@@ -1119,7 +1119,16 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e =- . *U _stepHandle 1 -> -> -> 1 `i `l `ul ]
 "116
 }
-[e :U 114 ]
+[e $U 116  ]
 "117
+[e :U 114 ]
+"118
+{
+"119
+[e ( _GPIO_Write (3 , , . . *U _stepHandle 6 0 . . *U _stepHandle 6 1 -> -> 1 `i `uc ]
+"120
+}
+[e :U 116 ]
+"121
 [e :UE 113 ]
 }
