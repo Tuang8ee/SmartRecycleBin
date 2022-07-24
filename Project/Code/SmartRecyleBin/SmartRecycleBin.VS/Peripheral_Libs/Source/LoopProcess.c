@@ -446,7 +446,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
 
                 /* ============================================= */
             }
-            else if(timeBuffer >= TIME_COMPRESS + TIME_UNCOMPRESS)
+            else if(timeBuffer == TIME_COMPRESS + TIME_UNCOMPRESS)
             {
                 compressStepHandle.chieu = KEOLEN;
                 compressStepHandle.vong = 2;

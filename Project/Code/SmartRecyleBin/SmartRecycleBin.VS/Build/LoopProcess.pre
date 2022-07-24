@@ -2692,7 +2692,7 @@ Step_Stop(&compressStepHandle);
 
 
 }
-else if(timeBuffer >= 70000 + 70000)
+else if(timeBuffer == 70000 + 70000)
 {
 compressStepHandle.chieu = 0;
 compressStepHandle.vong = 2;

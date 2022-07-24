@@ -1544,7 +1544,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $U 171  ]
 "449
 [e :U 169 ]
-[e $ ! >= _timeBuffer -> + -> 70000 `l -> 70000 `l `ul 172  ]
+[e $ ! == _timeBuffer -> + -> 70000 `l -> 70000 `l `ul 172  ]
 "450
 {
 "451

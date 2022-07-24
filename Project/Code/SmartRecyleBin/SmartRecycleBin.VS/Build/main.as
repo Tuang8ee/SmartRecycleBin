@@ -8669,28 +8669,20 @@ l9163:
 	line	449
 	
 l9165:	
+		movlw	224
 	bcf	status, 5	;RP0=0, select bank0
 	bcf	status, 6	;RP1=0, select bank0
-		movf	(_timeBuffer+3),w
-	btfss	status,2
-	goto	u5030
-	movlw	2
-	subwf	(_timeBuffer+2),w
-	skipz
-	goto	u5033
+	xorwf	((_timeBuffer)),w
 	movlw	34
-	subwf	(_timeBuffer+1),w
-	skipz
-	goto	u5033
-	movlw	224
-	subwf	(_timeBuffer),w
-	skipz
-	goto	u5033
-u5033:
-	btfss	status,0
+	skipnz
+	xorwf	((_timeBuffer+1)),w
+	movlw	2
+	skipnz
+	xorwf	((_timeBuffer+2)),w
+iorwf	((_timeBuffer+3)),w
+	btfss	status,2
 	goto	u5031
 	goto	u5030
-
 u5031:
 	goto	l9177
 u5030:
