@@ -10,14 +10,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _MCU_Config `(v ~T0 @X0 0 ef ]
 "14 .\Peripheral_Libs/Hearder/GPIO.h
 [v _GPIO_Write `(v ~T0 @X0 0 ef3`*Vuc`uc`uc ]
-"15
-[v _GPIO_Read `(uc ~T0 @X0 0 ef2`*Vuc`uc ]
-"23 .\Peripheral_Libs/Hearder/HBrightCtrl.h
-[v _Step_Set `(v ~T0 @X0 0 ef1`*S101 ]
-"25
-[v _Step_Start `(v ~T0 @X0 0 ef1`*S101 ]
-"24
-[v _Step_Stop `(v ~T0 @X0 0 ef1`*S101 ]
+"15 .\Peripheral_Libs/Hearder/LoopProcess.h
+[v _Loop `(v ~T0 @X0 0 ef1`*Vui ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
 [; <" INDF equ 00h ;# ">
 "62
@@ -928,76 +922,17 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e :U 104 ]
 "12
 {
-"22
-[e $ ! == -> ( _GPIO_Read (2 , . _SW1 0 . _SW1 1 `i -> 1 `i 106  ]
-"23
-{
-"24
-[e = . _compressStepHandle 2 -> -> 1 `i `uc ]
-"25
-[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
-"26
-[e ( _Step_Set (1 &U _compressStepHandle ]
-"27
-[e ( _Step_Start (1 &U _compressStepHandle ]
-"30
-[e = . _winchStepHandle 2 -> -> 1 `i `uc ]
-"31
-[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
-"32
-[e ( _Step_Set (1 &U _winchStepHandle ]
-"33
-[e ( _Step_Start (1 &U _winchStepHandle ]
-"40
-}
-[e $U 107  ]
-"42
-[e :U 106 ]
-[e $ ! == -> ( _GPIO_Read (2 , . _SW2 0 . _SW2 1 `i -> 1 `i 108  ]
-"43
-{
-"44
-[e = . _compressStepHandle 2 -> -> 0 `i `uc ]
-"45
-[e = . _compressStepHandle 0 -> -> 400 `i `ui ]
-"46
-[e ( _Step_Set (1 &U _compressStepHandle ]
-"47
-[e ( _Step_Start (1 &U _compressStepHandle ]
-"50
-[e = . _winchStepHandle 2 -> -> 0 `i `uc ]
-"51
-[e = . _winchStepHandle 0 -> -> 400 `i `ui ]
-"52
-[e ( _Step_Set (1 &U _winchStepHandle ]
-"53
-[e ( _Step_Start (1 &U _winchStepHandle ]
-"60
-}
-[e $U 109  ]
-"61
-[e :U 108 ]
-"62
-{
-"63
-[e ( _Step_Stop (1 &U _compressStepHandle ]
-"64
-[e ( _Step_Stop (1 &U _doorStepHandle ]
-"65
-[e ( _Step_Stop (1 &U _winchStepHandle ]
-"66
-}
-[e :U 109 ]
-[e :U 107 ]
+"14
+[e ( _Loop (1 &U _timeSysTick ]
 "68
-[e $ ! != _timeReset_flag -> -> 0 `i `ui 110  ]
+[e $ ! != _timeReset_flag -> -> 0 `i `ui 106  ]
 "69
 {
 "70
 [e = _timeReset_flag -> -> 0 `i `ui ]
 "71
 }
-[e :U 110 ]
+[e :U 106 ]
 "73
 }
 [e :U 103 ]
