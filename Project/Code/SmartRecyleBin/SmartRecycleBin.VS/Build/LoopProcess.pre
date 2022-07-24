@@ -2668,7 +2668,7 @@ timeBuffer = 10 + 1;
 }
 else if (timeBuffer > 10 && timeBuffer < 70000)
 {
-if(winchStepHandle.step < 57 * 1600 && compressStepHandle.step == 0)
+if(winchStepHandle.step < 60 * 1600 && compressStepHandle.step == 0)
 {
 Step_Set(&compressStepHandle);
 }
@@ -2702,7 +2702,8 @@ Step_Stop(&compressStepHandle);
 else if(timeBuffer == 70000 + 70000)
 {
 
-# 467
+# 466
+timeBuffer = timeBuffer + 1;
 }
 else if(timeBuffer >= 70000 + 70000 + 10000)
 {

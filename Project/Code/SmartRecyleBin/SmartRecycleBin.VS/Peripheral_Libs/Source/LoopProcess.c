@@ -418,7 +418,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
             }
             else if (timeBuffer > TIME_STARTUP_COMPRESS && timeBuffer < TIME_COMPRESS)
             {
-                if(winchStepHandle.step < 57 * 1600 && compressStepHandle.step == 0)
+                if(winchStepHandle.step < 60 * 1600 && compressStepHandle.step == 0)
                 {
                     Step_Set(&compressStepHandle);
                 }
@@ -463,7 +463,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 // winchStepHandle.vong = 4;
                 // Step_Set(&winchStepHandle);
 
-                // timeBuffer = timeBuffer + 1;
+                timeBuffer = timeBuffer + 1;
             }
             else if(timeBuffer >= TIME_COMPRESS + TIME_UNCOMPRESS + TIME_WAIT)
             {

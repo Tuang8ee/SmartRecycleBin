@@ -1507,7 +1507,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 "420
 {
 "421
-[e $ ! && < . _winchStepHandle 1 -> -> * -> 57 `i -> 1600 `i `l `ul == . _compressStepHandle 1 -> -> -> 0 `i `l `ul 168  ]
+[e $ ! && < . _winchStepHandle 1 -> -> * -> 60 `i -> 1600 `i `l `ul == . _compressStepHandle 1 -> -> -> 0 `i `l `ul 168  ]
 "422
 {
 "423
@@ -1562,6 +1562,8 @@ Version 3.2 HI-TECH Software Intermediate Code
 [e $ ! == _timeBuffer -> + -> 70000 `l -> 70000 `l `ul 175  ]
 "457
 {
+"466
+[e = _timeBuffer + _timeBuffer -> -> -> 1 `i `l `ul ]
 "467
 }
 [e $U 176  ]
