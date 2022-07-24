@@ -28,8 +28,8 @@
 #define delay_ms(x)     __delay_ms((unsigned long)x)
 #define delay_us(x)     __delay_us((unsigned long)x)
 
-#define TEST    GPIO_Read(&PORTA, PIN2)
-#define LED(x)  GPIO_Write(&PORTB, PIN2, x)
+// #define TEST    GPIO_Read(&PORTA, PIN2)
+// #define LED(x)  GPIO_Write(&PORTB, PIN2, x)
 //#define DC1(x)  GPIO_Write(&PORTC, PIN4, x)
 //#define DC2(x)  GPIO_Write(&PORTC, PIN5, x)
 //#define DC3(x)  GPIO_Write(&PORTC, PIN6, x)
@@ -129,10 +129,10 @@ typedef struct
      *  + Trig PIN: PINB.4
      *  + Echo PIN: PINB.5
      */
-    Peripheral_Pin UltraSonic_1[2] =  {
-                                        {&PORTB, PIN4},
-                                        {&PORTB, PIN5}        
-                                      };
+    // Peripheral_Pin UltraSonic_1[2] =  {
+    //                                     {&PORTB, PIN4},
+    //                                     {&PORTB, PIN5}        
+    //                                   };
     
     /*
      * UltraSonic Sensor 2 PIN:
@@ -150,7 +150,7 @@ typedef struct
      *  + IR Sensor 2: PINA.1
      */
     Peripheral_Pin IR_Sensor_1 =    {&PORTA, PIN0};
-    Peripheral_Pin IR_Sensor_2 =    {&PORTA, PIN1};
+    // Peripheral_Pin IR_Sensor_2 =    {&PORTA, PIN1};
     
     /*
      * Switch PIN:

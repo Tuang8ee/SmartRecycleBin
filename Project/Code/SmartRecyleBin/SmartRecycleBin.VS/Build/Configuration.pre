@@ -2279,12 +2279,6 @@ StepHandle winchStepHandle = {
 {&PORTE, 1},
 };
 
-# 132
-Peripheral_Pin UltraSonic_1[2] = {
-{&PORTB, 4},
-{&PORTB, 5}
-};
-
 # 142
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
@@ -2293,7 +2287,6 @@ Peripheral_Pin UltraSonic_2[2] = {
 
 # 152
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
-Peripheral_Pin IR_Sensor_2 = {&PORTA, 1};
 
 # 160
 Peripheral_Pin SW1 = {&PORTA, 4};

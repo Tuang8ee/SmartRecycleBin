@@ -859,22 +859,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"132
-[v _UltraSonic_1 `S100 ~T0 @X0 -> 2 `i e ]
-[i _UltraSonic_1
-:U ..
-:U ..
-"133
-&U _PORTB
--> -> 4 `i `uc
-..
-:U ..
-"134
-&U _PORTB
--> -> 5 `i `uc
-..
-..
-]
 "142
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
@@ -898,16 +882,6 @@ Version 3.2 HI-TECH Software Intermediate Code
 :U ..
 &U _PORTA
 -> -> 0 `i `uc
-..
-..
-]
-"153
-[v _IR_Sensor_2 `S100 ~T0 @X0 1 e ]
-[i _IR_Sensor_2
-:U ..
-:U ..
-&U _PORTA
--> -> 1 `i `uc
 ..
 ..
 ]

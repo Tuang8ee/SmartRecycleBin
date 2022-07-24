@@ -19,6 +19,13 @@
 #define TIME_COMPRESS               70000
 #define TIME_UNCOMPRESS             70000
 
+
+
+#define MO      HIGH
+#define DONG    LOW
+
+#define NENXUONG     HIGH
+#define KEOLEN       LOW
 // uint8_t TX_Array[10] = "";
 
 /* Define */
@@ -115,8 +122,6 @@ uint8_t UltraSensor_Read(volatile uint16_t *ptimeSysTick)
 /* ================================================ */
 
 
-#define MO      HIGH
-#define DONG    LOW
 /* =========== Trash Functions Controler =========== */ 
 void TrashDoor_Open(TrashDoorState *state)
 {
@@ -300,9 +305,6 @@ void TrashDoor_Ctrl(TrashDoorState* state, volatile uint16_t *timeSysTick)
 /* ================================================ */
 
 
-
-#define NENXUONG     HIGH
-#define KEOLEN       LOW
 /* ======== Compression Functions Controler ======== */ 
 void Compression_Ctrl(void)
 {
@@ -364,8 +366,8 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
             if(timeBuffer % 10000 == 0)
             {
                 distance = UltraSensor_Read(ptimeSysTick);
-                sprintf(TX, "C:%dcm\n\0", distance);
-                UART_WriteStr(TX);
+                // sprintf(TX, "C:%dcm\n\0", distance);
+                // UART_WriteStr(TX);
                 // if(timeBuffer < TIME_COMPRESS)
                 // {
                 //     if(distance - distanceBuffer >= DISTANCE_SPACE_TO_COMPRESS)
