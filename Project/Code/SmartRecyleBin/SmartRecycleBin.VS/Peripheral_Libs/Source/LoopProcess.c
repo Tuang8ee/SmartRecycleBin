@@ -410,7 +410,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 compressStepHandle.vong = 60;
 
                 winchStepHandle.chieu = NENXUONG;
-                winchStepHandle.vong = 65;
+                winchStepHandle.vong = 60;
                 Step_Set(&winchStepHandle);
 
                 timeBuffer = TIME_STARTUP_COMPRESS + 1;
@@ -418,7 +418,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
             }
             else if (timeBuffer > TIME_STARTUP_COMPRESS && timeBuffer < TIME_COMPRESS)
             {
-                if(winchStepHandle.step < 60 * 1600 && compressStepHandle.step == 0)
+                if(winchStepHandle.step < 55 * 1600 && compressStepHandle.step == 0)
                 {
                     Step_Set(&compressStepHandle);
                 }
@@ -437,7 +437,7 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
                 Step_Set(&compressStepHandle);
                 
                 winchStepHandle.chieu = KEOLEN;
-                winchStepHandle.vong = 65;
+                winchStepHandle.vong = 60;
                 Step_Set(&winchStepHandle);
 
                 timeBuffer = TIME_COMPRESS + 1;

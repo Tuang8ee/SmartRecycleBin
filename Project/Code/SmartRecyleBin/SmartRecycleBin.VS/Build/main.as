@@ -8565,7 +8565,7 @@ l9182:
 	clrf	0+(_winchStepHandle)^080h+06h
 	incf	0+(_winchStepHandle)^080h+06h,f
 	line	413
-	movlw	041h
+	movlw	03Ch
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
@@ -8652,11 +8652,11 @@ l9192:
 	movf	2+(_winchStepHandle)^080h+02h,w
 	btfss	status,2
 	goto	u5141
-	movlw	119
+	movlw	87
 	subwf	1+(_winchStepHandle)^080h+02h,w
 	skipz
 	goto	u5143
-	movlw	0
+	movlw	192
 	subwf	0+(_winchStepHandle)^080h+02h,w
 	skipz
 	goto	u5143
@@ -8734,7 +8734,7 @@ l9206:
 	line	440
 	
 l9208:	
-	movlw	041h
+	movlw	03Ch
 	movwf	(_winchStepHandle)^080h
 	movlw	0
 	movwf	((_winchStepHandle)^080h)+1
