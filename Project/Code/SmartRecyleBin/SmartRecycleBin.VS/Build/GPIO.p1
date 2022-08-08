@@ -1,8 +1,8 @@
 Version 3.2 HI-TECH Software Intermediate Code
-"38 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
+"32 .\Peripheral_Libs\Source\..\Hearder\../Hearder/define.h
 [s S100 `*Vuc 1 `uc 1 ]
 [n S100 . Port Pin ]
-"45
+"39
 [s S101 `ui 1 `ul 1 `uc 1 `ui 1 `S100 1 `S100 1 `S100 1 ]
 [n S101 . vong step chieu speed DIR_Pin PUL_Pin ENA_Pin ]
 "55 E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\proc\pic16f877.h
@@ -677,7 +677,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [v _WR `Vb ~T0 @X0 1 e@3169 ]
 "392
 [v _RD `Vb ~T0 @X0 1 e@3168 ]
-"24 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\Register.h
+"24 .\Peripheral_Libs\Source\..\Hearder\../Hearder/Register.h
 [p x FOSC=HS ]
 "25
 [p x WDTE=ON ]
@@ -693,7 +693,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 [p x WRT=OFF ]
 "31
 [p x CP=OFF ]
-"56 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h
+"50 .\Peripheral_Libs\Source\..\Hearder\../Hearder/define.h
 [v _LED1 `S100 ~T0 @X0 1 e ]
 [i _LED1
 :U ..
@@ -703,7 +703,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"57
+"51
 [v _LED2 `S100 ~T0 @X0 1 e ]
 [i _LED2
 :U ..
@@ -713,7 +713,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"58
+"52
 [v _BUZZER `S100 ~T0 @X0 1 e ]
 [i _BUZZER
 :U ..
@@ -723,7 +723,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"59
+"53
 [v _Motor_0 `S100 ~T0 @X0 1 e ]
 [i _Motor_0
 :U ..
@@ -733,73 +733,36 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"62
-[v _compressStepHandle `S101 ~T0 @X0 1 e ]
-[i _compressStepHandle
-:U ..
-:U ..
-"63
--> -> 0 `i `ui
-"64
--> -> -> 0 `i `l `ul
-"65
--> -> 1 `i `uc
-"66
--> -> 75 `i `ui
-:U ..
-:U ..
 "67
-&U _PORTD
--> -> 6 `i `uc
-..
-..
-:U ..
-:U ..
-"68
-&U _PORTD
--> -> 5 `i `uc
-..
-..
-:U ..
-:U ..
-"69
-&U _PORTD
--> -> 7 `i `uc
-..
-..
-..
-..
-]
-"73
 [v _doorStepHandle `S101 ~T0 @X0 1 e ]
 [i _doorStepHandle
 :U ..
 :U ..
-"74
+"68
 -> -> 0 `i `ui
-"75
+"69
 -> -> -> 0 `i `l `ul
-"76
+"70
 -> -> 1 `i `uc
-"77
--> -> 75 `i `ui
+"71
+-> -> 200 `i `ui
 :U ..
 :U ..
-"78
+"72
 &U _PORTC
 -> -> 3 `i `uc
 ..
 ..
 :U ..
 :U ..
-"79
+"73
 &U _PORTD
 -> -> 0 `i `uc
 ..
 ..
 :U ..
 :U ..
-"80
+"74
 &U _PORTC
 -> -> 2 `i `uc
 ..
@@ -807,60 +770,75 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"84
-[v _winchStepHandle `S101 ~T0 @X0 1 e ]
-[i _winchStepHandle
+"98
+[v _Compress_Motor `S100 ~T0 @X0 -> 4 `i e ]
+[i _Compress_Motor
 :U ..
 :U ..
-"85
--> -> 0 `i `ui
-"86
--> -> -> 0 `i `l `ul
-"87
+"99
+&U _PORTD
+-> -> 4 `i `uc
+..
+:U ..
+"100
+&U _PORTD
+-> -> 5 `i `uc
+..
+:U ..
+"101
+&U _PORTD
+-> -> 6 `i `uc
+..
+:U ..
+"102
+&U _PORTD
+-> -> 7 `i `uc
+..
+..
+]
+"114
+[v _Motor_4 `S100 ~T0 @X0 -> 4 `i e ]
+[i _Motor_4
+:U ..
+:U ..
+"115
+&U _PORTC
 -> -> 1 `i `uc
-"88
--> -> 75 `i `ui
-:U ..
-:U ..
-"89
-&U _PORTE
--> -> 2 `i `uc
-..
 ..
 :U ..
-:U ..
-"90
+"116
 &U _PORTC
 -> -> 0 `i `uc
 ..
+:U ..
+"117
+&U _PORTE
+-> -> 2 `i `uc
 ..
 :U ..
-:U ..
-"91
+"118
 &U _PORTE
 -> -> 1 `i `uc
 ..
 ..
-..
-..
 ]
-"142
+"136
 [v _UltraSonic_2 `S100 ~T0 @X0 -> 2 `i e ]
 [i _UltraSonic_2
 :U ..
 :U ..
-"143
+"137
 &U _PORTA
 -> -> 2 `i `uc
 ..
 :U ..
-"144
+"138
 &U _PORTA
 -> -> 3 `i `uc
 ..
 ..
 ]
-"152
+"146
 [v _IR_Sensor_1 `S100 ~T0 @X0 1 e ]
 [i _IR_Sensor_1
 :U ..
@@ -870,7 +848,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"160
+"154
 [v _SW1 `S100 ~T0 @X0 1 e ]
 [i _SW1
 :U ..
@@ -880,7 +858,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"161
+"155
 [v _SW2 `S100 ~T0 @X0 1 e ]
 [i _SW2
 :U ..
@@ -890,7 +868,7 @@ Version 3.2 HI-TECH Software Intermediate Code
 ..
 ..
 ]
-"4 D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\GPIO.c
+"4 .\Peripheral_Libs\Source\GPIO.c
 [v _GPIO_Write `(v ~T0 @X0 1 ef3`*Vuc`uc`uc ]
 "5
 {

@@ -1,0 +1,101 @@
+1. Nội dung cần làm sắp tới. 
+- Chắc chắn làm 2 thùng cơ cấu cũ (Thùng V1.1). 
+	+ Sửa lại cơ cấu chữ X và đo đạc:
+		B1: Thu nhỏ chiều rộng của bàn cân.
+		B2: Thanh bắt chữ X cần đo đạc, vẽ (thông số rõ ràng) => đi đặt.
+	+ Update cơ cấu tời:
+		B1: Lên được phương án. 
+		B2: Lên danh sách đồ.
+		B3: Triển khai.
+	+ Cơ cấu phun sương. 
+		B1: Đã có phương án. 
+		B2: Lên danh sách đồ.
+		B3: Triển khai.
+	+ Cơ cấu mở cửa: 
+		B1: Lên phương án dự phòng. 
+		B2: Lên danh sách đồ.
+		B3: Triển khai.
+- Thùng cơ cấu mới (sức nén cao hơn) gọi là Thùng V1.2 thì tạm thời cần nghiên cứu thêm.
+	+ Phương án B: Lên phương án ứng biến như kế hoạch cũ đề ra. (Cơ cấu tương tự thùng V1.1 nhưng tăng thông số vitme và động cơ).
+	+ Phương án A: Lên kế hoạch làm việc nếu như có cơ cấu mới thay thế từ phía Viettech. (Nếu A fail => Làm phương án B).
+- Mạch: 
+	+ Làm mạch điều khiển cho 4 - 5 bộ: Đặt trong nước (5 - 7 ngày).
+		B1: Đánh giá lại cơ cấu.
+		B2: Vẽ lại nguyên lý và layout.
+		B3: Đặt và làm mạch. (Đặt mạch, mua linh kiện, hàn, hoàn chỉnh mạch).
+
+
+2. Danh sách linh kiện, cnc... thống nhất và đưa lên nhóm chung. 
+	+ Mạch:
+		- Lên danh sách linh kiện cần dùng (có phụ phí thiếc hàn, mỡ...)
+		- Lên danh sách giá tiền đặt mạch. 
+	+ Thùng V1.1:
+		- Cần 1 danh sách đầy đủ chi tiết các vật tư cần dùng cho thùng.
+			+ Cơ cấu nén.
+			+ Cơ cấu mở cửa.
+			+ Cơ cấu phun sương.
+			+ Cơ cấu tời.
+			+ bàn cân.
+			+ Mạch điều khiển.
+			+ ...
+		- Đối với thùng đang dở: Coi như chưa có gì, vẫn lên danh sách từ đầu. => Trả lại khoản tiền ứng trước của a Lực.
+	+ Thùng V1.2: 
+		- Cần liệt kê danh sách đầy đu chi tiết của phương án B. 
+			(Tương tự như thùng V1.1)
+		- Đối với phương án A: 
+			+ Lên danh sách: Cơ cấu tời, cơ cấu phun sương, cơ cấu mở cửa, bàn cân, mạch điều khiển...
+
+3. Trao đổi kế hoạch làm việc sắp tới. 
+- Kế hoạch làm việc update mạch + 2 thùng V1.1: 
+	+ Mạch:
+		+ Vẽ nguyên lý. 			(Tuấn + Đạt).
+		+ Layout.				(Huy)
+		=> Lên danh sách.			(Huy)
+	+ Làm cơ khí.
+		B1: Lên danh sách và lấy Bill		(Đạt)
+			(Cần 1 danh sách tham khảo)
+		B2: Đặt đồ + hỏi báo giá.		(Tuấn + Đạt + Huy)
+		B3: Tổng hợp và Gửi Bill.		(Tuấn)
+		B4: Update thùng: 
+			- Cắt: => Đạt.
+			- Khoan + Đo => Tuấn vs Huy.
+			- Lắp ráp: Tuấn + Đạt + Huy.
+
+			* Làm thùng cũ.
+				# Thêm cơ cấu tời.
+				# Thêm cơ cấu mở cửa.
+				# Thêm cơ cấu phun sương.
+			* Làm thùng mới.
+				# Dựng lại theo thông số thùng cũ.
+	+ Update chương trình (code).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

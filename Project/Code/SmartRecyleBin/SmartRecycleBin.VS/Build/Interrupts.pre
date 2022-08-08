@@ -1,5 +1,5 @@
 
-# 1 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c"
+# 1 ".\Peripheral_Libs\Source\Interrupts.c"
 
 # 4 "E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\__size_t.h"
 typedef unsigned size_t;
@@ -96,7 +96,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
-# 15 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+# 15 ".\Peripheral_Libs\Source\../Hearder/define.h"
 typedef unsigned char uint8_t;
 typedef char int8_t;
 typedef unsigned int uint16_t;
@@ -2209,7 +2209,7 @@ unsigned EEPGD :1;
 extern volatile EECON1bits_t EECON1bits __at(0x18C);
 
 
-# 24 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\Register.h"
+# 24 ".\Peripheral_Libs\Source\../Hearder/Register.h"
 #pragma config FOSC = HS
 #pragma config WDTE = ON
 #pragma config PWRTE = OFF
@@ -2219,7 +2219,7 @@ extern volatile EECON1bits_t EECON1bits __at(0x18C);
 #pragma config WRT = OFF
 #pragma config CP = OFF
 
-# 38 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+# 32 ".\Peripheral_Libs\Source\../Hearder/define.h"
 typedef struct{
 volatile uint8_t *Port;
 uint8_t Pin;
@@ -2243,59 +2243,53 @@ Peripheral_Pin LED2 = {&PORTB, 2};
 Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
-
-StepHandle compressStepHandle = {
-0,
-0,
-1,
-75,
-{&PORTD, 6},
-{&PORTD, 5},
-{&PORTD, 7},
-};
-
-
+# 67
 StepHandle doorStepHandle = {
 0,
 0,
 1,
-75,
+200,
 {&PORTC, 3},
 {&PORTD, 0},
 {&PORTC, 2},
 };
 
-
-StepHandle winchStepHandle = {
-0,
-0,
-1,
-75,
-{&PORTE, 2},
-{&PORTC, 0},
-{&PORTE, 1},
+# 98
+Peripheral_Pin Compress_Motor[4] = {
+{&PORTD, 4},
+{&PORTD, 5},
+{&PORTD, 6},
+{&PORTD, 7}
 };
 
-# 142
+# 114
+Peripheral_Pin Motor_4[4] = {
+{&PORTC, 1},
+{&PORTC, 0},
+{&PORTE, 2},
+{&PORTE, 1}
+};
+
+# 136
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 152
+# 146
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 
-# 160
+# 154
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
-# 14 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\../Hearder/Interrupts.h"
+# 15 ".\Peripheral_Libs\Source\../Hearder/Interrupts.h"
 volatile uint16_t timeSysTick = 0;
 uint16_t timeReset_flag = 0;
 
 void __interrupt(high_priority) Interrupts_Function(void);
 
-# 3 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Interrupts.c"
+# 3 ".\Peripheral_Libs\Source\Interrupts.c"
 void __interrupt(high_priority) Interrupts_Function(void)
 {
 

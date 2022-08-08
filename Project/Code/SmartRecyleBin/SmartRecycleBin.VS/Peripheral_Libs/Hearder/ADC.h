@@ -2,7 +2,8 @@
     #define ADC_H
 
 #ifndef DEFINE_H
-    #include "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+    #include "../Hearder/define.h"
+    //#include "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
 #endif
 
 void ADC_BASE_Init(void);

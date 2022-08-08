@@ -1,5 +1,5 @@
 
-# 1 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+# 1 ".\Peripheral_Libs\Source\HBrightCtrl.c"
 
 # 4 "E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\__size_t.h"
 typedef unsigned size_t;
@@ -96,7 +96,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
-# 15 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+# 15 ".\Peripheral_Libs\Source\..\Hearder\../Hearder/define.h"
 typedef unsigned char uint8_t;
 typedef char int8_t;
 typedef unsigned int uint16_t;
@@ -2209,7 +2209,7 @@ unsigned EEPGD :1;
 extern volatile EECON1bits_t EECON1bits __at(0x18C);
 
 
-# 24 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\Register.h"
+# 24 ".\Peripheral_Libs\Source\..\Hearder\../Hearder/Register.h"
 #pragma config FOSC = HS
 #pragma config WDTE = ON
 #pragma config PWRTE = OFF
@@ -2219,7 +2219,7 @@ extern volatile EECON1bits_t EECON1bits __at(0x18C);
 #pragma config WRT = OFF
 #pragma config CP = OFF
 
-# 38 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+# 32 ".\Peripheral_Libs\Source\..\Hearder\../Hearder/define.h"
 typedef struct{
 volatile uint8_t *Port;
 uint8_t Pin;
@@ -2243,69 +2243,65 @@ Peripheral_Pin LED2 = {&PORTB, 2};
 Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
-
-StepHandle compressStepHandle = {
-0,
-0,
-1,
-75,
-{&PORTD, 6},
-{&PORTD, 5},
-{&PORTD, 7},
-};
-
-
+# 67
 StepHandle doorStepHandle = {
 0,
 0,
 1,
-75,
+200,
 {&PORTC, 3},
 {&PORTD, 0},
 {&PORTC, 2},
 };
 
-
-StepHandle winchStepHandle = {
-0,
-0,
-1,
-75,
-{&PORTE, 2},
-{&PORTC, 0},
-{&PORTE, 1},
+# 98
+Peripheral_Pin Compress_Motor[4] = {
+{&PORTD, 4},
+{&PORTD, 5},
+{&PORTD, 6},
+{&PORTD, 7}
 };
 
-# 142
+# 114
+Peripheral_Pin Motor_4[4] = {
+{&PORTC, 1},
+{&PORTC, 0},
+{&PORTE, 2},
+{&PORTE, 1}
+};
+
+# 136
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 152
+# 146
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 
-# 160
+# 154
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
-# 14 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h"
+# 15 ".\Peripheral_Libs\Source\..\Hearder\GPIO.h"
 void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State);
 unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void Test(void);
 
-# 19 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\HBrightCtrl.h"
+# 19 ".\Peripheral_Libs\Source\..\Hearder\HBrightCtrl.h"
 void Motor_Forward_Start(Peripheral_Pin *motor_handle);
 void Motor_Reverse_Start(Peripheral_Pin *motor_handle);
+uint8_t Motor_Read(Peripheral_Pin *motor_handle);
 void Motor_Stop(Peripheral_Pin *motor_handle);
 
 void Step_Set(StepHandle *stepHandle);
 void Step_Stop(StepHandle *stepHandle);
-void Step_Start(StepHandle *stepHandle);
+void Step_Hold(StepHandle *stepHandle);
+void Step_Start(StepHandle *stepHandle, uint32_t *timeTick);
 void Step_Ctrl();
 
-# 10 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\HBrightCtrl.c"
+# 10 ".\Peripheral_Libs\Source\HBrightCtrl.c"
 void Delay_us(uint16_t time)
 {
 while(time > 0)
@@ -2315,7 +2311,20 @@ _delay((unsigned long)(((unsigned long)1)*(20000000/4000000.0)));
 }
 }
 
-# 28
+# 27
+uint8_t Motor_Read(Peripheral_Pin *motor_handle)
+{
+if(GPIO_Read(motor_handle[2].Port, motor_handle[2].Pin) || GPIO_Read(motor_handle[0].Port, motor_handle[0].Pin))
+{
+return 1;
+}
+if(GPIO_Read(motor_handle[3].Port, motor_handle[3].Pin) || GPIO_Read(motor_handle[1].Port, motor_handle[1].Pin))
+{
+return 2;
+}
+return 0;
+}
+
 void Motor_Stop(Peripheral_Pin *motor_handle)
 {
 if(GPIO_Read(motor_handle[2].Port, motor_handle[2].Pin) || GPIO_Read(motor_handle[0].Port, motor_handle[0].Pin))
@@ -2336,9 +2345,9 @@ GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 1);
 _delay((unsigned long)(((unsigned long)5)*(20000000/4000000.0)));
 GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 0);
 GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 0);
-
+_delay((unsigned long)(((unsigned long)150)*(20000000/4000.0)));
 }
-else
+else if(GPIO_Read(motor_handle[3].Port, motor_handle[3].Pin) || GPIO_Read(motor_handle[1].Port, motor_handle[1].Pin))
 {
 GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 0);
 GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 0);
@@ -2356,11 +2365,18 @@ GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 1);
 _delay((unsigned long)(((unsigned long)5)*(20000000/4000000.0)));
 GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 0);
 GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 0);
+_delay((unsigned long)(((unsigned long)150)*(20000000/4000.0)));
 }
-_delay((unsigned long)(((unsigned long)15)*(20000000/4000.0)));
 
 }
 void Motor_Forward_Start(Peripheral_Pin *motor_handle)
+{
+
+if(GPIO_Read(motor_handle[0].Port, motor_handle[0].Pin) == 1 && GPIO_Read(motor_handle[2].Port, motor_handle[2].Pin) == 1)
+{
+
+}
+else
 {
 
 Motor_Stop(motor_handle);
@@ -2368,14 +2384,21 @@ Motor_Stop(motor_handle);
 GPIO_Write(motor_handle[0].Port, motor_handle[0].Pin, 1);
 GPIO_Write(motor_handle[2].Port, motor_handle[2].Pin, 1);
 }
+}
 void Motor_Reverse_Start(Peripheral_Pin *motor_handle)
+{
+if(GPIO_Read(motor_handle[1].Port, motor_handle[1].Pin) == 1 && GPIO_Read(motor_handle[3].Port, motor_handle[3].Pin) == 1)
+{
+
+}
+else
 {
 
 Motor_Stop(motor_handle);
 
-
 GPIO_Write(motor_handle[1].Port, motor_handle[1].Pin, 1);
 GPIO_Write(motor_handle[3].Port, motor_handle[3].Pin, 1);
+}
 }
 
 
@@ -2385,13 +2408,22 @@ GPIO_Write(stepHandle -> DIR_Pin.Port, stepHandle -> DIR_Pin.Pin, stepHandle -> 
 stepHandle -> step = stepHandle -> vong * 1600;
 }
 
+void Step_Hold(StepHandle *stepHandle)
+{
+stepHandle -> step = 0;
+}
+
 void Step_Stop(StepHandle *stepHandle)
 {
 stepHandle -> step = 0;
+if(GPIO_Read(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin) == 0)
+{
+GPIO_Write(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin, 1);
 GPIO_Write(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin, 1);
 }
+}
 
-void Step_Start(StepHandle *stepHandle)
+void Step_Start(StepHandle *stepHandle, uint32_t *timeTick)
 {
 if(stepHandle -> step > 0)
 {
@@ -2399,14 +2431,18 @@ if(GPIO_Read(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin) == 1)
 {
 GPIO_Write(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin, 0);
 }
-GPIO_Write(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin, 0);
-Delay_us(stepHandle -> speed);
-GPIO_Write(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin, 1);
-Delay_us(stepHandle -> speed);
+if(*timeTick % stepHandle -> speed == 0)
+{
+GPIO_Toggle(stepHandle -> PUL_Pin.Port, stepHandle -> PUL_Pin.Pin);
+}
+
+
+
+
 stepHandle -> step -= 1;
 }
-else
-{
-GPIO_Write(stepHandle -> ENA_Pin.Port, stepHandle -> ENA_Pin.Pin, 1);
-}
+
+
+
+
 }

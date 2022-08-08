@@ -1,0 +1,118 @@
+1. Hiện trạng thùng: 
+=> Thùng hiện giờ là mô tả chức năng.
+
+2. Yêu cầu:
+* Tháng 8: Ra sản phẩm & bán. (Hoạt động và dùng được)
+	+ Thùng hiện tại: Hoàn thiện tốt nhất có thể:
+		- Giảm công suất của máy bơm phun sương, tiếng động nhỏ hơn, miễn là phun được sương.
+		- Mở cửa: 
+			+ Chuyển động cơ sang cửa để dễ dàng thao tác.
+			+ Nghiên cứu cơ cấu mở cửa mới. (piston...)
+		- Nghiên cứu đánh giá lại cảm biến.
+		- Sửa bổ sung thuật toán.
+		- Thống nhất lại vị trí lắp mạch.
+			 => Báo với a Kết để bố trị lại thùng rác để tiện thi công. (Nắp, cửa..)
+		- Hoàn thiện tiếp tục ở VP mới của Cty.
+			+ Tình trạng: 
+				- Sắm túi, thùng đồ.
+				- Sau khi làm, dọn dẹp, hoàn thiện trạng thái cty. Thùng rác vẫn giữ lại VP, túi đồ dọn dẹp.
+	+ Thùng tiếp theo: Hoàn thiện thùng mới:
+		- Sử dụng cơ cấu nén tầng (nhập mới về). Dự kiến: Đầu tháng 8.
+
+* Tiền vốn: 
+	+ Thanh toán thu chi. (Đã gửi).
+
+	+ Hợp đồng cần thêm: Hợp đồng nguyên tắc kèm báo giá toàn bộ phần mạch cho đến khi hoàn thiện sản phẩm.
+	+ Làm lại bản chi phí SLL cho sản phẩm (mạch).
+		+ Nếu các anh cần thì sẽ gửi lại chi phí của modul cơ khí sau, hiện tại bên FEB sẽ không gửi phần cơ khí cho đến khi có thống nhất tiếp theo.
+
+	+ Làm đến thời điểm hiện tại:
+		+ Lương:
+			+ Thống nhất tiền công cơ bản:
+				+ 60K/giờ.
+			+ Thời gian phát triển ban đầu: 
+				1. Từ thời gian đầu (30/03 - hết thời gian làm thùng mẫu đầu tiên).
+				2. Thống nhất tiền công cơ bản: 60K/giờ
+				3. Thống nhất hệ số cơ bản: 0.5
+			+ Thời gian phát triển sau:
+				1. Từ thời gian đầu khi bắt đầu làm sản phẩm thương mại.
+				2. Thống nhất tiền công cơ bản: 60K/giờ.
+				3. Thống nhất hệ số cơ bản: 1
+				
+		+ Bồi dưỡng:
+			+ Tiền bồi dưỡng thêm bao nhiêu. (Ăn uống, vé xe, chi phí phát sinh...)
+
+* Phát triển dự án: 
+	+ Bên cty sẽ tìm Leader.
+
+
+=============================================================================================================================================
+* Nháp: 
+Tính công: 
+	T7: 20 * 5 = 100 giờ
+	T6: 20 * 5 = 100 giờ.
+	T5: 12 * 5 = 60 giờ.
+	T4 + T3: ~= 50 giờ.
+	=> Tổng = 310 giờ.
+	=> Tiền = [Tổng giờ] * [lương cơ bản] * [hệ số] (lấy hệ số = 0.5) =  310 * 60 * 0.5 = 9300K/người.
+
+Tính bồi dưỡng: 
+	Giá: 50K/ngày.
+	Số ngày: T6 + T7: 44 ngày.
+	Thành tiến: 2,2tr/người.
+=============================================================================================================================================
+*
+*
+*
+=============================================================================================================================================
+Kế hoạch làm việc.
+1. Làm hợp đồng, lên báo giá sll.
+	+ Hợp đồng đã có, thống nhất lại và gửi. (Từ 24 - 31/07).
+	+ Báo giá sll:
+		1. Lên danh sách vật tư đã thống nhất. (trước 31/07).
+		2. Tìm cảm biến và đánh giá lại => Lên báo giá. (31/07 chốt công nghệ, 04/08 chốt báo giá)
+2. Làm bảng lương, và chi tiết nội dung tính lương. (31/07).
+3. Hoàn thiện thùng tiếp theo.
+* Tháng 8: Hoàn thiện.
+
+	***. XÁC NHẬN LẠI THÙNG MỚI CÓ THAY ĐỔI SO VỚI THÙNG CŨ KHÔNG?
+
+	1. Giảm công suất của máy bơm phun sương, tiếng động nhỏ hơn, miễn là phun được sương (Nghiên cứu và chốt trước 31/07)
+	2. Mở cửa: 
+	* Ưu tiên:
+		+ Nghiên cứu cơ cấu mở cửa mới. (Ví dụ piston...) (06/08)
+		+ Chuyển động cơ sang cửa để dễ dàng thao tác. (Dù cơ cấu mới hay cũ vẫn cần chuyển. Trước 06/08)
+
+		- Nghiên cứu đánh giá lại cảm biến. (Mục 2 trong phần "báo giá sll" của nội dung "1. Làm hợp đồng, lên báo giá sll")
+		- Làm bàn cân. Triển khai luôn (~31/07)
+		- Xin mẫu chất lỏng dùng khử mùi.
+
+	* Sau:	
+		- Sửa bổ sung thuật toán.
+		- Hoàn thiện tiếp tục ở VP mới của Cty.
+			+ Tình trạng: 
+				- Sắm túi, thùng đồ.
+				- Sau khi làm, dọn dẹp, hoàn thiện trạng thái cty. Thùng rác vẫn giữ lại VP, túi đồ dọn dẹp.
+
+		- Thống nhất lại vị trí lắp mạch.
+			 => Báo với a Kết để bố trị lại thùng rác để tiện thi công. (Nắp, cửa..)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

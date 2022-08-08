@@ -1,0 +1,118 @@
+Nội dung cuộc họp: 
+I. Về tình trạng, kế hoạch làm việc hoàn thiện đối với thùng rác.
+II. Về thống nhất kế hoạch, phương hướng làm việc.
+III. Trao đổi về tiền công và chi phí bồi dưỡng.
+
+************************************************************************************************************************************
+
+I. Về tình trạng, kế hoạch làm việc hoàn thiện đối với thùng rác.
+=> Thùng hiện giờ là mô tả chức năng.
+Sản phẩm hiện tại:
+	+ Thùng hiện tại: Hoàn thiện tốt nhất có thể:
+		- Giảm công suất của máy bơm phun sương, tiếng động nhỏ hơn, miễn là phun được sương.
+		- Mở cửa: 
+			+ Chuyển động cơ sang cửa để dễ dàng thao tác.
+			+ Nghiên cứu cơ cấu mở cửa mới. (piston...)
+		- Nghiên cứu đánh giá lại cảm biến.
+		- Sửa bổ sung thuật toán.
+		- Thống nhất lại vị trí lắp mạch.
+			 => Báo với mọi người để bố trị lại thùng rác để tiện thi công. (Nắp, cửa..)
+	+ Thùng tiếp theo: Hoàn thiện thùng mới:
+		- Sử dụng cơ cấu nén tầng - nhập mới về. (Dự kiến: Đầu tháng 8).
+		- Các cơ cấu còn lại tương tự như thùng hiện tại. Nếu có thay đổi sẽ xác nhận lại.
+		- Tháng 8: Ra sản phẩm thương mại. (Hoạt động và dùng được)
+* Kế hoạch hoàn thiện thùng rác.
+	Tháng 8: Hoàn thiện.
+	***. XÁC NHẬN LẠI THÙNG MỚI CÓ THAY ĐỔI SO VỚI THÙNG CŨ KHÔNG?
+	Xác nhận lại thông tin, thống nhất kế hoạch làm việc như sau:
+		+ Nghiên cứu cơ cấu mở cửa mới. (Ví dụ piston...) (06/08)
+		+ Chuyển động cơ sang cửa để dễ dàng thao tác. (Dù cơ cấu mới hay cũ vẫn cần chuyển. Trước 06/08)
+		- Nghiên cứu đánh giá lại cảm biến. (Báo giá SLL Huy sẽ gửi lại, hiện tại đang lên lại báo giá.)
+		- Làm bàn cân. Triển khai luôn (~06/08)
+		- Xin mẫu chất lỏng dùng khử mùi.
+* Đề xuất thiết kế:
+	+ Thiết kế vỏ thùng rác.
+		+ Phần nắp thùng rác:
+		+ Phần cánh cửa:
+			*: Vấn đề mở cửa bằng tay:
+				- Nếu trong trường hợp mất điện, hỏng: có chốt an toàn cho phép mở cửa bằng tay.
+		+ Thống nhất vị trí đặt cảm biến -> Thiết kế vỏ thùng.
+		===============================================================================
+II. Về thống nhất kế hoạch, phương hướng làm việc.
+* Kế hoạch làm việc phát triển về sau:
+1. Vấn đề gặp phải hiện nay:
+	1.1: Thông tin trao đổi đôi bên chưa thống nhất.
+	1.2: Thời gian làm việc còn hạn hẹp, phương pháp làm việc chưa tối ưu. (Hiện tại chỉ làm buổi tối).
+	1.3: Người làm còn hạn chế.
+		+ Có những việc bắt buộc phải xử lý giờ hành chỉnh nhưng chưa có người xử lý.
+2. Đề suất phương án làm việc:
+	1.1: Trao đổi thông tin hai bên chưa thông suốt -> Mong muốn cải thiện hơn, có thể bố trí call or nhắn tin.
+		=> Họp, trao đổi thông tin ít nhất 1 lần/tuần.
+		=> Có lịch họp trong trường hợp đột suất sớm nhất có thể.
+		=> Ngoài ra nếu cầu => Call trực tiếp.
+	1.2: Thống nhất phương pháp làm việc.
+		* Thống nhất 1 phương pháp làm việc -> Hình thức làm việc chuyên nghiệp hơn. (Đề suất chu trình PDCA).
+		* Nếu có sự thay đổi sau khi thống nhất -> Liên lạc lại để cùng nhau nắm được.
+3. Cần người làm fulltime: Huy -> sang làm việc trực tiếp tại VP.
+
+		===============================================================================
+III. Trao đổi về tiền công và chi phí bồi dưỡng.
+* Vấn đề kinh phí: 
+	+ Thanh toán thu chi. (Đã gửi).
+	+ Hợp đồng cần thêm: Hợp đồng nguyên tắc kèm báo giá toàn bộ phần mạch cho đến khi hoàn thiện sản phẩm.
+	+ Làm lại bản chi phí SLL cho sản phẩm (mạch).
+		+ Nếu các anh cần thì sẽ gửi lại chi phí của modul cơ khí sau, hiện tại bên FEB sẽ không gửi phần cơ khí cho đến khi có thống nhất tiếp theo.
+	+ Kinh phí thi công:
+		+ Tiền công:
+			+ Thống nhất tiền công cơ bản:
+				+ 60K/giờ.
+			+ Thời gian phát triển ban đầu: 
+				1. Từ thời gian đầu (30/03 - hết thời gian làm thùng mẫu đầu tiên).
+				2. Thống nhất tiền công cơ bản: 60K/giờ
+				3. Thống nhất hệ số cơ bản: 0.5
+			+ Thời gian phát triển sau:
+				1. Từ thời gian đầu khi bắt đầu làm sản phẩm thương mại.
+				2. Thống nhất tiền công cơ bản: 60K/giờ.
+				3. Thống nhất hệ số cơ bản: 1
+		+ Bồi dưỡng:
+			+ Tiền bồi dưỡng thêm bao nhiêu. (Ăn uống, vé xe, chi phí phát sinh...)
+
+=============================================================================================================================================
+* Nháp: 
+Tính công: 
+	T7: 20 * 5 = 100 giờ
+	T6: 20 * 5 = 100 giờ.
+	T5: 12 * 5 = 60 giờ.
+	T4 + T3: ~= 50 giờ.
+	=> Tổng = 310 giờ.
+	=> Tiền = [Tổng giờ] x [lương cơ bản] x [hệ số] =  310 x 60.000 x 0.5 = 9.300.000 (VNĐ/người).
+
+Tính bồi dưỡng: 
+	Giá: 50.000/ngày.
+	Số ngày: T6 + T7: 44 ngày.
+	Thành tiến: 2.200.000 VNĐ/người.
+	Về sau:
+		Sồ ngày làm việc: ~20ngày/tháng
+		Thành tiền: 1.000.000/người/tháng
+=============================================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

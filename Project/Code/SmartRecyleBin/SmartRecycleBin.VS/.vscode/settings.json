@@ -17,5 +17,6 @@
         "ultrasonicsensor.h": "c",
         "string.h": "c",
         "pic168xa_legacy.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

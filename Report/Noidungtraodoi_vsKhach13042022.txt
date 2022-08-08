@@ -1,0 +1,37 @@
+Em xin lỗi vì muộn rồi như này vẫn còn gửi tin như này ạ, nhưng vì nay vừa họp xong nên em xin phép tóm tắt nhanh một chút về nội dung cuộc họp ngày hôm nay:
+* NỘI DUNG CUỘC HỌP:
+Hôm nay bên em thuyết trình về tổng quan sản phẩm, phương hướng hoàn thành sản phẩm, tình trạng, trạng thái hiện giờ của dự án để mọi người cùng nhau hiểu và nắm rõ hơn về dự án hiện tại.
+1. Về cơ khí:
+Nay bên em thuyết trình trao đổi về luồng của sản phầm, kết cấu, cấu tạo chung của thùng rác: 
+   + Nắp thùng
+   + Thân thùng
+   + Chân thùng
+   + Cơ cấu nén
+   + Cánh cửa
+   + Vị trí để mạch điều kiển, cảm biến, nguồn, acquy.
+
+2. Về mạch: 
+Phần này bên em cũng đã trình bày về:
+   - Luồng xử lý, luồng điều khiển của hệ thống, chức năng hoạt động của từng mạch. 
+   - Hai câu hỏi đáng chú ý trong buổi thuyết trình:
+	+ Công suất tiêu thụ của thùng rác, khả năng tiết kiệm điện của thùng rác.
+ 	+ Có thêm những giải pháp thông mình nào giúp con người không như là tự động thay thế túi nilon, đảm bảo an toàn cho học sinh, chống giật...
+   - Một số vấn đề liên quan đến linh kiện.
+   - Trao đổi thời gian hoàn thiện sản phẩm mạch điện - 18/04/2022.
+
+* CÔNG VIỆC SAU CUỘC HỌP:
+* Phần mạch: 
+   - Chốt thời gian hoàn thiện mạch trước 18/04/2022.
+   - Ngoài ra cần lên danh sách linh kiện, giá thành chi tiết. Cả giá thành PCB thì càng tốt.
+   - Gửi file mô tả chức năng hoạt động chung của từng mạch, luồng xử lý của mạch như đã trao đổi ở trong nội dung cuộc họp.
+   - Gửi file mô tả, thông tin, tóm tắt những ý đã trao đổi trong hai câu hỏi trọng tâm của buổi họp.
+* Phần cơ khí: 
+   - Phần cơ khí bên bạn Tuấn Anh có thể tham gia gia công sản phẩm mẫu. Tuy nhiên bên phía bạn Tuấn Anh cũng có mong muốn được cùng hợp tác, hoàn thành thêm các sản phẩm về sau sau khi đã hoàn thành sản phẩm mẫu.
+   - Ngoài ra nay không có anh Kết cùng tham gia nên còn một số vấn đề liên quan đến chi tiết thiết kế bên em cần trao đổi nhưng chưa hoàn thành được ạ. Vấn đề gồm có:
+      + Có hai phương pháp thiết kế phần dẫn động, bánh xe trượt của cơ cấu chữ X cần trao đổi thêm.
+      + Chi tiết gia công, tăng thêm kết cấu lực cho khu vực nắp để giữ cơ cấu chữ X.
+   Những vấn đề này trong bản tóm tắt chưa thể diễn tả được. Nên bên em rất mong muốn được trao đổi thêm với a Kết, cụ thể bạn Tuấn Anh cũng muốn đưuọc gặp trao đổi trực tiếp thì càng tốt ạ.
+
+Trên đây là nội dung trao đổi của buổi hôm nay em có tóm tắt tổng hợp lại, nếu có chỗ nào em còn thiếu hoặc chưa rõ rất mong các anh góp ý, trao đổi thêm để chúng em hoàn thiện hơn và giúp dự án mình tốt hơn nữa ạ.
+Em xin cảm ơn. 
+Chúc anh chị, chúc mọi người có một giấc ngủ thật ngon, thật thoải mái sau một ngày làm việc căng thẳng ạ.

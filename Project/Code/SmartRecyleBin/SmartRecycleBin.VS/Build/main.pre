@@ -2212,7 +2212,7 @@ unsigned EEPGD :1;
 extern volatile EECON1bits_t EECON1bits __at(0x18C);
 
 
-# 24 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\Register.h"
+# 24 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\../Hearder/Register.h"
 #pragma config FOSC = HS
 #pragma config WDTE = ON
 #pragma config PWRTE = OFF
@@ -2222,7 +2222,7 @@ extern volatile EECON1bits_t EECON1bits __at(0x18C);
 #pragma config WRT = OFF
 #pragma config CP = OFF
 
-# 38 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+# 32 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
 typedef struct{
 volatile uint8_t *Port;
 uint8_t Pin;
@@ -2246,62 +2246,56 @@ Peripheral_Pin LED2 = {&PORTB, 2};
 Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
-
-StepHandle compressStepHandle = {
-0,
-0,
-1,
-75,
-{&PORTD, 6},
-{&PORTD, 5},
-{&PORTD, 7},
-};
-
-
+# 67
 StepHandle doorStepHandle = {
 0,
 0,
 1,
-75,
+200,
 {&PORTC, 3},
 {&PORTD, 0},
 {&PORTC, 2},
 };
 
-
-StepHandle winchStepHandle = {
-0,
-0,
-1,
-75,
-{&PORTE, 2},
-{&PORTC, 0},
-{&PORTE, 1},
+# 98
+Peripheral_Pin Compress_Motor[4] = {
+{&PORTD, 4},
+{&PORTD, 5},
+{&PORTD, 6},
+{&PORTD, 7}
 };
 
-# 142
+# 114
+Peripheral_Pin Motor_4[4] = {
+{&PORTC, 1},
+{&PORTC, 0},
+{&PORTE, 2},
+{&PORTE, 1}
+};
+
+# 136
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 152
+# 146
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 
-# 160
+# 154
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
 # 15 ".\Peripheral_Libs/Hearder/LoopProcess.h"
 void Loop(volatile uint16_t *timeSysTick);
 
-# 14 ".\Peripheral_Libs/Hearder/Interrupts.h"
+# 15 ".\Peripheral_Libs/Hearder/Interrupts.h"
 volatile uint16_t timeSysTick = 0;
 uint16_t timeReset_flag = 0;
 
 void __interrupt(high_priority) Interrupts_Function(void);
 
-# 14 ".\Peripheral_Libs/Hearder/GPIO.h"
+# 15 ".\Peripheral_Libs/Hearder/GPIO.h"
 void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State);
 unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin);
@@ -2310,29 +2304,31 @@ void Test(void);
 # 19 ".\Peripheral_Libs/Hearder/HBrightCtrl.h"
 void Motor_Forward_Start(Peripheral_Pin *motor_handle);
 void Motor_Reverse_Start(Peripheral_Pin *motor_handle);
+uint8_t Motor_Read(Peripheral_Pin *motor_handle);
 void Motor_Stop(Peripheral_Pin *motor_handle);
 
 void Step_Set(StepHandle *stepHandle);
 void Step_Stop(StepHandle *stepHandle);
-void Step_Start(StepHandle *stepHandle);
+void Step_Hold(StepHandle *stepHandle);
+void Step_Start(StepHandle *stepHandle, uint32_t *timeTick);
 void Step_Ctrl();
 
-# 6 ".\main.c"
+# 9 ".\main.c"
 void main(void)
 {
 uint8_t test = 0;
+
 MCU_Config();
 GPIO_Write(Motor_0.Port, Motor_0.Pin, 1);
 
 if(GPIO_Read(SW1.Port, SW1.Pin) == 1)
 {
-test = 1;
+test = 2;
 }
 else if(GPIO_Read(SW2.Port, SW2.Pin) == 1)
 {
-test = 2;
+test = 3;
 }
-
 while(1)
 {
 if (test == 0)
@@ -2341,65 +2337,42 @@ if (test == 0)
 Loop(&timeSysTick);
 }
 
-
-
-else
+else if(test != 3)
 {
-
 
 if(GPIO_Read(SW1.Port, SW1.Pin) == 1)
 {
-if (test == 1)
-{
-compressStepHandle.chieu = 1;
-compressStepHandle.vong = 400;
-Step_Set(&compressStepHandle);
-Step_Start(&compressStepHandle);
-
-
-winchStepHandle.chieu = 1;
-winchStepHandle.vong = 400;
-Step_Set(&winchStepHandle);
-Step_Start(&winchStepHandle);
-}
-else
-{
-
 doorStepHandle.chieu = 1;
 doorStepHandle.vong = 400;
 Step_Set(&doorStepHandle);
-Step_Start(&doorStepHandle);
-}
+Step_Start(&doorStepHandle, &timeSysTick);
 }
 
 else if(GPIO_Read(SW2.Port, SW2.Pin) == 1)
 {
-if (test == 1)
-{
-compressStepHandle.chieu = 0;
-compressStepHandle.vong = 400;
-Step_Set(&compressStepHandle);
-Step_Start(&compressStepHandle);
-
-
-winchStepHandle.chieu = 0;
-winchStepHandle.vong = 400;
-Step_Set(&winchStepHandle);
-Step_Start(&winchStepHandle);
-}
-else
-{
 doorStepHandle.chieu = 0;
 doorStepHandle.vong = 400;
 Step_Set(&doorStepHandle);
-Step_Start(&doorStepHandle);
+Step_Start(&doorStepHandle, &timeSysTick);
+}
+else
+{
+Step_Stop(&doorStepHandle);
 }
 }
 else
 {
-Step_Stop(&compressStepHandle);
-Step_Stop(&doorStepHandle);
-Step_Stop(&winchStepHandle);
+if(GPIO_Read(SW1.Port, SW1.Pin) == 1)
+{
+Motor_Forward_Start(&Compress_Motor);
+}
+else if(GPIO_Read(SW2.Port, SW2.Pin) == 1)
+{
+Motor_Reverse_Start(&Compress_Motor);
+}
+else
+{
+Motor_Stop(&Compress_Motor);
 }
 }
 if (timeReset_flag != 0)

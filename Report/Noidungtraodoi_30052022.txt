@@ -1,0 +1,12 @@
+Nội dung trao đổi: 
+1. Update cảm biến lực:
+ - Sử dụng LoadCell - 20Kg.
+	http://linhkienchatluong.vn/cam-bien-trong-luong---load-cell/loadcell-yzc-131-20kg-75x127mm_sp523_ct9857.aspx
+ - Module khuếch đại HX711 Analog 24bit.
+ - Dự dù dây chống nhiễu (>4 sợi).
+2. Update công tắc hành trình cho động cơ.
+ - Update giống piston điện.
+ - Dùng mạch thủ công or PCB đục lỗ. (ưu tiên thời gian).
+
+3. Cơ khí: 
+ - Chuẩn bị tinh thần cuối tuần làm việc.

@@ -9,7 +9,8 @@
 #define	INTERRUPTS_H
 
 #ifndef DEFINE_H
-    #include "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+    #include "../Hearder/define.h"
+    //#include "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
 #endif
     volatile uint16_t timeSysTick = 0;
     uint16_t timeReset_flag = 0;

@@ -1,24 +1,26 @@
 #include "main.h"
+#include "Peripheral_Libs/Hearder/Configuration.h"
+#include "Peripheral_Libs/Hearder/LoopProcess.h"
+#include "Peripheral_Libs/Hearder/Interrupts.h"
 #include "Peripheral_Libs/Hearder/GPIO.h"
 #include "Peripheral_Libs/Hearder/HBrightCtrl.h"
 
-
-void main(void) 
+void main(void)
 {
     uint8_t test = 0;
+
     MCU_Config();
     GPIO_Write(Motor_0.Port, Motor_0.Pin, HIGH);
 
-    if(GPIO_Read(SW1.Port, SW1.Pin) == HIGH)
-    {
-        test = 1;
-    }
-    else if(GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
+    if (GPIO_Read(SW1.Port, SW1.Pin) == HIGH)
     {
         test = 2;
     }
-
-    while(1)
+    else if (GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
+    {
+        test = 3;
+    }
+    while (1)
     {
         if (test == 0)
         /*==================================*/
@@ -26,65 +28,43 @@ void main(void)
             Loop(&timeSysTick);
         }
         /*==================================*/
-
-
-        else 
+        else if (test != 3)
         {
-        /*============== Test ==============*/
-        // Đi xuống
-            if(GPIO_Read(SW1.Port, SW1.Pin) == HIGH)
+            /*============== Test ==============*/
+            if (GPIO_Read(SW1.Port, SW1.Pin) == HIGH)
             {
-                if (test == 1)
-                {
-                    compressStepHandle.chieu = HIGH;
-                    compressStepHandle.vong = 400;
-                    Step_Set(&compressStepHandle);
-                    Step_Start(&compressStepHandle);
-
-                    
-                    winchStepHandle.chieu = HIGH;
-                    winchStepHandle.vong = 400;
-                    Step_Set(&winchStepHandle);
-                    Step_Start(&winchStepHandle);
-                }
-                else
-                {
-                
-                    doorStepHandle.chieu = HIGH;
-                    doorStepHandle.vong = 400;
-                    Step_Set(&doorStepHandle);
-                    Step_Start(&doorStepHandle);
-                }
+                doorStepHandle.chieu = HIGH;
+                doorStepHandle.vong = 400;
+                Step_Set(&doorStepHandle);
+                Step_Start(&doorStepHandle, &timeSysTick);
             }
             //Đi lên
-            else if(GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
+            else if (GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
             {
-                if (test == 1)
-                {
-                    compressStepHandle.chieu = LOW;
-                    compressStepHandle.vong = 400;
-                    Step_Set(&compressStepHandle);
-                    Step_Start(&compressStepHandle);
-
-                    
-                    winchStepHandle.chieu = LOW;
-                    winchStepHandle.vong = 400;
-                    Step_Set(&winchStepHandle);
-                    Step_Start(&winchStepHandle);
-                }
-                else
-                {
-                    doorStepHandle.chieu = LOW;
-                    doorStepHandle.vong = 400;
-                    Step_Set(&doorStepHandle);
-                    Step_Start(&doorStepHandle);
-                }
+                doorStepHandle.chieu = LOW;
+                doorStepHandle.vong = 400;
+                Step_Set(&doorStepHandle);
+                Step_Start(&doorStepHandle, &timeSysTick);
             }
             else
             {
-                Step_Stop(&compressStepHandle);
                 Step_Stop(&doorStepHandle);
-                Step_Stop(&winchStepHandle);
+            }
+        }
+        else
+        {
+            if (GPIO_Read(SW1.Port, SW1.Pin) == HIGH)
+            {
+                Motor_Forward_Start(&Compress_Motor);
+            }
+            //Đi xuống
+            else if (GPIO_Read(SW2.Port, SW2.Pin) == HIGH)
+            {
+                Motor_Reverse_Start(&Compress_Motor);
+            }
+            else
+            {
+                Motor_Stop(&Compress_Motor);
             }
         }
         if (timeReset_flag != 0)
@@ -94,5 +74,3 @@ void main(void)
         /*==================================*/
     }
 }
-  
-

@@ -18,11 +18,13 @@ extern "C" {
     
     void Motor_Forward_Start(Peripheral_Pin *motor_handle);
     void Motor_Reverse_Start(Peripheral_Pin *motor_handle);
+    uint8_t Motor_Read(Peripheral_Pin *motor_handle);
     void Motor_Stop(Peripheral_Pin *motor_handle);
 
     void Step_Set(StepHandle *stepHandle);
     void Step_Stop(StepHandle *stepHandle);
-    void Step_Start(StepHandle *stepHandle);
+    void Step_Hold(StepHandle *stepHandle);
+    void Step_Start(StepHandle *stepHandle, uint32_t *timeTick);
     void Step_Ctrl();
    
 #ifdef	__cplusplus

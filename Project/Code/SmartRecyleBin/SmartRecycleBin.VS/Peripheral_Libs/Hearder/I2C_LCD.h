@@ -12,7 +12,10 @@
 extern "C" {
 #endif
 
-#include <xc.h>
+#ifndef DEFINE_H
+    #include "../Hearder/define.h"
+    //#include "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+#endif
 #define I2C_BaudRate           100000
 #define SCL_D                  TRISC3
 #define SDA_D                  TRISC4

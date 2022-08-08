@@ -8,17 +8,18 @@
 #define IR_VALUE_THREDHOLD          1.2
 #define DISTANCE_THREADHOLD         80
 #define DISTANCE_SPACE_TO_COMPRESS  5
-#define WAIT_DOOR_MOTOR_RUN         3000
+#define WAIT_DOOR_MOTOR_RUN         500
 #define CTRL_DOOR_TIME              10
 
-#define WAIT_CLOSE_TIME             60000
+#define WAIT_CLOSE_TIME             50000
 #define READ_IR_SENSER_CYCLE        3000
 
 
 #define TIME_STARTUP_COMPRESS       10
-#define TIME_COMPRESS               70000
-#define TIME_UNCOMPRESS             70000
-#define TIME_WAIT                   20000
+#define TIME_COMPRESS               300000
+#define TIME_UNCOMPRESS             300000
+#define TIME_WAIT_COMPRESS          40000
+#define TIME_WAIT                   10000
 
 
 
@@ -90,8 +91,6 @@ double IRSensor_Read(void)
         }
     }
     adc_value = adc_value / index;
-    // sprintf(TX_Array, "%0.2fV %d\n\0", adc_value, index);
-    // UART_WriteStr(TX_Array);
     adc_value = adc_value * 5 / 1024.0;
     return adc_value;
 }
@@ -153,7 +152,7 @@ void TrashDoor_Open(TrashDoorState *state)
             // Motor_Stop_Fn()
 
             // Motor_Stop(Door_Motor);
-            Step_Stop(&doorStepHandle);
+            Step_Hold(&doorStepHandle);
             /* ======================================= */
 
             // UART_WriteStr("SS_OPENED\n");
@@ -186,7 +185,7 @@ void TrashDoor_Open(TrashDoorState *state)
             // Motor_Stop_Fn()
 
             // Motor_Stop(Door_Motor);
-            Step_Stop(&doorStepHandle);
+            Step_Hold(&doorStepHandle);
             /* ======================================= */
 
             // UART_WriteStr("SW_OPENED\n");
@@ -337,7 +336,6 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
     {
         case WAIT_COMPRESS:
             GPIO_Write(LED1.Port, LED1.Pin, HIGH);
-            // GPIO_Write(Motor_0.Port, Motor_0.Pin, LOW);
             GPIO_Write(LED2.Port, LED2.Pin, LOW);
             break;
         case CHECK_COMPRESS:
@@ -346,135 +344,50 @@ void Compression_Run(volatile uint16_t *ptimeSysTick)
             GPIO_Write(LED2.Port, LED2.Pin, LOW);
 
             distance = UltraSensor_Read(ptimeSysTick);
-            if(distance >= 80)
+            if(distance >= DISTANCE_THREADHOLD)
             {
                 compressionState = COMPRESSED;
-                // sprintf(TX, "D:%dcm\n\0", distance);
-                // UART_WriteStr(TX);
             }
             else
             {
                 compressionState = COMPRESSING;
-                // sprintf(TX, "C:%dcm\n\0", distance);
-                // UART_WriteStr(TX);
                 timeBuffer = 0;
             }
             break;
         case COMPRESSING:
             GPIO_Write(LED1.Port, LED1.Pin, LOW);
             GPIO_Write(LED2.Port, LED2.Pin, LOW);
-            // GPIO_Write(Motor_0.Port, Motor_0.Pin, HIGH);
-            if(timeBuffer % 10000 == 0)
+            if(GPIO_Read(SW1.Port, SW1.Pin) == HIGH && Motor_Read(Compress_Motor) == 2)
             {
-                distance = UltraSensor_Read(ptimeSysTick);
-                // sprintf(TX, "C:%dcm\n\0", distance);
-                // UART_WriteStr(TX);
-                // if(timeBuffer < TIME_COMPRESS)
-                // {
-                //     if(distance - distanceBuffer >= DISTANCE_SPACE_TO_COMPRESS)
-                //     {
-                //         distanceBuffer = distance;
-                //     }
-                //     else
-                //     {
-                //         if(timeBuffer < TIME_COMPRESS)
-                //         {
-                //             timeBuffer = TIME_COMPRESS;
-                //         }
-                //     }
-                // }
-                // else if(timeBuffer < TIME_COMPRESS)
-                // {
-                //     if(distanceBuffer - distance >= DISTANCE_SPACE_TO_COMPRESS)
-                //     {
-                //         distanceBuffer = distance;
-                //     }
-                //     else
-                //     {
-                //         if(timeBuffer < TIME_COMPRESS + TIME_UNCOMPRESS)
-                //         {
-                //             timeBuffer = TIME_COMPRESS + TIME_UNCOMPRESS;
-                //         }
-                //     }
-                // }
+                Motor_Stop(Compress_Motor);
+                timeBuffer = TIME_COMPRESS - TIME_WAIT_COMPRESS;
             }
             if(timeBuffer <= TIME_STARTUP_COMPRESS)
             {
                 /* ============= Normal Motor Ctrl ============= */
-                // Motor_Reverse_Start(Compress_Motor);
-
+                Motor_Reverse_Start(Compress_Motor);
                 /* ============================================= */
-
-                /* ============= Step Motor Ctrl ============= */
-                compressStepHandle.chieu = NENXUONG;
-                compressStepHandle.vong = 63;
-                Step_Set(&compressStepHandle);
-
-                winchStepHandle.chieu = NENXUONG;
-                winchStepHandle.vong = 63;
-                Step_Set(&winchStepHandle);
 
                 timeBuffer = TIME_STARTUP_COMPRESS + 1;
-                /* ============================================= */
             }
             else if(timeBuffer == TIME_COMPRESS)
             {
                 /* ============= Normal Motor Ctrl ============= */
-                // Motor_Forward_Start(Compress_Motor);
-                
+                Motor_Forward_Start(Compress_Motor);
                 /* ============================================= */
                 
-                /* ============= Step Motor Ctrl ============= */
-                compressStepHandle.chieu = KEOLEN;
-                compressStepHandle.vong = 63;
-                Step_Set(&compressStepHandle);
-                
-                winchStepHandle.chieu = KEOLEN;
-                winchStepHandle.vong = 63;
-                Step_Set(&winchStepHandle);
-
                 timeBuffer = TIME_COMPRESS + 1;
-                /* ============================================= */
-            }
-            else if(timeBuffer < (TIME_COMPRESS + TIME_UNCOMPRESS))
-            {
-                /* Xử lý nén chạy lên cao bị kẹt, cho nén dừng, tời tiếp tục chạy*/
-                if (compressStepHandle.step < 5 * 1600 && compressStepHandle.chieu == KEOLEN)
-                {
-                    Step_Stop(&compressStepHandle);
-                }
-
-                /* ============================================= */
-            }
-            else if(timeBuffer == TIME_COMPRESS + TIME_UNCOMPRESS)
-            {
-                compressStepHandle.chieu = KEOLEN;
-                compressStepHandle.vong = 1;
-                Step_Set(&compressStepHandle);
-                
-                winchStepHandle.chieu = KEOLEN;
-                winchStepHandle.vong = 2;
-                Step_Set(&winchStepHandle);
-
-                timeBuffer = timeBuffer + 1;
             }
             else if(timeBuffer >= TIME_COMPRESS + TIME_UNCOMPRESS + TIME_WAIT)
             {
                 /* ============= Normal Motor Ctrl ============= */
-                // Motor_Stop(Compress_Motor);
-
-                /* ============================================= */
-                
-                /* ============= Step Motor Ctrl ============= */
-                Step_Stop(&compressStepHandle);
-                Step_Stop(&winchStepHandle);
+                Motor_Stop(Compress_Motor);
                 /* ============================================= */
                 compressionState = COMPRESSED;
             }
             break;
         case COMPRESSED:
             GPIO_Write(LED1.Port, LED1.Pin, LOW);
-            // GPIO_Write(Motor_0.Port, Motor_0.Pin, LOW);
             GPIO_Write(LED2.Port, LED2.Pin, HIGH);
             break;
         default:
@@ -527,17 +440,11 @@ void Disionfection_Run(void)
 uint16_t timeSysTickBuffer = 0;
 void TimeSysTickUpdate(volatile uint16_t *ptimeSysTick)
 {
-    // uint8_t TX[10] = "";
     if(timeSysTickBuffer != *ptimeSysTick)
     {
         timeSysTickBuffer = *ptimeSysTick;
         timeBuffer++;
     }
-    // if (*ptimeSysTick % 10000 == 0)
-    // {
-    //     // sprintf(TX, "T:%d\n\0", timeBuffer);
-    //     // UART_WriteStr(TX);
-    // }
 }
 /* ================================================ */
 
@@ -562,11 +469,7 @@ void Loop(volatile uint16_t *ptimeSysTick)
     Disinfection_Ctrl();
     Disionfection_Run();
 
-    
-    Step_Start(&compressStepHandle);
-    Step_Start(&winchStepHandle);
-    Step_Start(&doorStepHandle);
-
+    Step_Start(&doorStepHandle, ptimeSysTick);
     TimeSysTickUpdate(ptimeSysTick);
 }
 

@@ -58,8 +58,8 @@ void MCU_Config(void)
     UART_WriteStr("RESET: OK\n");
     GPIO_Write(LED2.Port, LED2.Pin, LOW);
 
-    Step_Stop(&compressStepHandle);
-    Step_Stop(&winchStepHandle);
+    // Step_Stop(&compressStepHandle);
+    // Step_Stop(&winchStepHandle);
     Step_Stop(&doorStepHandle);
 }
 

@@ -23,17 +23,11 @@
     #define RESET()	asm("ljmp $")
 #endif
 
-#include "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\Register.h"
-
+// #include "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\Register.h"
+#include "../Hearder/Register.h"
 #define delay_ms(x)     __delay_ms((unsigned long)x)
 #define delay_us(x)     __delay_us((unsigned long)x)
 
-// #define TEST    GPIO_Read(&PORTA, PIN2)
-// #define LED(x)  GPIO_Write(&PORTB, PIN2, x)
-//#define DC1(x)  GPIO_Write(&PORTC, PIN4, x)
-//#define DC2(x)  GPIO_Write(&PORTC, PIN5, x)
-//#define DC3(x)  GPIO_Write(&PORTC, PIN6, x)
-//#define DC4(x)  GPIO_Write(&PORTC, PIN7, x)
 
 typedef struct{
     volatile uint8_t *Port;
@@ -59,37 +53,37 @@ typedef struct
     Peripheral_Pin Motor_0  = {&PORTB, PIN0};
 
     /* Step Motor for compress PIN */
-    StepHandle compressStepHandle = {
-                                        0,
-                                        0,
-                                        HIGH,
-                                        75,
-                                        {&PORTD, PIN6}, //D7
-                                        {&PORTD, PIN5}, //D6
-                                        {&PORTD, PIN7}, //D8
-                                    };
+    // StepHandle compressStepHandle = {
+    //                                     0,
+    //                                     0,
+    //                                     HIGH,
+    //                                     75,
+    //                                     {&PORTD, PIN6}, //D7
+    //                                     {&PORTD, PIN5}, //D6
+    //                                     {&PORTD, PIN7}, //D8
+    //                                 };
     
     /* Step Motor for Door PIN */
     StepHandle doorStepHandle = {
                                     0,
                                     0,
                                     HIGH,
-                                    75,
+                                    200,
                                     {&PORTC, PIN3}, //D11
                                     {&PORTD, PIN0}, //D10
                                     {&PORTC, PIN2}, //D12
                                 };
 
     /* Step Motor for winch PIN */
-    StepHandle winchStepHandle = {
-                                    0,
-                                    0,
-                                    HIGH,
-                                    75,
-                                    {&PORTE, PIN2}, //D15
-                                    {&PORTC, PIN0}, //D14
-                                    {&PORTE, PIN1}, //D16
-                                 };
+    // StepHandle winchStepHandle = {
+    //                                 0,
+    //                                 0,
+    //                                 HIGH,
+    //                                 75,
+    //                                 {&PORTE, PIN2}, //D15
+    //                                 {&PORTC, PIN0}, //D14
+    //                                 {&PORTE, PIN1}, //D16
+    //                              };
 
 
     /*Motor 1 for HBridge*/
@@ -101,12 +95,12 @@ typedef struct
                 //                             };
     
     /*Motor 2 Pin for HBridge*/
-                // Peripheral_Pin Compress_Motor[4] = {
-                //                                 {&PORTD, PIN4},
-                //                                 {&PORTD, PIN5},
-                //                                 {&PORTD, PIN6},
-                //                                 {&PORTD, PIN7}
-                //                             };
+    Peripheral_Pin Compress_Motor[4] = {
+                                    {&PORTD, PIN4},
+                                    {&PORTD, PIN5},
+                                    {&PORTD, PIN6},
+                                    {&PORTD, PIN7}
+                                };
     
     /*Motor 3 Pin for HBridge*/
     // Peripheral_Pin Door_Motor[4] = {
@@ -117,12 +111,12 @@ typedef struct
     //                             };
     
     /*Motor 4 Pin for HBridge*/
-                // Peripheral_Pin Motor_4[4] = {
-                //                                 {&PORTC, PIN1},
-                //                                 {&PORTC, PIN0},
-                //                                 {&PORTE, PIN2},
-                //                                 {&PORTE, PIN1}
-                //                             };
+    Peripheral_Pin Motor_4[4] = {
+                                    {&PORTC, PIN1},
+                                    {&PORTC, PIN0},
+                                    {&PORTE, PIN2},
+                                    {&PORTE, PIN1}
+                                };
     
     /*
      * UltraSonic Sensor 1 PIN:

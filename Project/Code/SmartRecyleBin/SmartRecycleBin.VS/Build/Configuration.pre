@@ -1,7 +1,7 @@
 
-# 1 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
+# 1 ".\Peripheral_Libs\Source\Configuration.c"
 
-# 12 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\Configuration.h"
+# 12 ".\Peripheral_Libs\Source\..\Hearder\Configuration.h"
 void MCU_Config(void);
 
 # 4 "E:\Program Files (x86)\Microchip\xc8\v2.36\pic\include\__size_t.h"
@@ -99,7 +99,7 @@ extern int vsscanf(const char *, const char *, va_list) __attribute__((unsupport
 extern int sprintf(char *, const char *, ...);
 extern int printf(const char *, ...);
 
-# 15 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+# 15 ".\Peripheral_Libs\Source\..\Hearder\../Hearder/define.h"
 typedef unsigned char uint8_t;
 typedef char int8_t;
 typedef unsigned int uint16_t;
@@ -2212,7 +2212,7 @@ unsigned EEPGD :1;
 extern volatile EECON1bits_t EECON1bits __at(0x18C);
 
 
-# 24 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\Register.h"
+# 24 ".\Peripheral_Libs\Source\..\Hearder\../Hearder/Register.h"
 #pragma config FOSC = HS
 #pragma config WDTE = ON
 #pragma config PWRTE = OFF
@@ -2222,7 +2222,7 @@ extern volatile EECON1bits_t EECON1bits __at(0x18C);
 #pragma config WRT = OFF
 #pragma config CP = OFF
 
-# 38 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Hearder\define.h"
+# 32 ".\Peripheral_Libs\Source\..\Hearder\../Hearder/define.h"
 typedef struct{
 volatile uint8_t *Port;
 uint8_t Pin;
@@ -2246,98 +2246,94 @@ Peripheral_Pin LED2 = {&PORTB, 2};
 Peripheral_Pin BUZZER = {&PORTB, 1};
 Peripheral_Pin Motor_0 = {&PORTB, 0};
 
-
-StepHandle compressStepHandle = {
-0,
-0,
-1,
-75,
-{&PORTD, 6},
-{&PORTD, 5},
-{&PORTD, 7},
-};
-
-
+# 67
 StepHandle doorStepHandle = {
 0,
 0,
 1,
-75,
+200,
 {&PORTC, 3},
 {&PORTD, 0},
 {&PORTC, 2},
 };
 
-
-StepHandle winchStepHandle = {
-0,
-0,
-1,
-75,
-{&PORTE, 2},
-{&PORTC, 0},
-{&PORTE, 1},
+# 98
+Peripheral_Pin Compress_Motor[4] = {
+{&PORTD, 4},
+{&PORTD, 5},
+{&PORTD, 6},
+{&PORTD, 7}
 };
 
-# 142
+# 114
+Peripheral_Pin Motor_4[4] = {
+{&PORTC, 1},
+{&PORTC, 0},
+{&PORTE, 2},
+{&PORTE, 1}
+};
+
+# 136
 Peripheral_Pin UltraSonic_2[2] = {
 {&PORTA, 2},
 {&PORTA, 3}
 };
 
-# 152
+# 146
 Peripheral_Pin IR_Sensor_1 = {&PORTA, 0};
 
-# 160
+# 154
 Peripheral_Pin SW1 = {&PORTA, 4};
 Peripheral_Pin SW2 = {&PORTA, 5};
 
-# 14 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\GPIO.h"
+# 15 ".\Peripheral_Libs\Source\..\Hearder\GPIO.h"
 void GPIO_Write(volatile unsigned char *GPIO_Port, unsigned char Pin, uint8_t GPIO_State);
 unsigned char GPIO_Read(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void GPIO_Toggle(volatile unsigned char *GPIO_Port, unsigned char Pin);
 void Test(void);
 
-# 19 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\Timer.h"
+# 20 ".\Peripheral_Libs\Source\..\Hearder\Timer.h"
 void Timer0_BASE_Init(void);
 
 void Timer0_Interrupt_Init(void);
 
-# 28
+# 29
 void Timer1_BASE_Init(void);
 
-# 34
+# 35
 void Timer2_BASE_Init(void);
 void Timer2_Interrupt_Init(void);
 
 
 uint8_t Timer_Delay(uint8_t timer_counter, uint16_t value);
 
-# 18 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\UART.h"
+# 19 ".\Peripheral_Libs\Source\..\Hearder\UART.h"
 void UART_BASE_Init(long baud);
 
 void UART_WriteChar(char data);
 void UART_Writes(const char *data, size_t len);
 void UART_WriteStr(const char *data);
 
-# 8 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\ADC.h"
+# 9 ".\Peripheral_Libs\Source\..\Hearder\ADC.h"
 void ADC_BASE_Init(void);
 
 void ADC_Interrupts_Init(void);
 
 uint16_t ADC_Read(uint8_t channel);
 
-# 19 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\..\Hearder\HBrightCtrl.h"
+# 19 ".\Peripheral_Libs\Source\..\Hearder\HBrightCtrl.h"
 void Motor_Forward_Start(Peripheral_Pin *motor_handle);
 void Motor_Reverse_Start(Peripheral_Pin *motor_handle);
+uint8_t Motor_Read(Peripheral_Pin *motor_handle);
 void Motor_Stop(Peripheral_Pin *motor_handle);
 
 void Step_Set(StepHandle *stepHandle);
 void Step_Stop(StepHandle *stepHandle);
-void Step_Start(StepHandle *stepHandle);
+void Step_Hold(StepHandle *stepHandle);
+void Step_Start(StepHandle *stepHandle, uint32_t *timeTick);
 void Step_Ctrl();
 
-# 17 "D:\Projects\Projects\MyWork\ThungRacThongMinh\SmartRecycleBin\Project\Code\SmartRecyleBin\SmartRecycleBin.VS\Peripheral_Libs\Source\Configuration.c"
+# 17 ".\Peripheral_Libs\Source\Configuration.c"
 void Startup_Infor(Peripheral_Pin *GPIO, uint8_t index)
 {
 while (index--)
@@ -2382,8 +2378,8 @@ _delay((unsigned long)(((unsigned long)500)*(20000000/4000.0)));
 UART_WriteStr("RESET: OK\n");
 GPIO_Write(LED2.Port, LED2.Pin, 0);
 
-Step_Stop(&compressStepHandle);
-Step_Stop(&winchStepHandle);
+
+
 Step_Stop(&doorStepHandle);
 }
 

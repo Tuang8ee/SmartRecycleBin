@@ -1,0 +1,45 @@
+Tổng hợp cuộc họp _ 22_05_2022:
+
+Mục đích:
+1. Thống nhất đặt đồ cơ khí, giải pháp lắp ráp
+
+2. Thống nhất phương án thi công, làm tiếp theo
+
+3. Trao đổi thiết kế mạch.
+
+Nội dung: 
+1. Thống nhất đặt đồ cơ khí, giải pháp lắp ráp:
++ Đã đặt:
+	* Giá động cơ bước size 57 (1c).
++ Cần đặt: 
+	LINH PHỤ KIỆN CNC:
+		* Giá bắt đai ốc vitme T8 (1c).		- CNC SHOP
+		* Ke góc vuông 2020 (10c) 		- LKCG.
+		* Gối đỡ trục đứng KP - 8mm (8c).	- CNC SHOP
+		* Đai ốc chữ T cho Nhôm 2020 - M4 (20c).- CNC SHOP
+		
+	PHỤ TÙNG GIA CÔNG: (Cửa hàng kim khí).
+		* Cờ lê 13 (2c).
+		* Cờ lê 10 (2c).
+		* Bộ lục giác (1 bộ).
+		* Bulông 8: 5-7cm (2 lạng).
+		* Bulông 5: 7cm (2 lạng).
+		
+2. Phương án thi công: 
+* Gắn động cơ: 
+	+ Phương án 1: Sử dụng giá đỡ động cơ.
+	+ Phương án 2: Nếu k có giá đỡ, thay thế bằng sắt chữ L.
+* Gắn cơ cấu chữ X: 
+	+ Bước 1: Gắn phần chuyển động của cơ cấu chữ X phía trên theo thanh trượt.
+	+ Bước 2: Gắn phần cố định theo 2 phương án:
+		1. Cố định trực tiếp vào khung nhôm.
+		2. Thêm một thanh nhôm dọc theo thanh trượt tại vị trí giữa khung, cố định bằng gối đỡ trục trên thanh nhôm này.
+	+ Bước 3, 4: Tương tự bước 1, 2 nhưng là ở phía dưới.		
+
+3. Thiết kế mạch: 
+* Update mạch version 1.0:
+	+ Cảm biến dòng điện (1c).
+	+ Công tắc hành trình or cảm biến tiệm cận.
+	+ Có thể thiết kế mạch phụ giúp ngắt điện theo công tắc hành trình.
+
+* Version 1.1: Update vào cuộc họp tiếp theo.
