@@ -5,17 +5,18 @@
     "tasks": [
         {
             "label": "Build",
-            "type": "shell",
+            "type": "process",
             "windows": {
                 "command": ".\\Build.cmd",
                 "args": [
+                    "E:/Program Files/Microchip/xc8/v2.40/bin/xc8.exe",
                     "16F877"
                 ]
             },
             "problemMatcher": [],
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": false
             }
         }
     ]

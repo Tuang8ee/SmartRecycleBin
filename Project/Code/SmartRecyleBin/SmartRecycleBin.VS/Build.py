@@ -1,6 +1,15 @@
 import glob
 import os
 import traceback
+import argparse
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--cpl', dest='cpl', type=str, help='Add compiler')
+args = parser.parse_args()
+print (args.cpl)
+compile_path = args.cpl
+
 
 def get_data_file(line_check, file_path=""):
     """
@@ -16,29 +25,18 @@ def get_data_file(line_check, file_path=""):
         while True:
             file_cursor = file.tell()
             data_file = file.readline()
-            if check_string == True:
-                if len(data_file) > 1:
-                    result = result + " " + data_file 
-                else:
-                    result = result + " " + data_file + "\n"
-                for idex in result:
-                    if idex == "\"":
-                        check_string = False
-                        result = result.replace("\"", "")
-                        break
             if Find(data_file, line_check):
                 print(data_file)
-                # Xu ly tai day
+                result = data_file
                 pass
-            
             if(file_cursor == file.tell()):
                 break
         pass
     finally:
         file.close()
     # print("KetQua:", result)
-    return result
-        
+    return result      
+
 # Hàm tìm chuỗi str trong chuỗi data. Nếu có trả về True, ngược lại trả về False.
 def Find(data, str):
     """
@@ -51,14 +49,49 @@ def Find(data, str):
     else:
         return 0
 
+def respace_data_file(line_check, data_replace, file_path):
+    list_data = []
+
+    try:
+        file = open(file_path, 'r+', encoding= 'utf-8')
+        while True:
+            file_cursor = file.tell()
+            data_file = file.readline()
+            
+            if Find(data_file, line_check):
+                list_data.append(data_replace)
+            else:
+                list_data.append(data_file)
+            
+            if(file_cursor == file.tell()):
+                break
+        pass
+        file.close()
+
+        file = open(file_path, 'w+', encoding= 'utf-8')
+        for line in list_data:
+            file.write(line)
+    finally:
+        file.close()
+    pass
+
+try:
+    file_path = os.getcwd() + "\Peripheral_Libs\Hearder\LoopProcess.h"
+    include_str = get_data_file("Peripheral_Libs\Hearder\define.h", file_path)
+    respace_data_file(include_str, "    #include \"" + os.getcwd() + "\Peripheral_Libs\Hearder\define.h\"\n", file_path)
+except:
+    print("ERORR:")
+    print(traceback.format_exc())
+
+
 
 
 try:
     
     ECHO = "echo off\n"
     MKDIR = "DEL /F /Q Build\nmkdir Build\n"
-    PATH_XC = "\"E:\Program Files (x86)\Microchip\\xc8\\v2.36\\bin\\xc8.exe\" " 
-    CHIP = "--chip=%1 --std=c90 "
+    PATH_XC = "\"" + compile_path +"\" " 
+    CHIP = "--chip=%2 --std=c90 "
     OUTPUT =  "--outdir=\".\Build\" "
     FILE_MAIN = "\".\main.c\" " 
 
@@ -69,7 +102,7 @@ try:
     # Create train.txt
     with open("Build.cmd", "w") as f:
         f.write(ECHO)
-        f.write("python -u \"" + os.getcwd() + "\Build.py\"\n")
+        f.write(".\Build.exe" + " --cpl=%1" + "\n")
         f.write(MKDIR + PATH_XC + CHIP + OUTPUT + FILE_MAIN)
         for idx in range(0, len(all_files)):
             f.write("\"" + all_files[idx] + "\"" + " ")
