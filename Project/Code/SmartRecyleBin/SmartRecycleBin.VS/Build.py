@@ -3,11 +3,12 @@ import os
 import traceback
 import argparse
 
+print("Build creating...\n===================================================\n")
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--cpl', dest='cpl', type=str, help='Add compiler')
 args = parser.parse_args()
-print (args.cpl)
+print ("Input:", args.cpl)
 compile_path = args.cpl
 
 
@@ -26,7 +27,7 @@ def get_data_file(line_check, file_path=""):
             file_cursor = file.tell()
             data_file = file.readline()
             if Find(data_file, line_check):
-                print(data_file)
+                print("Data search:", data_file)
                 result = data_file
                 pass
             if(file_cursor == file.tell()):
@@ -87,7 +88,6 @@ except:
 
 
 try:
-    
     ECHO = "echo off\n"
     MKDIR = "DEL /F /Q Build\nmkdir Build\n"
     PATH_XC = "\"" + compile_path +"\" " 
@@ -106,10 +106,9 @@ try:
         f.write(MKDIR + PATH_XC + CHIP + OUTPUT + FILE_MAIN)
         for idx in range(0, len(all_files)):
             f.write("\"" + all_files[idx] + "\"" + " ")
+            print("File:", all_files[idx])
         f.write("--MSGDISABLE=359,1273,1388 --OPT=all ")
-    for i in range(0, 10):
-        print("\n")
-    print("===================================================\n Build.cmd created!")
+    print("Build.cmd created!\n===================================================\n")
 except:
     print("ERORR:")
     print(traceback.format_exc())
